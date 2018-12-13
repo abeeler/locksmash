@@ -3,7 +3,7 @@ package net.finalstring;
 import lombok.Getter;
 import net.finalstring.card.Card;
 import net.finalstring.card.CreatureCard;
-import net.finalstring.card.EmberImp;
+import net.finalstring.card.dis.EmberImp;
 
 import java.util.ArrayList;
 import java.util.Collections;

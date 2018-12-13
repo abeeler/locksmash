@@ -2,7 +2,7 @@ package net.finalstring;
 
 import net.finalstring.card.Card;
 import net.finalstring.card.CreatureCard;
-import net.finalstring.card.EmberImp;
+import net.finalstring.card.dis.EmberImp;
 import org.junit.Before;
 import org.junit.Test;
 

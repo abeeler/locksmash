@@ -1,7 +1,8 @@
 package net.finalstring;
 
 import net.finalstring.card.CreatureCard;
-import net.finalstring.card.EmberImp;
+import net.finalstring.card.dis.EmberImp;
+import net.finalstring.card.sanctum.TheVaultkeeper;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,7 +20,7 @@ public class BattlelineTest {
 
     @Before public void setup() {
         creature = new CreatureCard(new EmberImp(), new Player());
-        otherCreature = new CreatureCard(new EmberImp(), new Player());
+        otherCreature = new CreatureCard(new TheVaultkeeper(), new Player());
 
         underTest = creature.getOwner().getBattleline();
     }

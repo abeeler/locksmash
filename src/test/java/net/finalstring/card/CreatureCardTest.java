@@ -16,6 +16,8 @@ public class CreatureCardTest {
     @Before public void setup() {
         normalCreature = new CreatureCard(new EmberImp(), new Player());
         armoredCreature = new CreatureCard(new TheVaultkeeper(), new Player());
+
+        armoredCreature.reset();
     }
 
     @Test public void testCreatureIsDestroyedAfterTakingFatalDamage() {
@@ -36,5 +38,22 @@ public class CreatureCardTest {
         armoredCreature.dealDamage(2);
 
         assertThat(armoredCreature.getDamage(), is(1));
+    }
+
+    @Test public void testCreatureWithArmorOnlyReducesDamageUpToArmor() {
+        armoredCreature.dealDamage(2);
+        armoredCreature.dealDamage(2);
+
+        assertThat(armoredCreature.getDamage(), is(3));
+    }
+
+    @Test public void testResetAllowsArmorToAbsorbAgain() {
+        armoredCreature.dealDamage(2);
+
+        armoredCreature.reset();
+
+        armoredCreature.dealDamage(2);
+
+        assertThat(armoredCreature.getDamage(), is(2));
     }
 }

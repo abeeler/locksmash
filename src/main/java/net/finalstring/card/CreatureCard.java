@@ -9,13 +9,20 @@ import net.finalstring.Player;
 public class CreatureCard implements Card {
     @Delegate
     private final Card wrapped;
+
     private final Player owner;
 
     @Getter
     private int damage = 0;
 
+    @Getter
+    private int remainingArmor = 0;
+
     public void dealDamage(int amount) {
-        damage += Math.max(amount - getArmor(), 0);
+        int absorbed = Math.min(remainingArmor, amount);
+        remainingArmor -= absorbed;
+
+        damage += amount - absorbed;
 
         if (!isAlive()) {
             owner.destroyCreature(this);
@@ -25,6 +32,10 @@ public class CreatureCard implements Card {
     public void fight(CreatureCard target) {
         target.dealDamage(getPower());
         dealDamage(target.getPower());
+    }
+
+    public void reset() {
+        remainingArmor = getArmor();
     }
 
     boolean isAlive() {

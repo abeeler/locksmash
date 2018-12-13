@@ -12,17 +12,28 @@ import java.util.List;
 public class Player {
     private final Hand hand = new Hand();
 
+    private final List<Card> deck;
+
     @Getter
     private final Battleline battleline = new Battleline();
 
     private final List<Card> discard = new ArrayList<>();
 
+    public Player(List<Card> deck) {
+        this.deck = new ArrayList<>(deck);
+    }
+
+    public Player() {
+        this.deck = Collections.emptyList();
+    }
+
     public void draw() {
-        hand.draw(new EmberImp());
+        hand.draw(deck.remove(0));
     }
 
     public void play(int index, boolean onLeft) {
         CreatureCard creature = new CreatureCard(hand.play(index), this);
+        creature.reset();
         battleline.addCreature(creature, onLeft);
     }
 

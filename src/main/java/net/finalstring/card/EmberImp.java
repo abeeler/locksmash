@@ -1,11 +1,7 @@
 package net.finalstring.card;
 
-public class EmberImp {
-    public int getPower() {
-        return 2;
-    }
-
-    public int getArmor() {
-        return 0;
+public class EmberImp extends CardDefinition {
+    public EmberImp() {
+        super(84, 2);
     }
 }

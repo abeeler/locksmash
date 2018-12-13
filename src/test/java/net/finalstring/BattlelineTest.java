@@ -1,5 +1,6 @@
 package net.finalstring;
 
+import net.finalstring.card.CreatureCard;
 import net.finalstring.card.EmberImp;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,12 +11,17 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 
-public class PlayFieldTest {
+public class BattlelineTest {
     private Battleline underTest;
-    private EmberImp creature = new EmberImp();
+
+    private CreatureCard creature;
+    private CreatureCard otherCreature;
 
     @Before public void setup() {
-        underTest = new Battleline();
+        creature = new CreatureCard(new EmberImp(), new Player());
+        otherCreature = new CreatureCard(new EmberImp(), new Player());
+
+        underTest = creature.getOwner().getBattleline();
     }
 
     @Test public void testBattlelineStartsEmpty() {
@@ -46,21 +52,29 @@ public class PlayFieldTest {
         underTest.getRightFlank();
     }
 
-    @Test
-    public void testBattlelinePutsCreatureOnLeftFlank() {
-        underTest.addCreature(new EmberImp(), true);
+    @Test public void testBattlelinePutsCreatureOnLeftFlank() {
+        underTest.addCreature(otherCreature, true);
         assertThat(underTest.getLeftFlank(), is(not(creature)));
 
         underTest.addCreature(creature, true);
         assertThat(underTest.getLeftFlank(), is(creature));
     }
 
-    @Test
-    public void testBattlelinePutsCreatureOnRightFlank() {
-        underTest.addCreature(new EmberImp(), false);
+    @Test public void testBattlelinePutsCreatureOnRightFlank() {
+        underTest.addCreature(otherCreature, false);
         assertThat(underTest.getRightFlank(), is(not(creature)));
 
         underTest.addCreature(creature, false);
         assertThat(underTest.getRightFlank(), is(creature));
+    }
+
+    @Test public void testCreaturesRemovedAfterBeingDestroyedInFight() {
+        underTest.addCreature(creature, false);
+
+        assertThat(underTest.getCreatureCount(), is(1));
+
+        creature.fight(otherCreature);
+
+        assertThat(underTest.getCreatureCount(), is(0));
     }
 }

@@ -1,5 +1,6 @@
 package net.finalstring;
 
+import net.finalstring.card.Card;
 import net.finalstring.card.EmberImp;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,7 +10,7 @@ import static org.hamcrest.CoreMatchers.is;
 
 public class HandTest {
     private Hand underTest;
-    private EmberImp creature = new EmberImp();
+    private Card creature = new EmberImp();
 
     @Before public void setup() {
         underTest = new Hand();

@@ -1,18 +1,18 @@
 package net.finalstring;
 
-import net.finalstring.card.EmberImp;
+import net.finalstring.card.Card;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class Hand {
-    private final List<EmberImp> cards = new LinkedList<>();
+    private final List<Card> cards = new LinkedList<>();
 
-    public void draw(EmberImp card) {
+    public void draw(Card card) {
         cards.add(card);
     }
 
-    public EmberImp getCard(int index) {
+    public Card getCard(int index) {
         return cards.get(index);
     }
 
@@ -20,7 +20,7 @@ public class Hand {
         return cards.size();
     }
 
-    public EmberImp play(int index) {
+    public Card play(int index) {
         return cards.remove(index);
     }
 }

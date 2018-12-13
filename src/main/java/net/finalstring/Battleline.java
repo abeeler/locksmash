@@ -1,15 +1,15 @@
 package net.finalstring;
 
-import net.finalstring.card.EmberImp;
+import net.finalstring.card.CreatureCard;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 public class Battleline {
-    private final List<EmberImp> battleline = new LinkedList<>();
+    private final List<CreatureCard> battleline = new LinkedList<>();
 
-    public void addCreature(EmberImp creature, boolean onLeft) {
+    public void addCreature(CreatureCard creature, boolean onLeft) {
         if (onLeft) {
             battleline.add(0, creature);
         } else {
@@ -17,11 +17,11 @@ public class Battleline {
         }
     }
 
-    public EmberImp getCreature(int indexFromLeft) {
+    public CreatureCard getCreature(int indexFromLeft) {
         return battleline.get(indexFromLeft);
     }
 
-    public EmberImp getLeftFlank() {
+    public CreatureCard getLeftFlank() {
         if (getCreatureCount() <= 0) {
             throw new NoSuchElementException("There is no flank creature when no creatures are on the battleline");
         }
@@ -29,7 +29,7 @@ public class Battleline {
         return battleline.get(0);
     }
 
-    public EmberImp getRightFlank() {
+    public CreatureCard getRightFlank() {
         if (getCreatureCount() <= 0) {
             throw new NoSuchElementException("There is no flank creature when no creatures are on the battleline");
         }
@@ -39,5 +39,9 @@ public class Battleline {
 
     public int getCreatureCount() {
         return battleline.size();
+    }
+
+    public void removeCreature(CreatureCard creature) {
+        battleline.remove(creature);
     }
 }

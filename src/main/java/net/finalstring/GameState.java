@@ -6,6 +6,4 @@ public class GameState {
     public GameState(int playerCount) {
         players = new Player[playerCount];
     }
-
-
 }

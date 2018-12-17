@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
@@ -48,5 +47,22 @@ public class PlayerTest {
         underTest.play(1, true);
 
         assertThat(underTest.getBattleline().getLeftFlank().getRemainingArmor(), is(1));
+    }
+
+    @Test public void testCardsAreDrawnToHand() {
+        underTest = new Player(underTest.getHand());
+
+        assertThat(underTest.getHand().size(), is(0));
+        assertThat(underTest.getDeck().size(), is(2));
+
+        underTest.draw();
+
+        assertThat(underTest.getHand().size(), is(1));
+        assertThat(underTest.getHand().size(), is(1));
+
+        underTest.draw();
+
+        assertThat(underTest.getHand().size(), is(2));
+        assertThat(underTest.getDeck().size(), is(0));
     }
 }

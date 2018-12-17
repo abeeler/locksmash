@@ -3,20 +3,18 @@ package net.finalstring;
 import lombok.Getter;
 import net.finalstring.card.Card;
 import net.finalstring.card.CreatureCard;
-import net.finalstring.card.dis.EmberImp;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class Player {
-    private final Hand hand = new Hand();
-
     private final List<Card> deck;
 
     @Getter
     private final Battleline battleline = new Battleline();
 
+    private final List<Card> hand = new ArrayList<>();
     private final List<Card> discard = new ArrayList<>();
 
     public Player(List<Card> deck) {
@@ -28,11 +26,11 @@ public class Player {
     }
 
     public void draw() {
-        hand.draw(deck.remove(0));
+        hand.add(deck.remove(0));
     }
 
     public void play(int index, boolean onLeft) {
-        CreatureCard creature = new CreatureCard(hand.play(index), this);
+        CreatureCard creature = new CreatureCard(hand.remove(index), this);
         creature.reset();
         battleline.addCreature(creature, onLeft);
     }
@@ -42,7 +40,15 @@ public class Player {
         discard.add(creature.getWrapped());
     }
 
+    public List<Card> getDeck() {
+        return Collections.unmodifiableList(deck);
+    }
+
     public List<Card> getDiscardPile() {
         return Collections.unmodifiableList(discard);
+    }
+
+    public List<Card> getHand() {
+        return Collections.unmodifiableList(hand);
     }
 }

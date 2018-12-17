@@ -4,6 +4,7 @@ import net.finalstring.card.Card;
 import net.finalstring.card.CreatureCard;
 import net.finalstring.card.dis.EmberImp;
 import net.finalstring.card.sanctum.TheVaultkeeper;
+import net.finalstring.card.untamed.DustPixie;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -28,7 +29,7 @@ public class PlayerTest {
     }
 
     @Test public void testPlayingCreatureCardFromHand() {
-        underTest.play(0, true);
+        underTest.playFromHand(0, true);
 
         assertThat(underTest.getBattleline().getLeftFlank().getWrapped(), is(normalCreature));
     }
@@ -36,7 +37,7 @@ public class PlayerTest {
     @Test public void testDyingCreatureIsPutInDiscard() {
         assertThat(underTest.getDiscardPile().size(), is(0));
 
-        underTest.play(0, true);
+        underTest.playFromHand(0, true);
 
         underTest.getBattleline().getLeftFlank().fight(new CreatureCard(new EmberImp(), new Player()));
 
@@ -44,7 +45,7 @@ public class PlayerTest {
     }
 
     @Test public void testPlayingCreatureWillResetIt() {
-        underTest.play(1, true);
+        underTest.playFromHand(1, true);
 
         assertThat(underTest.getBattleline().getLeftFlank().getRemainingArmor(), is(1));
     }
@@ -103,5 +104,13 @@ public class PlayerTest {
         assertThat(underTest.getDiscardPile().size(), is(0));
         assertThat(underTest.getHand().size(), is(1));
         assertThat(underTest.getDeck().size(), is(1));
+    }
+
+    @Test public void testPlayingCardWithAemberIncrementsPool() {
+        assertThat(underTest.getAemberPool(), is(0));
+
+        underTest.play(new DustPixie(), true);
+
+        assertThat(underTest.getAemberPool(), is(2));
     }
 }

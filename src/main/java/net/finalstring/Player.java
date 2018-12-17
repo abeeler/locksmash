@@ -2,6 +2,7 @@ package net.finalstring;
 
 import lombok.Getter;
 import net.finalstring.card.Card;
+import net.finalstring.card.CardDefinition;
 import net.finalstring.card.CreatureCard;
 
 import java.util.*;
@@ -14,6 +15,9 @@ public class Player {
 
     private final List<Card> hand = new ArrayList<>();
     private final List<Card> discard = new ArrayList<>();
+
+    @Getter
+    private int aemberPool = 0;
 
     public Player(List<Card> deck) {
         this.deck = new LinkedList<>(deck);
@@ -35,10 +39,16 @@ public class Player {
         }
     }
 
-    public void play(int index, boolean onLeft) {
-        CreatureCard creature = new CreatureCard(hand.remove(index), this);
+    public void playFromHand(int index, boolean onLeft) {
+        play(hand.remove(index), onLeft);
+    }
+
+    public void play(Card toPlay, boolean onLeft) {
+        CreatureCard creature = new CreatureCard(toPlay, this);
         creature.reset();
         battleline.addCreature(creature, onLeft);
+
+        aemberPool += creature.getAember();
     }
 
     public void discard(int index) {

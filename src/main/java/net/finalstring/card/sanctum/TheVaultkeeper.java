@@ -4,6 +4,6 @@ import net.finalstring.card.CardDefinition;
 
 public class TheVaultkeeper extends CardDefinition {
     public TheVaultkeeper() {
-        super(261, 4, 1);
+        super(261, 0, 4, 1);
     }
 }

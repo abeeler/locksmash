@@ -65,4 +65,43 @@ public class PlayerTest {
         assertThat(underTest.getHand().size(), is(2));
         assertThat(underTest.getDeck().size(), is(0));
     }
+
+    @Test public void testDiscardingMoveCardFromHandToDiscardPile() {
+        assertThat(underTest.getHand().size(), is(2));
+        assertThat(underTest.getDiscardPile().size(), is(0));
+
+        underTest.discard(1);
+        underTest.discard(0);
+
+        assertThat(underTest.getHand().size(), is(0));
+        assertThat(underTest.getDiscardPile().get(0), is(armoredCreature));
+        assertThat(underTest.getDiscardPile().get(1), is(normalCreature));
+    }
+
+    @Test public void testDrawingFromEmptyDeckWithoutDiscardPileDoesNothing() {
+        assertThat(underTest.getHand().size(), is(2));
+        assertThat(underTest.getDeck().size(), is(0));
+        assertThat(underTest.getDiscardPile().size(), is(0));
+
+        underTest.draw();
+
+        assertThat(underTest.getHand().size(), is(2));
+        assertThat(underTest.getDeck().size(), is(0));
+        assertThat(underTest.getDiscardPile().size(), is(0));
+    }
+
+    @Test public void testDrawingFromEmptyDeckShufflesDiscardPileFirst() {
+        underTest.discard(0);
+        underTest.discard(0);
+
+        assertThat(underTest.getDiscardPile().size(), is(2));
+        assertThat(underTest.getHand().size(), is(0));
+        assertThat(underTest.getDeck().size(), is(0));
+
+        underTest.draw();
+
+        assertThat(underTest.getDiscardPile().size(), is(0));
+        assertThat(underTest.getHand().size(), is(1));
+        assertThat(underTest.getDeck().size(), is(1));
+    }
 }

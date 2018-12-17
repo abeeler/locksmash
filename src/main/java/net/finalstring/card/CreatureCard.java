@@ -18,6 +18,9 @@ public class CreatureCard implements Card {
     @Getter
     private int remainingArmor = 0;
 
+    @Getter
+    private boolean ready = true;
+
     public void dealDamage(int amount) {
         int absorbed = Math.min(remainingArmor, amount);
         remainingArmor -= absorbed;
@@ -32,10 +35,16 @@ public class CreatureCard implements Card {
     public void fight(CreatureCard target) {
         target.dealDamage(getPower());
         dealDamage(target.getPower());
+        ready = false;
     }
 
     public void reset() {
         remainingArmor = getArmor();
+        ready = true;
+    }
+
+    public void exhaust() {
+        ready = false;
     }
 
     boolean isAlive() {

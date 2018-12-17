@@ -56,4 +56,28 @@ public class CreatureCardTest {
 
         assertThat(armoredCreature.getDamage(), is(2));
     }
+
+    @Test public void testCreatureIsNoLongerReadyAfterFighting() {
+        assertThat(armoredCreature.isReady(), is(true));
+
+        armoredCreature.fight(normalCreature);
+
+        assertThat(armoredCreature.isReady(), is(false));
+    }
+
+    @Test public void testExhaustedCreatureIsNoLongerReady() {
+        assertThat(armoredCreature.isReady(), is(true));
+
+        armoredCreature.exhaust();
+
+        assertThat(armoredCreature.isReady(), is(false));
+    }
+
+    @Test public void testExhaustedCreatureIsReadyAfterReset() {
+        armoredCreature.exhaust();
+
+        armoredCreature.reset();
+
+        assertThat(armoredCreature.isReady(), is(true));
+    }
 }

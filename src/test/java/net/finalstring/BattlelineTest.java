@@ -5,16 +5,22 @@ import net.finalstring.card.dis.EmberImp;
 import net.finalstring.card.sanctum.TheVaultkeeper;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.NoSuchElementException;
 
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
+import static org.mockito.Mockito.verify;
 
+@RunWith(MockitoJUnitRunner.class)
 public class BattlelineTest {
     private Battleline underTest;
 
+    @Mock private CreatureCard mockCreature;
     private CreatureCard creature;
     private CreatureCard otherCreature;
 
@@ -30,15 +36,15 @@ public class BattlelineTest {
     }
 
     @Test public void testBattlelineHasCreatureAfterAdding() {
-        underTest.addCreature(creature, true);
+        underTest.playCreature(creature, true);
         assertThat(underTest.getCreatureCount(), is(1));
 
-        underTest.addCreature(creature, false);
+        underTest.playCreature(creature, false);
         assertThat(underTest.getCreatureCount(), is(2));
     }
 
     @Test public void testBattlelineHasExactCreature() {
-        underTest.addCreature(creature, true);
+        underTest.playCreature(creature, true);
 
         assertThat(underTest.getCreature(0), is(creature));
     }
@@ -54,28 +60,34 @@ public class BattlelineTest {
     }
 
     @Test public void testBattlelinePutsCreatureOnLeftFlank() {
-        underTest.addCreature(otherCreature, true);
+        underTest.playCreature(otherCreature, true);
         assertThat(underTest.getLeftFlank(), is(not(creature)));
 
-        underTest.addCreature(creature, true);
+        underTest.playCreature(creature, true);
         assertThat(underTest.getLeftFlank(), is(creature));
     }
 
     @Test public void testBattlelinePutsCreatureOnRightFlank() {
-        underTest.addCreature(otherCreature, false);
+        underTest.playCreature(otherCreature, false);
         assertThat(underTest.getRightFlank(), is(not(creature)));
 
-        underTest.addCreature(creature, false);
+        underTest.playCreature(creature, false);
         assertThat(underTest.getRightFlank(), is(creature));
     }
 
     @Test public void testCreaturesRemovedAfterBeingDestroyedInFight() {
-        underTest.addCreature(creature, false);
+        underTest.playCreature(creature, false);
 
         assertThat(underTest.getCreatureCount(), is(1));
 
         creature.fight(otherCreature);
 
         assertThat(underTest.getCreatureCount(), is(0));
+    }
+
+    @Test public void testPlayingCreatureCallsPlayOnIt() {
+        underTest.playCreature(mockCreature, true);
+
+        verify(mockCreature).play();
     }
 }

@@ -28,7 +28,15 @@ public class CreatureCard implements Card {
         damage += amount - absorbed;
 
         if (!isAlive()) {
-            owner.destroyCreature(this);
+            getOwner().destroyCreature(this);
+        }
+    }
+
+    public void play() {
+        int addedAember = getAember();
+
+        if (addedAember > 0) {
+            getOwner().addAember(addedAember);
         }
     }
 
@@ -36,6 +44,10 @@ public class CreatureCard implements Card {
         target.dealDamage(getPower());
         dealDamage(target.getPower());
         ready = false;
+    }
+
+    public void reap() {
+        getOwner().addAember(1);
     }
 
     public void reset() {

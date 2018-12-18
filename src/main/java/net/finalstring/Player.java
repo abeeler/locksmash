@@ -2,7 +2,6 @@ package net.finalstring;
 
 import lombok.Getter;
 import net.finalstring.card.Card;
-import net.finalstring.card.CardDefinition;
 import net.finalstring.card.CreatureCard;
 
 import java.util.*;
@@ -46,9 +45,7 @@ public class Player {
     public void play(Card toPlay, boolean onLeft) {
         CreatureCard creature = new CreatureCard(toPlay, this);
         creature.reset();
-        battleline.addCreature(creature, onLeft);
-
-        aemberPool += creature.getAember();
+        battleline.playCreature(creature, onLeft);
     }
 
     public void discard(int index) {
@@ -70,5 +67,12 @@ public class Player {
 
     public List<Card> getHand() {
         return Collections.unmodifiableList(hand);
+    }
+
+    public void addAember(int amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Invalid aember amount to add to pool: " + amount);
+        }
+        aemberPool += amount;
     }
 }

@@ -9,12 +9,14 @@ import java.util.NoSuchElementException;
 public class Battleline {
     private final List<CreatureCard> battleline = new LinkedList<>();
 
-    public void addCreature(CreatureCard creature, boolean onLeft) {
+    public void playCreature(CreatureCard creature, boolean onLeft) {
         if (onLeft) {
             battleline.add(0, creature);
         } else {
             battleline.add(creature);
         }
+
+        creature.play();
     }
 
     public CreatureCard getCreature(int indexFromLeft) {

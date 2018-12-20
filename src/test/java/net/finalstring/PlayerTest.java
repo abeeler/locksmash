@@ -39,7 +39,7 @@ public class PlayerTest {
 
         underTest.playFromHand(0, true);
 
-        underTest.getBattleline().getLeftFlank().fight(new CreatureCard(new EmberImp(), new Player()));
+        underTest.getBattleline().getLeftFlank().dealDamage(2);
 
         assertThat(underTest.getDiscardPile().size(), is(1));
     }

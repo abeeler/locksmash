@@ -1,25 +1,28 @@
 package net.finalstring.card;
 
-import lombok.Data;
-import lombok.Getter;
+import lombok.*;
 import lombok.experimental.Delegate;
 import net.finalstring.Player;
 
-@Data
+@Getter
+@RequiredArgsConstructor
 public class CreatureCard implements Card {
     @Delegate
     private final Card wrapped;
 
     private final Player owner;
 
-    @Getter
     private int damage = 0;
 
-    @Getter
     private int remainingArmor = 0;
 
-    @Getter
     private boolean ready = true;
+
+    @Setter
+    private CreatureCard leftNeighbor;
+
+    @Setter
+    private CreatureCard rightNeighbor;
 
     public void dealDamage(int amount) {
         int absorbed = Math.min(remainingArmor, amount);

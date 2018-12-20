@@ -11,9 +11,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.NoSuchElementException;
 
-import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -46,17 +45,21 @@ public class BattlelineTest {
     @Test public void testBattlelineHasExactCreature() {
         underTest.playCreature(creature, true);
 
-        assertThat(underTest.getCreature(0), is(creature));
+        assertThat(underTest.getLeftFlank(), is(creature));
     }
 
-    @Test(expected = NoSuchElementException.class)
-    public void testBattlelineThrowsWhenGetLeftFlankWithoutCreatures() {
-        underTest.getLeftFlank();
+    @Test public void testLeftFlankIsNullWithoutCreatures() {
+        assertThat(underTest.getLeftFlank(), nullValue());
     }
 
-    @Test(expected = NoSuchElementException.class)
-    public void testBattlelineThrowsWhenGetRightFlankWithoutCreatures() {
-        underTest.getRightFlank();
+    @Test public void testRightFlankIsNullWithoutCreatures() {
+        assertThat(underTest.getRightFlank(), nullValue());
+    }
+
+    @Test public void testLeftFlankIsRightFlankWithOneCreature() {
+        underTest.playCreature(creature, true);
+
+        assertThat(underTest.getLeftFlank(), is(underTest.getRightFlank()));
     }
 
     @Test public void testBattlelinePutsCreatureOnLeftFlank() {

@@ -7,6 +7,8 @@ import net.finalstring.card.CreatureCard;
 import java.util.*;
 
 public class Player {
+    private static final int DEFAULT_KEY_COST = 6;
+
     private final Queue<Card> deck;
 
     @Getter
@@ -17,6 +19,9 @@ public class Player {
 
     @Getter
     private int aemberPool = 0;
+
+    @Getter
+    private int forgedKeys = 0;
 
     public Player(List<Card> deck) {
         this.deck = new LinkedList<>(deck);
@@ -74,5 +79,16 @@ public class Player {
             throw new IllegalArgumentException("Invalid aember amount to add to pool: " + amount);
         }
         aemberPool += amount;
+    }
+
+    public int getKeyCost() {
+        return DEFAULT_KEY_COST;
+    }
+
+    public void forgeKey() {
+        if (aemberPool >= getKeyCost()) {
+            aemberPool -= getKeyCost();
+            ++forgedKeys;
+        }
     }
 }

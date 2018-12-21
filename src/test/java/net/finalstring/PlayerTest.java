@@ -106,11 +106,43 @@ public class PlayerTest {
         assertThat(underTest.getDeck().size(), is(1));
     }
 
+    @Test public void testPlayerStartsWithZeroAember() {
+        assertThat(underTest.getAemberPool(), is(0));
+    }
+
     @Test public void testPlayingCardWithAemberIncrementsPool() {
         assertThat(underTest.getAemberPool(), is(0));
 
         underTest.play(new DustPixie(), true);
 
         assertThat(underTest.getAemberPool(), is(2));
+    }
+
+    @Test public void testPlayerStartsWithZeroForgedKeys() {
+        assertThat(underTest.getForgedKeys(), is(0));
+    }
+
+    @Test public void testPlayerWithEnoughAemberForgesKey() {
+        underTest.addAember(6);
+
+        underTest.forgeKey();
+
+        assertThat(underTest.getForgedKeys(), is(1));
+    }
+
+    @Test public void testPlayerWithoutEnoughAemberDoesNotForgeKey() {
+        underTest.addAember(5);
+
+        underTest.forgeKey();
+
+        assertThat(underTest.getForgedKeys(), is(0));
+    }
+
+    @Test public void testForgingKeyConsumesAember() {
+        underTest.addAember(6);
+
+        underTest.forgeKey();
+
+        assertThat(underTest.getAemberPool(), is(0));
     }
 }

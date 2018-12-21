@@ -6,20 +6,18 @@ import net.finalstring.card.sanctum.TheVaultkeeper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import java.util.NoSuchElementException;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BattlelineTest {
     private Battleline underTest;
 
-    @Mock private CreatureCard mockCreature;
+    @Spy private CreatureCard mockCreature = new CreatureCard(new EmberImp(), new Player());;
     private CreatureCard creature;
     private CreatureCard otherCreature;
 
@@ -92,5 +90,23 @@ public class BattlelineTest {
         underTest.playCreature(mockCreature, true);
 
         verify(mockCreature).play();
+    }
+
+    @Test public void testResetAllAffectsAllCreatures() {
+        CreatureCard second = spy(new CreatureCard(new EmberImp(), new Player()));
+        CreatureCard third = spy(new CreatureCard(new EmberImp(), new Player()));
+        CreatureCard fourth = spy(new CreatureCard(new EmberImp(), new Player()));
+
+        underTest.playCreature(mockCreature, true);
+        underTest.playCreature(second, true);
+        underTest.playCreature(third, true);
+        underTest.playCreature(fourth, true);
+
+        underTest.resetAll();
+
+        verify(mockCreature).reset();
+        verify(second).reset();
+        verify(third).reset();
+        verify(fourth).reset();
     }
 }

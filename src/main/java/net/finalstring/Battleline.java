@@ -29,6 +29,12 @@ public class Battleline implements Iterable<CreatureCard> {
         creature.play();
     }
 
+    public void resetAll() {
+        for (CreatureCard creature : this) {
+            creature.reset();
+        }
+    }
+
     public void removeCreature(CreatureCard creature) {
         if (creature == leftFlank && creature == rightFlank) {
             leftFlank = rightFlank = null;

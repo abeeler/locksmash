@@ -2,7 +2,7 @@ package net.finalstring;
 
 import lombok.Getter;
 import net.finalstring.card.Card;
-import net.finalstring.card.CreatureCard;
+import net.finalstring.card.Creature;
 
 import java.util.*;
 
@@ -48,7 +48,7 @@ public class Player {
     }
 
     public void play(Card toPlay, boolean onLeft) {
-        CreatureCard creature = new CreatureCard(toPlay, this);
+        Creature creature = new Creature(toPlay, this);
         creature.reset();
         battleline.playCreature(creature, onLeft);
     }
@@ -57,7 +57,7 @@ public class Player {
         discard.add(hand.remove(index));
     }
 
-    public void destroyCreature(CreatureCard creature) {
+    public void destroyCreature(Creature creature) {
         battleline.removeCreature(creature);
         discard.add(creature.getWrapped());
     }

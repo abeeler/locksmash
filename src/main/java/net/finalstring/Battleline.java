@@ -1,18 +1,18 @@
 package net.finalstring;
 
 import lombok.Getter;
-import net.finalstring.card.CreatureCard;
+import net.finalstring.card.Creature;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 @Getter
-public class Battleline implements Iterable<CreatureCard> {
+public class Battleline implements Iterable<Creature> {
     private int creatureCount = 0;
-    private CreatureCard leftFlank;
-    private CreatureCard rightFlank;
+    private Creature leftFlank;
+    private Creature rightFlank;
 
-    public void playCreature(CreatureCard creature, boolean onLeft) {
+    public void playCreature(Creature creature, boolean onLeft) {
         if (leftFlank == null || rightFlank == null) {
             leftFlank = rightFlank = creature;
         } else if (onLeft) {
@@ -30,12 +30,12 @@ public class Battleline implements Iterable<CreatureCard> {
     }
 
     public void resetAll() {
-        for (CreatureCard creature : this) {
+        for (Creature creature : this) {
             creature.reset();
         }
     }
 
-    public void removeCreature(CreatureCard creature) {
+    public void removeCreature(Creature creature) {
         if (creature == leftFlank && creature == rightFlank) {
             leftFlank = rightFlank = null;
         } else if (creature == leftFlank) {
@@ -53,14 +53,14 @@ public class Battleline implements Iterable<CreatureCard> {
     }
 
     @Override
-    public Iterator<CreatureCard> iterator() {
+    public Iterator<Creature> iterator() {
         return new BattlelineIterator(leftFlank);
     }
 
-    private static class BattlelineIterator implements Iterator<CreatureCard> {
-        private CreatureCard currentCreature;
+    private static class BattlelineIterator implements Iterator<Creature> {
+        private Creature currentCreature;
 
-        public BattlelineIterator(CreatureCard initialCreature) {
+        public BattlelineIterator(Creature initialCreature) {
             currentCreature = initialCreature;
         }
 
@@ -70,12 +70,12 @@ public class Battleline implements Iterable<CreatureCard> {
         }
 
         @Override
-        public CreatureCard next() {
+        public Creature next() {
             if (currentCreature == null) {
                 throw new NoSuchElementException();
             }
 
-            CreatureCard previous = currentCreature;
+            Creature previous = currentCreature;
             currentCreature = currentCreature.getRightNeighbor();
             return previous;
         }

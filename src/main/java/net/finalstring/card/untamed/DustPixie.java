@@ -4,6 +4,11 @@ import net.finalstring.card.CardDefinition;
 
 public class DustPixie extends CardDefinition {
     public DustPixie() {
-        super(351, 2, 1, 0);
+        super(351, 1);
+    }
+
+    @Override
+    public int getAember() {
+        return 2;
     }
 }

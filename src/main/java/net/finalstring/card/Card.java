@@ -1,7 +1,13 @@
 package net.finalstring.card;
 
 public interface Card {
-    int getAember();
     int getPower();
-    int getArmor();
+
+    default int getArmor() {
+        return 0;
+    }
+
+    default int getAember() {
+        return 0;
+    }
 }

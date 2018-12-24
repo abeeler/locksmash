@@ -1,7 +1,6 @@
 package net.finalstring;
 
 import net.finalstring.card.Card;
-import net.finalstring.card.CreatureCard;
 import net.finalstring.card.dis.EmberImp;
 import net.finalstring.card.sanctum.TheVaultkeeper;
 import net.finalstring.card.untamed.DustPixie;

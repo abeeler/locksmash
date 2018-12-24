@@ -6,7 +6,7 @@ import net.finalstring.Player;
 
 @Getter
 @RequiredArgsConstructor
-public class CreatureCard implements Card {
+public class Creature implements Card {
     @Delegate
     private final Card wrapped;
 
@@ -19,10 +19,10 @@ public class CreatureCard implements Card {
     private boolean ready = true;
 
     @Setter
-    private CreatureCard leftNeighbor;
+    private Creature leftNeighbor;
 
     @Setter
-    private CreatureCard rightNeighbor;
+    private Creature rightNeighbor;
 
     public void dealDamage(int amount) {
         int absorbed = Math.min(remainingArmor, amount);
@@ -43,7 +43,7 @@ public class CreatureCard implements Card {
         }
     }
 
-    public void fight(CreatureCard target) {
+    public void fight(Creature target) {
         target.dealDamage(getPower());
         dealDamage(target.getPower());
         ready = false;

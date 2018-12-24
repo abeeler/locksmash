@@ -19,14 +19,14 @@ import static org.mockito.Mockito.verify;
 public class CreatureCardTest {
     @Mock private Player mockPlayer;
 
-    private CreatureCard normalCreature;
-    private CreatureCard armoredCreature;
-    private CreatureCard aemberCreature;
+    private Creature normalCreature;
+    private Creature armoredCreature;
+    private Creature aemberCreature;
 
     @Before public void setup() {
-        normalCreature = new CreatureCard(new EmberImp(), mockPlayer);
-        armoredCreature = new CreatureCard(new TheVaultkeeper(), new Player());
-        aemberCreature = new CreatureCard(new DustPixie(), mockPlayer);
+        normalCreature = new Creature(new EmberImp(), mockPlayer);
+        armoredCreature = new Creature(new TheVaultkeeper(), new Player());
+        aemberCreature = new Creature(new DustPixie(), mockPlayer);
 
         armoredCreature.reset();
     }

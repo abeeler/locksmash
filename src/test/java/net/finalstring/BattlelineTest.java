@@ -1,6 +1,6 @@
 package net.finalstring;
 
-import net.finalstring.card.CreatureCard;
+import net.finalstring.card.Creature;
 import net.finalstring.card.dis.EmberImp;
 import net.finalstring.card.sanctum.TheVaultkeeper;
 import org.junit.Before;
@@ -17,13 +17,13 @@ import static org.mockito.Mockito.*;
 public class BattlelineTest {
     private Battleline underTest;
 
-    @Spy private CreatureCard mockCreature = new CreatureCard(new EmberImp(), new Player());;
-    private CreatureCard creature;
-    private CreatureCard otherCreature;
+    @Spy private Creature mockCreature = new Creature(new EmberImp(), new Player());;
+    private Creature creature;
+    private Creature otherCreature;
 
     @Before public void setup() {
-        creature = new CreatureCard(new EmberImp(), new Player());
-        otherCreature = new CreatureCard(new TheVaultkeeper(), new Player());
+        creature = new Creature(new EmberImp(), new Player());
+        otherCreature = new Creature(new TheVaultkeeper(), new Player());
 
         underTest = creature.getOwner().getBattleline();
     }
@@ -93,9 +93,9 @@ public class BattlelineTest {
     }
 
     @Test public void testResetAllAffectsAllCreatures() {
-        CreatureCard second = spy(new CreatureCard(new EmberImp(), new Player()));
-        CreatureCard third = spy(new CreatureCard(new EmberImp(), new Player()));
-        CreatureCard fourth = spy(new CreatureCard(new EmberImp(), new Player()));
+        Creature second = spy(new Creature(new EmberImp(), new Player()));
+        Creature third = spy(new Creature(new EmberImp(), new Player()));
+        Creature fourth = spy(new Creature(new EmberImp(), new Player()));
 
         underTest.playCreature(mockCreature, true);
         underTest.playCreature(second, true);

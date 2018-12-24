@@ -38,15 +38,15 @@ public class Battleline implements Iterable<Creature> {
     public void removeCreature(Creature creature) {
         if (creature == leftFlank && creature == rightFlank) {
             leftFlank = rightFlank = null;
-        } else if (creature == leftFlank) {
-            leftFlank = creature.getRightNeighbor();
+        } else if (creature == leftFlank && creature.getRightNeighbor().isPresent()) {
+            leftFlank = creature.getRightNeighbor().get();
             leftFlank.setLeftNeighbor(null);
-        } else if (creature == rightFlank) {
-            rightFlank = creature.getLeftNeighbor();
+        } else if (creature == rightFlank && creature.getLeftNeighbor().isPresent()) {
+            rightFlank = creature.getLeftNeighbor().get();
             rightFlank.setRightNeighbor(null);
         } else {
-            creature.getLeftNeighbor().setRightNeighbor(creature.getRightNeighbor());
-            creature.getRightNeighbor().setLeftNeighbor(creature.getLeftNeighbor());
+            creature.getLeftNeighbor().get().setRightNeighbor(creature.getRightNeighbor().get());
+            creature.getRightNeighbor().get().setLeftNeighbor(creature.getLeftNeighbor().get());
         }
 
         creatureCount--;
@@ -76,7 +76,7 @@ public class Battleline implements Iterable<Creature> {
             }
 
             Creature previous = currentCreature;
-            currentCreature = currentCreature.getRightNeighbor();
+            currentCreature = currentCreature.getRightNeighbor().orElse(null);
             return previous;
         }
     }

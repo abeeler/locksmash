@@ -10,4 +10,8 @@ public interface Card {
     default int getAember() {
         return 0;
     }
+
+    default boolean hasTaunt() {
+        return false;
+    }
 }

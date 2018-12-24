@@ -4,6 +4,8 @@ import lombok.*;
 import lombok.experimental.Delegate;
 import net.finalstring.Player;
 
+import java.util.Optional;
+
 @Getter
 @RequiredArgsConstructor
 public class Creature implements Card {
@@ -19,9 +21,11 @@ public class Creature implements Card {
     private boolean ready = true;
 
     @Setter
+    @Getter(AccessLevel.NONE)
     private Creature leftNeighbor;
 
     @Setter
+    @Getter(AccessLevel.NONE)
     private Creature rightNeighbor;
 
     public void dealDamage(int amount) {
@@ -60,6 +64,20 @@ public class Creature implements Card {
 
     public void exhaust() {
         ready = false;
+    }
+
+    public boolean canFight(Creature target) {
+        return hasTaunt() ||
+                !getLeftNeighbor().map(Creature::hasTaunt).orElse(false) &&
+                !getRightNeighbor().map(Creature::hasTaunt).orElse(false);
+    }
+
+    public Optional<Creature> getLeftNeighbor() {
+        return Optional.ofNullable(leftNeighbor);
+    }
+
+    public Optional<Creature> getRightNeighbor() {
+        return Optional.ofNullable(rightNeighbor);
     }
 
     boolean isAlive() {

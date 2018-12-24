@@ -2,6 +2,7 @@ package net.finalstring.card;
 
 import net.finalstring.Player;
 import net.finalstring.card.dis.EmberImp;
+import net.finalstring.card.sanctum.ChampionAnaphiel;
 import net.finalstring.card.sanctum.TheVaultkeeper;
 import net.finalstring.card.untamed.DustPixie;
 import org.junit.Before;
@@ -22,11 +23,13 @@ public class CreatureCardTest {
     private Creature normalCreature;
     private Creature armoredCreature;
     private Creature aemberCreature;
+    private Creature tauntCreature;
 
     @Before public void setup() {
         normalCreature = new Creature(new EmberImp(), mockPlayer);
         armoredCreature = new Creature(new TheVaultkeeper(), new Player());
         aemberCreature = new Creature(new DustPixie(), mockPlayer);
+        tauntCreature = new Creature(new ChampionAnaphiel(), mockPlayer);
 
         armoredCreature.reset();
     }
@@ -102,5 +105,31 @@ public class CreatureCardTest {
         normalCreature.reap();
 
         verify(mockPlayer).addAember(1);
+    }
+
+    @Test public void testNormalCreatureCanBeFought() {
+        assertThat(normalCreature.canFight(normalCreature), is(true));
+    }
+
+    @Test public void testTauntCreatureCanBeFought() {
+        assertThat(normalCreature.canFight(tauntCreature), is(true));
+    }
+
+    @Test public void testCreatureBesideTauntCannotBeFought() {
+        normalCreature.setLeftNeighbor(tauntCreature);
+
+        assertThat(normalCreature.canFight(normalCreature), is(false));
+    }
+
+    @Test public void testCreatureBesideTwoTauntsCannotBeFought() {
+        normalCreature.setLeftNeighbor(tauntCreature);
+        normalCreature.setRightNeighbor(tauntCreature);
+
+        assertThat(normalCreature.canFight(normalCreature), is(false));
+    }
+
+    @Test public void testTauntCreatureBesideTauntCanBeFought() {
+        tauntCreature.setLeftNeighbor(tauntCreature);
+        assertThat(normalCreature.canFight(tauntCreature), is(true));
     }
 }

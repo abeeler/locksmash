@@ -4,6 +4,7 @@ import net.finalstring.Player;
 import net.finalstring.card.dis.EmberImp;
 import net.finalstring.card.sanctum.ChampionAnaphiel;
 import net.finalstring.card.sanctum.TheVaultkeeper;
+import net.finalstring.card.shadows.NoddyTheThief;
 import net.finalstring.card.untamed.DustPixie;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,12 +25,14 @@ public class CreatureCardTest {
     private Creature armoredCreature;
     private Creature aemberCreature;
     private Creature tauntCreature;
+    private Creature elusiveCreature;
 
     @Before public void setup() {
         normalCreature = new Creature(new EmberImp(), mockPlayer);
         armoredCreature = new Creature(new TheVaultkeeper(), new Player());
         aemberCreature = new Creature(new DustPixie(), mockPlayer);
         tauntCreature = new Creature(new ChampionAnaphiel(), mockPlayer);
+        elusiveCreature = new Creature(new NoddyTheThief(), mockPlayer);
 
         armoredCreature.reset();
     }
@@ -131,5 +134,31 @@ public class CreatureCardTest {
     @Test public void testTauntCreatureBesideTauntCanBeFought() {
         tauntCreature.setLeftNeighbor(tauntCreature);
         assertThat(normalCreature.canFight(tauntCreature), is(true));
+    }
+
+    @Test public void testElusivePreventsDamageFromFirstFight() {
+        armoredCreature.fight(elusiveCreature);
+
+        assertThat(armoredCreature.getDamage(), is(0));
+        assertThat(elusiveCreature.getDamage(), is(0));
+    }
+
+    @Test public void testElusiveFightsNormallyInSecondFight() {
+        normalCreature.fight(elusiveCreature);
+        armoredCreature.fight(elusiveCreature);
+
+        assertThat(armoredCreature.getDamage(), is(1));
+        assertThat(elusiveCreature.isAlive(), is(false));
+    }
+
+    @Test public void testElusiveCanBeReset() {
+        armoredCreature.fight(elusiveCreature);
+
+        elusiveCreature.reset();
+
+        armoredCreature.fight(elusiveCreature);
+
+        assertThat(armoredCreature.getDamage(), is(0));
+        assertThat(elusiveCreature.getDamage(), is(0));
     }
 }

@@ -14,4 +14,8 @@ public interface Card {
     default boolean hasTaunt() {
         return false;
     }
+
+    default boolean hasElusive() {
+        return false;
+    }
 }

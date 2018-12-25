@@ -20,6 +20,8 @@ public class Creature implements Card {
 
     private boolean ready = true;
 
+    private boolean eluding = true;
+
     @Setter
     @Getter(AccessLevel.NONE)
     private Creature leftNeighbor;
@@ -48,8 +50,13 @@ public class Creature implements Card {
     }
 
     public void fight(Creature target) {
-        target.dealDamage(getPower());
-        dealDamage(target.getPower());
+        if (target.isEluding()) {
+            target.elude();
+        } else {
+            target.dealDamage(getPower());
+            dealDamage(target.getPower());
+        }
+
         ready = false;
     }
 
@@ -60,10 +67,15 @@ public class Creature implements Card {
     public void reset() {
         remainingArmor = getArmor();
         ready = true;
+        eluding = true;
     }
 
     public void exhaust() {
         ready = false;
+    }
+
+    public void elude() {
+        eluding = false;
     }
 
     public boolean canFight(Creature target) {

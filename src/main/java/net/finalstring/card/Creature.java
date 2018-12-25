@@ -7,7 +7,6 @@ import net.finalstring.Player;
 import java.util.Optional;
 
 @Getter
-@RequiredArgsConstructor
 public class Creature implements Card {
     @Delegate
     private final Card wrapped;
@@ -20,7 +19,7 @@ public class Creature implements Card {
 
     private boolean ready = true;
 
-    private boolean eluding = true;
+    private boolean eluding;
 
     @Setter
     @Getter(AccessLevel.NONE)
@@ -29,6 +28,13 @@ public class Creature implements Card {
     @Setter
     @Getter(AccessLevel.NONE)
     private Creature rightNeighbor;
+
+    public Creature(Card wrapped, Player owner) {
+        this.wrapped = wrapped;
+        this.owner = owner;
+
+        eluding = hasElusive();
+    }
 
     public void dealDamage(int amount) {
         int absorbed = Math.min(remainingArmor, amount);
@@ -50,7 +56,7 @@ public class Creature implements Card {
     }
 
     public void fight(Creature target) {
-        if (target.isEluding()) {
+        if (target.hasElusive() && target.isEluding()) {
             target.elude();
         } else {
             target.dealDamage(getPower());
@@ -67,7 +73,7 @@ public class Creature implements Card {
     public void reset() {
         remainingArmor = getArmor();
         ready = true;
-        eluding = true;
+        eluding = hasElusive();
     }
 
     public void exhaust() {

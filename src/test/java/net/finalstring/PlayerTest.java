@@ -7,13 +7,18 @@ import net.finalstring.card.untamed.DustPixie;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 
 public class PlayerTest {
     private Player underTest;
+
+    private List<Card> deck;
+
     private Card normalCreature = new EmberImp();
     private Card armoredCreature = new TheVaultkeeper();
 
@@ -25,6 +30,11 @@ public class PlayerTest {
 
         underTest.draw();
         underTest.draw();
+
+        deck = new ArrayList<>();
+        for (int i = 0; i < 8; i++) {
+            deck.add(normalCreature);
+        }
     }
 
     @Test public void testPlayingCreatureCardFromHand() {
@@ -143,5 +153,31 @@ public class PlayerTest {
         underTest.forgeKey();
 
         assertThat(underTest.getAemberPool(), is(0));
+    }
+
+    @Test public void testRefillingHandDrawsToMaximumAmount() {
+        Player player = new Player(deck);
+
+        assertThat(player.getHandSize(), is(0));
+
+        player.refillHand();
+
+        assertThat(player.getHandSize(), is(6));
+        assertThat(player.getDeck().size(), is(2));
+    }
+
+    @Test public void testRefillingHandWithoutEnoughCardsEndsEarly() {
+        while (deck.size() > 5) {
+            deck.remove(0);
+        }
+
+        Player player = new Player(deck);
+
+        assertThat(player.getHandSize(), is(0));
+
+        player.refillHand();
+
+        assertThat(player.getHandSize(), is(5));
+        assertThat(player.getDeck().size(), is(0));
     }
 }

@@ -8,6 +8,7 @@ import java.util.*;
 
 public class Player {
     private static final int DEFAULT_KEY_COST = 6;
+    private static final int DEFAULT_MAXIMUM_HAND_SIZE = 6;
 
     private final Queue<Card> deck;
 
@@ -31,7 +32,7 @@ public class Player {
         this.deck = new LinkedList<>();
     }
 
-    public void draw() {
+    public boolean draw() {
         if (deck.isEmpty() && !discard.isEmpty()) {
             Collections.shuffle(discard);
             deck.addAll(discard);
@@ -40,7 +41,10 @@ public class Player {
 
         if (!deck.isEmpty()) {
             hand.add(deck.poll());
+            return true;
         }
+
+        return false;
     }
 
     public void playFromHand(int index, boolean onLeft) {
@@ -90,5 +94,21 @@ public class Player {
             aemberPool -= getKeyCost();
             ++forgedKeys;
         }
+    }
+
+    public int getHandSize() {
+        return hand.size();
+    }
+
+    public void refillHand() {
+        while (getHandSize() < getMaximumHandSize()) {
+            if (!draw()) {
+                break;
+            }
+        }
+    }
+
+    public int getMaximumHandSize() {
+        return DEFAULT_MAXIMUM_HAND_SIZE;
     }
 }

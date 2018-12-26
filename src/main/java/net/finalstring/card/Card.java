@@ -18,4 +18,8 @@ public interface Card {
     default boolean hasElusive() {
         return false;
     }
+
+    default boolean hasSkirmish() {
+        return false;
+    }
 }

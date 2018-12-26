@@ -6,6 +6,7 @@ import net.finalstring.card.sanctum.ChampionAnaphiel;
 import net.finalstring.card.sanctum.TheVaultkeeper;
 import net.finalstring.card.shadows.NoddyTheThief;
 import net.finalstring.card.untamed.DustPixie;
+import net.finalstring.card.untamed.Snufflegator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,6 +27,7 @@ public class CreatureCardTest {
     private Creature aemberCreature;
     private Creature tauntCreature;
     private Creature elusiveCreature;
+    private Creature skirmishCreature;
 
     @Before public void setup() {
         normalCreature = new Creature(new EmberImp(), mockPlayer);
@@ -33,6 +35,7 @@ public class CreatureCardTest {
         aemberCreature = new Creature(new DustPixie(), mockPlayer);
         tauntCreature = new Creature(new ChampionAnaphiel(), mockPlayer);
         elusiveCreature = new Creature(new NoddyTheThief(), mockPlayer);
+        skirmishCreature = new Creature(new Snufflegator(), mockPlayer);
 
         armoredCreature.reset();
     }
@@ -159,6 +162,26 @@ public class CreatureCardTest {
         armoredCreature.fight(elusiveCreature);
 
         assertThat(armoredCreature.getDamage(), is(0));
+        assertThat(elusiveCreature.getDamage(), is(0));
+    }
+
+    @Test public void testSkirmishPreventsCounterDamage() {
+        skirmishCreature.fight(armoredCreature);
+
+        assertThat(skirmishCreature.getDamage(), is(0));
+        assertThat(armoredCreature.getDamage(), is(3));
+    }
+
+    @Test public void testSkirmishStillTakesFullDamageFromAttack() {
+        normalCreature.fight(skirmishCreature);
+
+        assertThat(skirmishCreature.getDamage(), is(2));
+    }
+
+    @Test public void testSkirmishDoesNotBypassElusive() {
+        skirmishCreature.fight(elusiveCreature);
+
+        assertThat(skirmishCreature.getDamage(), is(0));
         assertThat(elusiveCreature.getDamage(), is(0));
     }
 }

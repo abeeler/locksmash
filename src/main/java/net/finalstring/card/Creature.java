@@ -60,7 +60,9 @@ public class Creature implements Card {
             target.elude();
         } else {
             target.dealDamage(getPower());
-            dealDamage(target.getPower());
+            if (!hasSkirmish()) {
+                dealDamage(target.getPower());
+            }
         }
 
         ready = false;

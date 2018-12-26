@@ -1,4 +1,14 @@
 package net.finalstring.card.untamed;
 
-public class Snufflegator {
+import net.finalstring.card.CardDefinition;
+
+public class Snufflegator extends CardDefinition {
+    public Snufflegator() {
+        super(358, 4);
+    }
+
+    @Override
+    public boolean hasSkirmish() {
+        return true;
+    }
 }

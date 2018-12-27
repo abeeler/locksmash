@@ -1,6 +1,7 @@
 package net.finalstring;
 
 import net.finalstring.card.Card;
+import net.finalstring.card.House;
 import net.finalstring.card.dis.EmberImp;
 import net.finalstring.card.sanctum.TheVaultkeeper;
 import net.finalstring.card.untamed.DustPixie;
@@ -179,5 +180,18 @@ public class PlayerTest {
 
         assertThat(player.getHandSize(), is(5));
         assertThat(player.getDeck().size(), is(0));
+    }
+
+    @Test public void testCardsOutsideActiveHouseCannotBePlayed() {
+        assertThat(underTest.canPlay(normalCreature), is(false));
+        assertThat(underTest.canPlay(armoredCreature), is(false));
+    }
+
+    @Test public void testCardsInsideActiveHouseCanBePlayed() {
+        underTest.setActiveHouse(House.Dis);
+        assertThat(underTest.canPlay(normalCreature), is(true));
+
+        underTest.setActiveHouse(House.Sanctum);
+        assertThat(underTest.canPlay(armoredCreature), is(true));
     }
 }

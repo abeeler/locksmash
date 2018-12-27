@@ -1,8 +1,10 @@
 package net.finalstring;
 
 import lombok.Getter;
+import lombok.Setter;
 import net.finalstring.card.Card;
 import net.finalstring.card.Creature;
+import net.finalstring.card.House;
 
 import java.util.*;
 
@@ -23,6 +25,10 @@ public class Player {
 
     @Getter
     private int forgedKeys = 0;
+
+    @Getter
+    @Setter
+    private House activeHouse;
 
     public Player(List<Card> deck) {
         this.deck = new LinkedList<>(deck);
@@ -45,6 +51,10 @@ public class Player {
         }
 
         return false;
+    }
+
+    public boolean canPlay(Card card) {
+        return card.getHouse() == activeHouse;
     }
 
     public void playFromHand(int index, boolean onLeft) {

@@ -8,5 +8,6 @@ public enum House {
     Sanctum,
     Shadows,
     Untamed,
+    None
     ;
 }

@@ -1,6 +1,8 @@
 package net.finalstring.card;
 
 public interface Card {
+    House getHouse();
+
     int getPower();
 
     default int getArmor() {

@@ -1,9 +1,9 @@
 package net.finalstring.card.untamed;
 
-import net.finalstring.card.CardDefinition;
+import net.finalstring.card.CreatureCard;
 import net.finalstring.card.House;
 
-public class DustPixie extends CardDefinition {
+public class DustPixie extends CreatureCard {
     public DustPixie() {
         super(351, House.Untamed, 1);
     }

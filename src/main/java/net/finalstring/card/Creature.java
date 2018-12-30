@@ -1,15 +1,17 @@
 package net.finalstring.card;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.Delegate;
 import net.finalstring.Player;
 
 import java.util.Optional;
 
 @Getter
-public class Creature implements Card {
+public class Creature implements CreatureStatistics {
     @Delegate
-    private final Card wrapped;
+    private final CreatureStatistics wrapped;
 
     private final Player owner;
 
@@ -29,7 +31,7 @@ public class Creature implements Card {
     @Getter(AccessLevel.NONE)
     private Creature rightNeighbor;
 
-    public Creature(Card wrapped, Player owner) {
+    public Creature(CreatureStatistics wrapped, Player owner) {
         this.wrapped = wrapped;
         this.owner = owner;
 

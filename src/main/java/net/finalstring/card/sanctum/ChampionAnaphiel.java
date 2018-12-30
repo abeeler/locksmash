@@ -1,9 +1,9 @@
 package net.finalstring.card.sanctum;
 
-import net.finalstring.card.CardDefinition;
+import net.finalstring.card.CreatureCard;
 import net.finalstring.card.House;
 
-public class ChampionAnaphiel extends CardDefinition {
+public class ChampionAnaphiel extends CreatureCard {
     public ChampionAnaphiel() {
         super(239, House.Sanctum, 6);
     }

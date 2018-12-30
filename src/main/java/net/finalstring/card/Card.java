@@ -1,27 +1,13 @@
 package net.finalstring.card;
 
-public interface Card {
-    House getHouse();
+import lombok.Data;
 
-    int getPower();
+@Data
+public abstract class Card {
+    private final int id;
+    private final House house;
 
-    default int getArmor() {
+    public int getAember() {
         return 0;
-    }
-
-    default int getAember() {
-        return 0;
-    }
-
-    default boolean hasTaunt() {
-        return false;
-    }
-
-    default boolean hasElusive() {
-        return false;
-    }
-
-    default boolean hasSkirmish() {
-        return false;
     }
 }

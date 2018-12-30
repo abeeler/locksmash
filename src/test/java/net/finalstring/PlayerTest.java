@@ -1,6 +1,6 @@
 package net.finalstring;
 
-import net.finalstring.card.Card;
+import net.finalstring.card.CreatureStatistics;
 import net.finalstring.card.House;
 import net.finalstring.card.dis.EmberImp;
 import net.finalstring.card.sanctum.TheVaultkeeper;
@@ -18,10 +18,10 @@ import static org.hamcrest.CoreMatchers.is;
 public class PlayerTest {
     private Player underTest;
 
-    private List<Card> deck;
+    private List<CreatureStatistics> deck;
 
-    private Card normalCreature = new EmberImp();
-    private Card armoredCreature = new TheVaultkeeper();
+    private CreatureStatistics normalCreature = new EmberImp();
+    private CreatureStatistics armoredCreature = new TheVaultkeeper();
 
     @Before public void setup() {
         underTest = new Player(Arrays.asList(

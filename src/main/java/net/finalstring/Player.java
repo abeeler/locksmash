@@ -2,7 +2,7 @@ package net.finalstring;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.finalstring.card.Card;
+import net.finalstring.card.CreatureStatistics;
 import net.finalstring.card.Creature;
 import net.finalstring.card.House;
 
@@ -12,13 +12,13 @@ public class Player {
     private static final int DEFAULT_KEY_COST = 6;
     private static final int DEFAULT_MAXIMUM_HAND_SIZE = 6;
 
-    private final Queue<Card> deck;
+    private final Queue<CreatureStatistics> deck;
 
     @Getter
     private final Battleline battleline = new Battleline();
 
-    private final List<Card> hand = new ArrayList<>();
-    private final List<Card> discard = new ArrayList<>();
+    private final List<CreatureStatistics> hand = new ArrayList<>();
+    private final List<CreatureStatistics> discard = new ArrayList<>();
 
     @Getter
     private int aemberPool = 0;
@@ -30,7 +30,7 @@ public class Player {
     @Setter
     private House activeHouse;
 
-    public Player(List<Card> deck) {
+    public Player(List<CreatureStatistics> deck) {
         this.deck = new LinkedList<>(deck);
     }
 
@@ -53,7 +53,7 @@ public class Player {
         return false;
     }
 
-    public boolean canPlay(Card card) {
+    public boolean canPlay(CreatureStatistics card) {
         return card.getHouse() == activeHouse;
     }
 
@@ -61,7 +61,7 @@ public class Player {
         play(hand.remove(index), onLeft);
     }
 
-    public void play(Card toPlay, boolean onLeft) {
+    public void play(CreatureStatistics toPlay, boolean onLeft) {
         Creature creature = new Creature(toPlay, this);
         creature.reset();
         battleline.playCreature(creature, onLeft);
@@ -76,15 +76,15 @@ public class Player {
         discard.add(creature.getWrapped());
     }
 
-    public List<Card> getDeck() {
+    public List<CreatureStatistics> getDeck() {
         return Collections.unmodifiableList(new ArrayList<>(deck));
     }
 
-    public List<Card> getDiscardPile() {
+    public List<CreatureStatistics> getDiscardPile() {
         return Collections.unmodifiableList(discard);
     }
 
-    public List<Card> getHand() {
+    public List<CreatureStatistics> getHand() {
         return Collections.unmodifiableList(hand);
     }
 

@@ -1,9 +1,9 @@
 package net.finalstring.card.shadows;
 
-import net.finalstring.card.CreatureCard;
+import net.finalstring.card.Creature;
 import net.finalstring.card.House;
 
-public class NoddyTheThief extends CreatureCard {
+public class NoddyTheThief extends Creature {
     public NoddyTheThief() {
         super(306, House.Shadows, 2);
     }

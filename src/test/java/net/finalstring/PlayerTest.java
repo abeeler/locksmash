@@ -1,6 +1,6 @@
 package net.finalstring;
 
-import net.finalstring.card.CreatureStatistics;
+import net.finalstring.card.Creature;
 import net.finalstring.card.House;
 import net.finalstring.card.dis.EmberImp;
 import net.finalstring.card.sanctum.TheVaultkeeper;
@@ -18,10 +18,10 @@ import static org.hamcrest.CoreMatchers.is;
 public class PlayerTest {
     private Player underTest;
 
-    private List<CreatureStatistics> deck;
+    private List<Creature> deck;
 
-    private CreatureStatistics normalCreature = new EmberImp();
-    private CreatureStatistics armoredCreature = new TheVaultkeeper();
+    private Creature normalCreature = new EmberImp();
+    private Creature armoredCreature = new TheVaultkeeper();
 
     @Before public void setup() {
         underTest = new Player(Arrays.asList(
@@ -41,7 +41,7 @@ public class PlayerTest {
     @Test public void testPlayingCreatureCardFromHand() {
         underTest.playFromHand(0, true);
 
-        assertThat(underTest.getBattleline().getLeftFlank().getWrapped(), is(normalCreature));
+        assertThat(underTest.getBattleline().getLeftFlank(), is(normalCreature.getInstance()));
     }
 
     @Test public void testDyingCreatureIsPutInDiscard() {
@@ -81,8 +81,8 @@ public class PlayerTest {
         assertThat(underTest.getHand().size(), is(2));
         assertThat(underTest.getDiscardPile().size(), is(0));
 
-        underTest.discard(1);
-        underTest.discard(0);
+        underTest.discardFromHand(1);
+        underTest.discardFromHand(0);
 
         assertThat(underTest.getHand().size(), is(0));
         assertThat(underTest.getDiscardPile().get(0), is(armoredCreature));
@@ -102,8 +102,8 @@ public class PlayerTest {
     }
 
     @Test public void testDrawingFromEmptyDeckShufflesDiscardPileFirst() {
-        underTest.discard(0);
-        underTest.discard(0);
+        underTest.discardFromHand(0);
+        underTest.discardFromHand(0);
 
         assertThat(underTest.getDiscardPile().size(), is(2));
         assertThat(underTest.getHand().size(), is(0));
@@ -123,7 +123,7 @@ public class PlayerTest {
     @Test public void testPlayingCardWithAemberIncrementsPool() {
         assertThat(underTest.getAemberPool(), is(0));
 
-        underTest.play(new DustPixie(), true);
+        new DustPixie().place(underTest, true);
 
         assertThat(underTest.getAemberPool(), is(2));
     }

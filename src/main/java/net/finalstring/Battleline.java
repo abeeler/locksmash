@@ -5,14 +5,15 @@ import net.finalstring.card.Creature;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Getter
-public class Battleline implements Iterable<Creature> {
+public class Battleline implements Iterable<Creature.CreatureInstance> {
     private int creatureCount = 0;
-    private Creature leftFlank;
-    private Creature rightFlank;
+    private Creature.CreatureInstance leftFlank;
+    private Creature.CreatureInstance rightFlank;
 
-    public void playCreature(Creature creature, boolean onLeft) {
+    public void placeCreature(Creature.CreatureInstance creature, boolean onLeft) {
         if (leftFlank == null || rightFlank == null) {
             leftFlank = rightFlank = creature;
         } else if (onLeft) {
@@ -25,42 +26,50 @@ public class Battleline implements Iterable<Creature> {
             rightFlank = creature;
         }
 
+        creature.reset();
+
         creatureCount++;
-        creature.play();
     }
 
     public void resetAll() {
-        for (Creature creature : this) {
-            creature.reset();
+        for (Creature.CreatureInstance instance : this) {
+            instance.reset();
         }
     }
 
-    public void removeCreature(Creature creature) {
-        if (creature == leftFlank && creature == rightFlank) {
+    public void removeCreature(Creature.CreatureInstance instance) {
+        if (instance == leftFlank && instance == rightFlank) {
             leftFlank = rightFlank = null;
-        } else if (creature == leftFlank && creature.getRightNeighbor().isPresent()) {
-            leftFlank = creature.getRightNeighbor().get();
-            leftFlank.setLeftNeighbor(null);
-        } else if (creature == rightFlank && creature.getLeftNeighbor().isPresent()) {
-            rightFlank = creature.getLeftNeighbor().get();
-            rightFlank.setRightNeighbor(null);
         } else {
-            creature.getLeftNeighbor().get().setRightNeighbor(creature.getRightNeighbor().get());
-            creature.getRightNeighbor().get().setLeftNeighbor(creature.getLeftNeighbor().get());
+            Optional<Creature.CreatureInstance> leftNeighbor = instance.getLeftNeighbor();
+            Optional<Creature.CreatureInstance> rightNeighbor = instance.getLeftNeighbor();
+
+            if (instance == leftFlank && rightNeighbor.isPresent()) {
+                leftFlank = rightNeighbor.get();
+                leftFlank.setLeftNeighbor(null);
+            } else if (instance == rightFlank && leftNeighbor.isPresent()) {
+                rightFlank = leftNeighbor.get();
+                rightFlank.setRightNeighbor(null);
+            } else if (leftNeighbor.isPresent() && rightNeighbor.isPresent()){
+                leftNeighbor.get().setRightNeighbor(rightNeighbor.get());
+                rightNeighbor.get().setLeftNeighbor(leftNeighbor.get());
+            } else {
+                throw new IllegalStateException("A creature without neighbors must be considered both flanks");
+            }
         }
 
         creatureCount--;
     }
 
     @Override
-    public Iterator<Creature> iterator() {
+    public Iterator<Creature.CreatureInstance> iterator() {
         return new BattlelineIterator(leftFlank);
     }
 
-    private static class BattlelineIterator implements Iterator<Creature> {
-        private Creature currentCreature;
+    private static class BattlelineIterator implements Iterator<Creature.CreatureInstance> {
+        private Creature.CreatureInstance currentCreature;
 
-        public BattlelineIterator(Creature initialCreature) {
+        public BattlelineIterator(Creature.CreatureInstance initialCreature) {
             currentCreature = initialCreature;
         }
 
@@ -70,12 +79,12 @@ public class Battleline implements Iterable<Creature> {
         }
 
         @Override
-        public Creature next() {
+        public Creature.CreatureInstance next() {
             if (currentCreature == null) {
                 throw new NoSuchElementException();
             }
 
-            Creature previous = currentCreature;
+            Creature.CreatureInstance previous = currentCreature;
             currentCreature = currentCreature.getRightNeighbor().orElse(null);
             return previous;
         }

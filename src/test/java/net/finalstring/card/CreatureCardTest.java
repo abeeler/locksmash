@@ -11,40 +11,52 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CreatureCardTest {
-    @Mock private Player mockPlayer;
+    @Spy private Player mockPlayer = new Player();
 
-    private Creature normalCreature;
-    private Creature armoredCreature;
-    private Creature aemberCreature;
-    private Creature tauntCreature;
-    private Creature elusiveCreature;
-    private Creature skirmishCreature;
+    private Creature.CreatureInstance normalCreature;
+    private Creature.CreatureInstance armoredCreature;
+    private Creature.CreatureInstance aemberCreature;
+    private Creature.CreatureInstance tauntCreature;
+    private Creature.CreatureInstance elusiveCreature;
+    private Creature.CreatureInstance skirmishCreature;
 
     @Before public void setup() {
-        normalCreature = new Creature(new EmberImp(), mockPlayer);
-        armoredCreature = new Creature(new TheVaultkeeper(), new Player());
-        aemberCreature = new Creature(new DustPixie(), mockPlayer);
-        tauntCreature = new Creature(new ChampionAnaphiel(), mockPlayer);
-        elusiveCreature = new Creature(new NoddyTheThief(), mockPlayer);
-        skirmishCreature = new Creature(new Snufflegator(), mockPlayer);
+        normalCreature = new EmberImp().place(mockPlayer, true);
+        armoredCreature = new TheVaultkeeper().place(mockPlayer, true);
+        aemberCreature = new DustPixie().place(mockPlayer, true);
+        tauntCreature = new ChampionAnaphiel().place(mockPlayer, true);
+        elusiveCreature = new NoddyTheThief().place(mockPlayer, true);
+        skirmishCreature = new Snufflegator().place(mockPlayer, true);
 
         armoredCreature.reset();
     }
 
     @Test public void testCreatureIsDestroyedAfterTakingFatalDamage() {
-        normalCreature.dealDamage(2);
+        Player player = new Player();
+        Creature base = new EmberImp();
+        Creature.CreatureInstance instance = base.place(player, true);
 
-        assertThat(normalCreature.isAlive(), is(false));
-        verify(mockPlayer).destroyCreature(normalCreature);
+        player.getBattleline().removeCreature(instance);
+
+        instance = spy(instance);
+        player.getBattleline().placeCreature(instance, true);
+
+        instance.dealDamage(2);
+
+        assertThat(instance.isAlive(), is(false));
+        verify(instance).destroy(base);
     }
 
     @Test public void testCreatureIsAliveAfterTakingNonFatalDamage() {
@@ -84,11 +96,6 @@ public class CreatureCardTest {
         armoredCreature.fight(normalCreature);
 
         assertThat(armoredCreature.isReady(), is(false));
-    }
-
-    @Test public void testPlayingCreatureWorthAemberAddsItToOwner() {
-        aemberCreature.play();
-        verify(mockPlayer).addAember(2);
     }
 
     @Test public void testExhaustedCreatureIsNoLongerReady() {

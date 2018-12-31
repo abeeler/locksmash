@@ -3,106 +3,148 @@ package net.finalstring.card;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.experimental.Delegate;
+import net.finalstring.AttackResult;
 import net.finalstring.Player;
+import net.finalstring.instance.Instance;
 
 import java.util.Optional;
 
 @Getter
-public class Creature implements CreatureStatistics {
-    @Delegate
-    private final CreatureStatistics wrapped;
+public class Creature extends Card {
+    CreatureInstance instance;
 
-    private final Player owner;
+    private final int power;
 
-    private int damage = 0;
+    public Creature(int id, House house, int power) {
+        super(id, house);
 
-    private int remainingArmor = 0;
-
-    private boolean ready = true;
-
-    private boolean eluding;
-
-    @Setter
-    @Getter(AccessLevel.NONE)
-    private Creature leftNeighbor;
-
-    @Setter
-    @Getter(AccessLevel.NONE)
-    private Creature rightNeighbor;
-
-    public Creature(CreatureStatistics wrapped, Player owner) {
-        this.wrapped = wrapped;
-        this.owner = owner;
-
-        eluding = hasElusive();
+        this.power = power;
     }
 
-    public void dealDamage(int amount) {
-        int absorbed = Math.min(remainingArmor, amount);
-        remainingArmor -= absorbed;
+    public int getArmor() {
+        return 0;
+    }
 
-        damage += amount - absorbed;
+    public boolean hasTaunt() {
+        return false;
+    }
 
-        if (!isAlive()) {
-            getOwner().destroyCreature(this);
+    public boolean hasElusive() {
+        return false;
+    }
+
+    public boolean hasSkirmish() {
+        return false;
+    }
+
+    public CreatureInstance place(Player owner, boolean onLeft) {
+        instance = new CreatureInstance(owner, onLeft);
+        owner.getBattleline().placeCreature(instance, onLeft);
+
+        super.play(owner);
+
+        return instance;
+    }
+
+    @Getter
+    public class CreatureInstance extends Instance {
+        private int damage = 0;
+
+        private int remainingArmor = 0;
+
+        private boolean eluding = hasElusive();
+
+        @Setter
+        @Getter(AccessLevel.NONE)
+        private CreatureInstance leftNeighbor;
+
+        @Setter
+        @Getter(AccessLevel.NONE)
+        private CreatureInstance rightNeighbor;
+
+        public CreatureInstance(Player owner, boolean onLeft) {
+            super(owner);
         }
-    }
 
-    public void play() {
-        int addedAember = getAember();
+        public void dealDamage(int amount) {
+            int absorbed = Math.min(remainingArmor, amount);
+            remainingArmor -= absorbed;
 
-        if (addedAember > 0) {
-            getOwner().addAember(addedAember);
-        }
-    }
+            damage += amount - absorbed;
 
-    public void fight(Creature target) {
-        if (target.hasElusive() && target.isEluding()) {
-            target.elude();
-        } else {
-            target.dealDamage(getPower());
-            if (!hasSkirmish()) {
-                dealDamage(target.getPower());
+            if (!isAlive()) {
+                destroy(Creature.this);
             }
         }
 
-        ready = false;
-    }
+        public void elude() {
+            eluding = false;
+        }
 
-    public void reap() {
-        getOwner().addAember(1);
-    }
+        public boolean canFight(CreatureInstance target) {
+            return target.hasTaunt() || !target.underTaunt();
+        }
 
-    public void reset() {
-        remainingArmor = getArmor();
-        ready = true;
-        eluding = hasElusive();
-    }
+        public boolean hasTaunt() {
+            return Creature.this.hasTaunt();
+        }
 
-    public void exhaust() {
-        ready = false;
-    }
+        public Optional<CreatureInstance> getLeftNeighbor() {
+            return Optional.ofNullable(leftNeighbor);
+        }
 
-    public void elude() {
-        eluding = false;
-    }
+        public Optional<CreatureInstance> getRightNeighbor() {
+            return Optional.ofNullable(rightNeighbor);
+        }
 
-    public boolean canFight(Creature target) {
-        return hasTaunt() ||
-                !getLeftNeighbor().map(Creature::hasTaunt).orElse(false) &&
-                !getRightNeighbor().map(Creature::hasTaunt).orElse(false);
-    }
+        public boolean underTaunt() {
+            return getLeftNeighbor().map(CreatureInstance::hasTaunt).orElse(false) ||
+                    getRightNeighbor().map(CreatureInstance::hasTaunt).orElse(false);
+        }
 
-    public Optional<Creature> getLeftNeighbor() {
-        return Optional.ofNullable(leftNeighbor);
-    }
+        public AttackResult attacked(CreatureInstance attacker) {
+            if (hasElusive() && isEluding()) {
+                elude();
+                return AttackResult.elusiveResult;
+            }
 
-    public Optional<Creature> getRightNeighbor() {
-        return Optional.ofNullable(rightNeighbor);
-    }
+            return new AttackResult(getPower());
+        }
 
-    boolean isAlive() {
-        return damage < getPower();
+        public void fight(CreatureInstance target) {
+            AttackResult result = target.attacked(this);
+
+            if (!result.isEluded()) {
+                target.dealDamage(getPower());
+                if (!hasSkirmish()) {
+                    dealDamage(result.getDamageToTake());
+                }
+            }
+
+            exhaust();
+        }
+
+        public void reap() {
+            getOwner().addAember(1);
+        }
+
+        @Override
+        public void reset() {
+            super.reset();
+
+            remainingArmor = getArmor();
+            eluding = hasElusive();
+        }
+
+        @Override
+        public void destroy(Creature parentCard) {
+            getOwner().getBattleline().removeCreature(this);
+            super.destroy(parentCard);
+            Creature.this.instance = null;
+        }
+
+        boolean isAlive() {
+            return damage < getPower();
+        }
     }
 }

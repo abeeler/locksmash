@@ -2,9 +2,7 @@ package net.finalstring;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.finalstring.card.CreatureStatistics;
-import net.finalstring.card.Creature;
-import net.finalstring.card.House;
+import net.finalstring.card.*;
 
 import java.util.*;
 
@@ -12,13 +10,13 @@ public class Player {
     private static final int DEFAULT_KEY_COST = 6;
     private static final int DEFAULT_MAXIMUM_HAND_SIZE = 6;
 
-    private final Queue<CreatureStatistics> deck;
+    private final Queue<Creature> deck;
 
     @Getter
     private final Battleline battleline = new Battleline();
 
-    private final List<CreatureStatistics> hand = new ArrayList<>();
-    private final List<CreatureStatistics> discard = new ArrayList<>();
+    private final List<Creature> hand = new ArrayList<>();
+    private final List<Creature> discard = new ArrayList<>();
 
     @Getter
     private int aemberPool = 0;
@@ -30,7 +28,7 @@ public class Player {
     @Setter
     private House activeHouse;
 
-    public Player(List<CreatureStatistics> deck) {
+    public Player(List<Creature> deck) {
         this.deck = new LinkedList<>(deck);
     }
 
@@ -53,38 +51,31 @@ public class Player {
         return false;
     }
 
-    public boolean canPlay(CreatureStatistics card) {
+    public boolean canPlay(Creature card) {
         return card.getHouse() == activeHouse;
     }
 
     public void playFromHand(int index, boolean onLeft) {
-        play(hand.remove(index), onLeft);
+        hand.remove(index).place(this, onLeft);
     }
 
-    public void play(CreatureStatistics toPlay, boolean onLeft) {
-        Creature creature = new Creature(toPlay, this);
-        creature.reset();
-        battleline.playCreature(creature, onLeft);
-    }
-
-    public void discard(int index) {
+    public void discardFromHand(int index) {
         discard.add(hand.remove(index));
     }
 
-    public void destroyCreature(Creature creature) {
-        battleline.removeCreature(creature);
-        discard.add(creature.getWrapped());
+    public void discard(Creature card) {
+        discard.add(card);
     }
 
-    public List<CreatureStatistics> getDeck() {
+    public List<Creature> getDeck() {
         return Collections.unmodifiableList(new ArrayList<>(deck));
     }
 
-    public List<CreatureStatistics> getDiscardPile() {
+    public List<Creature> getDiscardPile() {
         return Collections.unmodifiableList(discard);
     }
 
-    public List<CreatureStatistics> getHand() {
+    public List<Creature> getHand() {
         return Collections.unmodifiableList(hand);
     }
 

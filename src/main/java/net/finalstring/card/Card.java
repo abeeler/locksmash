@@ -6,7 +6,6 @@ import net.finalstring.card.effect.AemberGain;
 import net.finalstring.card.effect.Effect;
 import net.finalstring.card.effect.EffectIterator;
 
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -21,18 +20,12 @@ public abstract class Card {
     }
 
     public Iterable<Effect> play(Player player) {
-        List<Effect> totalEffects = getBaseEffects(player);
-        totalEffects.addAll(getUniqueEffects(player));
-        return new EffectIterator(totalEffects);
+        return new EffectIterator(getPlayEffects(player));
     }
 
-    public List<Effect> getBaseEffects(Player player) {
+    public List<Effect> getPlayEffects(Player player) {
         List<Effect> totalEffects = new LinkedList<>();
         totalEffects.add(new AemberGain(player, getAember()));
         return totalEffects;
-    }
-
-    public List<Effect> getUniqueEffects(Player player) {
-        return Collections.emptyList();
     }
 }

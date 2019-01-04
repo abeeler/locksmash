@@ -11,13 +11,14 @@ public class Player {
     private static final int DEFAULT_KEY_COST = 6;
     private static final int DEFAULT_MAXIMUM_HAND_SIZE = 6;
 
-    private final Queue<Creature> deck;
+    private final Queue<Card> deck;
 
     @Getter
     private final Battleline battleline = new Battleline();
 
-    private final List<Creature> hand = new ArrayList<>();
-    private final List<Creature> discard = new ArrayList<>();
+    private final List<Card> hand = new ArrayList<>();
+    private final List<Card> discard = new ArrayList<>();
+    private final List<Artifact.ArtifactInstance> artifacts = new ArrayList<>();
 
     @Getter
     private int aemberPool = 0;
@@ -29,7 +30,7 @@ public class Player {
     @Setter
     private House activeHouse;
 
-    public Player(List<Creature> deck) {
+    public Player(List<Card> deck) {
         this.deck = new LinkedList<>(deck);
     }
 
@@ -52,36 +53,44 @@ public class Player {
         return false;
     }
 
-    public boolean canPlay(Creature card) {
+    public boolean canPlay(Card card) {
         return card.getHouse() == activeHouse;
     }
 
-    public void playFromHand(int index, boolean onLeft) {
-        hand.remove(index).place(this, onLeft);
+    public Iterable<Effect> playFromHand(int index) {
+        return hand.remove(index).play(this);
     }
 
     public void discardFromHand(int index) {
         discard.add(hand.remove(index));
     }
 
-    public void discard(Creature card) {
+    public void discard(Card card) {
         discard.add(card);
     }
 
-    public List<Creature> getDeck() {
+    public List<Card> getDeck() {
         return Collections.unmodifiableList(new ArrayList<>(deck));
     }
 
-    public List<Creature> getDiscardPile() {
+    public List<Card> getDiscardPile() {
         return Collections.unmodifiableList(discard);
     }
 
-    public List<Creature> getHand() {
+    public List<Card> getHand() {
         return Collections.unmodifiableList(hand);
     }
 
-    public void play(Card card) {
+    public List<Artifact.ArtifactInstance> getArtifacts() {
+        return Collections.unmodifiableList(artifacts);
+    }
 
+    public void addArtifact(Artifact.ArtifactInstance artifact) {
+        artifacts.add(artifact);
+    }
+
+    public void removeArtifact(Artifact.ArtifactInstance artifact) {
+        artifacts.remove(artifact);
     }
 
     public void addAember(int amount) {

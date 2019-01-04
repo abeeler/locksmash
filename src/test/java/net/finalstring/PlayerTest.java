@@ -1,9 +1,12 @@
 package net.finalstring;
 
+import net.finalstring.card.Artifact;
+import net.finalstring.card.Card;
 import net.finalstring.card.Creature;
 import net.finalstring.card.House;
 import net.finalstring.card.dis.EmberImp;
 import net.finalstring.card.effect.Effect;
+import net.finalstring.card.logos.LibraryOfBabble;
 import net.finalstring.card.sanctum.TheVaultkeeper;
 import net.finalstring.card.untamed.DustPixie;
 import org.junit.Before;
@@ -19,10 +22,11 @@ import static org.hamcrest.CoreMatchers.is;
 public class PlayerTest {
     private Player underTest;
 
-    private List<Creature> deck;
+    private List<Card> deck;
 
     private Creature normalCreature = new EmberImp();
     private Creature armoredCreature = new TheVaultkeeper();
+    private Artifact artifact = new LibraryOfBabble();
 
     @Before public void setup() {
         underTest = new Player(Arrays.asList(
@@ -40,7 +44,9 @@ public class PlayerTest {
     }
 
     @Test public void testPlayingCreatureCardFromHand() {
-        underTest.playFromHand(0, true);
+        for (Effect effect : underTest.playFromHand(0)) {
+            effect.set(Boolean.class, true);
+        }
 
         assertThat(underTest.getBattleline().getLeftFlank(), is(normalCreature.getInstance()));
     }
@@ -48,7 +54,9 @@ public class PlayerTest {
     @Test public void testDyingCreatureIsPutInDiscard() {
         assertThat(underTest.getDiscardPile().size(), is(0));
 
-        underTest.playFromHand(0, true);
+        for (Effect effect : underTest.playFromHand(0)) {
+            effect.set(Boolean.class, true);
+        }
 
         underTest.getBattleline().getLeftFlank().dealDamage(2);
 
@@ -56,7 +64,9 @@ public class PlayerTest {
     }
 
     @Test public void testPlayingCreatureWillResetIt() {
-        underTest.playFromHand(1, true);
+        for (Effect effect : underTest.playFromHand(1)) {
+            effect.set(Boolean.class, true);
+        }
 
         assertThat(underTest.getBattleline().getLeftFlank().getRemainingArmor(), is(1));
     }
@@ -129,34 +139,38 @@ public class PlayerTest {
         assertThat(underTest.getAemberPool(), is(2));
     }
 
-    @Test public void testPlayingCreatureAddsItToBattleline() {
-        assertThat(underTest.getBattleline().getCreatureCount(), is(0));
-
-        for (Effect effect : normalCreature.play(underTest)) {
-            if (effect.needs(Boolean.class)) {
-                effect.set(Boolean.class, true);
-            }
-        }
-
-        assertThat(underTest.getBattleline().getCreatureCount(), is(1));
-    }
-
     @Test public void testPlayingCreatureOnSpecificFlankWorks() {
         assertThat(underTest.getBattleline().getCreatureCount(), is(0));
 
         for (Effect effect : normalCreature.play(underTest)) {
-            if (effect.needs(Boolean.class)) {
-                effect.set(Boolean.class, true);
-            }
+            effect.set(Boolean.class, true);
         }
 
         for (Effect effect : armoredCreature.play(underTest)) {
-            if (effect.needs(Boolean.class)) {
-                effect.set(Boolean.class, false);
-            }
+            effect.set(Boolean.class, false);
         }
 
         assertThat(normalCreature.getInstance().getRightNeighbor(), is(armoredCreature.getInstance()));
+    }
+
+    @Test public void testPlayingArtifactCreatesInstance() {
+        assertThat(underTest.getArtifacts().size(), is(0));
+
+        for (Effect effect : artifact.play(underTest));
+
+        assertThat(underTest.getArtifacts().size(), is(1));
+    }
+
+    @Test public void testUsingArtifactActionTriggersEffect() {
+        underTest = new Player(underTest.getHand());
+
+        for (Effect effect : artifact.play(underTest));
+
+        assertThat(underTest.getHandSize(), is(0));
+
+        for (Object object : artifact.getInstance().action());
+
+        assertThat(underTest.getHandSize(), is(1));
     }
 
     @Test public void testPlayerStartsWithZeroForgedKeys() {

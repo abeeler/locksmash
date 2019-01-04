@@ -1,20 +1,17 @@
 package net.finalstring.card;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import net.finalstring.AttackResult;
 import net.finalstring.Player;
 import net.finalstring.card.effect.CreaturePlace;
 import net.finalstring.card.effect.Effect;
-import net.finalstring.instance.Instance;
+import net.finalstring.card.effect.EffectIterator;
 
 import java.util.List;
 
 @Getter
-public class Creature extends Card {
-    CreatureInstance instance;
-
+public class Creature extends Spawnable<Creature.CreatureInstance> {
     private final int power;
 
     public Creature(int id, House house, int power) {
@@ -40,25 +37,21 @@ public class Creature extends Card {
     }
 
     @Override
-    public List<Effect> getBaseEffects(Player player) {
-        List<Effect> baseEffects = super.getBaseEffects(player);
-        baseEffects.add(new CreaturePlace(player, this));
-        return baseEffects;
+    public List<Effect> getPlayEffects(Player player) {
+        List<Effect> playEffects = super.getPlayEffects(player);
+        playEffects.add(new CreaturePlace(player, this));
+        return playEffects;
     }
 
     public CreatureInstance place(Player owner, boolean onLeft) {
-        if (instance != null) {
-            throw new IllegalStateException("Cannot place a creature that is already on the field");
-        }
+        spawn(new CreatureInstance(owner));
+        owner.getBattleline().placeCreature(getInstance(), onLeft);
 
-        instance = new CreatureInstance(owner, onLeft);
-        owner.getBattleline().placeCreature(instance, onLeft);
-
-        return instance;
+        return getInstance();
     }
 
     @Getter
-    public class CreatureInstance extends Instance {
+    public class CreatureInstance extends Spawnable.Instance {
         private int damage = 0;
 
         private int remainingArmor = 0;
@@ -71,7 +64,7 @@ public class Creature extends Card {
         @Setter
         private CreatureInstance rightNeighbor;
 
-        CreatureInstance(Player owner, boolean onLeft) {
+        CreatureInstance(Player owner) {
             super(owner);
         }
 
@@ -138,10 +131,9 @@ public class Creature extends Card {
         }
 
         @Override
-        public void destroy(Creature parentCard) {
+        public void destroy(Card parentCard) {
             getOwner().getBattleline().removeCreature(this);
             super.destroy(parentCard);
-            Creature.this.instance = null;
         }
 
         boolean isAlive() {

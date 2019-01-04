@@ -1,7 +1,7 @@
 package net.finalstring.card;
 
 import net.finalstring.Player;
-import net.finalstring.card.effect.ArtifactPlace;
+import net.finalstring.card.effect.board.ArtifactPlace;
 import net.finalstring.card.effect.Effect;
 import java.util.List;
 

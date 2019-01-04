@@ -60,7 +60,10 @@ public abstract class Effect {
         for (Field field : getClass().getDeclaredFields()) {
             if (field.isAnnotationPresent(Required.class) && field.getType() == clazz) {
                 try {
+                    boolean accessible = field.isAccessible();
+                    field.setAccessible(true);
                     field.set(this, param);
+                    field.setAccessible(accessible);
                 } catch (IllegalAccessException ignored) {
                 }
             }

@@ -1,6 +1,7 @@
 package net.finalstring.card.effect;
 
 import lombok.RequiredArgsConstructor;
+import net.finalstring.card.effect.misc.BlankEffect;
 
 import java.util.Iterator;
 import java.util.List;
@@ -22,7 +23,7 @@ public class EffectIterator implements Iterable<Effect>, Iterator<Effect> {
             effects.get(effectIndex - 1).trigger();
         }
         ++effectIndex;
-        return effectIndex < effects.size() ? effects.get(effectIndex) : new BlankEffect();
+        return effectIndex <= effects.size() ? effects.get(effectIndex - 1) : new BlankEffect();
     }
 
     @Override

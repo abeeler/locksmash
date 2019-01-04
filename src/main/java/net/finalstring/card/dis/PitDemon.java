@@ -3,8 +3,8 @@ package net.finalstring.card.dis;
 import net.finalstring.Player;
 import net.finalstring.card.Creature;
 import net.finalstring.card.House;
-import net.finalstring.card.effect.AemberGain;
 import net.finalstring.card.effect.Effect;
+import net.finalstring.card.effect.player.StealAember;
 
 import java.util.List;
 
@@ -17,6 +17,6 @@ public class PitDemon extends Creature {
     protected void generateActionEffects(List<Effect> effects, Player player) {
         super.generateActionEffects(effects, player);
         // TODO: Implement steal
-        effects.add(new AemberGain(player, 1));
+        effects.add(new StealAember(player, 1));
     }
 }

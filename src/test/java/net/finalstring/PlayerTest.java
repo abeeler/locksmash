@@ -22,6 +22,7 @@ import static org.hamcrest.CoreMatchers.is;
 
 public class PlayerTest {
     private Player underTest;
+    private Player opponent;
 
     private List<Card> deck;
 
@@ -35,6 +36,8 @@ public class PlayerTest {
                 normalCreature,
                 armoredCreature
         ));
+
+        opponent = new Player();
 
         underTest.draw();
         underTest.draw();
@@ -176,10 +179,15 @@ public class PlayerTest {
     }
 
     @Test public void testUsingCreatureActionTriggersEffect() {
+        opponent.addAember(2);
+
         for (Effect effect : actionCreature.play(underTest));
-        for (Effect effect : actionCreature.action());
+        for (Effect effect : actionCreature.action()) {
+            effect.set(Player.class, opponent);
+        }
 
         assertThat(underTest.getAemberPool(), is(1));
+        assertThat(opponent.getAemberPool(), is(1));
     }
 
     @Test public void testPlayerStartsWithZeroForgedKeys() {
@@ -247,5 +255,24 @@ public class PlayerTest {
 
         underTest.setActiveHouse(House.Sanctum);
         assertThat(underTest.canPlay(armoredCreature), is(true));
+    }
+
+    @Test public void testStealReducesAemberPool() {
+        underTest.addAember(5);
+        underTest.stealAember(2);
+
+        assertThat(underTest.getAemberPool(), is(3));
+    }
+
+    @Test public void testStealCannotReduceAemberBelowZero() {
+        underTest.addAember(1);
+        underTest.stealAember(2);
+        assertThat(underTest.getAemberPool(), is(0));
+    }
+
+    @Test public void testStealReturnsAmountStolen() {
+        underTest.addAember(5);
+        assertThat(underTest.stealAember(2), is(2));
+        assertThat(underTest.stealAember(4), is(3));
     }
 }

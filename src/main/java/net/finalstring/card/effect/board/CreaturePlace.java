@@ -1,8 +1,10 @@
-package net.finalstring.card.effect;
+package net.finalstring.card.effect.board;
 
 import lombok.RequiredArgsConstructor;
 import net.finalstring.Player;
 import net.finalstring.card.Creature;
+import net.finalstring.card.effect.Effect;
+import net.finalstring.card.effect.Required;
 
 @RequiredArgsConstructor
 public class CreaturePlace extends Effect {

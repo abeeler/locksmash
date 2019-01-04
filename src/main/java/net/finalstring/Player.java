@@ -100,6 +100,12 @@ public class Player {
         aemberPool += amount;
     }
 
+    public int stealAember(int maxAmount) {
+        int amountStolen = Math.min(aemberPool, maxAmount);
+        aemberPool -= amountStolen;
+        return amountStolen;
+    }
+
     public int getKeyCost() {
         return DEFAULT_KEY_COST;
     }

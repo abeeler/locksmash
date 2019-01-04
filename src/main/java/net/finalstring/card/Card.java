@@ -2,7 +2,7 @@ package net.finalstring.card;
 
 import lombok.Data;
 import net.finalstring.Player;
-import net.finalstring.card.effect.AemberGain;
+import net.finalstring.card.effect.player.GainAember;
 import net.finalstring.card.effect.Effect;
 import net.finalstring.card.effect.EffectIterator;
 
@@ -25,7 +25,7 @@ public abstract class Card {
     }
 
     protected void generatePlayEffects(List<Effect> effects, Player player) {
-        effects.add(new AemberGain(player, getAember()));
+        effects.add(new GainAember(player, getAember()));
     }
 
     protected Iterable<Effect> getEffects(Player player, BiConsumer<List<Effect>, Player> generator) {

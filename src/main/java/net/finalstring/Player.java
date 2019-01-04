@@ -3,6 +3,7 @@ package net.finalstring;
 import lombok.Getter;
 import lombok.Setter;
 import net.finalstring.card.*;
+import net.finalstring.card.effect.Effect;
 
 import java.util.*;
 
@@ -79,8 +80,12 @@ public class Player {
         return Collections.unmodifiableList(hand);
     }
 
+    public void play(Card card) {
+
+    }
+
     public void addAember(int amount) {
-        if (amount <= 0) {
+        if (amount < 0) {
             throw new IllegalArgumentException("Invalid aember amount to add to pool: " + amount);
         }
         aemberPool += amount;

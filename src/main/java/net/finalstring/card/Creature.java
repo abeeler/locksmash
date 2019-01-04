@@ -5,8 +5,11 @@ import lombok.Getter;
 import lombok.Setter;
 import net.finalstring.AttackResult;
 import net.finalstring.Player;
+import net.finalstring.card.effect.CreaturePlace;
+import net.finalstring.card.effect.Effect;
 import net.finalstring.instance.Instance;
 
+import java.util.List;
 import java.util.Optional;
 
 @Getter
@@ -37,11 +40,16 @@ public class Creature extends Card {
         return false;
     }
 
+    @Override
+    public List<Effect> getBaseEffects(Player player) {
+        List<Effect> baseEffects = super.getBaseEffects(player);
+        baseEffects.add(new CreaturePlace(player, this));
+        return baseEffects;
+    }
+
     public CreatureInstance place(Player owner, boolean onLeft) {
         instance = new CreatureInstance(owner, onLeft);
         owner.getBattleline().placeCreature(instance, onLeft);
-
-        super.play(owner);
 
         return instance;
     }

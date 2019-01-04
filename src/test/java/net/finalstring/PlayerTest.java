@@ -3,6 +3,7 @@ package net.finalstring;
 import net.finalstring.card.Creature;
 import net.finalstring.card.House;
 import net.finalstring.card.dis.EmberImp;
+import net.finalstring.card.effect.Effect;
 import net.finalstring.card.sanctum.TheVaultkeeper;
 import net.finalstring.card.untamed.DustPixie;
 import org.junit.Before;
@@ -123,9 +124,39 @@ public class PlayerTest {
     @Test public void testPlayingCardWithAemberIncrementsPool() {
         assertThat(underTest.getAemberPool(), is(0));
 
-        new DustPixie().place(underTest, true);
+        for (Effect effect : new DustPixie().play(underTest));
 
         assertThat(underTest.getAemberPool(), is(2));
+    }
+
+    @Test public void testPlayingCreatureAddsItToBattleline() {
+        assertThat(underTest.getBattleline().getCreatureCount(), is(0));
+
+        for (Effect effect : normalCreature.play(underTest)) {
+            if (effect.needs(Boolean.class)) {
+                effect.set(Boolean.class, true);
+            }
+        }
+
+        assertThat(underTest.getBattleline().getCreatureCount(), is(1));
+    }
+
+    @Test public void testPlayingCreatureOnSpecificFlankWorks() {
+        assertThat(underTest.getBattleline().getCreatureCount(), is(0));
+
+        for (Effect effect : normalCreature.play(underTest)) {
+            if (effect.needs(Boolean.class)) {
+                effect.set(Boolean.class, true);
+            }
+        }
+
+        for (Effect effect : armoredCreature.play(underTest)) {
+            if (effect.needs(Boolean.class)) {
+                effect.set(Boolean.class, false);
+            }
+        }
+
+        assertThat(normalCreature.getInstance().getRightNeighbor().orElse(null), is(armoredCreature.getInstance()));
     }
 
     @Test public void testPlayerStartsWithZeroForgedKeys() {

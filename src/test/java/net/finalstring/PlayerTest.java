@@ -156,7 +156,7 @@ public class PlayerTest {
             }
         }
 
-        assertThat(normalCreature.getInstance().getRightNeighbor().orElse(null), is(armoredCreature.getInstance()));
+        assertThat(normalCreature.getInstance().getRightNeighbor(), is(armoredCreature.getInstance()));
     }
 
     @Test public void testPlayerStartsWithZeroForgedKeys() {

@@ -63,11 +63,9 @@ public class Creature extends Card {
         private boolean eluding = hasElusive();
 
         @Setter
-        @Getter(AccessLevel.NONE)
         private CreatureInstance leftNeighbor;
 
         @Setter
-        @Getter(AccessLevel.NONE)
         private CreatureInstance rightNeighbor;
 
         public CreatureInstance(Player owner, boolean onLeft) {
@@ -97,17 +95,9 @@ public class Creature extends Card {
             return Creature.this.hasTaunt();
         }
 
-        public Optional<CreatureInstance> getLeftNeighbor() {
-            return Optional.ofNullable(leftNeighbor);
-        }
-
-        public Optional<CreatureInstance> getRightNeighbor() {
-            return Optional.ofNullable(rightNeighbor);
-        }
-
         public boolean underTaunt() {
-            return getLeftNeighbor().map(CreatureInstance::hasTaunt).orElse(false) ||
-                    getRightNeighbor().map(CreatureInstance::hasTaunt).orElse(false);
+            return leftNeighbor != null && leftNeighbor.hasTaunt() ||
+                    rightNeighbor != null && rightNeighbor.hasTaunt();
         }
 
         public AttackResult attacked(CreatureInstance attacker) {

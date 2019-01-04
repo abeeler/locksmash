@@ -5,6 +5,7 @@ import net.finalstring.card.Card;
 import net.finalstring.card.Creature;
 import net.finalstring.card.House;
 import net.finalstring.card.dis.EmberImp;
+import net.finalstring.card.dis.PitDemon;
 import net.finalstring.card.effect.Effect;
 import net.finalstring.card.logos.LibraryOfBabble;
 import net.finalstring.card.sanctum.TheVaultkeeper;
@@ -26,6 +27,7 @@ public class PlayerTest {
 
     private Creature normalCreature = new EmberImp();
     private Creature armoredCreature = new TheVaultkeeper();
+    private Creature actionCreature = new PitDemon();
     private Artifact artifact = new LibraryOfBabble();
 
     @Before public void setup() {
@@ -168,9 +170,16 @@ public class PlayerTest {
 
         assertThat(underTest.getHandSize(), is(0));
 
-        for (Object object : artifact.getInstance().action());
+        for (Object object : artifact.action());
 
         assertThat(underTest.getHandSize(), is(1));
+    }
+
+    @Test public void testUsingCreatureActionTriggersEffect() {
+        for (Effect effect : actionCreature.play(underTest));
+        for (Effect effect : actionCreature.action());
+
+        assertThat(underTest.getAemberPool(), is(1));
     }
 
     @Test public void testPlayerStartsWithZeroForgedKeys() {

@@ -24,6 +24,13 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
         return instance;
     }
 
+    public Iterable<Effect> action() {
+        if (instance == null) {
+            throw new IllegalStateException("Trying to use an action without a spawned instance");
+        }
+        return getEffects(instance.getOwner(), this::generateActionEffects);
+    }
+
     protected void generateActionEffects(List<Effect> effects, Player player) { }
 
     @Getter
@@ -47,10 +54,6 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
         public void destroy(Card parentCard) {
             owner.discard(parentCard);
             instance = null;
-        }
-
-        public Iterable<Effect> action() {
-            return getEffects(getOwner(), Spawnable.this::generateActionEffects);
         }
     }
 }

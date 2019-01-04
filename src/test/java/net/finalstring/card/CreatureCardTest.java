@@ -10,16 +10,12 @@ import net.finalstring.card.untamed.Snufflegator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CreatureCardTest {
@@ -190,5 +186,29 @@ public class CreatureCardTest {
 
         assertThat(skirmishCreature.getDamage(), is(0));
         assertThat(elusiveCreature.getDamage(), is(0));
+    }
+
+    @Test public void testCaptureTakesAemberFromTarget() {
+        mockPlayer.addAember(1);
+
+        normalCreature.capture(mockPlayer, 1);
+
+        assertThat(mockPlayer.getAemberPool(), is(0));
+    }
+
+    @Test public void testCaptureMovesAemberOntoInstance() {
+        mockPlayer.addAember(1);
+
+        normalCreature.capture(mockPlayer, 1);
+
+        assertThat(normalCreature.getCapturedAember(), is(1));
+    }
+
+    @Test public void testCaptureTakesOnlyWhatIsPossible() {
+        mockPlayer.addAember(1);
+
+        normalCreature.capture(mockPlayer, 2);
+
+        assertThat(normalCreature.getCapturedAember(), is(1));
     }
 }

@@ -54,6 +54,8 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
 
         private int remainingArmor = 0;
 
+        private int capturedAember = 0;
+
         private boolean eluding = hasElusive();
 
         @Setter
@@ -118,6 +120,10 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
 
         public void reap() {
             getOwner().addAember(1);
+        }
+
+        public void capture(Player target, int maxAmount) {
+            capturedAember += target.stealAember(maxAmount);
         }
 
         @Override

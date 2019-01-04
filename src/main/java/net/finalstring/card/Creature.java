@@ -10,7 +10,6 @@ import net.finalstring.card.effect.Effect;
 import net.finalstring.instance.Instance;
 
 import java.util.List;
-import java.util.Optional;
 
 @Getter
 public class Creature extends Card {
@@ -48,6 +47,10 @@ public class Creature extends Card {
     }
 
     public CreatureInstance place(Player owner, boolean onLeft) {
+        if (instance != null) {
+            throw new IllegalStateException("Cannot place a creature that is already on the field");
+        }
+
         instance = new CreatureInstance(owner, onLeft);
         owner.getBattleline().placeCreature(instance, onLeft);
 
@@ -68,7 +71,7 @@ public class Creature extends Card {
         @Setter
         private CreatureInstance rightNeighbor;
 
-        public CreatureInstance(Player owner, boolean onLeft) {
+        CreatureInstance(Player owner, boolean onLeft) {
             super(owner);
         }
 

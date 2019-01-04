@@ -11,10 +11,9 @@ public class Artifact extends Spawnable<Artifact.ArtifactInstance> {
     }
 
     @Override
-    public List<Effect> getPlayEffects(Player player) {
-        List<Effect> playEffects = super.getPlayEffects(player);
-        playEffects.add(new ArtifactPlace(player, this));
-        return playEffects;
+    protected void generatePlayEffects(List<Effect> effects, Player player) {
+        super.generatePlayEffects(effects, player);
+        effects.add(new ArtifactPlace(player, this));
     }
 
     public void place(Player owner) {

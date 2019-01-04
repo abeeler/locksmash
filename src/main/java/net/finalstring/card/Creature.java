@@ -37,10 +37,9 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
     }
 
     @Override
-    public List<Effect> getPlayEffects(Player player) {
-        List<Effect> playEffects = super.getPlayEffects(player);
-        playEffects.add(new CreaturePlace(player, this));
-        return playEffects;
+    protected void generatePlayEffects(List<Effect> effects, Player player) {
+        super.generatePlayEffects(effects, player);
+        effects.add(new CreaturePlace(player, this));
     }
 
     public CreatureInstance place(Player owner, boolean onLeft) {

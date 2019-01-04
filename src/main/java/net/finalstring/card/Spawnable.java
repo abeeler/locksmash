@@ -3,9 +3,6 @@ package net.finalstring.card;
 import lombok.Getter;
 import net.finalstring.Player;
 import net.finalstring.card.effect.Effect;
-import net.finalstring.card.effect.EffectIterator;
-
-import java.util.Collections;
 import java.util.List;
 
 public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
@@ -15,7 +12,7 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
         super(id, house);
     }
 
-    public void spawn(T instance) {
+    void spawn(T instance) {
         if (this.instance != null) {
             throw new IllegalStateException("Spawnable card cannot have multiple instances");
         }
@@ -27,9 +24,7 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
         return instance;
     }
 
-    protected List<Effect> getActionEffects(Player player) {
-        return Collections.emptyList();
-    }
+    protected void generateActionEffects(List<Effect> effects, Player player) { }
 
     @Getter
     public abstract class Instance {
@@ -54,12 +49,8 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
             instance = null;
         }
 
-        public boolean hasAction() {
-            return !getActionEffects(getOwner()).isEmpty();
-        }
-
         public Iterable<Effect> action() {
-            return new EffectIterator(getActionEffects(getOwner()));
+            return getEffects(getOwner(), Spawnable.this::generateActionEffects);
         }
     }
 }

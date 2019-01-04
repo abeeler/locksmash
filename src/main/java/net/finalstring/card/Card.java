@@ -8,6 +8,7 @@ import net.finalstring.card.effect.EffectIterator;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.BiConsumer;
 
 
 @Data
@@ -20,12 +21,16 @@ public abstract class Card {
     }
 
     public Iterable<Effect> play(Player player) {
-        return new EffectIterator(getPlayEffects(player));
+        return getEffects(player, this::generatePlayEffects);
     }
 
-    public List<Effect> getPlayEffects(Player player) {
-        List<Effect> totalEffects = new LinkedList<>();
-        totalEffects.add(new AemberGain(player, getAember()));
-        return totalEffects;
+    protected void generatePlayEffects(List<Effect> effects, Player player) {
+        effects.add(new AemberGain(player, getAember()));
+    }
+
+    protected Iterable<Effect> getEffects(Player player, BiConsumer<List<Effect>, Player> generator) {
+        List<Effect> effects = new LinkedList<>();
+        generator.accept(effects, player);
+        return new EffectIterator(effects);
     }
 }

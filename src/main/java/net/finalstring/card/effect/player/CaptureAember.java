@@ -8,11 +8,11 @@ import net.finalstring.card.effect.Required;
 
 @RequiredArgsConstructor
 public class CaptureAember extends Effect {
-    private final Creature captor;
+    protected final Creature captor;
     private final int amount;
 
     @Required
-    private Player target;
+    protected Player target;
 
     @Override
     public void affect() {

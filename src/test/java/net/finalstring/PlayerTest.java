@@ -39,6 +39,8 @@ public class PlayerTest {
 
         opponent = new Player();
 
+        underTest.setOpponent(opponent);
+
         underTest.draw();
         underTest.draw();
 
@@ -182,9 +184,7 @@ public class PlayerTest {
         opponent.addAember(2);
 
         for (Effect effect : actionCreature.play(underTest));
-        for (Effect effect : actionCreature.action()) {
-            effect.set(Player.class, opponent);
-        }
+        for (Effect effect : actionCreature.action());
 
         assertThat(underTest.getAemberPool(), is(1));
         assertThat(opponent.getAemberPool(), is(1));
@@ -259,20 +259,20 @@ public class PlayerTest {
 
     @Test public void testStealReducesAemberPool() {
         underTest.addAember(5);
-        underTest.stealAember(2);
+        underTest.takeAember(2);
 
         assertThat(underTest.getAemberPool(), is(3));
     }
 
     @Test public void testStealCannotReduceAemberBelowZero() {
         underTest.addAember(1);
-        underTest.stealAember(2);
+        underTest.takeAember(2);
         assertThat(underTest.getAemberPool(), is(0));
     }
 
     @Test public void testStealReturnsAmountStolen() {
         underTest.addAember(5);
-        assertThat(underTest.stealAember(2), is(2));
-        assertThat(underTest.stealAember(4), is(3));
+        assertThat(underTest.takeAember(2), is(2));
+        assertThat(underTest.takeAember(4), is(3));
     }
 }

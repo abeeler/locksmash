@@ -16,7 +16,6 @@ public class PitDemon extends Creature {
     @Override
     protected void generateActionEffects(List<Effect> effects, Player player) {
         super.generateActionEffects(effects, player);
-        // TODO: Implement steal
         effects.add(new StealAember(player, 1));
     }
 }

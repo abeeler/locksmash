@@ -123,7 +123,7 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
         }
 
         public void capture(Player target, int maxAmount) {
-            capturedAember += target.stealAember(maxAmount);
+            capturedAember += target.takeAember(maxAmount);
         }
 
         @Override

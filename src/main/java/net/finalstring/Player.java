@@ -21,6 +21,10 @@ public class Player {
     private final List<Artifact.ArtifactInstance> artifacts = new ArrayList<>();
 
     @Getter
+    @Setter
+    private Player opponent;
+
+    @Getter
     private int aemberPool = 0;
 
     @Getter
@@ -100,7 +104,7 @@ public class Player {
         aemberPool += amount;
     }
 
-    public int stealAember(int maxAmount) {
+    public int takeAember(int maxAmount) {
         int amountStolen = Math.min(aemberPool, maxAmount);
         aemberPool -= amountStolen;
         return amountStolen;

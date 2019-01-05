@@ -4,7 +4,7 @@ import net.finalstring.Player;
 import net.finalstring.card.Creature;
 import net.finalstring.card.House;
 import net.finalstring.card.effect.Effect;
-import net.finalstring.card.effect.player.CaptureAember;
+import net.finalstring.card.effect.player.CaptureOpponentAember;
 
 import java.util.List;
 
@@ -16,6 +16,6 @@ public class Charette extends Creature {
     @Override
     protected void generatePlayEffects(List<Effect> effects, Player player) {
         super.generatePlayEffects(effects, player);
-        effects.add(new CaptureAember(this, 3));
+        effects.add(new CaptureOpponentAember(this, 3));
     }
 }

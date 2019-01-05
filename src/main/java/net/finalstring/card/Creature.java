@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.finalstring.AttackResult;
 import net.finalstring.Player;
+import net.finalstring.card.effect.EffectIterator;
 import net.finalstring.card.effect.board.CreaturePlace;
 import net.finalstring.card.effect.Effect;
 
@@ -35,18 +36,20 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
         return false;
     }
 
-    @Override
-    protected void generatePlayEffects(List<Effect> effects, Player player) {
-        super.generatePlayEffects(effects, player);
-        effects.add(new CreaturePlace(player, this));
-    }
-
     public CreatureInstance place(Player owner, boolean onLeft) {
         spawn(new CreatureInstance(owner));
         owner.getBattleline().placeCreature(getInstance(), onLeft);
 
         return getInstance();
     }
+
+    @Override
+    protected void generatePlayEffects(List<Effect> effects, Player player) {
+        super.generatePlayEffects(effects, player);
+        effects.add(new CreaturePlace(player, this));
+    }
+
+    protected void generateFightEffects(List<Effect> effects, Player player) { }
 
     @Getter
     public class CreatureInstance extends Spawnable.Instance {
@@ -105,7 +108,7 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
             return new AttackResult(getPower());
         }
 
-        public void fight(CreatureInstance target) {
+        public Iterable<Effect> fight(CreatureInstance target) {
             AttackResult result = target.attacked(this);
 
             if (!result.isEluded()) {
@@ -115,7 +118,12 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
                 }
             }
 
-            exhaust();
+            if (isAlive()) {
+                exhaust();
+                return getEffects(getOwner(), Creature.this::generateFightEffects);
+            }
+
+            return new EffectIterator();
         }
 
         public void reap() {

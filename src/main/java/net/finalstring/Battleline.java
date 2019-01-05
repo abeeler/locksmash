@@ -41,7 +41,7 @@ public class Battleline implements Iterable<Creature.CreatureInstance> {
             leftFlank = rightFlank = null;
         } else {
             Creature.CreatureInstance leftNeighbor = instance.getLeftNeighbor();
-            Creature.CreatureInstance rightNeighbor = instance.getLeftNeighbor();
+            Creature.CreatureInstance rightNeighbor = instance.getRightNeighbor();
 
             if (instance == leftFlank && rightNeighbor != null) {
                 leftFlank = rightNeighbor;

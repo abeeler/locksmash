@@ -3,6 +3,7 @@ package net.finalstring.card.effect;
 import lombok.RequiredArgsConstructor;
 import net.finalstring.card.effect.misc.BlankEffect;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -11,6 +12,10 @@ public class EffectIterator implements Iterable<Effect>, Iterator<Effect> {
     private final List<Effect> effects;
 
     private int effectIndex = 0;
+
+    public EffectIterator() {
+        this(Collections.emptyList());
+    }
 
     @Override
     public boolean hasNext() {

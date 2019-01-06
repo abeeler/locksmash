@@ -4,7 +4,7 @@ import net.finalstring.Player;
 import net.finalstring.card.dis.EmberImp;
 import net.finalstring.card.effect.board.Fight;
 import net.finalstring.card.sanctum.ChampionAnaphiel;
-import net.finalstring.card.sanctum.TheVaultkeeper;
+import net.finalstring.card.sanctum.TheVaultKeeper;
 import net.finalstring.card.shadows.NoddyTheThief;
 import net.finalstring.card.untamed.DustPixie;
 import net.finalstring.card.untamed.Snufflegator;
@@ -31,7 +31,7 @@ public class CreatureCardTest {
 
     @Before public void setup() {
         normalCreature = new EmberImp();
-        armoredCreature = new TheVaultkeeper();
+        armoredCreature = new TheVaultKeeper();
         aemberCreature = new DustPixie();
         tauntCreature = new ChampionAnaphiel();
         elusiveCreature = new NoddyTheThief();

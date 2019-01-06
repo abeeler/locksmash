@@ -8,7 +8,7 @@ import net.finalstring.card.dis.EmberImp;
 import net.finalstring.card.dis.PitDemon;
 import net.finalstring.card.effect.Effect;
 import net.finalstring.card.logos.LibraryOfBabble;
-import net.finalstring.card.sanctum.TheVaultkeeper;
+import net.finalstring.card.sanctum.TheVaultKeeper;
 import net.finalstring.card.untamed.DustPixie;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,7 +27,7 @@ public class PlayerTest {
     private List<Card> deck;
 
     private Creature normalCreature = new EmberImp();
-    private Creature armoredCreature = new TheVaultkeeper();
+    private Creature armoredCreature = new TheVaultKeeper();
     private Creature actionCreature = new PitDemon();
     private Artifact artifact = new LibraryOfBabble();
 

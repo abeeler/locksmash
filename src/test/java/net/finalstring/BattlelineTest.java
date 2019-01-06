@@ -3,7 +3,7 @@ package net.finalstring;
 import net.finalstring.card.Creature;
 import net.finalstring.card.dis.EmberImp;
 import net.finalstring.card.effect.board.Fight;
-import net.finalstring.card.sanctum.TheVaultkeeper;
+import net.finalstring.card.sanctum.TheVaultKeeper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +24,7 @@ public class BattlelineTest {
 
     @Before public void setup() {
         creature = new EmberImp();
-        otherCreature = new TheVaultkeeper();
+        otherCreature = new TheVaultKeeper();
 
         creature.place(new Player(), true);
         otherCreature.place(new Player(), true);

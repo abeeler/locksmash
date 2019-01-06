@@ -18,7 +18,7 @@ public class Player {
 
     private final List<Card> hand = new ArrayList<>();
     private final List<Card> discard = new ArrayList<>();
-    private final List<Artifact.ArtifactInstance> artifacts = new ArrayList<>();
+    private final List<Spawnable.Instance> artifacts = new ArrayList<>();
 
     @Getter
     @Setter
@@ -85,15 +85,15 @@ public class Player {
         return Collections.unmodifiableList(hand);
     }
 
-    public List<Artifact.ArtifactInstance> getArtifacts() {
+    public List<Spawnable.Instance> getArtifacts() {
         return Collections.unmodifiableList(artifacts);
     }
 
-    public void addArtifact(Artifact.ArtifactInstance artifact) {
+    public void addArtifact(Spawnable.Instance artifact) {
         artifacts.add(artifact);
     }
 
-    public void removeArtifact(Artifact.ArtifactInstance artifact) {
+    public void removeArtifact(Spawnable.Instance artifact) {
         artifacts.remove(artifact);
     }
 

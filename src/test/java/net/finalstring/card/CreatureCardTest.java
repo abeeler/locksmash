@@ -40,19 +40,8 @@ public class CreatureCardTest {
     }
 
     @Test public void testCreatureIsDestroyedAfterTakingFatalDamage() {
-        Player player = new Player();
-        Creature base = new EmberImp();
-        Creature.CreatureInstance instance = base.place(player, true);
-
-        player.getBattleline().removeCreature(instance);
-
-        instance = spy(instance);
-        player.getBattleline().placeCreature(instance, true);
-
-        instance.dealDamage(2);
-
-        assertThat(instance.isAlive(), is(false));
-        verify(instance).destroy(base);
+        normalCreature.dealDamage(2);
+        assertThat(normalCreature.isAlive(), is(false));
     }
 
     @Test public void testCreatureIsAliveAfterTakingNonFatalDamage() {

@@ -7,6 +7,7 @@ import net.finalstring.Player;
 import net.finalstring.card.effect.EffectIterator;
 import net.finalstring.card.effect.board.CreaturePlace;
 import net.finalstring.card.effect.Effect;
+import net.finalstring.card.effect.board.RemoveCreature;
 
 import java.util.List;
 
@@ -49,7 +50,13 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
         effects.add(new CreaturePlace(player, this));
     }
 
-    protected void generateFightEffects(List<Effect> effects, Player player) { }
+    protected void generateFightEffects(List<Effect> effects, Player owner) { }
+
+    @Override
+    protected void generateDestroyedEffects(List<Effect> effects, Player owner) {
+        super.generateDestroyedEffects(effects, owner);
+        effects.add(new RemoveCreature(getInstance()));
+    }
 
     @Getter
     public class CreatureInstance extends Spawnable.Instance {
@@ -78,7 +85,7 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
             damage += amount - absorbed;
 
             if (!isAlive()) {
-                destroy(Creature.this);
+                for (Effect effect : destroy());
             }
         }
 
@@ -140,12 +147,6 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
 
             remainingArmor = getArmor();
             eluding = hasElusive();
-        }
-
-        @Override
-        public void destroy(Card parentCard) {
-            getOwner().getBattleline().removeCreature(this);
-            super.destroy(parentCard);
         }
 
         boolean isAlive() {

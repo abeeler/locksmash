@@ -14,8 +14,8 @@ public class Dodger extends Creature {
     }
 
     @Override
-    protected void generateFightEffects(List<Effect> effects, Player player) {
-        super.generateFightEffects(effects, player);
-        effects.add(new StealAember(player, 1));
+    protected void generateFightEffects(List<Effect> effects, Player owner) {
+        super.generateFightEffects(effects, owner);
+        effects.add(new StealAember(owner, 1));
     }
 }

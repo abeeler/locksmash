@@ -31,10 +31,21 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
         return getEffects(instance.getOwner(), this::generateActionEffects);
     }
 
+    public Iterable<Effect> destroy() {
+        try {
+            getInstance().getOwner().discard(this);
+            return getEffects(getInstance().getOwner(), Spawnable.this::generateDestroyedEffects);
+        } finally {
+            instance = null;
+        }
+    }
+
     protected void generateActionEffects(List<Effect> effects, Player player) { }
 
+    protected void generateDestroyedEffects(List<Effect> effects, Player owner) { }
+
     @Getter
-    public abstract class Instance {
+    public class Instance {
         private final Player owner;
 
         private boolean ready = false;
@@ -49,11 +60,6 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
 
         public void exhaust() {
             ready = false;
-        }
-
-        public void destroy(Card parentCard) {
-            owner.discard(parentCard);
-            instance = null;
         }
     }
 }

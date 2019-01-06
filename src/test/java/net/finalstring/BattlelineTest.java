@@ -2,6 +2,7 @@ package net.finalstring;
 
 import net.finalstring.card.Creature;
 import net.finalstring.card.dis.EmberImp;
+import net.finalstring.card.effect.board.Fight;
 import net.finalstring.card.sanctum.TheVaultkeeper;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,12 +19,15 @@ public class BattlelineTest {
     private Battleline underTest;
 
     @Spy private Creature.CreatureInstance mockCreature = new EmberImp().place(new Player(), true);;
-    private Creature.CreatureInstance creature;
-    private Creature.CreatureInstance otherCreature;
+    private Creature creature;
+    private Creature otherCreature;
 
     @Before public void setup() {
-        creature = new EmberImp().place(new Player(), true);
-        otherCreature = new TheVaultkeeper().place(new Player(), true);
+        creature = new EmberImp();
+        otherCreature = new TheVaultkeeper();
+
+        creature.place(new Player(), true);
+        otherCreature.place(new Player(), true);
 
         underTest = new Player().getBattleline();
     }
@@ -33,17 +37,17 @@ public class BattlelineTest {
     }
 
     @Test public void testBattlelineHasCreatureAfterAdding() {
-        underTest.placeCreature(creature, true);
+        underTest.placeCreature(creature.getInstance(), true);
         assertThat(underTest.getCreatureCount(), is(1));
 
-        underTest.placeCreature(creature, false);
+        underTest.placeCreature(creature.getInstance(), false);
         assertThat(underTest.getCreatureCount(), is(2));
     }
 
     @Test public void testBattlelineHasExactCreature() {
-        underTest.placeCreature(creature, true);
+        underTest.placeCreature(creature.getInstance(), true);
 
-        assertThat(underTest.getLeftFlank(), is(creature));
+        assertThat(underTest.getLeftFlank(), is(creature.getInstance()));
     }
 
     @Test public void testLeftFlankIsNullWithoutCreatures() {
@@ -55,33 +59,33 @@ public class BattlelineTest {
     }
 
     @Test public void testLeftFlankIsRightFlankWithOneCreature() {
-        underTest.placeCreature(creature, true);
+        underTest.placeCreature(creature.getInstance(), true);
 
         assertThat(underTest.getLeftFlank(), is(underTest.getRightFlank()));
     }
 
     @Test public void testBattlelinePutsCreatureOnLeftFlank() {
-        underTest.placeCreature(otherCreature, true);
-        assertThat(underTest.getLeftFlank(), is(not(creature)));
+        underTest.placeCreature(otherCreature.getInstance(), true);
+        assertThat(underTest.getLeftFlank(), is(not(creature.getInstance())));
 
-        underTest.placeCreature(creature, true);
-        assertThat(underTest.getLeftFlank(), is(creature));
+        underTest.placeCreature(creature.getInstance(), true);
+        assertThat(underTest.getLeftFlank(), is(creature.getInstance()));
     }
 
     @Test public void testBattlelinePutsCreatureOnRightFlank() {
-        underTest.placeCreature(otherCreature, false);
-        assertThat(underTest.getRightFlank(), is(not(creature)));
+        underTest.placeCreature(otherCreature.getInstance(), false);
+        assertThat(underTest.getRightFlank(), is(not(creature.getInstance())));
 
-        underTest.placeCreature(creature, false);
-        assertThat(underTest.getRightFlank(), is(creature));
+        underTest.placeCreature(creature.getInstance(), false);
+        assertThat(underTest.getRightFlank(), is(creature.getInstance()));
     }
 
     @Test public void testCreaturesRemovedAfterBeingDestroyedInFight() {
-        underTest = creature.getOwner().getBattleline();
+        underTest = creature.getInstance().getOwner().getBattleline();
 
         assertThat(underTest.getCreatureCount(), is(1));
 
-        creature.fight(otherCreature);
+        new Fight(creature, otherCreature).trigger();
 
         assertThat(underTest.getCreatureCount(), is(0));
     }

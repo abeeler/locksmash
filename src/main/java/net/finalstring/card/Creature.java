@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.finalstring.AttackResult;
 import net.finalstring.Player;
-import net.finalstring.card.effect.EffectIterator;
 import net.finalstring.card.effect.board.CreaturePlace;
 import net.finalstring.card.effect.Effect;
 import net.finalstring.card.effect.board.RemoveCreature;
@@ -42,6 +41,10 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
         owner.getBattleline().placeCreature(getInstance(), onLeft);
 
         return getInstance();
+    }
+
+    public Iterable<Effect> fought() {
+        return getEffects(getInstance().getOwner(), this::generateFightEffects);
     }
 
     @Override
@@ -115,24 +118,6 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
             return new AttackResult(getPower());
         }
 
-        public Iterable<Effect> fight(CreatureInstance target) {
-            AttackResult result = target.attacked(this);
-
-            if (!result.isEluded()) {
-                target.dealDamage(getPower());
-                if (!hasSkirmish()) {
-                    dealDamage(result.getDamageToTake());
-                }
-            }
-
-            if (isAlive()) {
-                exhaust();
-                return getEffects(getOwner(), Creature.this::generateFightEffects);
-            }
-
-            return new EffectIterator();
-        }
-
         public void reap() {
             getOwner().addAember(1);
         }
@@ -149,7 +134,7 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
             eluding = hasElusive();
         }
 
-        boolean isAlive() {
+        public boolean isAlive() {
             return damage < getPower();
         }
     }

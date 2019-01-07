@@ -20,6 +20,10 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
         this.power = power;
     }
 
+    Creature() {
+        this(0, House.None, 5);
+    }
+
     public int getArmor() {
         return 0;
     }

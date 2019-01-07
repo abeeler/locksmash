@@ -52,7 +52,7 @@ public class PlayerTest {
 
     @Test public void testPlayingCreatureCardFromHand() {
         for (Effect effect : underTest.playFromHand(0)) {
-            effect.set(Boolean.class, true);
+            effect.set(true);
         }
 
         assertThat(underTest.getBattleline().getLeftFlank(), is(normalCreature.getInstance()));
@@ -62,7 +62,7 @@ public class PlayerTest {
         assertThat(underTest.getDiscardPile().size(), is(0));
 
         for (Effect effect : underTest.playFromHand(0)) {
-            effect.set(Boolean.class, true);
+            effect.set(true);
         }
 
         underTest.getBattleline().getLeftFlank().dealDamage(2);
@@ -72,7 +72,7 @@ public class PlayerTest {
 
     @Test public void testPlayingCreatureWillResetIt() {
         for (Effect effect : underTest.playFromHand(1)) {
-            effect.set(Boolean.class, true);
+            effect.set(true);
         }
 
         assertThat(underTest.getBattleline().getLeftFlank().getRemainingArmor(), is(1));
@@ -150,11 +150,11 @@ public class PlayerTest {
         assertThat(underTest.getBattleline().getCreatureCount(), is(0));
 
         for (Effect effect : normalCreature.play(underTest)) {
-            effect.set(Boolean.class, true);
+            effect.set(true);
         }
 
         for (Effect effect : armoredCreature.play(underTest)) {
-            effect.set(Boolean.class, false);
+            effect.set(false);
         }
 
         assertThat(normalCreature.getInstance().getRightNeighbor(), is(armoredCreature.getInstance()));

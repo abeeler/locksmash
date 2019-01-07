@@ -52,20 +52,24 @@ public abstract class Effect {
         return false;
     }
 
-    public <T> void set(Class<T> clazz, T param) {
+    public void set(Object param) {
         if (param == null) {
             throw new IllegalArgumentException("An effect's parameter must not be null");
         }
 
         for (Field field : getClass().getDeclaredFields()) {
-            if (field.isAnnotationPresent(Required.class) && field.getType() == clazz) {
-                try {
-                    boolean accessible = field.isAccessible();
-                    field.setAccessible(true);
+            boolean accessible = field.isAccessible();
+            try {
+                field.setAccessible(true);
+                if (field.isAnnotationPresent(Required.class) &&
+                        field.get(this) == null &&
+                        field.getType().isAssignableFrom(param.getClass())) {
                     field.set(this, param);
-                    field.setAccessible(accessible);
-                } catch (IllegalAccessException ignored) {
+                    return;
                 }
+            } catch (IllegalAccessException ignored) {
+            } finally {
+                field.setAccessible(accessible);
             }
         }
     }

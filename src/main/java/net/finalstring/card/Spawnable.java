@@ -55,11 +55,15 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
         }
 
         public void reset() {
-            ready = true;
+            ready();
         }
 
         public void exhaust() {
             ready = false;
+        }
+
+        public void ready() {
+            ready = true;
         }
     }
 }

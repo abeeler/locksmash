@@ -1,16 +1,21 @@
 package net.finalstring.card.effect.board;
 
-import lombok.RequiredArgsConstructor;
 import net.finalstring.card.Creature;
 import net.finalstring.card.effect.Effect;
 import net.finalstring.card.effect.Required;
 
-@RequiredArgsConstructor
 public class Fight extends Effect {
-    private final Creature attacking;
+    @Required
+    private Creature attacking;
 
     @Required
     private Creature defending;
+
+    public Fight() { }
+
+    public Fight(Creature attacking) {
+        this.attacking = attacking;
+    }
 
     public Fight(Creature attacking, Creature defending) {
         this(attacking);

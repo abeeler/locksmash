@@ -5,25 +5,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Effect {
-    /*
-     * TODO:
-     * Have all effect arguments be non-final
-     * Throw error if trigger goes off without a value being set
-     * Return all required arguments as enum (source card could set all or none of base effect)
-     * Have interface to set specific arguments
-     */
-    public void trigger() {
+    public boolean trigger() {
         for (Field field : getClass().getDeclaredFields()) {
+            boolean accessible = field.isAccessible();
             try {
+                field.setAccessible(true);
                 if (field.isAnnotationPresent(Required.class) && field.get(this) == null) {
-                    throw new IllegalStateException("Effect is missing a required parameter: " +
-                            field.getType().getSimpleName());
+                    return false;
                 }
             } catch (IllegalAccessException ignored) {
+            } finally {
+                field.setAccessible(accessible);
             }
         }
 
         affect();
+
+        return true;
     }
 
     public abstract void affect();

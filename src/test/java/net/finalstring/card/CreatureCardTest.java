@@ -211,6 +211,6 @@ public class CreatureCardTest {
     }
 
     private void fight(Creature attacker, Creature defender) {
-        new Fight(attacker, defender).trigger();
+        new Fight(attacker, defender).affect();
     }
 }

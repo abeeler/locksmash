@@ -85,7 +85,7 @@ public class BattlelineTest {
 
         assertThat(underTest.getCreatureCount(), is(1));
 
-        new Fight(creature, otherCreature).trigger();
+        new Fight(creature, otherCreature).affect();
 
         assertThat(underTest.getCreatureCount(), is(0));
     }

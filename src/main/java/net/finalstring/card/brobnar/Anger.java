@@ -15,6 +15,11 @@ public class Anger extends Card {
     }
 
     @Override
+    public int getAember() {
+        return 1;
+    }
+
+    @Override
     protected void generatePlayEffects(List<Effect> effects, Player player) {
         super.generatePlayEffects(effects, player);
         effects.add(new Ready());

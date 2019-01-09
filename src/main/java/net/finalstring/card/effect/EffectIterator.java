@@ -19,14 +19,17 @@ public class EffectIterator implements Iterable<Effect>, Iterator<Effect> {
 
     @Override
     public boolean hasNext() {
-        return effectIndex <= effects.size();
+        if (effectIndex > effects.size()) {
+            return false;
+        } else if (effectIndex > 0) {
+            return effects.get(effectIndex - 1).trigger();
+        }
+
+        return true;
     }
 
     @Override
     public Effect next() {
-        if (effectIndex > 0) {
-            effects.get(effectIndex - 1).trigger();
-        }
         ++effectIndex;
         return effectIndex <= effects.size() ? effects.get(effectIndex - 1) : new BlankEffect();
     }

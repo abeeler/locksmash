@@ -42,6 +42,6 @@ public class FightEffectTest {
         Creature target = new DustPixie();
         target.place(new Player(), true);
 
-        new Fight(attacker, target).trigger();
+        new Fight(attacker, target).affect();
     }
 }

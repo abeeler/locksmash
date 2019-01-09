@@ -8,8 +8,7 @@ public class CaptureOpponentAember extends CaptureAember {
     }
 
     @Override
-    public void trigger() {
+    public void affect() {
         target = captor.getInstance().getOwner().getOpponent();
-        super.trigger();
     }
 }

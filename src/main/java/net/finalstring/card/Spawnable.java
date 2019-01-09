@@ -1,8 +1,11 @@
 package net.finalstring.card;
 
 import lombok.Getter;
+import net.finalstring.GameState;
 import net.finalstring.Player;
 import net.finalstring.card.effect.Effect;
+import net.finalstring.card.effect.Stateful;
+
 import java.util.List;
 
 public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
@@ -15,6 +18,10 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
     void spawn(T instance) {
         if (this.instance != null) {
             throw new IllegalStateException("Spawnable card cannot have multiple instances");
+        }
+
+        if (this instanceof Stateful) {
+            GameState.registerConstantEffect((Stateful) this);
         }
 
         this.instance = instance;
@@ -33,6 +40,10 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
 
     public Iterable<Effect> destroy() {
         try {
+            if (this instanceof Stateful) {
+                GameState.deregisterConstantEffect((Stateful) this);
+            }
+
             getInstance().getOwner().discard(this);
             return getEffects(getInstance().getOwner(), Spawnable.this::generateDestroyedEffects);
         } finally {

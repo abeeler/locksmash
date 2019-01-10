@@ -210,6 +210,21 @@ public class CreatureCardTest {
         assertThat(normalCreature.getInstance().getCapturedAember(), is(1));
     }
 
+    @Test public void testStunPreventsReapAemberGain() {
+        normalCreature.getInstance().stun();
+        normalCreature.getInstance().reap();
+        assertThat(normalCreature.getInstance().isReady(), is(false));
+        assertThat(mockPlayer.getAemberPool(), is(0));
+    }
+
+    @Test public void testStunPreventsFight() {
+        normalCreature.getInstance().stun();
+        new Fight(normalCreature, armoredCreature).affect();
+        assertThat(normalCreature.getInstance().isAlive(), is(true));
+        assertThat(normalCreature.getInstance().getDamage(), is(0));
+        assertThat(normalCreature.getInstance().isReady(), is(false));
+    }
+
     private void fight(Creature attacker, Creature defender) {
         new Fight(attacker, defender).affect();
     }

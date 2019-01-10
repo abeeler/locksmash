@@ -30,7 +30,8 @@ public class Fight extends Effect {
 
         attacker.exhaust();
 
-        if (defender.isEluding()) {
+        if (attacker.unstun()) {
+        } else if (defender.isEluding()) {
             defender.elude();
         } else {
             defender.dealDamage(attacking.getPower());

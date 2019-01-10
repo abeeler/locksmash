@@ -13,6 +13,7 @@ import java.util.List;
 @Getter
 public class Creature extends Spawnable<Creature.CreatureInstance> {
     private final int power;
+    private boolean stunned;
 
     public Creature(int id, House house, int power) {
         super(id, house);
@@ -124,7 +125,10 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
 
         public void reap() {
             exhaust();
-            getOwner().addAember(1);
+
+            if (!unstun()) {
+                getOwner().addAember(1);
+            }
         }
 
         public void capture(Player target, int maxAmount) {
@@ -141,6 +145,16 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
 
         public boolean isAlive() {
             return damage < getPower();
+        }
+
+        public void stun() {
+            stunned = true;
+        }
+
+        public boolean unstun() {
+            boolean wasStunned = stunned;
+            stunned = false;
+            return wasStunned;
         }
     }
 }

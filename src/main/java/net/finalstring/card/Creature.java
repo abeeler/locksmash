@@ -123,6 +123,7 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
         }
 
         public void reap() {
+            exhaust();
             getOwner().addAember(1);
         }
 

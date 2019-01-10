@@ -6,7 +6,7 @@ import net.finalstring.card.Creature;
 import net.finalstring.card.House;
 import net.finalstring.card.dis.EmberImp;
 import net.finalstring.card.dis.PitDemon;
-import net.finalstring.card.effect.Effect;
+import net.finalstring.effect.Effect;
 import net.finalstring.card.logos.LibraryOfBabble;
 import net.finalstring.card.sanctum.TheVaultKeeper;
 import net.finalstring.card.untamed.DustPixie;

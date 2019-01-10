@@ -2,9 +2,9 @@ package net.finalstring.card;
 
 import lombok.Data;
 import net.finalstring.Player;
-import net.finalstring.card.effect.player.GainAember;
-import net.finalstring.card.effect.Effect;
-import net.finalstring.card.effect.EffectIterator;
+import net.finalstring.effect.player.GainAember;
+import net.finalstring.effect.Effect;
+import net.finalstring.effect.EffectIterator;
 
 import java.util.LinkedList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package net.finalstring.card.effect;
+package net.finalstring.effect;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -2,7 +2,7 @@ package net.finalstring.card;
 
 import net.finalstring.Player;
 import net.finalstring.card.dis.EmberImp;
-import net.finalstring.card.effect.board.Fight;
+import net.finalstring.effect.board.Fight;
 import net.finalstring.card.sanctum.ChampionAnaphiel;
 import net.finalstring.card.sanctum.TheVaultKeeper;
 import net.finalstring.card.shadows.NoddyTheThief;

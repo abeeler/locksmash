@@ -1,6 +1,6 @@
-package net.finalstring.card.effect.misc;
+package net.finalstring.effect.misc;
 
-import net.finalstring.card.effect.Effect;
+import net.finalstring.effect.Effect;
 
 public class BlankEffect extends Effect {
     @Override

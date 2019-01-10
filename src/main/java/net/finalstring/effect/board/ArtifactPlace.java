@@ -1,9 +1,9 @@
-package net.finalstring.card.effect.board;
+package net.finalstring.effect.board;
 
 import lombok.RequiredArgsConstructor;
 import net.finalstring.Player;
 import net.finalstring.card.Artifact;
-import net.finalstring.card.effect.Effect;
+import net.finalstring.effect.Effect;
 
 @RequiredArgsConstructor
 public class ArtifactPlace extends Effect {

@@ -3,9 +3,9 @@ package net.finalstring.card.brobnar;
 import net.finalstring.Player;
 import net.finalstring.card.Card;
 import net.finalstring.card.House;
-import net.finalstring.card.effect.Effect;
-import net.finalstring.card.effect.board.Fight;
-import net.finalstring.card.effect.board.Ready;
+import net.finalstring.effect.Effect;
+import net.finalstring.effect.board.Fight;
+import net.finalstring.effect.board.Ready;
 
 import java.util.List;
 

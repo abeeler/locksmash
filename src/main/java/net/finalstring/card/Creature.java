@@ -4,9 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import net.finalstring.AttackResult;
 import net.finalstring.Player;
-import net.finalstring.card.effect.board.CreaturePlace;
-import net.finalstring.card.effect.Effect;
-import net.finalstring.card.effect.board.RemoveCreature;
+import net.finalstring.effect.board.CreaturePlace;
+import net.finalstring.effect.Effect;
+import net.finalstring.effect.board.RemoveCreature;
 
 import java.util.List;
 

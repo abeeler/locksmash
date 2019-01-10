@@ -1,4 +1,4 @@
-package net.finalstring.card.effect;
+package net.finalstring.effect;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;

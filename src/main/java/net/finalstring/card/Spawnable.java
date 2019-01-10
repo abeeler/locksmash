@@ -3,8 +3,8 @@ package net.finalstring.card;
 import lombok.Getter;
 import net.finalstring.GameState;
 import net.finalstring.Player;
-import net.finalstring.card.effect.Effect;
-import net.finalstring.card.effect.Stateful;
+import net.finalstring.effect.Effect;
+import net.finalstring.effect.Stateful;
 
 import java.util.List;
 

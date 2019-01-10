@@ -1,8 +1,8 @@
-package net.finalstring.card.effect.board;
+package net.finalstring.effect.board;
 
 import lombok.RequiredArgsConstructor;
 import net.finalstring.card.Creature;
-import net.finalstring.card.effect.Effect;
+import net.finalstring.effect.Effect;
 
 @RequiredArgsConstructor
 public class RemoveCreature extends Effect {

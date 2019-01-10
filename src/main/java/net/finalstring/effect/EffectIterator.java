@@ -1,7 +1,7 @@
-package net.finalstring.card.effect;
+package net.finalstring.effect;
 
 import lombok.RequiredArgsConstructor;
-import net.finalstring.card.effect.misc.BlankEffect;
+import net.finalstring.effect.misc.BlankEffect;
 
 import java.util.Collections;
 import java.util.Iterator;

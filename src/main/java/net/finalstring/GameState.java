@@ -2,7 +2,7 @@ package net.finalstring;
 
 import lombok.experimental.UtilityClass;
 import net.finalstring.card.Creature;
-import net.finalstring.card.effect.Stateful;
+import net.finalstring.effect.Stateful;
 
 import java.util.ArrayList;
 import java.util.List;

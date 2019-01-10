@@ -3,8 +3,8 @@ package net.finalstring.card.dis;
 import net.finalstring.Player;
 import net.finalstring.card.Creature;
 import net.finalstring.card.House;
-import net.finalstring.card.effect.Effect;
-import net.finalstring.card.effect.player.CaptureOpponentAember;
+import net.finalstring.effect.Effect;
+import net.finalstring.effect.player.CaptureOpponentAember;
 
 import java.util.List;
 

@@ -2,7 +2,7 @@ package net.finalstring.card;
 
 import net.finalstring.GameState;
 import net.finalstring.Player;
-import net.finalstring.card.effect.Effect;
+import net.finalstring.effect.Effect;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.mockito.Spy;

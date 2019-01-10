@@ -1,8 +1,8 @@
-package net.finalstring.card.effect.player;
+package net.finalstring.effect.player;
 
 import lombok.RequiredArgsConstructor;
 import net.finalstring.Player;
-import net.finalstring.card.effect.Effect;
+import net.finalstring.effect.Effect;
 
 @RequiredArgsConstructor
 public class StealAember extends Effect {

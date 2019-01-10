@@ -2,7 +2,7 @@ package net.finalstring;
 
 import net.finalstring.card.Creature;
 import net.finalstring.card.dis.EmberImp;
-import net.finalstring.card.effect.board.Fight;
+import net.finalstring.effect.board.Fight;
 import net.finalstring.card.sanctum.TheVaultKeeper;
 import org.junit.Before;
 import org.junit.Test;

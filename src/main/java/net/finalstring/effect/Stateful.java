@@ -1,4 +1,4 @@
-package net.finalstring.card.effect;
+package net.finalstring.effect;
 
 import net.finalstring.card.Creature;
 

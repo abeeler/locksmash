@@ -1,9 +1,9 @@
 package net.finalstring.card;
 
 import net.finalstring.Player;
-import net.finalstring.card.effect.board.ArtifactPlace;
-import net.finalstring.card.effect.Effect;
-import net.finalstring.card.effect.board.RemoveArtifact;
+import net.finalstring.effect.board.ArtifactPlace;
+import net.finalstring.effect.Effect;
+import net.finalstring.effect.board.RemoveArtifact;
 
 import java.util.List;
 

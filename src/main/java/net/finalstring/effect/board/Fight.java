@@ -1,8 +1,8 @@
-package net.finalstring.card.effect.board;
+package net.finalstring.effect.board;
 
 import net.finalstring.card.Creature;
-import net.finalstring.card.effect.Effect;
-import net.finalstring.card.effect.Required;
+import net.finalstring.effect.Effect;
+import net.finalstring.effect.Required;
 
 public class Fight extends Effect {
     @Required

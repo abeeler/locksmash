@@ -3,8 +3,8 @@ package net.finalstring.card.brobnar;
 import net.finalstring.card.Artifact;
 import net.finalstring.card.Creature;
 import net.finalstring.card.House;
-import net.finalstring.card.effect.Stateful;
-import net.finalstring.card.effect.board.Damage;
+import net.finalstring.effect.Stateful;
+import net.finalstring.effect.board.Damage;
 
 public class Autocannon extends Artifact implements Stateful {
     public Autocannon() {

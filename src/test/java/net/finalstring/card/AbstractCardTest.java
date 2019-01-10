@@ -12,6 +12,8 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public abstract class AbstractCardTest<T extends Card> {
+    protected static final int STARTING_AEMBER = 5;
+
     protected T underTest;
 
     protected Player player;
@@ -26,6 +28,9 @@ public abstract class AbstractCardTest<T extends Card> {
 
         player = new Player();
         player.setOpponent(opponent = new Player());
+
+        player.addAember(STARTING_AEMBER);
+        opponent.addAember(STARTING_AEMBER);
 
         friendly.place(player, true);
         enemy.place(opponent, true);

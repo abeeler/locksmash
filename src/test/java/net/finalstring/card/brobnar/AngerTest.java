@@ -26,7 +26,7 @@ public class AngerTest extends AbstractCardTest<Anger> {
     @Test public void testAngerWithoutTargets() {
         play(new Anger(), new Object[][] { {}, {}, {} });
 
-        assertThat(player.getAemberPool(), is(1));
+        assertThat(player.getAemberPool(), is(STARTING_AEMBER + 1));
     }
 
     @Override

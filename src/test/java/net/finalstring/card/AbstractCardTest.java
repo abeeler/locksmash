@@ -8,8 +8,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.mockito.Mockito.when;
-
 @RunWith(MockitoJUnitRunner.class)
 public abstract class AbstractCardTest<T extends Card> {
     protected static final int STARTING_AEMBER = 5;
@@ -35,24 +33,22 @@ public abstract class AbstractCardTest<T extends Card> {
         friendly.place(player, true);
         enemy.place(opponent, true);
 
-        when(enemy.getPower()).thenReturn(5);
-
         GameState.reset();
     }
 
-    protected void play(Card card, Object[]... effectParameters) {
-        triggerEffects(card.play(player), effectParameters);
+    protected void play(Object[]... effectParameters) {
+        play(underTest, effectParameters);
     }
 
-    protected void destroy(Spawnable<? extends Spawnable.Instance> spawnable, Object[]... effectParameters) {
-        triggerEffects(spawnable.destroy(), effectParameters);
+    protected void play(Card toPlay, Object[]... effectParameters) {
+        triggerEffects(toPlay.play(player), effectParameters);
     }
 
     protected T createInstance() {
         return null;
     }
 
-    private <T extends Card> void triggerEffects(Iterable<Effect> effects, Object[][] effectParameters) {
+    void triggerEffects(Iterable<Effect> effects, Object[][] effectParameters) {
         int groupIndex = 0;
         for (Effect effect : effects) {
             if (effectParameters.length <= groupIndex) {

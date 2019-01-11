@@ -51,6 +51,14 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
         }
     }
 
+    public boolean canAct() {
+        if (getInstance() == null) {
+            return false;
+        }
+
+        return getInstance().getOwner().canAct(this);
+    }
+
     protected void generateActionEffects(List<Effect> effects, Player player) { }
 
     protected void generateDestroyedEffects(List<Effect> effects, Player owner) { }

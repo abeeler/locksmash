@@ -113,29 +113,29 @@ public class CreatureCardTest {
     }
 
     @Test public void testNormalCreatureCanBeFought() {
-        assertThat(normalCreature.getInstance().canFight(normalCreature.getInstance()), is(true));
+        assertThat(normalCreature.getInstance().canTarget(normalCreature.getInstance()), is(true));
     }
 
     @Test public void testTauntCreatureCanBeFought() {
-        assertThat(normalCreature.getInstance().canFight(tauntCreature.getInstance()), is(true));
+        assertThat(normalCreature.getInstance().canTarget(tauntCreature.getInstance()), is(true));
     }
 
     @Test public void testCreatureBesideTauntCannotBeFought() {
         normalCreature.getInstance().setLeftNeighbor(tauntCreature.getInstance());
 
-        assertThat(normalCreature.getInstance().canFight(normalCreature.getInstance()), is(false));
+        assertThat(normalCreature.getInstance().canTarget(normalCreature.getInstance()), is(false));
     }
 
     @Test public void testCreatureBesideTwoTauntsCannotBeFought() {
         normalCreature.getInstance().setLeftNeighbor(tauntCreature.getInstance());
         normalCreature.getInstance().setRightNeighbor(tauntCreature.getInstance());
 
-        assertThat(normalCreature.getInstance().canFight(normalCreature.getInstance()), is(false));
+        assertThat(normalCreature.getInstance().canTarget(normalCreature.getInstance()), is(false));
     }
 
     @Test public void testTauntCreatureBesideTauntCanBeFought() {
         tauntCreature.getInstance().setLeftNeighbor(tauntCreature.getInstance());
-        assertThat(normalCreature.getInstance().canFight(tauntCreature.getInstance()), is(true));
+        assertThat(normalCreature.getInstance().canTarget(tauntCreature.getInstance()), is(true));
     }
 
     @Test public void testElusivePreventsDamageFromFirstFight() {

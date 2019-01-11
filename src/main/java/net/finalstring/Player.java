@@ -6,6 +6,7 @@ import net.finalstring.card.*;
 import net.finalstring.effect.Effect;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 public class Player {
     private static final int DEFAULT_KEY_COST = 6;
@@ -30,9 +31,9 @@ public class Player {
     @Getter
     private int forgedKeys = 0;
 
-    @Getter
-    @Setter
-    private House activeHouse;
+    private final List<Predicate<Card>> playConditions = new LinkedList<>();
+    private final List<Predicate<Spawnable<?>>> actionConditions = new LinkedList<>();
+    private final List<Predicate<Creature>> fightConditions = new LinkedList<>();
 
     public Player(List<Card> deck) {
         this.deck = new LinkedList<>(deck);
@@ -55,10 +56,6 @@ public class Player {
         }
 
         return false;
-    }
-
-    public boolean canPlay(Card card) {
-        return card.getHouse() == activeHouse;
     }
 
     public Iterable<Effect> playFromHand(int index) {
@@ -135,5 +132,50 @@ public class Player {
 
     public int getMaximumHandSize() {
         return DEFAULT_MAXIMUM_HAND_SIZE;
+    }
+
+    public void endTurn() {
+        actionConditions.clear();
+        fightConditions.clear();
+    }
+
+    public void addPlayCondition(Predicate<Card> condition) {
+        playConditions.add(condition);
+    }
+
+    public void addActionCondition(Predicate<Spawnable<?>> condition) {
+        actionConditions.add(condition);
+    }
+
+    public void addFightCondition(Predicate<Creature> condition) {
+        fightConditions.add(condition);
+    }
+
+    public boolean canPlay(Card card) {
+        return testConditions(card, playConditions);
+    }
+
+    public boolean canAct(Spawnable<?> spawnable) {
+        return testConditions(spawnable, actionConditions);
+    }
+
+    public boolean canFight(Creature creature) {
+        return testConditions(creature, fightConditions);
+    }
+
+    public void selectHouse(House activeHouse) {
+        addPlayCondition(card -> card.getHouse() == activeHouse);
+        addActionCondition(spawnable -> spawnable.getHouse() == activeHouse);
+        addFightCondition(creature -> creature.getHouse() == activeHouse);
+    }
+
+    private <T> boolean testConditions(T toTest, List<Predicate<T>> conditions) {
+        for (Predicate<T> condition : conditions) {
+            if (condition.test(toTest)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

@@ -11,6 +11,7 @@ import net.finalstring.card.logos.LibraryOfBabble;
 import net.finalstring.card.sanctum.TheVaultKeeper;
 import net.finalstring.card.untamed.DustPixie;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -250,11 +251,9 @@ public class PlayerTest {
     }
 
     @Test public void testCardsInsideActiveHouseCanBePlayed() {
-        underTest.setActiveHouse(House.Dis);
+        assertThat(underTest.canPlay(normalCreature), is(false));
+        underTest.selectHouse(House.Dis);
         assertThat(underTest.canPlay(normalCreature), is(true));
-
-        underTest.setActiveHouse(House.Sanctum);
-        assertThat(underTest.canPlay(armoredCreature), is(true));
     }
 
     @Test public void testStealReducesAemberPool() {

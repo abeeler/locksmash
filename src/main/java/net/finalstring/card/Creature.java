@@ -52,6 +52,14 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
         return getEffects(getInstance().getOwner(), this::generateFightEffects);
     }
 
+    public boolean canFight() {
+        if (getInstance() == null) {
+            return false;
+        }
+
+        return getInstance().getOwner().canFight(this);
+    }
+
     @Override
     protected void generatePlayEffects(List<Effect> effects, Player player) {
         super.generatePlayEffects(effects, player);
@@ -101,7 +109,7 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
             eluding = false;
         }
 
-        public boolean canFight(CreatureInstance target) {
+        public boolean canTarget(CreatureInstance target) {
             return target.hasTaunt() || !target.underTaunt();
         }
 

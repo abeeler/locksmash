@@ -1,20 +1,28 @@
 package net.finalstring.effect.board;
 
-import lombok.AllArgsConstructor;
 import net.finalstring.card.Creature;
-import net.finalstring.effect.Effect;
-import net.finalstring.effect.Required;
+import net.finalstring.effect.AbstractEffect;
+import net.finalstring.effect.EffectParameter;
 
-@AllArgsConstructor
-public class Damage extends Effect {
-    @Required
-    private Creature target;
+public class Damage extends AbstractEffect {
+    private final EffectParameter<Creature> target = new EffectParameter<>("Select creature to damage");
 
-    @Required
-    private int amount;
+    private final int amount;
+
+    public Damage(Creature target, int amount) {
+        this(amount);
+
+        this.target.setValue(target);
+    }
+
+    public Damage(int amount) {
+        this.amount = amount;
+
+        registerParameters(target);
+    }
 
     @Override
     public void affect() {
-        target.getInstance().dealDamage(amount);
+        target.getValue().getInstance().dealDamage(amount);
     }
 }

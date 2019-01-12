@@ -1,15 +1,18 @@
 package net.finalstring.effect.board;
 
 import net.finalstring.card.Spawnable;
-import net.finalstring.effect.Effect;
-import net.finalstring.effect.Required;
+import net.finalstring.effect.AbstractEffect;
+import net.finalstring.effect.EffectParameter;
 
-public class Ready extends Effect {
-    @Required
-    private Spawnable target;
+public class Ready extends AbstractEffect {
+    private final EffectParameter<Spawnable> target = new EffectParameter<>("Select target to ready");
+
+    public Ready() {
+        registerParameters(target);
+    }
 
     @Override
     public void affect() {
-        target.getInstance().ready();
+        target.getValue().getInstance().ready();
     }
 }

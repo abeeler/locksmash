@@ -2,10 +2,10 @@ package net.finalstring.effect.board;
 
 import lombok.RequiredArgsConstructor;
 import net.finalstring.card.Spawnable;
-import net.finalstring.effect.Effect;
+import net.finalstring.effect.AbstractEffect;
 
 @RequiredArgsConstructor
-public class RemoveArtifact extends Effect {
+public class RemoveArtifact extends AbstractEffect {
     private final Spawnable.Instance instance;
 
     @Override

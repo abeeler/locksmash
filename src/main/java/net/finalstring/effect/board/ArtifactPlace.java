@@ -3,10 +3,10 @@ package net.finalstring.effect.board;
 import lombok.RequiredArgsConstructor;
 import net.finalstring.Player;
 import net.finalstring.card.Artifact;
-import net.finalstring.effect.Effect;
+import net.finalstring.effect.AbstractEffect;
 
 @RequiredArgsConstructor
-public class ArtifactPlace extends Effect {
+public class ArtifactPlace extends AbstractEffect {
     private final Player player;
     private final Artifact artifact;
 

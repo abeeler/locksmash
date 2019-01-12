@@ -1,33 +1,37 @@
 package net.finalstring.effect.board;
 
 import net.finalstring.card.Creature;
-import net.finalstring.effect.Effect;
+import net.finalstring.effect.AbstractEffect;
 import net.finalstring.effect.EffectNode;
-import net.finalstring.effect.Required;
+import net.finalstring.effect.EffectParameter;
 
-public class Fight extends Effect {
-    @Required
-    private Creature attacking;
+public class Fight extends AbstractEffect {
+    private final EffectParameter<Creature> attacking =
+            new EffectParameter<>("Select creature to fight with");
 
-    @Required
-    private Creature defending;
+    private final EffectParameter<Creature> defending =
+            new EffectParameter<>("Select creature to fight against");
 
-    public Fight() { }
+    public Fight() {
+        registerParameters(attacking, defending);
+    }
 
     public Fight(Creature attacking) {
-        this.attacking = attacking;
+        this();
+
+        this.attacking.setValue(attacking);
     }
 
     public Fight(Creature attacking, Creature defending) {
         this(attacking);
 
-        this.defending = defending;
+        this.defending.setValue(defending);
     }
 
     @Override
     public void affect() {
-        Creature.CreatureInstance attacker = attacking.getInstance();
-        Creature.CreatureInstance defender = defending.getInstance();
+        Creature.CreatureInstance attacker = attacking.getValue().getInstance();
+        Creature.CreatureInstance defender = defending.getValue().getInstance();
 
         attacker.exhaust();
 
@@ -35,14 +39,14 @@ public class Fight extends Effect {
         } else if (defender.isEluding()) {
             defender.elude();
         } else {
-            defender.dealDamage(attacking.getPower());
+            defender.dealDamage(attacking.getValue().getPower());
 
-            if (!attacking.hasSkirmish()) {
-                attacker.dealDamage(defending.getPower());
+            if (!attacking.getValue().hasSkirmish()) {
+                attacker.dealDamage(defending.getValue().getPower());
             }
 
             if (attacker.isAlive()) {
-                for (EffectNode effect : attacking.fought());
+                for (EffectNode effect : attacking.getValue().fought());
             }
         }
     }

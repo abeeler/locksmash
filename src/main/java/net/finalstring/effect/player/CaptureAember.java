@@ -3,19 +3,19 @@ package net.finalstring.effect.player;
 import lombok.RequiredArgsConstructor;
 import net.finalstring.Player;
 import net.finalstring.card.Creature;
-import net.finalstring.effect.Effect;
-import net.finalstring.effect.Required;
+import net.finalstring.effect.AbstractEffect;
+import net.finalstring.effect.EffectParameter;
 
 @RequiredArgsConstructor
-public class CaptureAember extends Effect {
+public class CaptureAember extends AbstractEffect {
+    protected final EffectParameter<Player> target = new EffectParameter<>("Select player to capture from");
     protected final Creature captor;
+
     private final int amount;
 
-    @Required
-    protected Player target;
 
     @Override
     public void affect() {
-        captor.getInstance().capture(target, amount);
+        captor.getInstance().capture(target.getValue(), amount);
     }
 }

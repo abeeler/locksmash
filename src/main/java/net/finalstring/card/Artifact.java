@@ -1,11 +1,9 @@
 package net.finalstring.card;
 
 import net.finalstring.Player;
+import net.finalstring.effect.EffectIterator;
 import net.finalstring.effect.board.ArtifactPlace;
-import net.finalstring.effect.Effect;
 import net.finalstring.effect.board.RemoveArtifact;
-
-import java.util.List;
 
 public class Artifact extends Spawnable<Spawnable.Instance> {
     public Artifact(int id, House house) {
@@ -18,14 +16,14 @@ public class Artifact extends Spawnable<Spawnable.Instance> {
     }
 
     @Override
-    protected void generatePlayEffects(List<Effect> effects, Player player) {
-        super.generatePlayEffects(effects, player);
-        effects.add(new ArtifactPlace(player, this));
+    protected void buildPlayEffects(EffectIterator.Builder builder, Player player) {
+        super.buildPlayEffects(builder, player);
+        builder.effect(new ArtifactPlace(player, this));
     }
 
     @Override
-    protected void generateDestroyedEffects(List<Effect> effects, Player owner) {
-        super.generateDestroyedEffects(effects, owner);
-        effects.add(new RemoveArtifact(getInstance()));
+    protected void buildDestroyedEffects(EffectIterator.Builder builder, Player owner) {
+        super.buildDestroyedEffects(builder, owner);
+        builder.effect(new RemoveArtifact(getInstance()));
     }
 }

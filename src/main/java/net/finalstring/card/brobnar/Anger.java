@@ -3,11 +3,10 @@ package net.finalstring.card.brobnar;
 import net.finalstring.Player;
 import net.finalstring.card.Card;
 import net.finalstring.card.House;
-import net.finalstring.effect.Effect;
+import net.finalstring.effect.EffectIterator;
 import net.finalstring.effect.board.Fight;
 import net.finalstring.effect.board.Ready;
 
-import java.util.List;
 
 public class Anger extends Card {
     public Anger() {
@@ -20,9 +19,8 @@ public class Anger extends Card {
     }
 
     @Override
-    protected void generatePlayEffects(List<Effect> effects, Player player) {
-        super.generatePlayEffects(effects, player);
-        effects.add(new Ready());
-        effects.add(new Fight());
+    protected void buildPlayEffects(EffectIterator.Builder builder, Player player) {
+        super.buildPlayEffects(builder, player);
+        builder.effect(new Ready()).effect(new Fight());
     }
 }

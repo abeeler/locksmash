@@ -4,11 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 import net.finalstring.AttackResult;
 import net.finalstring.Player;
+import net.finalstring.effect.EffectIterator;
+import net.finalstring.effect.EffectNode;
 import net.finalstring.effect.board.CreaturePlace;
-import net.finalstring.effect.Effect;
 import net.finalstring.effect.board.RemoveCreature;
-
-import java.util.List;
 
 @Getter
 public class Creature extends Spawnable<Creature.CreatureInstance> {
@@ -48,8 +47,8 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
         return getInstance();
     }
 
-    public Iterable<Effect> fought() {
-        return getEffects(getInstance().getOwner(), this::generateFightEffects);
+    public Iterable<EffectNode> fought() {
+        return buildEffects(getInstance().getOwner(), this::buildFightEffects);
     }
 
     public boolean canFight() {
@@ -60,18 +59,16 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
         return getInstance().getOwner().canFight(this);
     }
 
-    @Override
-    protected void generatePlayEffects(List<Effect> effects, Player player) {
-        super.generatePlayEffects(effects, player);
-        effects.add(new CreaturePlace(player, this));
+    protected void buildPlayEffects(EffectIterator.Builder builder, Player player) {
+        super.buildPlayEffects(builder, player);
+        builder.effect(new CreaturePlace(player, this));
     }
 
-    protected void generateFightEffects(List<Effect> effects, Player owner) { }
+    protected void buildFightEffects(EffectIterator.Builder builder, Player owner) { }
 
-    @Override
-    protected void generateDestroyedEffects(List<Effect> effects, Player owner) {
-        super.generateDestroyedEffects(effects, owner);
-        effects.add(new RemoveCreature(getInstance()));
+    protected void buildDestroyedEffects(EffectIterator.Builder builder, Player owner) {
+        super.buildDestroyedEffects(builder, owner);
+        builder.effect(new RemoveCreature(getInstance()));
     }
 
     @Getter
@@ -101,7 +98,7 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
             damage += amount - absorbed;
 
             if (!isAlive()) {
-                for (Effect effect : destroy());
+                for (EffectNode effect : destroy());
             }
         }
 

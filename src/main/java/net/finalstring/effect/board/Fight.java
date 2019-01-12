@@ -2,6 +2,7 @@ package net.finalstring.effect.board;
 
 import net.finalstring.card.Creature;
 import net.finalstring.effect.Effect;
+import net.finalstring.effect.EffectNode;
 import net.finalstring.effect.Required;
 
 public class Fight extends Effect {
@@ -41,7 +42,7 @@ public class Fight extends Effect {
             }
 
             if (attacker.isAlive()) {
-                for (Effect effect : attacking.fought());
+                for (EffectNode effect : attacking.fought());
             }
         }
     }

@@ -3,7 +3,7 @@ package net.finalstring;
 import lombok.Getter;
 import lombok.Setter;
 import net.finalstring.card.*;
-import net.finalstring.effect.Effect;
+import net.finalstring.effect.EffectNode;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -58,7 +58,7 @@ public class Player {
         return false;
     }
 
-    public Iterable<Effect> playFromHand(int index) {
+    public Iterable<EffectNode> playFromHand(int index) {
         return hand.remove(index).play(this);
     }
 

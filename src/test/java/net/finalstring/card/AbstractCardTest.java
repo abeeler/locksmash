@@ -2,7 +2,7 @@ package net.finalstring.card;
 
 import net.finalstring.GameState;
 import net.finalstring.Player;
-import net.finalstring.effect.Effect;
+import net.finalstring.effect.EffectNode;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.mockito.Spy;
@@ -48,9 +48,9 @@ public abstract class AbstractCardTest<T extends Card> {
         return null;
     }
 
-    void triggerEffects(Iterable<Effect> effects, Object[][] effectParameters) {
+    void triggerEffects(Iterable<EffectNode> effects, Object[][] effectParameters) {
         int groupIndex = 0;
-        for (Effect effect : effects) {
+        for (EffectNode effect : effects) {
             if (effectParameters.length <= groupIndex) {
                 continue;
             }

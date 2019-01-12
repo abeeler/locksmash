@@ -3,10 +3,8 @@ package net.finalstring.card.dis;
 import net.finalstring.Player;
 import net.finalstring.card.Creature;
 import net.finalstring.card.House;
-import net.finalstring.effect.Effect;
+import net.finalstring.effect.EffectIterator;
 import net.finalstring.effect.player.CaptureOpponentAember;
-
-import java.util.List;
 
 public class Charette extends Creature {
     public Charette() {
@@ -14,8 +12,8 @@ public class Charette extends Creature {
     }
 
     @Override
-    protected void generatePlayEffects(List<Effect> effects, Player player) {
-        super.generatePlayEffects(effects, player);
-        effects.add(new CaptureOpponentAember(this, 3));
+    protected void buildPlayEffects(EffectIterator.Builder builder, Player player) {
+        super.buildPlayEffects(builder, player);
+        builder.effect(new CaptureOpponentAember(this, 3));
     }
 }

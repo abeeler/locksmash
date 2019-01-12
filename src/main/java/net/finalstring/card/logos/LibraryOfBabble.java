@@ -3,10 +3,8 @@ package net.finalstring.card.logos;
 import net.finalstring.Player;
 import net.finalstring.card.Artifact;
 import net.finalstring.card.House;
+import net.finalstring.effect.EffectIterator;
 import net.finalstring.effect.player.DrawCard;
-import net.finalstring.effect.Effect;
-
-import java.util.List;
 
 public class LibraryOfBabble extends Artifact {
     public LibraryOfBabble() {
@@ -14,8 +12,8 @@ public class LibraryOfBabble extends Artifact {
     }
 
     @Override
-    protected void generateActionEffects(List<Effect> effects, Player player) {
-        super.generateActionEffects(effects, player);
-        effects.add(new DrawCard(player));
+    protected void buildActionEffects(EffectIterator.Builder builder, Player player) {
+        super.buildActionEffects(builder, player);
+        builder.effect(new DrawCard(player));
     }
 }

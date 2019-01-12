@@ -3,39 +3,55 @@ package net.finalstring.effect;
 import lombok.RequiredArgsConstructor;
 import net.finalstring.effect.misc.BlankEffect;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 @RequiredArgsConstructor
-public class EffectIterator implements Iterable<Effect>, Iterator<Effect> {
-    private final List<Effect> effects;
+public class EffectIterator implements Iterable<EffectNode>, Iterator<EffectNode> {
+    private EffectNode currentNode;
 
-    private int effectIndex = 0;
-
-    public EffectIterator() {
-        this(Collections.emptyList());
+    EffectIterator(EffectNode first) {
+        currentNode = first;
     }
 
     @Override
     public boolean hasNext() {
-        if (effectIndex > effects.size()) {
+        if (!currentNode.trigger()) {
             return false;
-        } else if (effectIndex > 0) {
-            return effects.get(effectIndex - 1).trigger();
         }
 
-        return true;
+        currentNode = currentNode.getNext();
+
+        return currentNode != null;
     }
 
     @Override
-    public Effect next() {
-        ++effectIndex;
-        return effectIndex <= effects.size() ? effects.get(effectIndex - 1) : new BlankEffect();
+    public EffectNode next() {
+        return currentNode;
     }
 
     @Override
-    public Iterator<Effect> iterator() {
+    public Iterator<EffectNode> iterator() {
         return this;
+    }
+
+    public static class Builder {
+        private final Deque<Effect> effects = new LinkedList<>();
+
+        public Builder effect(Effect effect) {
+            effects.push(effect);
+            return this;
+        }
+
+        public EffectIterator build() {
+            EffectNode current = null;
+
+            for (Effect effect : effects) {
+                current = new SimpleEffectNode(effect, current);
+            }
+
+            current = new SimpleEffectNode(new BlankEffect(), current);
+
+            return new EffectIterator(current);
+        }
     }
 }

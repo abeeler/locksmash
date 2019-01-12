@@ -6,12 +6,11 @@ import net.finalstring.card.Creature;
 import net.finalstring.card.House;
 import net.finalstring.card.dis.EmberImp;
 import net.finalstring.card.dis.PitDemon;
-import net.finalstring.effect.Effect;
 import net.finalstring.card.logos.LibraryOfBabble;
 import net.finalstring.card.sanctum.TheVaultKeeper;
 import net.finalstring.card.untamed.DustPixie;
+import net.finalstring.effect.EffectNode;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -52,7 +51,7 @@ public class PlayerTest {
     }
 
     @Test public void testPlayingCreatureCardFromHand() {
-        for (Effect effect : underTest.playFromHand(0)) {
+        for (EffectNode effect : underTest.playFromHand(0)) {
             effect.set(true);
         }
 
@@ -62,7 +61,7 @@ public class PlayerTest {
     @Test public void testDyingCreatureIsPutInDiscard() {
         assertThat(underTest.getDiscardPile().size(), is(0));
 
-        for (Effect effect : underTest.playFromHand(0)) {
+        for (EffectNode effect : underTest.playFromHand(0)) {
             effect.set(true);
         }
 
@@ -72,7 +71,7 @@ public class PlayerTest {
     }
 
     @Test public void testPlayingCreatureWillResetIt() {
-        for (Effect effect : underTest.playFromHand(1)) {
+        for (EffectNode effect : underTest.playFromHand(1)) {
             effect.set(true);
         }
 
@@ -142,7 +141,7 @@ public class PlayerTest {
     @Test public void testPlayingCardWithAemberIncrementsPool() {
         assertThat(underTest.getAemberPool(), is(0));
 
-        for (Effect effect : new DustPixie().play(underTest));
+        for (EffectNode effect : new DustPixie().play(underTest));
 
         assertThat(underTest.getAemberPool(), is(2));
     }
@@ -150,11 +149,11 @@ public class PlayerTest {
     @Test public void testPlayingCreatureOnSpecificFlankWorks() {
         assertThat(underTest.getBattleline().getCreatureCount(), is(0));
 
-        for (Effect effect : normalCreature.play(underTest)) {
+        for (EffectNode effect : normalCreature.play(underTest)) {
             effect.set(true);
         }
 
-        for (Effect effect : armoredCreature.play(underTest)) {
+        for (EffectNode effect : armoredCreature.play(underTest)) {
             effect.set(false);
         }
 
@@ -164,7 +163,7 @@ public class PlayerTest {
     @Test public void testPlayingArtifactCreatesInstance() {
         assertThat(underTest.getArtifacts().size(), is(0));
 
-        for (Effect effect : artifact.play(underTest));
+        for (EffectNode effect : artifact.play(underTest));
 
         assertThat(underTest.getArtifacts().size(), is(1));
     }
@@ -172,7 +171,7 @@ public class PlayerTest {
     @Test public void testUsingArtifactActionTriggersEffect() {
         underTest = new Player(underTest.getHand());
 
-        for (Effect effect : artifact.play(underTest));
+        for (EffectNode effect : artifact.play(underTest));
 
         assertThat(underTest.getHandSize(), is(0));
 
@@ -184,8 +183,8 @@ public class PlayerTest {
     @Test public void testUsingCreatureActionTriggersEffect() {
         opponent.addAember(2);
 
-        for (Effect effect : actionCreature.play(underTest));
-        for (Effect effect : actionCreature.action());
+        for (EffectNode effect : actionCreature.play(underTest));
+        for (EffectNode effect : actionCreature.action());
 
         assertThat(underTest.getAemberPool(), is(1));
         assertThat(opponent.getAemberPool(), is(1));

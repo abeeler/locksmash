@@ -3,10 +3,9 @@ package net.finalstring.card;
 import lombok.Getter;
 import net.finalstring.GameState;
 import net.finalstring.Player;
-import net.finalstring.effect.Effect;
+import net.finalstring.effect.EffectIterator;
+import net.finalstring.effect.EffectNode;
 import net.finalstring.effect.Stateful;
-
-import java.util.List;
 
 public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
     private T instance;
@@ -31,21 +30,25 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
         return instance;
     }
 
-    public Iterable<Effect> action() {
+    public Iterable<EffectNode> action() {
         if (instance == null) {
             throw new IllegalStateException("Trying to use an action without a spawned instance");
         }
-        return getEffects(instance.getOwner(), this::generateActionEffects);
+        return buildEffects(instance.getOwner(), this::buildActionEffects);
     }
 
-    public Iterable<Effect> destroy() {
+    public Iterable<EffectNode> destroy() {
+        if (instance == null) {
+            throw new IllegalStateException("Trying to destroy without a spawned instance");
+        }
+
         try {
             if (this instanceof Stateful) {
                 GameState.deregisterConstantEffect((Stateful) this);
             }
 
             getInstance().getOwner().discard(this);
-            return getEffects(getInstance().getOwner(), Spawnable.this::generateDestroyedEffects);
+            return buildEffects(getInstance().getOwner(), Spawnable.this::buildDestroyedEffects);
         } finally {
             instance = null;
         }
@@ -59,9 +62,9 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
         return getInstance().getOwner().canAct(this);
     }
 
-    protected void generateActionEffects(List<Effect> effects, Player player) { }
+    protected void buildActionEffects(EffectIterator.Builder builder, Player player) { }
 
-    protected void generateDestroyedEffects(List<Effect> effects, Player owner) { }
+    protected void buildDestroyedEffects(EffectIterator.Builder builder, Player owner) { }
 
     @Getter
     public class Instance {

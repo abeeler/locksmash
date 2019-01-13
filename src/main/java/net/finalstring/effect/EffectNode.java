@@ -7,6 +7,7 @@ import net.finalstring.effect.misc.BlankEffect;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Supplier;
 
 @RequiredArgsConstructor
 public abstract class EffectNode implements Effect {
@@ -43,6 +44,11 @@ public abstract class EffectNode implements Effect {
         public Builder unbranch() {
             parent.branches.add(build());
             return parent;
+        }
+
+        public Builder conditional(Supplier<Boolean> condition) {
+            effects.push(new ConditionalEffect(condition));
+            return this;
         }
 
         public EffectNode build() {

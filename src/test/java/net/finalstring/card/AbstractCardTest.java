@@ -8,6 +8,9 @@ import org.junit.runner.RunWith;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.LinkedList;
+import java.util.List;
+
 @RunWith(MockitoJUnitRunner.class)
 public abstract class AbstractCardTest<T extends Card> {
     protected static final int STARTING_AEMBER = 5;
@@ -24,7 +27,7 @@ public abstract class AbstractCardTest<T extends Card> {
     public void setup() {
         underTest = createInstance();
 
-        player = new Player();
+        player = new Player(getStartingHand());
         player.setOpponent(opponent = new Player());
 
         player.addAember(STARTING_AEMBER);
@@ -49,6 +52,10 @@ public abstract class AbstractCardTest<T extends Card> {
 
     protected T createInstance() {
         return null;
+    }
+
+    protected List<Card> getStartingHand() {
+        return new LinkedList<>();
     }
 
     void triggerEffects(Iterable<EffectNode> effects, Object[][] effectParameters) {

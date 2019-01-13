@@ -59,14 +59,14 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
         return getInstance().getOwner().canFight(this);
     }
 
-    protected void buildPlayEffects(EffectIterator.Builder builder, Player player) {
+    protected void buildPlayEffects(EffectNode.Builder builder, Player player) {
         super.buildPlayEffects(builder, player);
         builder.effect(new CreaturePlace(player, this));
     }
 
-    protected void buildFightEffects(EffectIterator.Builder builder, Player owner) { }
+    protected void buildFightEffects(EffectNode.Builder builder, Player owner) { }
 
-    protected void buildDestroyedEffects(EffectIterator.Builder builder, Player owner) {
+    protected void buildDestroyedEffects(EffectNode.Builder builder, Player owner) {
         super.buildDestroyedEffects(builder, owner);
         builder.effect(new RemoveCreature(getInstance()));
     }

@@ -1,7 +1,7 @@
 package net.finalstring.card;
 
 import net.finalstring.Player;
-import net.finalstring.effect.EffectIterator;
+import net.finalstring.effect.EffectNode;
 import net.finalstring.effect.board.ArtifactPlace;
 import net.finalstring.effect.board.RemoveArtifact;
 
@@ -16,13 +16,13 @@ public class Artifact extends Spawnable<Spawnable.Instance> {
     }
 
     @Override
-    protected void buildPlayEffects(EffectIterator.Builder builder, Player player) {
+    protected void buildPlayEffects(EffectNode.Builder builder, Player player) {
         super.buildPlayEffects(builder, player);
         builder.effect(new ArtifactPlace(player, this));
     }
 
     @Override
-    protected void buildDestroyedEffects(EffectIterator.Builder builder, Player owner) {
+    protected void buildDestroyedEffects(EffectNode.Builder builder, Player owner) {
         super.buildDestroyedEffects(builder, owner);
         builder.effect(new RemoveArtifact(getInstance()));
     }

@@ -1,7 +1,6 @@
 package net.finalstring.effect;
 
 import lombok.RequiredArgsConstructor;
-import net.finalstring.effect.misc.BlankEffect;
 
 import java.util.*;
 
@@ -9,7 +8,7 @@ import java.util.*;
 public class EffectIterator implements Iterable<EffectNode>, Iterator<EffectNode> {
     private EffectNode currentNode;
 
-    EffectIterator(EffectNode first) {
+    public EffectIterator(EffectNode first) {
         currentNode = first;
     }
 
@@ -32,26 +31,5 @@ public class EffectIterator implements Iterable<EffectNode>, Iterator<EffectNode
     @Override
     public Iterator<EffectNode> iterator() {
         return this;
-    }
-
-    public static class Builder {
-        private final Deque<Effect> effects = new LinkedList<>();
-
-        public Builder effect(Effect effect) {
-            effects.push(effect);
-            return this;
-        }
-
-        public EffectIterator build() {
-            EffectNode current = null;
-
-            for (Effect effect : effects) {
-                current = new SimpleEffectNode(effect, current);
-            }
-
-            current = new SimpleEffectNode(new BlankEffect(), current);
-
-            return new EffectIterator(current);
-        }
     }
 }

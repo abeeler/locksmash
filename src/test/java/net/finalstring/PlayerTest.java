@@ -10,7 +10,6 @@ import net.finalstring.card.logos.LibraryOfBabble;
 import net.finalstring.card.sanctum.TheVaultKeeper;
 import net.finalstring.card.untamed.DustPixie;
 import net.finalstring.effect.EffectNode;
-import net.finalstring.effect.EffectParameter;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -275,5 +274,30 @@ public class PlayerTest {
         underTest.addAember(5);
         assertThat(underTest.takeAember(2), is(2));
         assertThat(underTest.takeAember(4), is(3));
+    }
+
+    @Test public void testAddingCardToHand() {
+        Card toAdd = new DustPixie();
+
+        assertThat(underTest.getHandSize(), is(2));
+        underTest.addToHand(toAdd);
+        assertThat(underTest.getHandSize(), is(3));
+        assertThat(underTest.getHand().get(2), is(toAdd));
+    }
+
+    @Test public void testArchivingAddsToArchive() {
+        assertThat(underTest.getArchive().size(), is(0));
+
+        underTest.archiveFromHand(0);
+
+        assertThat(underTest.getArchive().size(), is(1));
+    }
+
+    @Test public void testArchivingRemovesFromHand() {
+        assertThat(underTest.getHandSize(), is(2));
+
+        underTest.archiveFromHand(0);
+
+        assertThat(underTest.getHandSize(), is(1));
     }
 }

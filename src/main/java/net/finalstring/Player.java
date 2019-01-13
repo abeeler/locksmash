@@ -19,6 +19,7 @@ public class Player {
 
     private final List<Card> hand = new ArrayList<>();
     private final List<Card> discard = new ArrayList<>();
+    private final List<Card> archive = new ArrayList<>();
     private final List<Spawnable.Instance> artifacts = new ArrayList<>();
 
     @Getter
@@ -41,6 +42,10 @@ public class Player {
 
     public Player() {
         this.deck = new LinkedList<>();
+    }
+
+    public void addToHand(Card card) {
+        hand.add(card);
     }
 
     public boolean draw() {
@@ -70,6 +75,14 @@ public class Player {
         discard.add(card);
     }
 
+    public void archiveFromHand(int index) {
+        archive.add(hand.remove(index));
+    }
+
+    public void archive(Card card) {
+        archive.add(card);
+    }
+
     public List<Card> getDeck() {
         return Collections.unmodifiableList(new ArrayList<>(deck));
     }
@@ -80,6 +93,10 @@ public class Player {
 
     public List<Card> getHand() {
         return Collections.unmodifiableList(hand);
+    }
+
+    public List<Card> getArchive() {
+        return Collections.unmodifiableList(archive);
     }
 
     public List<Spawnable.Instance> getArtifacts() {

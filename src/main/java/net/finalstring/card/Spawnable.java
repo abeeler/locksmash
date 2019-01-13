@@ -62,9 +62,9 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
         return getInstance().getOwner().canAct(this);
     }
 
-    protected void buildActionEffects(EffectIterator.Builder builder, Player player) { }
+    protected void buildActionEffects(EffectNode.Builder builder, Player player) { }
 
-    protected void buildDestroyedEffects(EffectIterator.Builder builder, Player owner) { }
+    protected void buildDestroyedEffects(EffectNode.Builder builder, Player owner) { }
 
     @Getter
     public class Instance {

@@ -3,11 +3,8 @@ package net.finalstring.card.shadows;
 import net.finalstring.Player;
 import net.finalstring.card.Creature;
 import net.finalstring.card.House;
-import net.finalstring.effect.Effect;
-import net.finalstring.effect.EffectIterator;
+import net.finalstring.effect.EffectNode;
 import net.finalstring.effect.player.StealAember;
-
-import java.util.List;
 
 public class NoddyTheThief extends Creature {
     public NoddyTheThief() {
@@ -20,7 +17,7 @@ public class NoddyTheThief extends Creature {
     }
 
     @Override
-    protected void buildActionEffects(EffectIterator.Builder builder, Player player) {
+    protected void buildActionEffects(EffectNode.Builder builder, Player player) {
         super.buildActionEffects(builder, player);
         builder.effect(new StealAember(getInstance().getOwner(), 1));
     }

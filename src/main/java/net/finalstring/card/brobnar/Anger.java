@@ -2,6 +2,7 @@ package net.finalstring.card.brobnar;
 
 import net.finalstring.Player;
 import net.finalstring.card.Card;
+import net.finalstring.card.Creature;
 import net.finalstring.card.House;
 import net.finalstring.effect.EffectNode;
 import net.finalstring.effect.board.Fight;
@@ -21,6 +22,11 @@ public class Anger extends Card {
     @Override
     protected void buildPlayEffects(EffectNode.Builder builder, Player player) {
         super.buildPlayEffects(builder, player);
-        builder.effect(new Ready()).effect(new Fight());
+
+        Ready ready = new Ready();
+
+        builder
+            .effect(ready)
+            .dependentEffect(() -> new Fight((Creature) ready.getTarget().getValue()));
     }
 }

@@ -1,16 +1,16 @@
 package net.finalstring.effect;
 
-public class SimpleEffectNode extends EffectNode {
-    private final EffectNode next;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Delegate;
 
-    public SimpleEffectNode(Effect effect, EffectNode next) {
-        super(effect);
+@RequiredArgsConstructor
+public class SimpleEffectNode implements EffectNode {
+    @Delegate
+    private final Effect effect;
 
-        this.next = next;
-    }
-
-    @Override
-    public EffectNode getNext() {
-        return next;
-    }
+    @Getter
+    @Setter
+    private EffectNode next;
 }

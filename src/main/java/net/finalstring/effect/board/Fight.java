@@ -2,6 +2,7 @@ package net.finalstring.effect.board;
 
 import net.finalstring.card.Creature;
 import net.finalstring.effect.AbstractEffect;
+import net.finalstring.effect.EffectIterator;
 import net.finalstring.effect.EffectNode;
 import net.finalstring.effect.EffectParameter;
 
@@ -46,7 +47,7 @@ public class Fight extends AbstractEffect {
             }
 
             if (attacker.isAlive()) {
-                for (EffectNode effect : attacking.getValue().fought());
+                for (EffectNode effect : new EffectIterator(attacking.getValue().fought()));
             }
         }
     }

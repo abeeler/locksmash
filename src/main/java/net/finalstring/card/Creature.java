@@ -47,7 +47,7 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
         return getInstance();
     }
 
-    public Iterable<EffectNode> fought() {
+    public EffectNode fought() {
         return buildEffects(getInstance().getOwner(), this::buildFightEffects);
     }
 
@@ -98,7 +98,7 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
             damage += amount - absorbed;
 
             if (!isAlive()) {
-                for (EffectNode effect : destroy());
+                for (EffectNode effect : new EffectIterator(destroy()));
             }
         }
 

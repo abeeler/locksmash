@@ -2,6 +2,7 @@ package net.finalstring.card;
 
 import net.finalstring.GameState;
 import net.finalstring.Player;
+import net.finalstring.effect.EffectIterator;
 import net.finalstring.effect.EffectNode;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -27,7 +28,7 @@ public abstract class AbstractCardTest<T extends Card> {
     public void setup() {
         underTest = createInstance();
 
-        player = new Player(getStartingHand());
+        player = new Player(getStartingDeck());
         player.setOpponent(opponent = new Player());
 
         player.addAember(STARTING_AEMBER);
@@ -54,13 +55,13 @@ public abstract class AbstractCardTest<T extends Card> {
         return null;
     }
 
-    protected List<Card> getStartingHand() {
+    protected List<Card> getStartingDeck() {
         return new LinkedList<>();
     }
 
-    void triggerEffects(Iterable<EffectNode> effects, Object[][] effectParameters) {
+    void triggerEffects(EffectNode firstEffect, Object[][] effectParameters) {
         int groupIndex = 0;
-        for (EffectNode effect : effects) {
+        for (EffectNode effect : new EffectIterator(firstEffect)) {
             if (effectParameters.length <= groupIndex || !effect.getNextUnsetParameter().isPresent()) {
                 continue;
             }

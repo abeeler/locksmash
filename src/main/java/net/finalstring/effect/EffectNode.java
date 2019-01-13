@@ -1,27 +1,25 @@
 package net.finalstring.effect;
 
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.Delegate;
 import net.finalstring.effect.misc.BlankEffect;
 
-import java.util.Deque;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Supplier;
 
-@RequiredArgsConstructor
-public abstract class EffectNode implements Effect {
-    @Delegate
-    protected final Effect effect;
+public interface EffectNode extends Effect {
+    EffectNode getNext();
 
-    public abstract EffectNode getNext();
+    void setNext(EffectNode next);
 
-    public static class Builder {
+    class Builder {
         private final Builder parent;
-        private final Deque<Effect> effects = new LinkedList<>();
 
         private final List<String> branchDescriptions = new LinkedList<>();
         private final List<EffectNode> branches = new LinkedList<>();
+
+        private EffectNode first = new SimpleEffectNode(new BlankEffect());
+        private EffectNode current = first;
 
         public Builder() {
             this(null);
@@ -32,7 +30,8 @@ public abstract class EffectNode implements Effect {
         }
 
         public Builder effect(Effect effect) {
-            effects.push(effect);
+            current.setNext(new SimpleEffectNode(effect));
+            current = current.getNext();
             return this;
         }
 
@@ -47,25 +46,26 @@ public abstract class EffectNode implements Effect {
         }
 
         public Builder conditional(Supplier<Boolean> condition) {
-            effects.push(new ConditionalEffect(condition));
+            addNode(new SimpleEffectNode(new ConditionalEffect(condition)));
+            return this;
+        }
+
+        public Builder chain(Supplier<EffectNode> chainSupplier) {
+            addNode(new ChainEffectNode(chainSupplier));
             return this;
         }
 
         public EffectNode build() {
-            EffectNode current = !branches.isEmpty() ?
-                    new BranchingEffectNode(branchDescriptions, branches) :
-                    null;
-
-            for (Effect effect : effects) {
-
-                current = new SimpleEffectNode(effect, current);
+            if (!branches.isEmpty()) {
+                addNode(new BranchingEffectNode(branchDescriptions, branches));
             }
 
-            if (parent == null) {
-                current = new SimpleEffectNode(new BlankEffect(), current);
-            }
+            return parent == null ? first : first.getNext();
+        }
 
-            return current;
+        private void addNode(EffectNode next) {
+            current.setNext(next);
+            current = current.getNext();
         }
     }
 }

@@ -12,7 +12,7 @@ public class Player {
     private static final int DEFAULT_KEY_COST = 6;
     private static final int DEFAULT_MAXIMUM_HAND_SIZE = 6;
 
-    private final Queue<Card> deck;
+    private final Deque<Card> deck;
 
     @Getter
     private final Battleline battleline = new Battleline();
@@ -63,7 +63,7 @@ public class Player {
         return false;
     }
 
-    public Iterable<EffectNode> playFromHand(int index) {
+    public EffectNode playFromHand(int index) {
         return hand.remove(index).play(this);
     }
 
@@ -184,6 +184,18 @@ public class Player {
         addPlayCondition(card -> card.getHouse() == activeHouse);
         addActionCondition(spawnable -> spawnable.getHouse() == activeHouse);
         addFightCondition(creature -> creature.getHouse() == activeHouse);
+    }
+
+    public Card peekTopCard() {
+        return deck.peek();
+    }
+
+    public Card popTopCard() {
+        return deck.pop();
+    }
+
+    public void pushTopCard(Card card) {
+        deck.push(card);
     }
 
     private <T> boolean testConditions(T toTest, List<Predicate<T>> conditions) {

@@ -9,6 +9,7 @@ import net.finalstring.card.dis.PitDemon;
 import net.finalstring.card.logos.LibraryOfBabble;
 import net.finalstring.card.sanctum.TheVaultKeeper;
 import net.finalstring.card.untamed.DustPixie;
+import net.finalstring.effect.EffectIterator;
 import net.finalstring.effect.EffectNode;
 import org.junit.Before;
 import org.junit.Test;
@@ -51,7 +52,7 @@ public class PlayerTest {
     }
 
     @Test public void testPlayingCreatureCardFromHand() {
-        for (EffectNode effect : underTest.playFromHand(0)) {
+        for (EffectNode effect : new EffectIterator(underTest.playFromHand(0))) {
             effect.getNextUnsetParameter().ifPresent(param -> param.setValue(true));
         }
 
@@ -61,7 +62,7 @@ public class PlayerTest {
     @Test public void testDyingCreatureIsPutInDiscard() {
         assertThat(underTest.getDiscardPile().size(), is(0));
 
-        for (EffectNode effect : underTest.playFromHand(0)) {
+        for (EffectNode effect : new EffectIterator(underTest.playFromHand(0))) {
             effect.getNextUnsetParameter().ifPresent(param -> param.setValue(true));
         }
 
@@ -71,7 +72,7 @@ public class PlayerTest {
     }
 
     @Test public void testPlayingCreatureWillResetIt() {
-        for (EffectNode effect : underTest.playFromHand(1)) {
+        for (EffectNode effect : new EffectIterator(underTest.playFromHand(1))) {
             effect.getNextUnsetParameter().ifPresent(param -> param.setValue(true));
         }
 
@@ -141,7 +142,7 @@ public class PlayerTest {
     @Test public void testPlayingCardWithAemberIncrementsPool() {
         assertThat(underTest.getAemberPool(), is(0));
 
-        for (EffectNode effect : new DustPixie().play(underTest));
+        for (EffectNode effect : new EffectIterator(new DustPixie().play(underTest)));
 
         assertThat(underTest.getAemberPool(), is(2));
     }
@@ -149,11 +150,11 @@ public class PlayerTest {
     @Test public void testPlayingCreatureOnSpecificFlankWorks() {
         assertThat(underTest.getBattleline().getCreatureCount(), is(0));
 
-        for (EffectNode effect : normalCreature.play(underTest)) {
+        for (EffectNode effect : new EffectIterator(normalCreature.play(underTest))) {
             effect.getNextUnsetParameter().ifPresent(param -> param.setValue(true));
         }
 
-        for (EffectNode effect : armoredCreature.play(underTest)) {
+        for (EffectNode effect : new EffectIterator(armoredCreature.play(underTest))) {
             effect.getNextUnsetParameter().ifPresent(param -> param.setValue(false));
         }
 
@@ -163,7 +164,7 @@ public class PlayerTest {
     @Test public void testPlayingArtifactCreatesInstance() {
         assertThat(underTest.getArtifacts().size(), is(0));
 
-        for (EffectNode effect : artifact.play(underTest));
+        for (EffectNode effect : new EffectIterator(artifact.play(underTest)));
 
         assertThat(underTest.getArtifacts().size(), is(1));
     }
@@ -171,11 +172,11 @@ public class PlayerTest {
     @Test public void testUsingArtifactActionTriggersEffect() {
         underTest = new Player(underTest.getHand());
 
-        for (EffectNode effect : artifact.play(underTest));
+        for (EffectNode effect : new EffectIterator(artifact.play(underTest)));
 
         assertThat(underTest.getHandSize(), is(0));
 
-        for (Object object : artifact.action());
+        for (Object object : new EffectIterator(artifact.action()));
 
         assertThat(underTest.getHandSize(), is(1));
     }
@@ -183,10 +184,10 @@ public class PlayerTest {
     @Test public void testUsingCreatureActionTriggersEffect() {
         opponent.addAember(2);
 
-        for (EffectNode effect : actionCreature.play(underTest)) {
+        for (EffectNode effect : new EffectIterator(actionCreature.play(underTest))) {
             effect.getNextUnsetParameter().ifPresent(param -> param.setValue(true));
         }
-        for (EffectNode effect : actionCreature.action());
+        for (EffectNode effect : new EffectIterator(actionCreature.action()));
 
         assertThat(underTest.getAemberPool(), is(1));
         assertThat(opponent.getAemberPool(), is(1));

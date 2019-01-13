@@ -41,7 +41,7 @@ public class NeuroSyphonTest extends AbstractCardTest<NeuroSyphon> {
     }
 
     @Override
-    protected List<Card> getStartingHand() {
+    protected List<Card> getStartingDeck() {
         return Collections.singletonList(new DustPixie());
     }
 }

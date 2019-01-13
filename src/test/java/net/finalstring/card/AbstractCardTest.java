@@ -42,7 +42,7 @@ public abstract class AbstractCardTest<T extends Card> {
 
     protected void play(Card toPlay, Object[]... effectParameters) {
         if (toPlay instanceof Creature && effectParameters.length == 0) {
-            effectParameters = new Object[][] { { }, { true } };
+            effectParameters = new Object[][] { { true } };
         }
         triggerEffects(toPlay.play(player), effectParameters);
     }
@@ -54,7 +54,7 @@ public abstract class AbstractCardTest<T extends Card> {
     void triggerEffects(Iterable<EffectNode> effects, Object[][] effectParameters) {
         int groupIndex = 0;
         for (EffectNode effect : effects) {
-            if (effectParameters.length <= groupIndex) {
+            if (effectParameters.length <= groupIndex || !effect.getNextUnsetParameter().isPresent()) {
                 continue;
             }
 

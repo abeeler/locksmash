@@ -15,20 +15,20 @@ public class KnowledgeIsPowerTest extends AbstractCardTest<KnowledgeIsPower> {
     }
 
     @Test public void testArchivingCard() {
-        play(new Object[][] { { }, { 0 }, { 0 } });
+        play(new Object[][] { { 0 }, { 0 } });
 
         assertThat(player.getHandSize(), is(0));
         assertThat(player.getArchive().size(), is(2));
     }
 
     @Test public void testGainingAemberFromArchive() {
-        play(new Object[][] { { }, { 1 } });
+        play(new Object[][] { { 1 } });
 
         assertThat(player.getAemberPool(), is(STARTING_AEMBER + 1));
 
         player.archiveFromHand(0);
 
-        play(new Object[][] { { }, { 1 } });
+        play(new Object[][] { { 1 } });
 
         assertThat(player.getAemberPool(), is(STARTING_AEMBER + 3));
     }

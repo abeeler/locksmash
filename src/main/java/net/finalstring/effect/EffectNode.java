@@ -55,6 +55,11 @@ public interface EffectNode extends Effect {
             return this;
         }
 
+        public Builder dependentEffect(Supplier<Effect> dependentEffectSupplier) {
+            addNode(new DependentEffectNode(dependentEffectSupplier));
+            return this;
+        }
+
         public EffectNode build() {
             if (!branches.isEmpty()) {
                 addNode(new BranchingEffectNode(branchDescriptions, branches));

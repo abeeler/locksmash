@@ -62,7 +62,7 @@ public abstract class AbstractCardTest<T extends Card> {
     void triggerEffects(EffectNode firstEffect, Object[][] effectParameters) {
         int groupIndex = 0;
         for (EffectNode effect : new EffectIterator(firstEffect)) {
-            if (effectParameters.length <= groupIndex || !effect.getNextUnsetParameter().isPresent()) {
+            if (!effect.getNextUnsetParameter().isPresent() || effectParameters.length <= groupIndex) {
                 continue;
             }
 

@@ -27,7 +27,7 @@ public class ChainEffectNode implements EffectNode {
             current = chainSupplier.get();
         }
 
-        return current.getNextUnsetParameter();
+        return current == null ? Optional.empty() : current.getNextUnsetParameter();
     }
 
     @Override

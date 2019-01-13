@@ -186,12 +186,12 @@ public class Player {
         addFightCondition(creature -> creature.getHouse() == activeHouse);
     }
 
-    public Card peekTopCard() {
-        return deck.peek();
+    public Optional<Card> peekTopCard() {
+        return Optional.ofNullable(deck.peek());
     }
 
-    public Card popTopCard() {
-        return deck.pop();
+    public Optional<Card> popTopCard() {
+        return Optional.ofNullable(deck.poll());
     }
 
     public void pushTopCard(Card card) {

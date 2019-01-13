@@ -7,9 +7,17 @@ import net.finalstring.effect.AbstractEffect;
 @RequiredArgsConstructor
 public class DrawCard extends AbstractEffect {
     private final Player player;
+    private int amount = 1;
+
+    public DrawCard(Player player, int amount) {
+        this(player);
+
+        this.amount = amount;
+    }
 
     @Override
     public void affect() {
-        player.draw();
+        int drawn = 0;
+        while (drawn++ < amount && player.draw());
     }
 }

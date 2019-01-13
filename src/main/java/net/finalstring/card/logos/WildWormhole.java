@@ -18,6 +18,6 @@ public class WildWormhole extends Card {
     @Override
     protected void buildPlayEffects(EffectNode.Builder effectBuilder, Player player) {
         super.buildPlayEffects(effectBuilder, player);
-        effectBuilder.chain(() -> player.popTopCard().play(player));
+        effectBuilder.chain(() -> player.popTopCard().map(card -> card.play(player)).orElse(null));
     }
 }

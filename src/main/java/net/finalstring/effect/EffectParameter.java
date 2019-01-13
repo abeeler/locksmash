@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+// FIXME: Allow predicates to be set on the parameter values
+// FIXME: BattleFleet
+
 @Getter
 @AllArgsConstructor
 @RequiredArgsConstructor

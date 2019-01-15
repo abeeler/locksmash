@@ -8,6 +8,7 @@ import net.finalstring.effect.EffectIterator;
 import net.finalstring.effect.EffectNode;
 import net.finalstring.effect.board.CreaturePlace;
 import net.finalstring.effect.board.RemoveCreature;
+import net.finalstring.effect.player.GainAember;
 
 @Getter
 public class Creature extends Spawnable<Creature.CreatureInstance> {
@@ -51,12 +52,16 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
         return buildEffects(getInstance().getOwner(), this::buildFightEffects);
     }
 
-    public boolean canFight() {
-        if (getInstance() == null) {
-            return false;
-        }
+    public EffectNode reaped() {
+        return buildEffects(getInstance().getOwner(), Creature.this::buildReapEffects);
+    }
 
-        return getInstance().getOwner().canFight(this);
+    public boolean canFight() {
+        return canUse(player -> player.canFight(this));
+    }
+
+    public boolean canReap() {
+        return canUse(player -> player.canReap(this));
     }
 
     protected void buildPlayEffects(EffectNode.Builder builder, Player player) {
@@ -65,6 +70,10 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
     }
 
     protected void buildFightEffects(EffectNode.Builder builder, Player owner) { }
+
+    protected void buildReapEffects(EffectNode.Builder builder, Player owner) {
+        builder.effect(new GainAember(owner, 1));
+    }
 
     protected void buildDestroyedEffects(EffectNode.Builder builder, Player owner) {
         super.buildDestroyedEffects(builder, owner);
@@ -133,6 +142,7 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
 
             if (!unstun()) {
                 getOwner().addAember(1);
+                for (EffectNode effect : new EffectIterator(reaped()));
             }
         }
 

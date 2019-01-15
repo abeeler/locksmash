@@ -6,4 +6,12 @@ public abstract class AbstractCreatureTest<T extends Creature> extends AbstractS
     protected void fight() {
         new Fight(underTest, enemy).affect();
     }
+
+    protected void reap(Object[]... effectParameters) {
+        reap(underTest, effectParameters);
+    }
+
+    protected void reap(Creature toReap, Object[]... effectParameters) {
+        triggerEffects(toReap.reaped(), effectParameters);
+    }
 }

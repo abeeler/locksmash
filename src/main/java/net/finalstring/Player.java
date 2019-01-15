@@ -22,6 +22,11 @@ public class Player {
     private final List<Card> archive = new ArrayList<>();
     private final List<Spawnable.Instance> artifacts = new ArrayList<>();
 
+    private final List<Predicate<Card>> playConditions = new LinkedList<>();
+    private final List<Predicate<Spawnable<?>>> actionConditions = new LinkedList<>();
+    private final List<Predicate<Creature>> fightConditions = new LinkedList<>();
+    private final List<Predicate<Creature>> reapConditions = new LinkedList<>();
+
     @Getter
     @Setter
     private Player opponent;
@@ -32,9 +37,7 @@ public class Player {
     @Getter
     private int forgedKeys = 0;
 
-    private final List<Predicate<Card>> playConditions = new LinkedList<>();
-    private final List<Predicate<Spawnable<?>>> actionConditions = new LinkedList<>();
-    private final List<Predicate<Creature>> fightConditions = new LinkedList<>();
+    private int keyCostModifier = 0;
 
     public Player(List<Card> deck) {
         this.deck = new LinkedList<>(deck);
@@ -125,7 +128,7 @@ public class Player {
     }
 
     public int getKeyCost() {
-        return DEFAULT_KEY_COST;
+        return DEFAULT_KEY_COST + keyCostModifier;
     }
 
     public void forgeKey() {
@@ -180,6 +183,10 @@ public class Player {
         return testConditions(creature, fightConditions);
     }
 
+    public boolean canReap(Creature creature) {
+        return testConditions(creature, reapConditions);
+    }
+
     public void selectHouse(House activeHouse) {
         addPlayCondition(card -> card.getHouse() == activeHouse);
         addActionCondition(spawnable -> spawnable.getHouse() == activeHouse);
@@ -196,6 +203,10 @@ public class Player {
 
     public void pushTopCard(Card card) {
         deck.push(card);
+    }
+
+    public void modifyKeyCost(int delta) {
+        keyCostModifier += delta;
     }
 
     private <T> boolean testConditions(T toTest, List<Predicate<T>> conditions) {

@@ -3,9 +3,11 @@ package net.finalstring.card;
 import lombok.Getter;
 import net.finalstring.GameState;
 import net.finalstring.Player;
-import net.finalstring.effect.EffectIterator;
 import net.finalstring.effect.EffectNode;
 import net.finalstring.effect.Stateful;
+
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
     private T instance;
@@ -43,10 +45,7 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
         }
 
         try {
-            if (this instanceof Stateful) {
-                GameState.deregisterConstantEffect((Stateful) this);
-            }
-
+            leavePlay();
             getInstance().getOwner().discard(this);
             return buildEffects(getInstance().getOwner(), Spawnable.this::buildDestroyedEffects);
         } finally {
@@ -55,16 +54,22 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
     }
 
     public boolean canAct() {
-        if (getInstance() == null) {
-            return false;
-        }
+        return canUse(player -> player.canAct(this));
+    }
 
-        return getInstance().getOwner().canAct(this);
+    protected boolean canUse(Function<Player, Boolean> useCheck) {
+        return getInstance() != null && useCheck.apply(getInstance().getOwner());
     }
 
     protected void buildActionEffects(EffectNode.Builder builder, Player player) { }
 
     protected void buildDestroyedEffects(EffectNode.Builder builder, Player owner) { }
+
+    protected void leavePlay() {
+        if (this instanceof Stateful) {
+            GameState.deregisterConstantEffect((Stateful) this);
+        }
+    }
 
     @Getter
     public class Instance {

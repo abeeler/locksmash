@@ -141,7 +141,6 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
             exhaust();
 
             if (!unstun()) {
-                getOwner().addAember(1);
                 for (EffectNode effect : new EffectIterator(reaped()));
             }
         }

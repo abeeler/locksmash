@@ -4,7 +4,10 @@ import lombok.Getter;
 import net.finalstring.card.Creature;
 
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Stream;
 
 @Getter
 public class Battleline implements Iterable<Creature.CreatureInstance> {
@@ -58,6 +61,14 @@ public class Battleline implements Iterable<Creature.CreatureInstance> {
         }
 
         creatureCount--;
+    }
+
+    public List<Creature.CreatureInstance> getAllCreatures() {
+        List<Creature.CreatureInstance> creatures = new LinkedList<>();
+        for (Creature.CreatureInstance creature : this) {
+            creatures.add(creature);
+        }
+        return creatures;
     }
 
     @Override

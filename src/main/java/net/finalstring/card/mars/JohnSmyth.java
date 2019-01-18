@@ -19,7 +19,7 @@ public class JohnSmyth extends Creature {
     }
 
     public JohnSmyth() {
-        super(195, House.Mars, 2);
+        super(195, House.Mars, 2, Trait.Agent, Trait.Martian);
     }
 
     @Override

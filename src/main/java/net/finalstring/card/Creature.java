@@ -10,15 +10,21 @@ import net.finalstring.effect.board.CreaturePlace;
 import net.finalstring.effect.board.RemoveCreature;
 import net.finalstring.effect.player.GainAember;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 @Getter
 public class Creature extends Spawnable<Creature.CreatureInstance> {
+    private final Set<Trait> traits = new HashSet<>();
     private final int power;
     private boolean stunned;
 
-    public Creature(int id, House house, int power) {
+    public Creature(int id, House house, int power, Trait... traits) {
         super(id, house);
 
         this.power = power;
+        this.traits.addAll(Arrays.asList(traits));
     }
 
     Creature() {
@@ -64,16 +70,25 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
         return canUse(player -> player.canReap(this));
     }
 
+    public boolean hasTrait(Trait trait) {
+        return traits.contains(trait);
+    }
+
     protected void buildPlayEffects(EffectNode.Builder builder, Player player) {
         super.buildPlayEffects(builder, player);
         builder.effect(new CreaturePlace(player, this));
     }
 
-    protected void buildFightEffects(EffectNode.Builder builder, Player owner) { }
+    protected void buildFightEffects(EffectNode.Builder builder, Player owner) {
+        buildFightReapEffects(builder, owner);
+    }
 
     protected void buildReapEffects(EffectNode.Builder builder, Player owner) {
         builder.effect(new GainAember(owner, 1));
+        buildFightReapEffects(builder, owner);
     }
+
+    protected void buildFightReapEffects(EffectNode.Builder builder, Player owner) { }
 
     protected void buildDestroyedEffects(EffectNode.Builder builder, Player owner) {
         super.buildDestroyedEffects(builder, owner);

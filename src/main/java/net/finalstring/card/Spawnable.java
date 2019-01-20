@@ -3,10 +3,9 @@ package net.finalstring.card;
 import lombok.Getter;
 import net.finalstring.GameState;
 import net.finalstring.Player;
-import net.finalstring.effect.EffectNode;
+import net.finalstring.effect.node.EffectNode;
 import net.finalstring.effect.Stateful;
 
-import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public abstract class Spawnable<T extends Spawnable.Instance> extends Card {

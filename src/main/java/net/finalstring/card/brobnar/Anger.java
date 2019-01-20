@@ -4,7 +4,7 @@ import net.finalstring.Player;
 import net.finalstring.card.Card;
 import net.finalstring.card.Creature;
 import net.finalstring.card.House;
-import net.finalstring.effect.EffectNode;
+import net.finalstring.effect.node.EffectNode;
 import net.finalstring.effect.board.Fight;
 import net.finalstring.effect.board.Ready;
 

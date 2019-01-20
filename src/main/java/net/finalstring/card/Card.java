@@ -2,7 +2,7 @@ package net.finalstring.card;
 
 import lombok.Data;
 import net.finalstring.Player;
-import net.finalstring.effect.EffectNode;
+import net.finalstring.effect.node.EffectNode;
 import net.finalstring.effect.player.GainAember;
 
 import java.util.function.BiConsumer;

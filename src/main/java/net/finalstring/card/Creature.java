@@ -5,7 +5,7 @@ import lombok.Setter;
 import net.finalstring.AttackResult;
 import net.finalstring.Player;
 import net.finalstring.effect.EffectIterator;
-import net.finalstring.effect.EffectNode;
+import net.finalstring.effect.node.EffectNode;
 import net.finalstring.effect.board.CreaturePlace;
 import net.finalstring.effect.board.RemoveCreature;
 import net.finalstring.effect.player.GainAember;

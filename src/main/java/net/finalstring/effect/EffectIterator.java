@@ -1,6 +1,7 @@
 package net.finalstring.effect;
 
 import lombok.RequiredArgsConstructor;
+import net.finalstring.effect.node.EffectNode;
 
 import java.util.*;
 

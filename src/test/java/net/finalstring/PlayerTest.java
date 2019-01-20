@@ -10,7 +10,7 @@ import net.finalstring.card.logos.LibraryOfBabble;
 import net.finalstring.card.sanctum.TheVaultKeeper;
 import net.finalstring.card.untamed.DustPixie;
 import net.finalstring.effect.EffectIterator;
-import net.finalstring.effect.EffectNode;
+import net.finalstring.effect.node.EffectNode;
 import org.junit.Before;
 import org.junit.Test;
 

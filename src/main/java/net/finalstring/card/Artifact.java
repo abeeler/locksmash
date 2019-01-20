@@ -1,7 +1,7 @@
 package net.finalstring.card;
 
 import net.finalstring.Player;
-import net.finalstring.effect.EffectNode;
+import net.finalstring.effect.node.EffectNode;
 import net.finalstring.effect.board.ArtifactPlace;
 import net.finalstring.effect.board.RemoveArtifact;
 

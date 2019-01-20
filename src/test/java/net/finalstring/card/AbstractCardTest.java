@@ -3,7 +3,7 @@ package net.finalstring.card;
 import net.finalstring.GameState;
 import net.finalstring.Player;
 import net.finalstring.effect.EffectIterator;
-import net.finalstring.effect.EffectNode;
+import net.finalstring.effect.node.EffectNode;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.mockito.Spy;

@@ -1,8 +1,9 @@
-package net.finalstring.effect;
+package net.finalstring.effect.node;
 
+import net.finalstring.effect.ConditionalEffect;
+import net.finalstring.effect.Effect;
 import net.finalstring.effect.misc.BlankEffect;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Supplier;

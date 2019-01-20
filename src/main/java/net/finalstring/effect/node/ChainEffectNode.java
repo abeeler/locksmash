@@ -1,9 +1,8 @@
-package net.finalstring.effect;
+package net.finalstring.effect.node;
 
 import lombok.RequiredArgsConstructor;
-import net.finalstring.effect.misc.BlankEffect;
+import net.finalstring.effect.EffectParameter;
 
-import java.util.Iterator;
 import java.util.Optional;
 import java.util.function.Supplier;
 

@@ -3,7 +3,7 @@ package net.finalstring.card.logos;
 import net.finalstring.Player;
 import net.finalstring.card.Card;
 import net.finalstring.card.House;
-import net.finalstring.effect.EffectNode;
+import net.finalstring.effect.node.EffectNode;
 
 public class WildWormhole extends Card {
     public WildWormhole() {

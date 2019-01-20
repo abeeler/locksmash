@@ -3,7 +3,7 @@ package net.finalstring;
 import lombok.Getter;
 import lombok.Setter;
 import net.finalstring.card.*;
-import net.finalstring.effect.EffectNode;
+import net.finalstring.effect.node.EffectNode;
 
 import java.util.*;
 import java.util.function.Predicate;

@@ -1,4 +1,7 @@
-package net.finalstring.effect;
+package net.finalstring.effect.node;
+
+import net.finalstring.effect.ChoiceParameter;
+import net.finalstring.effect.EffectParameter;
 
 import java.util.List;
 import java.util.Optional;

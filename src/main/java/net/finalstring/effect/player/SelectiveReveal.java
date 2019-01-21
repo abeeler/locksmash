@@ -7,29 +7,21 @@ import net.finalstring.card.House;
 import net.finalstring.effect.EffectParameter;
 
 import java.util.Arrays;
+import java.util.function.Predicate;
 
 public class SelectiveReveal extends Reveal {
-    private final House houseToReveal;
-
     @Getter
     private final EffectParameter<Card[]> selectedCards = new EffectParameter<>("Select cards to reveal");
 
-    public SelectiveReveal(Player revealer, House houseToReveal) {
+    public SelectiveReveal(Player revealer, Predicate<Card> filter) {
         super(revealer);
 
-        this.houseToReveal = houseToReveal;
-
+        selectedCards.setFilter(filter);
         registerParameters(selectedCards);
     }
 
     @Override
     protected void affect() {
-        for (Card card : selectedCards.getValue()) {
-            if (card.getHouse() != houseToReveal) {
-                throw new IllegalArgumentException("Invalid card selected for reveal");
-            }
-        }
-
         toReveal.addAll(Arrays.asList(selectedCards.getValue()));
         super.affect();
     }

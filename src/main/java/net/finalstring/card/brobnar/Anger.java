@@ -4,6 +4,7 @@ import net.finalstring.Player;
 import net.finalstring.card.Card;
 import net.finalstring.card.Creature;
 import net.finalstring.card.House;
+import net.finalstring.effect.ParameterFilters;
 import net.finalstring.effect.node.EffectNode;
 import net.finalstring.effect.board.Fight;
 import net.finalstring.effect.board.Ready;
@@ -23,7 +24,7 @@ public class Anger extends Card {
     protected void buildPlayEffects(EffectNode.Builder builder, Player player) {
         super.buildPlayEffects(builder, player);
 
-        Ready ready = new Ready();
+        Ready ready = new Ready(ParameterFilters.builder().isCreature().ownedBy(player).build());
 
         builder
             .effect(ready)

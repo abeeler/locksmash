@@ -5,6 +5,7 @@ import net.finalstring.card.Creature;
 import net.finalstring.card.House;
 import net.finalstring.card.Spawnable;
 import net.finalstring.card.Trait;
+import net.finalstring.effect.ParameterFilters;
 import net.finalstring.effect.node.EffectNode;
 import net.finalstring.effect.board.Ready;
 
@@ -29,6 +30,6 @@ public class JohnSmyth extends Creature {
 
     @Override
     protected void buildFightReapEffects(EffectNode.Builder builder, Player owner) {
-        builder.effect(new Ready(JohnSmyth::isValidTarget));
+        builder.effect(new Ready(ParameterFilters.builder().ofHouse(House.Mars).withoutTrait(Trait.Agent).build()));
     }
 }

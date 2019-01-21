@@ -1,6 +1,7 @@
 package net.finalstring.effect.board;
 
 import lombok.Getter;
+import net.finalstring.card.Card;
 import net.finalstring.card.Spawnable;
 import net.finalstring.effect.AbstractEffect;
 import net.finalstring.effect.EffectParameter;
@@ -15,7 +16,7 @@ public class Ready extends AbstractEffect {
         registerParameters(target);
     }
 
-    public Ready(Predicate<Spawnable> filter) {
+    public Ready(Predicate<Card> filter) {
         this();
         target.setFilter(filter);
     }

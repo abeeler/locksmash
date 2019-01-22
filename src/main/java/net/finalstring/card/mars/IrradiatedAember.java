@@ -22,6 +22,6 @@ public class IrradiatedAember extends Card {
 
         effectBuilder
             .conditional(() -> player.getOpponent().getAemberPool() >= 6)
-            .effect(new DamageMultiple(3, player.getOpponent().getBattleline().getAllCreatures()));
+            .effect(new DamageMultiple(3, player.getOpponent().getBattleline().getCreatures()));
     }
 }

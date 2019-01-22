@@ -10,8 +10,8 @@ public class BranchingEffectNode implements EffectNode {
     private final EffectNode[] branches;
     private final EffectParameter<Integer> selectedBranch;
 
-    public BranchingEffectNode(List<String> branchDescriptoins, List<EffectNode> branches) {
-        selectedBranch = new ChoiceParameter(branchDescriptoins);
+    public BranchingEffectNode(List<String> branchDescriptions, List<EffectNode> branches) {
+        selectedBranch = new ChoiceParameter(branchDescriptions);
         this.branches = branches.toArray(new EffectNode[0]);
     }
 

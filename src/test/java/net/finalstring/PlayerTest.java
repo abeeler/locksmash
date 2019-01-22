@@ -56,7 +56,7 @@ public class PlayerTest {
             effect.getNextUnsetParameter().ifPresent(param -> param.setValue(true));
         }
 
-        assertThat(underTest.getBattleline().getLeftFlank(), is(normalCreature.getInstance()));
+        assertThat(underTest.getBattleline().getLeftFlank(), is(normalCreature));
     }
 
     @Test public void testDyingCreatureIsPutInDiscard() {
@@ -66,7 +66,7 @@ public class PlayerTest {
             effect.getNextUnsetParameter().ifPresent(param -> param.setValue(true));
         }
 
-        underTest.getBattleline().getLeftFlank().dealDamage(2);
+        underTest.getBattleline().getLeftFlank().getInstance().dealDamage(2);
 
         assertThat(underTest.getDiscardPile().size(), is(1));
     }
@@ -76,7 +76,7 @@ public class PlayerTest {
             effect.getNextUnsetParameter().ifPresent(param -> param.setValue(true));
         }
 
-        assertThat(underTest.getBattleline().getLeftFlank().getRemainingArmor(), is(1));
+        assertThat(underTest.getBattleline().getLeftFlank().getInstance().getRemainingArmor(), is(1));
     }
 
     @Test public void testCardsAreDrawnToHand() {
@@ -158,7 +158,7 @@ public class PlayerTest {
             effect.getNextUnsetParameter().ifPresent(param -> param.setValue(false));
         }
 
-        assertThat(normalCreature.getInstance().getRightNeighbor(), is(armoredCreature.getInstance()));
+        assertThat(normalCreature.getInstance().getRightNeighbor(), is(armoredCreature));
     }
 
     @Test public void testPlayingArtifactCreatesInstance() {

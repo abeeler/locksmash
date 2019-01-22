@@ -43,13 +43,22 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
             throw new IllegalStateException("Trying to destroy without a spawned instance");
         }
 
-        try {
-            leavePlay();
-            getInstance().getOwner().discard(this);
-            return buildEffects(getInstance().getOwner(), Spawnable.this::buildDestroyedEffects);
-        } finally {
-            instance = null;
+        leavePlay();
+        getInstance().getOwner().discard(this);
+
+        EffectNode destroyEffects = buildEffects(getInstance().getOwner(), Spawnable.this::buildDestroyedEffects);
+        instance = null;
+        return destroyEffects;
+    }
+
+    public void bounce() {
+        if (instance == null) {
+            throw new IllegalStateException("Trying to bounce without a spawned instance");
         }
+
+        leavePlay();
+        getInstance().getOwner().addToHand(this);
+        instance = null;
     }
 
     public boolean canAct() {

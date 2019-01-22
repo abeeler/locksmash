@@ -7,7 +7,7 @@ import net.finalstring.effect.EffectParameter;
 import java.util.List;
 
 public class DamageMultiple extends AbstractEffect {
-    private final EffectParameter<List<Creature.CreatureInstance>> targets = new EffectParameter<>("Select targets");
+    private final EffectParameter<List<Creature>> targets = new EffectParameter<>("Select targets");
 
     private final int amount;
 
@@ -17,7 +17,7 @@ public class DamageMultiple extends AbstractEffect {
         registerParameters(targets);
     }
 
-    public DamageMultiple(int amount, List<Creature.CreatureInstance> targets) {
+    public DamageMultiple(int amount, List<Creature> targets) {
         this(amount);
 
         this.targets.setValue(targets);
@@ -25,8 +25,8 @@ public class DamageMultiple extends AbstractEffect {
 
     @Override
     protected void affect() {
-        for (Creature.CreatureInstance creature : targets.getValue()) {
-            creature.dealDamage(amount);
+        for (Creature creature : targets.getValue()) {
+            creature.getInstance().dealDamage(amount);
         }
     }
 }

@@ -61,6 +61,11 @@ public interface EffectNode extends Effect {
             return this;
         }
 
+        public Builder optional(String choiceText) {
+            addNode(new OptionalEffectNode(choiceText));
+            return this;
+        }
+
         public EffectNode build() {
             if (!branches.isEmpty()) {
                 addNode(new BranchingEffectNode(branchDescriptions, branches));
@@ -71,7 +76,7 @@ public interface EffectNode extends Effect {
 
         private void addNode(EffectNode next) {
             current.setNext(next);
-            current = current.getNext();
+            current = next;
         }
     }
 }

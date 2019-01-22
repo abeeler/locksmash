@@ -18,11 +18,13 @@ import static org.mockito.Mockito.*;
 public class BattlelineTest {
     private Battleline underTest;
 
-    @Spy private Creature.CreatureInstance mockCreature = new EmberImp().place(new Player(), true);;
+    @Spy private Creature mockCreature = new EmberImp();
     private Creature creature;
     private Creature otherCreature;
 
     @Before public void setup() {
+        mockCreature.place(new Player(), true);
+
         creature = new EmberImp();
         otherCreature = new TheVaultKeeper();
 
@@ -37,17 +39,17 @@ public class BattlelineTest {
     }
 
     @Test public void testBattlelineHasCreatureAfterAdding() {
-        underTest.placeCreature(creature.getInstance(), true);
+        underTest.placeCreature(creature, true);
         assertThat(underTest.getCreatureCount(), is(1));
 
-        underTest.placeCreature(creature.getInstance(), false);
+        underTest.placeCreature(creature, false);
         assertThat(underTest.getCreatureCount(), is(2));
     }
 
     @Test public void testBattlelineHasExactCreature() {
-        underTest.placeCreature(creature.getInstance(), true);
+        underTest.placeCreature(creature, true);
 
-        assertThat(underTest.getLeftFlank(), is(creature.getInstance()));
+        assertThat(underTest.getLeftFlank(), is(creature));
     }
 
     @Test public void testLeftFlankIsNullWithoutCreatures() {
@@ -59,25 +61,25 @@ public class BattlelineTest {
     }
 
     @Test public void testLeftFlankIsRightFlankWithOneCreature() {
-        underTest.placeCreature(creature.getInstance(), true);
+        underTest.placeCreature(creature, true);
 
         assertThat(underTest.getLeftFlank(), is(underTest.getRightFlank()));
     }
 
     @Test public void testBattlelinePutsCreatureOnLeftFlank() {
-        underTest.placeCreature(otherCreature.getInstance(), true);
+        underTest.placeCreature(otherCreature, true);
         assertThat(underTest.getLeftFlank(), is(not(creature.getInstance())));
 
-        underTest.placeCreature(creature.getInstance(), true);
-        assertThat(underTest.getLeftFlank(), is(creature.getInstance()));
+        underTest.placeCreature(creature, true);
+        assertThat(underTest.getLeftFlank(), is(creature));
     }
 
     @Test public void testBattlelinePutsCreatureOnRightFlank() {
-        underTest.placeCreature(otherCreature.getInstance(), false);
+        underTest.placeCreature(otherCreature, false);
         assertThat(underTest.getRightFlank(), is(not(creature.getInstance())));
 
-        underTest.placeCreature(creature.getInstance(), false);
-        assertThat(underTest.getRightFlank(), is(creature.getInstance()));
+        underTest.placeCreature(creature, false);
+        assertThat(underTest.getRightFlank(), is(creature));
     }
 
     @Test public void testCreaturesRemovedAfterBeingDestroyedInFight() {
@@ -88,23 +90,5 @@ public class BattlelineTest {
         new Fight(creature, otherCreature).affect();
 
         assertThat(underTest.getCreatureCount(), is(0));
-    }
-
-    @Test public void testResetAllAffectsAllCreatures() {
-        Creature.CreatureInstance second = spy(new EmberImp().place(new Player(), true));
-        Creature.CreatureInstance third = spy(new EmberImp().place(new Player(), true));
-        Creature.CreatureInstance fourth = spy(new EmberImp().place(new Player(), true));
-
-        underTest.placeCreature(mockCreature, true);
-        underTest.placeCreature(second, true);
-        underTest.placeCreature(third, true);
-        underTest.placeCreature(fourth, true);
-
-        underTest.resetAll();
-
-        verify(mockCreature, times(2)).reset();
-        verify(second, times(2)).reset();
-        verify(third, times(2)).reset();
-        verify(fourth, times(2)).reset();
     }
 }

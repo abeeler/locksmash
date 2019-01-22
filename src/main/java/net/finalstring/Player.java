@@ -9,7 +9,8 @@ import java.util.*;
 import java.util.function.Predicate;
 
 public class Player {
-    private static final int DEFAULT_KEY_COST = 6;
+    public static final int DEFAULT_KEY_COST = 6;
+
     private static final int DEFAULT_MAXIMUM_HAND_SIZE = 6;
 
     private final Deque<Card> deck;
@@ -20,7 +21,7 @@ public class Player {
     private final List<Card> hand = new ArrayList<>();
     private final List<Card> discard = new ArrayList<>();
     private final List<Card> archive = new ArrayList<>();
-    private final List<Spawnable.Instance> artifacts = new ArrayList<>();
+    private final List<Artifact> artifacts = new ArrayList<>();
 
     private final List<Predicate<Card>> playConditions = new LinkedList<>();
     private final List<Predicate<Spawnable<?>>> actionConditions = new LinkedList<>();
@@ -102,15 +103,15 @@ public class Player {
         return Collections.unmodifiableList(archive);
     }
 
-    public List<Spawnable.Instance> getArtifacts() {
+    public List<Artifact> getArtifacts() {
         return Collections.unmodifiableList(artifacts);
     }
 
-    public void addArtifact(Spawnable.Instance artifact) {
+    public void addArtifact(Artifact artifact) {
         artifacts.add(artifact);
     }
 
-    public void removeArtifact(Spawnable.Instance artifact) {
+    public void removeArtifact(Artifact artifact) {
         artifacts.remove(artifact);
     }
 
@@ -132,8 +133,13 @@ public class Player {
     }
 
     public void forgeKey() {
-        if (aemberPool >= getKeyCost()) {
-            aemberPool -= getKeyCost();
+        forgeKey(0);
+    }
+
+    public void forgeKey(int modifier) {
+        int keyCost = Math.max(getKeyCost() + modifier, 0);
+        if (aemberPool >= keyCost) {
+            aemberPool -= keyCost;
             ++forgedKeys;
         }
     }

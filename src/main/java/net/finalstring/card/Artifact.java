@@ -3,7 +3,6 @@ package net.finalstring.card;
 import net.finalstring.Player;
 import net.finalstring.effect.node.EffectNode;
 import net.finalstring.effect.board.ArtifactPlace;
-import net.finalstring.effect.board.RemoveArtifact;
 
 public class Artifact extends Spawnable<Spawnable.Instance> {
     public Artifact(int id, House house) {
@@ -12,7 +11,7 @@ public class Artifact extends Spawnable<Spawnable.Instance> {
 
     public void place(Player owner) {
         spawn(new Instance(owner));
-        owner.addArtifact(getInstance());
+        owner.addArtifact(this);
     }
 
     @Override
@@ -22,8 +21,9 @@ public class Artifact extends Spawnable<Spawnable.Instance> {
     }
 
     @Override
-    protected void buildDestroyedEffects(EffectNode.Builder builder, Player owner) {
-        super.buildDestroyedEffects(builder, owner);
-        builder.effect(new RemoveArtifact(getInstance()));
+    protected void leavePlay() {
+        super.leavePlay();
+
+        getInstance().getOwner().removeArtifact(this);
     }
 }

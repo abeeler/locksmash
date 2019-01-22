@@ -7,11 +7,11 @@ import net.finalstring.Player;
 import net.finalstring.effect.EffectIterator;
 import net.finalstring.effect.node.EffectNode;
 import net.finalstring.effect.board.CreaturePlace;
-import net.finalstring.effect.board.RemoveCreature;
 import net.finalstring.effect.player.GainAember;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -49,7 +49,7 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
 
     public CreatureInstance place(Player owner, boolean onLeft) {
         spawn(new CreatureInstance(owner));
-        owner.getBattleline().placeCreature(getInstance(), onLeft);
+        owner.getBattleline().placeCreature(this, onLeft);
 
         return getInstance();
     }
@@ -90,9 +90,11 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
 
     protected void buildFightReapEffects(EffectNode.Builder builder, Player owner) { }
 
-    protected void buildDestroyedEffects(EffectNode.Builder builder, Player owner) {
-        super.buildDestroyedEffects(builder, owner);
-        builder.effect(new RemoveCreature(getInstance()));
+    @Override
+    protected void leavePlay() {
+        super.leavePlay();
+
+        getInstance().getOwner().getBattleline().removeCreature(this);
     }
 
     @Getter
@@ -184,6 +186,25 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
             boolean wasStunned = stunned;
             stunned = false;
             return wasStunned;
+        }
+
+        public Creature getLeftNeighbor() {
+            return getNeighbor(true);
+        }
+
+        public Creature getRightNeighbor() {
+            return getNeighbor(false);
+        }
+
+        private Creature getNeighbor(boolean left) {
+            List<Creature> creatures = getOwner().getBattleline().getCreatures();
+            int index = creatures.indexOf(Creature.this);
+
+            if (index == 0 && left || index == creatures.size() - 1 && !left) {
+                return null;
+            }
+
+            return creatures.get(index + (left ? -1 : 1));
         }
     }
 }

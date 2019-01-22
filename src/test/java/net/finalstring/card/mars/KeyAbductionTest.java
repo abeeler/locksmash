@@ -1,0 +1,58 @@
+package net.finalstring.card.mars;
+
+import net.finalstring.Player;
+import net.finalstring.card.AbstractCardTest;
+import net.finalstring.card.Creature;
+import net.finalstring.card.House;
+import org.junit.Test;
+
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Mockito.when;
+
+public class KeyAbductionTest extends AbstractCardTest<KeyAbduction> {
+    @Test public void testNonMarsCreaturesAreNotAffected() {
+        play(new Object[] { false });
+
+        assertThat(friendly.getInstance(), is(notNullValue()));
+        assertThat(enemy.getInstance(), is(notNullValue()));
+    }
+
+    @Test public void testMarsCreaturesAreAffected() {
+        when(friendly.getHouse()).thenReturn(House.Mars);
+        when(enemy.getHouse()).thenReturn(House.Mars);
+
+        play(new Object[] { false });
+
+        assertThat(friendly.getInstance(), is(nullValue()));
+        assertThat(enemy.getInstance(), is(nullValue()));
+    }
+
+    @Test public void testKeyIsNotForgedWhenNotEnoughAember() {
+        play(new Object[] { true });
+
+        assertThat(player.getForgedKeys(), is(0));
+        assertThat(player.getAemberPool(), is(STARTING_AEMBER + 1));
+    }
+
+    @Test public void testKeyIsForgedWithCostReducedByHandSize() {
+        int targetCost = 3;
+        int cardsToAdd = KeyAbduction.BASE_KEY_COST_MODIFIER + Player.DEFAULT_KEY_COST - targetCost;
+
+        while (player.getHandSize() < cardsToAdd) {
+            player.addToHand(createInstance());
+        }
+
+        assertThat(player.getForgedKeys(), is(0));
+
+        play(new Object[] { true });
+
+        assertThat(player.getForgedKeys(), is(1));
+        assertThat(player.getAemberPool(), is(STARTING_AEMBER - targetCost + 1));
+    }
+
+    @Override
+    protected KeyAbduction createInstance() {
+        return new KeyAbduction();
+    }
+}

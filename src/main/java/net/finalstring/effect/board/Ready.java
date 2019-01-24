@@ -23,6 +23,8 @@ public class Ready extends AbstractEffect {
 
     @Override
     public void affect() {
-        target.getValue().getInstance().ready();
+        if (target.isSet()) {
+            target.getValue().getInstance().ready();
+        }
     }
 }

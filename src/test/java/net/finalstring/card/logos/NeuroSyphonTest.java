@@ -13,7 +13,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class NeuroSyphonTest extends AbstractCardTest<NeuroSyphon> {
     @Test public void testDoesNothingAtEqualAember() {
-        play();
+        play(underTest);
 
         assertThat(player.getAemberPool(), is(STARTING_AEMBER + 1));
         assertThat(player.getHandSize(), is(0));
@@ -28,7 +28,7 @@ public class NeuroSyphonTest extends AbstractCardTest<NeuroSyphon> {
     @Test public void testStealsAndDrawsAtLessAember() {
         opponent.addAember(2);
 
-        play();
+        play(underTest);
 
         assertThat(player.getAemberPool(), is(STARTING_AEMBER + 2));
         assertThat(opponent.getAemberPool(), is(STARTING_AEMBER + 1));

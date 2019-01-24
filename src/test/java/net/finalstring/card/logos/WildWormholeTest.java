@@ -14,7 +14,7 @@ public class WildWormholeTest extends AbstractCardTest<WildWormhole> {
     }
 
     @Test public void testTopCardIsPlayed() {
-        play(new Object[] { true });
+        play(underTest, true);
 
         assertThat(player.getAemberPool(), is(STARTING_AEMBER + 3));
         assertThat(player.getDeck().size(), is(0));
@@ -23,7 +23,7 @@ public class WildWormholeTest extends AbstractCardTest<WildWormhole> {
     @Test public void testNestedWormholes() {
         player.pushTopCard(createInstance());
 
-        play(new Object[] { true });
+        play(underTest, true);
 
         assertThat(player.getAemberPool(), is(STARTING_AEMBER + 4));
         assertThat(player.getDeck().size(), is(0));
@@ -32,7 +32,7 @@ public class WildWormholeTest extends AbstractCardTest<WildWormhole> {
     @Test public void testWithEmptyDeck() {
         player.popTopCard();
 
-        play();
+        play(underTest);
 
         assertThat(player.getAemberPool(), is(STARTING_AEMBER + 1));
     }

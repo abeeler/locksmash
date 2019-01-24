@@ -16,7 +16,7 @@ public class BattleFleetTest extends AbstractCardTest<BattleFleet> {
 
     @Test
     public void testNothingHappensWithNoReveal() {
-        play(new Object[] { new Card[0] });
+        play(underTest, (Object) new Card[0]);
 
         assertThat(player.getAemberPool(), is(STARTING_AEMBER + 1));
         assertThat(player.getHandSize(), is(0));
@@ -25,7 +25,7 @@ public class BattleFleetTest extends AbstractCardTest<BattleFleet> {
 
     @Test
     public void testDrawsCardWithSingleReveal() {
-        play(new Object[] { new Card[] { createInstance() }});
+        play(underTest, (Object) new Card[] { createInstance() });
 
         assertThat(player.getAemberPool(), is(STARTING_AEMBER + 1));
         assertThat(player.getHandSize(), is(1));
@@ -34,7 +34,7 @@ public class BattleFleetTest extends AbstractCardTest<BattleFleet> {
 
     @Test
     public void testDrawsMultipleCardsWithMultipleReveals() {
-        play(new Object[] { new Card[] { createInstance(), createInstance(), createInstance() }});
+        play(underTest, (Object) new Card[] { createInstance(), createInstance(), createInstance() });
 
         assertThat(player.getAemberPool(), is(STARTING_AEMBER + 1));
         assertThat(player.getHandSize(), is(3));

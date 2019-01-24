@@ -13,8 +13,8 @@ public class DodgerTest extends AbstractCreatureTest<Dodger> {
     public void testDodgerStealsAfterFighting() {
         when(enemy.getPower()).thenReturn(1);
 
-        play();
-        fight();
+        play(underTest);
+        fight(underTest, enemy);
 
         assertThat(player.getAemberPool(), is(STARTING_AEMBER + 1));
         assertThat(opponent.getAemberPool(), is(STARTING_AEMBER - 1));

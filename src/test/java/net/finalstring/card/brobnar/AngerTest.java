@@ -10,7 +10,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class AngerTest extends AbstractCardTest<Anger> {
     @Test
     public void testAngerWithValidTargets() {
-        play(new Object[][] { { friendly }, { enemy }});
+        play(underTest, friendly, enemy);
 
         assertThat(friendly.getInstance(), nullValue());
     }
@@ -18,13 +18,13 @@ public class AngerTest extends AbstractCardTest<Anger> {
     @Test public void testAngerWithoutFightTarget() {
         friendly.getInstance().exhaust();
 
-        play(new Object[][] { { friendly }, { }});
+        play(underTest, friendly);
 
         assertThat(friendly.getInstance().isReady(), is(true));
     }
 
     @Test public void testAngerWithoutTargets() {
-        play();
+        play(underTest);
 
         assertThat(player.getAemberPool(), is(STARTING_AEMBER + 1));
     }

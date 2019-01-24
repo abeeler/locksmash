@@ -38,9 +38,9 @@ public class CreatureCardTest {
         skirmishCreature = new Snufflegator();
 
         normalCreature.place(mockPlayer, true);
+        tauntCreature.place(mockPlayer, true);
         armoredCreature.place(mockPlayer, true);
         aemberCreature.place(mockPlayer, true);
-        tauntCreature.place(mockPlayer, true);
         elusiveCreature.place(mockPlayer, true);
         skirmishCreature.place(mockPlayer, true);
     }
@@ -109,11 +109,11 @@ public class CreatureCardTest {
     @Test public void testReapingAddsOneAmberForOwner() {
         normalCreature.getInstance().reap();
 
-        verify(mockPlayer).addAember(1);
+        assertThat(mockPlayer.getAemberPool(), is(1));
     }
 
     @Test public void testNormalCreatureCanBeFought() {
-        assertThat(normalCreature.getInstance().canTarget(normalCreature.getInstance()), is(true));
+        assertThat(normalCreature.getInstance().canTarget(skirmishCreature.getInstance()), is(true));
     }
 
     @Test public void testTauntCreatureCanBeFought() {
@@ -121,20 +121,14 @@ public class CreatureCardTest {
     }
 
     @Test public void testCreatureBesideTauntCannotBeFought() {
-        normalCreature.getInstance().setLeftNeighbor(tauntCreature.getInstance());
-
         assertThat(normalCreature.getInstance().canTarget(normalCreature.getInstance()), is(false));
     }
 
     @Test public void testCreatureBesideTwoTauntsCannotBeFought() {
-        normalCreature.getInstance().setLeftNeighbor(tauntCreature.getInstance());
-        normalCreature.getInstance().setRightNeighbor(tauntCreature.getInstance());
-
         assertThat(normalCreature.getInstance().canTarget(normalCreature.getInstance()), is(false));
     }
 
     @Test public void testTauntCreatureBesideTauntCanBeFought() {
-        tauntCreature.getInstance().setLeftNeighbor(tauntCreature.getInstance());
         assertThat(normalCreature.getInstance().canTarget(tauntCreature.getInstance()), is(true));
     }
 

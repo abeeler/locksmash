@@ -3,15 +3,13 @@ package net.finalstring.card;
 import net.finalstring.effect.board.Fight;
 
 public abstract class AbstractCreatureTest<T extends Creature> extends AbstractSpawnableTest<T> {
-    protected void fight() {
+    protected void fight(Creature attacker, Creature defender, Object... effectParameters) {
         new Fight(underTest, enemy).affect();
+        triggerEffects(effectParameters);
     }
 
-    protected void reap(Object[]... effectParameters) {
-        reap(underTest, effectParameters);
-    }
-
-    protected void reap(Creature toReap, Object[]... effectParameters) {
-        triggerEffects(toReap.reaped(), effectParameters);
+    protected void reap(Creature toReap, Object... effectParameters) {
+        toReap.reaped();
+        triggerEffects(effectParameters);
     }
 }

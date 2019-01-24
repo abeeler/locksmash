@@ -2,8 +2,7 @@ package net.finalstring.card;
 
 import net.finalstring.GameState;
 import net.finalstring.Player;
-import net.finalstring.effect.EffectIterator;
-import net.finalstring.effect.node.EffectNode;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.mockito.Spy;
@@ -24,8 +23,7 @@ public abstract class AbstractCardTest<T extends Card> {
     @Spy protected Creature friendly;
     @Spy protected Creature enemy;
 
-    @Before
-    public void setup() {
+    @Before public void setup() {
         underTest = createInstance();
 
         player = new Player(getStartingDeck());
@@ -36,19 +34,19 @@ public abstract class AbstractCardTest<T extends Card> {
 
         friendly.place(player, true);
         enemy.place(opponent, true);
+    }
 
+    @After public void cleanup() {
         GameState.reset();
     }
 
-    protected void play(Object[]... effectParameters) {
-        play(underTest, effectParameters);
-    }
-
-    protected void play(Card toPlay, Object[]... effectParameters) {
+    protected void play(Card toPlay, Object... effectParameters) {
         if (toPlay instanceof Creature && effectParameters.length == 0) {
-            effectParameters = new Object[][] { { true } };
+            effectParameters = new Object[] { true };
         }
-        triggerEffects(toPlay.play(player), effectParameters);
+
+        toPlay.play(player);
+        triggerEffects(effectParameters);
     }
 
     protected T createInstance() {
@@ -59,17 +57,13 @@ public abstract class AbstractCardTest<T extends Card> {
         return new LinkedList<>();
     }
 
-    void triggerEffects(EffectNode firstEffect, Object[][] effectParameters) {
-        int groupIndex = 0;
-        for (EffectNode effect : new EffectIterator(firstEffect)) {
-            if (!effect.getNextUnsetParameter().isPresent() || effectParameters.length <= groupIndex) {
-                continue;
-            }
+    void triggerEffects(Object[] effectParameters) {
+        for (Object effectParameter : effectParameters) {
+            GameState.setEffectParameter(effectParameter);
+        }
 
-            for (Object parameter : effectParameters[groupIndex]) {
-                effect.getNextUnsetParameter().ifPresent(param -> param.setValue(parameter));
-            }
-            ++groupIndex;
+        if (GameState.isEffectPending()) {
+            GameState.trigger();
         }
     }
 }

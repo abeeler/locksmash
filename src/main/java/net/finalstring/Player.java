@@ -67,8 +67,8 @@ public class Player {
         return false;
     }
 
-    public EffectNode playFromHand(int index) {
-        return hand.remove(index).play(this);
+    public void playFromHand(int index) {
+        hand.remove(index).play(this);
     }
 
     public void discardFromHand(int index) {

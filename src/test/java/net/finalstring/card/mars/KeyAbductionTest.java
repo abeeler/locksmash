@@ -12,7 +12,7 @@ import static org.mockito.Mockito.when;
 
 public class KeyAbductionTest extends AbstractCardTest<KeyAbduction> {
     @Test public void testNonMarsCreaturesAreNotAffected() {
-        play(new Object[] { false });
+        play(underTest, false);
 
         assertThat(friendly.getInstance(), is(notNullValue()));
         assertThat(enemy.getInstance(), is(notNullValue()));
@@ -22,14 +22,14 @@ public class KeyAbductionTest extends AbstractCardTest<KeyAbduction> {
         when(friendly.getHouse()).thenReturn(House.Mars);
         when(enemy.getHouse()).thenReturn(House.Mars);
 
-        play(new Object[] { false });
+        play(underTest, false);
 
         assertThat(friendly.getInstance(), is(nullValue()));
         assertThat(enemy.getInstance(), is(nullValue()));
     }
 
     @Test public void testKeyIsNotForgedWhenNotEnoughAember() {
-        play(new Object[] { true });
+        play(underTest, true);
 
         assertThat(player.getForgedKeys(), is(0));
         assertThat(player.getAemberPool(), is(STARTING_AEMBER + 1));
@@ -45,7 +45,7 @@ public class KeyAbductionTest extends AbstractCardTest<KeyAbduction> {
 
         assertThat(player.getForgedKeys(), is(0));
 
-        play(new Object[] { true });
+        play(underTest, true);
 
         assertThat(player.getForgedKeys(), is(1));
         assertThat(player.getAemberPool(), is(STARTING_AEMBER - targetCost + 1));

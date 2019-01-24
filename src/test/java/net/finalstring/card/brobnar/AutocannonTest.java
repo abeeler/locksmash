@@ -8,7 +8,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class AutocannonTest extends AbstractSpawnableTest<Autocannon> {
     @Test public void testAutocannonDamagesNewCreatures() {
-        play();
+        play(underTest);
         destroy(enemy);
         play(enemy);
 
@@ -16,8 +16,8 @@ public class AutocannonTest extends AbstractSpawnableTest<Autocannon> {
     }
 
     @Test public void testAutocannonStopsDamagingWhenDestroyed() {
-        play();
-        destroy();
+        play(underTest);
+        destroy(underTest);
 
         destroy(enemy);
         play(enemy);

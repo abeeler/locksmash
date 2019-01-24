@@ -2,7 +2,7 @@ package net.finalstring.effect.board;
 
 import net.finalstring.card.Creature;
 import net.finalstring.effect.AbstractEffect;
-import net.finalstring.effect.EffectIterator;
+import net.finalstring.effect.EffectChain;
 import net.finalstring.effect.node.EffectNode;
 import net.finalstring.effect.EffectParameter;
 
@@ -45,10 +45,10 @@ public class Fight extends AbstractEffect {
             if (!attacking.getValue().hasSkirmish()) {
                 attacker.dealDamage(defending.getValue().getPower());
             }
+        }
 
-            if (attacker.isAlive()) {
-                for (EffectNode effect : new EffectIterator(attacking.getValue().fought()));
-            }
+        if (attacker.isAlive()) {
+            attacking.getValue().fought();
         }
     }
 }

@@ -13,6 +13,8 @@ public interface EffectNode extends Effect {
 
     void setNext(EffectNode next);
 
+    default void prepare() { }
+
     class Builder {
         private final Builder parent;
 
@@ -48,11 +50,6 @@ public interface EffectNode extends Effect {
 
         public Builder conditional(Supplier<Boolean> condition) {
             addNode(new SimpleEffectNode(new ConditionalEffect(condition)));
-            return this;
-        }
-
-        public Builder chain(Supplier<EffectNode> chainSupplier) {
-            addNode(new ChainEffectNode(chainSupplier));
             return this;
         }
 

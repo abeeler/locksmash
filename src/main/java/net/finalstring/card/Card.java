@@ -1,6 +1,7 @@
 package net.finalstring.card;
 
 import lombok.Data;
+import net.finalstring.GameState;
 import net.finalstring.Player;
 import net.finalstring.effect.node.EffectNode;
 import net.finalstring.effect.player.GainAember;
@@ -17,17 +18,17 @@ public abstract class Card {
         return 0;
     }
 
-    public EffectNode play(Player player) {
-        return buildEffects(player, this::buildPlayEffects);
+    public void play(Player player) {
+        buildEffects(player, this::buildPlayEffects);
     }
 
     protected void buildPlayEffects(EffectNode.Builder effectBuilder, Player player) {
         effectBuilder.effect(new GainAember(player, getAember()));
     }
 
-    protected EffectNode buildEffects(Player player, BiConsumer<EffectNode.Builder, Player> generator) {
+    protected void buildEffects(Player player, BiConsumer<EffectNode.Builder, Player> generator) {
         EffectNode.Builder builder = new EffectNode.Builder();
         generator.accept(builder, player);
-        return builder.build();
+        GameState.pushEffect(builder.build());
     }
 }

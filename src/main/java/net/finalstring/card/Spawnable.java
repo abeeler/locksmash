@@ -31,14 +31,15 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
         return instance;
     }
 
-    public EffectNode action() {
+    public void action() {
         if (instance == null) {
             throw new IllegalStateException("Trying to use an action without a spawned instance");
         }
-        return buildEffects(instance.getOwner(), this::buildActionEffects);
+
+        buildEffects(instance.getOwner(), this::buildActionEffects);
     }
 
-    public EffectNode destroy() {
+    public void destroy() {
         if (instance == null) {
             throw new IllegalStateException("Trying to destroy without a spawned instance");
         }
@@ -46,9 +47,8 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
         leavePlay();
         getInstance().getOwner().discard(this);
 
-        EffectNode destroyEffects = buildEffects(getInstance().getOwner(), Spawnable.this::buildDestroyedEffects);
+        buildEffects(getInstance().getOwner(), Spawnable.this::buildDestroyedEffects);
         instance = null;
-        return destroyEffects;
     }
 
     public void bounce() {

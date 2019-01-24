@@ -14,7 +14,7 @@ public class IrradiatedAemberTest extends AbstractCardTest<IrradiatedAember> {
     }
 
     @Test public void testDoesNothingWhenOpponentBelowThresholdAember() {
-        play();
+        play(underTest);
 
         assertThat(enemy.getInstance(), is(notNullValue()));
     }
@@ -22,7 +22,7 @@ public class IrradiatedAemberTest extends AbstractCardTest<IrradiatedAember> {
     @Test public void testDamageIsDealtWhenOpponentAtThresholdAember() {
         opponent.addAember(6);
 
-        play();
+        play(underTest);
 
         assertThat(enemy.getInstance(), is(nullValue()));
     }

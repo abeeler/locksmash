@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.finalstring.AttackResult;
 import net.finalstring.Player;
-import net.finalstring.effect.EffectIterator;
+import net.finalstring.effect.EffectChain;
 import net.finalstring.effect.node.EffectNode;
 import net.finalstring.effect.board.CreaturePlace;
 import net.finalstring.effect.player.GainAember;
@@ -54,12 +54,12 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
         return getInstance();
     }
 
-    public EffectNode fought() {
-        return buildEffects(getInstance().getOwner(), this::buildFightEffects);
+    public void fought() {
+        buildEffects(getInstance().getOwner(), this::buildFightEffects);
     }
 
-    public EffectNode reaped() {
-        return buildEffects(getInstance().getOwner(), Creature.this::buildReapEffects);
+    public void reaped() {
+        buildEffects(getInstance().getOwner(), Creature.this::buildReapEffects);
     }
 
     public boolean canFight() {
@@ -107,12 +107,6 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
 
         private boolean eluding = hasElusive();
 
-        @Setter
-        private CreatureInstance leftNeighbor;
-
-        @Setter
-        private CreatureInstance rightNeighbor;
-
         CreatureInstance(Player owner) {
             super(owner);
         }
@@ -124,7 +118,7 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
             damage += amount - absorbed;
 
             if (!isAlive()) {
-                for (EffectNode effect : new EffectIterator(destroy()));
+               destroy();
             }
         }
 
@@ -141,24 +135,20 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
         }
 
         public boolean underTaunt() {
-            return leftNeighbor != null && leftNeighbor.hasTaunt() ||
-                    rightNeighbor != null && rightNeighbor.hasTaunt();
-        }
-
-        public AttackResult attacked(CreatureInstance attacker) {
-            if (hasElusive() && isEluding()) {
-                elude();
-                return AttackResult.elusiveResult;
+            Creature neighbor = getLeftNeighbor();
+            if (neighbor != null && neighbor.hasTaunt()) {
+                return true;
             }
 
-            return new AttackResult(getPower());
+            neighbor = getRightNeighbor();
+            return neighbor != null && neighbor.hasTaunt();
         }
 
         public void reap() {
             exhaust();
 
             if (!unstun()) {
-                for (EffectNode effect : new EffectIterator(reaped()));
+                reaped();
             }
         }
 

@@ -4,7 +4,6 @@ import net.finalstring.card.AbstractCreatureTest;
 import net.finalstring.card.House;
 import net.finalstring.card.Trait;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -20,16 +19,16 @@ public class JohnSmythTest extends AbstractCreatureTest<JohnSmyth> {
     }
 
     @Test public void testDoesNothingWithoutTarget() {
-        play();
-        reap();
+        play(underTest);
+        reap(underTest);
 
         assertThat(player.getAemberPool(), is(STARTING_AEMBER + 1));
         assertThat(friendly.getInstance().isReady(), is(false));
     }
 
     @Test public void testReapWillReadyMarsNonAgentTarget() {
-        play();
-        reap(new Object[] { friendly });
+        play(underTest);
+        reap(underTest, friendly);
         assertThat(friendly.getInstance().isReady(), is(true));
     }
 
@@ -37,25 +36,24 @@ public class JohnSmythTest extends AbstractCreatureTest<JohnSmyth> {
     public void testNonMarsTargetIsIllegal() {
         when(friendly.getHouse()).thenReturn(House.Brobnar);
 
-        play();
-        reap(new Object[] { friendly });
+        play(underTest);
+        reap(underTest, friendly);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testAgentTraitTargetIsIllegal() {
         when(friendly.hasTrait(Trait.Agent)).thenReturn(true);
 
-        play();
-        reap(new Object[] { friendly });
+        play(underTest);
+        reap(underTest, friendly);
     }
 
-    // TODO: Allow fight effects to be set in tests
-    @Ignore
     @Test public void testFightWillReadyMarsNonAgentTarget() {
         when(enemy.hasElusive()).thenReturn(true);
+        enemy.getInstance().reset();
 
-        play();
-        // fight(new Object[] { friendly });
+        play(underTest);
+        fight(underTest, enemy, friendly);
         assertThat(friendly.getInstance().isReady(), is(true));
     }
 

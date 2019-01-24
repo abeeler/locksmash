@@ -10,7 +10,7 @@ import static org.mockito.Mockito.when;
 
 public class GrabberJammerTest extends AbstractCreatureTest<GrabberJammer> {
     @Before public void boardSetup() {
-        play();
+        play(underTest);
     }
 
     @Test public void testOpponentKeyCostIsHigher() {
@@ -18,7 +18,7 @@ public class GrabberJammerTest extends AbstractCreatureTest<GrabberJammer> {
     }
 
     @Test public void testOpponentKeyCostResetsWhenDestroyed() {
-        destroy();
+        destroy(underTest);
 
         assertThat(opponent.getKeyCost(), is(6));
     }
@@ -27,13 +27,13 @@ public class GrabberJammerTest extends AbstractCreatureTest<GrabberJammer> {
         when(enemy.getPower()).thenReturn(3);
 
         assertThat(underTest.getInstance().getCapturedAember(), is(0));
-        fight();
+        fight(underTest, enemy);
         assertThat(underTest.getInstance().getCapturedAember(), is(1));
     }
 
     @Test public void testReapingCaptures() {
         assertThat(underTest.getInstance().getCapturedAember(), is(0));
-        reap();
+        reap(underTest);
         assertThat(underTest.getInstance().getCapturedAember(), is(1));
     }
 

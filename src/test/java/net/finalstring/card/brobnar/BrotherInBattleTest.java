@@ -16,7 +16,7 @@ public class BrotherInBattleTest extends AbstractCardTest<BrothersInBattle> {
         assertThat(friendly.canAct(), is(false));
         assertThat(friendly.canFight(), is(false));
 
-        play(new Object[][] { { House.Dis } });
+        play(underTest, House.Dis);
 
         assertThat(friendly.canAct(), is(false));
         assertThat(friendly.canFight(), is(true));

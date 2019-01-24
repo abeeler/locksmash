@@ -21,15 +21,16 @@ public class DependentEffectNode implements EffectNode {
 
     @Override
     public Optional<EffectParameter> getNextUnsetParameter() {
-        if (dependentEffect == null) {
-            dependentEffect = dependentEffectSupplier.get();
-        }
-
         return dependentEffect.getNextUnsetParameter();
     }
 
     @Override
     public boolean trigger() {
         return dependentEffect.trigger();
+    }
+
+    @Override
+    public void prepare() {
+        dependentEffect = dependentEffectSupplier.get();
     }
 }

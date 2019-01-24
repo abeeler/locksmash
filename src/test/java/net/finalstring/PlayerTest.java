@@ -9,7 +9,7 @@ import net.finalstring.card.dis.PitDemon;
 import net.finalstring.card.logos.LibraryOfBabble;
 import net.finalstring.card.sanctum.TheVaultKeeper;
 import net.finalstring.card.untamed.DustPixie;
-import net.finalstring.effect.EffectIterator;
+import net.finalstring.effect.EffectChain;
 import net.finalstring.effect.node.EffectNode;
 import org.junit.Before;
 import org.junit.Test;
@@ -52,9 +52,8 @@ public class PlayerTest {
     }
 
     @Test public void testPlayingCreatureCardFromHand() {
-        for (EffectNode effect : new EffectIterator(underTest.playFromHand(0))) {
-            effect.getNextUnsetParameter().ifPresent(param -> param.setValue(true));
-        }
+        underTest.playFromHand(0);
+        GameState.setEffectParameter(true);
 
         assertThat(underTest.getBattleline().getLeftFlank(), is(normalCreature));
     }
@@ -62,9 +61,8 @@ public class PlayerTest {
     @Test public void testDyingCreatureIsPutInDiscard() {
         assertThat(underTest.getDiscardPile().size(), is(0));
 
-        for (EffectNode effect : new EffectIterator(underTest.playFromHand(0))) {
-            effect.getNextUnsetParameter().ifPresent(param -> param.setValue(true));
-        }
+        underTest.playFromHand(0);
+        GameState.setEffectParameter(true);
 
         underTest.getBattleline().getLeftFlank().getInstance().dealDamage(2);
 
@@ -72,9 +70,8 @@ public class PlayerTest {
     }
 
     @Test public void testPlayingCreatureWillResetIt() {
-        for (EffectNode effect : new EffectIterator(underTest.playFromHand(1))) {
-            effect.getNextUnsetParameter().ifPresent(param -> param.setValue(true));
-        }
+        underTest.playFromHand(1);
+        GameState.setEffectParameter(true);
 
         assertThat(underTest.getBattleline().getLeftFlank().getInstance().getRemainingArmor(), is(1));
     }
@@ -142,7 +139,8 @@ public class PlayerTest {
     @Test public void testPlayingCardWithAemberIncrementsPool() {
         assertThat(underTest.getAemberPool(), is(0));
 
-        for (EffectNode effect : new EffectIterator(new DustPixie().play(underTest)));
+        new DustPixie().play(underTest);
+        GameState.setEffectParameter(true);
 
         assertThat(underTest.getAemberPool(), is(2));
     }
@@ -150,13 +148,11 @@ public class PlayerTest {
     @Test public void testPlayingCreatureOnSpecificFlankWorks() {
         assertThat(underTest.getBattleline().getCreatureCount(), is(0));
 
-        for (EffectNode effect : new EffectIterator(normalCreature.play(underTest))) {
-            effect.getNextUnsetParameter().ifPresent(param -> param.setValue(true));
-        }
+        normalCreature.play(underTest);
+        GameState.setEffectParameter(true);
 
-        for (EffectNode effect : new EffectIterator(armoredCreature.play(underTest))) {
-            effect.getNextUnsetParameter().ifPresent(param -> param.setValue(false));
-        }
+        armoredCreature.play(underTest);
+        GameState.setEffectParameter(false);
 
         assertThat(normalCreature.getInstance().getRightNeighbor(), is(armoredCreature));
     }
@@ -164,7 +160,7 @@ public class PlayerTest {
     @Test public void testPlayingArtifactCreatesInstance() {
         assertThat(underTest.getArtifacts().size(), is(0));
 
-        for (EffectNode effect : new EffectIterator(artifact.play(underTest)));
+        artifact.play(underTest);
 
         assertThat(underTest.getArtifacts().size(), is(1));
     }
@@ -172,11 +168,11 @@ public class PlayerTest {
     @Test public void testUsingArtifactActionTriggersEffect() {
         underTest = new Player(underTest.getHand());
 
-        for (EffectNode effect : new EffectIterator(artifact.play(underTest)));
+        artifact.play(underTest);
 
         assertThat(underTest.getHandSize(), is(0));
 
-        for (Object object : new EffectIterator(artifact.action()));
+        artifact.action();
 
         assertThat(underTest.getHandSize(), is(1));
     }
@@ -184,10 +180,10 @@ public class PlayerTest {
     @Test public void testUsingCreatureActionTriggersEffect() {
         opponent.addAember(2);
 
-        for (EffectNode effect : new EffectIterator(actionCreature.play(underTest))) {
-            effect.getNextUnsetParameter().ifPresent(param -> param.setValue(true));
-        }
-        for (EffectNode effect : new EffectIterator(actionCreature.action()));
+        actionCreature.play(underTest);
+        GameState.setEffectParameter(true);
+
+        actionCreature.action();
 
         assertThat(underTest.getAemberPool(), is(1));
         assertThat(opponent.getAemberPool(), is(1));

@@ -2,6 +2,7 @@ package net.finalstring.card;
 
 import net.finalstring.GameState;
 import net.finalstring.Player;
+import net.finalstring.effect.board.Fight;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -46,6 +47,26 @@ public abstract class AbstractCardTest<T extends Card> {
         }
 
         toPlay.play(player);
+        triggerEffects(effectParameters);
+    }
+
+    protected void fight(Creature attacker, Creature defender, Object... effectParameters) {
+        new Fight(attacker, defender).affect();
+        triggerEffects(effectParameters);
+    }
+
+    protected void reap(Creature toReap, Object... effectParameters) {
+        toReap.reaped();
+        triggerEffects(effectParameters);
+    }
+
+    protected void action(Spawnable<?> toAct, Object... effectParameters) {
+        toAct.action();
+        triggerEffects(effectParameters);
+    }
+
+    protected void destroy(Spawnable<?> toDestroy, Object... effectParameters) {
+        toDestroy.destroy();
         triggerEffects(effectParameters);
     }
 

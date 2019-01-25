@@ -16,6 +16,7 @@ import java.util.List;
 @UtilityClass
 public class GameState {
     private final List<Stateful> activeConstantEffects = new ArrayList<>();
+    private final List<Stateful> activeTurnEffects = new ArrayList<>();
     private final Deque<EffectChain> effectStack = new ArrayDeque<>();
 
     public void registerConstantEffect(Stateful constantEffect) {
@@ -26,12 +27,22 @@ public class GameState {
         activeConstantEffects.remove(constantEffect);
     }
 
+    public void registerTurnEffect(Stateful turnEffect) {
+        activeTurnEffects.add(turnEffect);
+    }
+
+    public void endTurn() {
+        activeTurnEffects.clear();
+    }
+
     public void creaturePlaced(Creature placed) {
+        activeTurnEffects.forEach(stateful -> stateful.onCreatureEnter(placed));
         activeConstantEffects.forEach(stateful -> stateful.onCreatureEnter(placed));
     }
 
     public void reset() {
         activeConstantEffects.clear();
+        activeTurnEffects.clear();
         effectStack.clear();
     }
 

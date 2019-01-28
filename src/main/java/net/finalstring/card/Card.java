@@ -22,13 +22,13 @@ public abstract class Card {
         buildEffects(player, this::buildPlayEffects);
     }
 
-    protected void buildPlayEffects(EffectNode.Builder effectBuilder, Player player) {
-        effectBuilder.effect(new GainAember(player, getAember()));
-    }
-
-    protected void buildEffects(Player player, BiConsumer<EffectNode.Builder, Player> generator) {
+    void buildEffects(Player player, BiConsumer<EffectNode.Builder, Player> generator) {
         EffectNode.Builder builder = new EffectNode.Builder();
         generator.accept(builder, player);
         EffectStack.pushEffect(builder.build());
+    }
+
+    protected void buildPlayEffects(EffectNode.Builder effectBuilder, Player player) {
+        effectBuilder.effect(new GainAember(player, getAember()));
     }
 }

@@ -122,6 +122,12 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
             }
         }
 
+        public int heal(int amount) {
+            int healed = Math.min(amount, damage);
+            damage -= healed;
+            return healed;
+        }
+
         public void elude() {
             eluding = false;
         }

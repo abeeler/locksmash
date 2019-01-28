@@ -219,6 +219,26 @@ public class CreatureCardTest {
         assertThat(normalCreature.getInstance().isReady(), is(false));
     }
 
+    @Test public void testHealingCreatureWithNoDamageDoesNothing() {
+        assertThat(normalCreature.getInstance().getDamage(), is(0));
+        assertThat(normalCreature.getInstance().heal(10), is(0));
+        assertThat(normalCreature.getInstance().getDamage(), is(0));
+    }
+
+    @Test public void testHealingAllDamage() {
+        armoredCreature.getInstance().dealDamage(4);
+        assertThat(armoredCreature.getInstance().getDamage(), is(3));
+        assertThat(armoredCreature.getInstance().heal(3), is(3));
+        assertThat(armoredCreature.getInstance().getDamage(), is(0));
+    }
+
+    @Test public void testHealingExtraDamageDoesNothingExtra() {
+        armoredCreature.getInstance().dealDamage(4);
+        assertThat(armoredCreature.getInstance().getDamage(), is(3));
+        assertThat(armoredCreature.getInstance().heal(20), is(3));
+        assertThat(armoredCreature.getInstance().getDamage(), is(0));
+    }
+
     private void fight(Creature attacker, Creature defender) {
         new Fight(attacker, defender).affect();
     }

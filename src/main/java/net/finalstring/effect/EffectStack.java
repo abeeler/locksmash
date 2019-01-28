@@ -1,9 +1,7 @@
-package net.finalstring;
+package net.finalstring.effect;
 
 import lombok.experimental.UtilityClass;
 import net.finalstring.card.Creature;
-import net.finalstring.effect.EffectChain;
-import net.finalstring.effect.Stateful;
 import net.finalstring.effect.node.EffectNode;
 
 import java.util.ArrayDeque;
@@ -14,7 +12,7 @@ import java.util.List;
 // TODO: Allow effects added to the stack at the same time to have their order specified
 
 @UtilityClass
-public class GameState {
+public class EffectStack {
     private final List<Stateful> activeConstantEffects = new ArrayList<>();
     private final List<Stateful> activeTurnEffects = new ArrayList<>();
     private final Deque<EffectChain> effectStack = new ArrayDeque<>();

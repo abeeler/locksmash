@@ -2,9 +2,12 @@ package net.finalstring.card.mars;
 
 import net.finalstring.Player;
 import net.finalstring.card.Card;
+import net.finalstring.card.Creature;
 import net.finalstring.card.House;
 import net.finalstring.effect.node.EffectNode;
 import net.finalstring.effect.board.DamageMultiple;
+
+import java.util.List;
 
 public class IrradiatedAember extends Card {
     public IrradiatedAember() {
@@ -22,6 +25,6 @@ public class IrradiatedAember extends Card {
 
         effectBuilder
             .conditional(() -> player.getOpponent().getAemberPool() >= 6)
-            .effect(new DamageMultiple(3, player.getOpponent().getBattleline().getCreatures()));
+            .effect(new DamageMultiple(3, (List<Creature>) player.getOpponent().getBattleline().getCreatures()));
     }
 }

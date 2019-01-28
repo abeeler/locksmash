@@ -2,6 +2,8 @@ package net.finalstring.effect;
 
 import net.finalstring.effect.node.EffectNode;
 
+import java.util.Optional;
+
 public class EffectChain {
     private EffectNode currentNode;
 

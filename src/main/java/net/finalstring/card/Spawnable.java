@@ -1,7 +1,7 @@
 package net.finalstring.card;
 
 import lombok.Getter;
-import net.finalstring.GameState;
+import net.finalstring.effect.EffectStack;
 import net.finalstring.Player;
 import net.finalstring.effect.node.EffectNode;
 import net.finalstring.effect.Stateful;
@@ -21,7 +21,7 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
         }
 
         if (this instanceof Stateful) {
-            GameState.registerConstantEffect((Stateful) this);
+            EffectStack.registerConstantEffect((Stateful) this);
         }
 
         this.instance = instance;
@@ -75,7 +75,7 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
 
     protected void leavePlay() {
         if (this instanceof Stateful) {
-            GameState.deregisterConstantEffect((Stateful) this);
+            EffectStack.deregisterConstantEffect((Stateful) this);
         }
     }
 

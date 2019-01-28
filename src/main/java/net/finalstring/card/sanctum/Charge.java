@@ -1,6 +1,6 @@
 package net.finalstring.card.sanctum;
 
-import net.finalstring.GameState;
+import net.finalstring.effect.EffectStack;
 import net.finalstring.Player;
 import net.finalstring.card.Card;
 import net.finalstring.card.Creature;
@@ -29,6 +29,6 @@ public class Charge extends Card implements Stateful {
 
     @Override
     public void onCreatureEnter(Creature target) {
-        GameState.pushEffect(new SimpleEffectNode(new Damage(2)));
+        EffectStack.pushEffect(new SimpleEffectNode(new Damage(2)));
     }
 }

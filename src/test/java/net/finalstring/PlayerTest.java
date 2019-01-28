@@ -9,8 +9,7 @@ import net.finalstring.card.dis.PitDemon;
 import net.finalstring.card.logos.LibraryOfBabble;
 import net.finalstring.card.sanctum.TheVaultKeeper;
 import net.finalstring.card.untamed.DustPixie;
-import net.finalstring.effect.EffectChain;
-import net.finalstring.effect.node.EffectNode;
+import net.finalstring.effect.EffectStack;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -53,7 +52,7 @@ public class PlayerTest {
 
     @Test public void testPlayingCreatureCardFromHand() {
         underTest.playFromHand(0);
-        GameState.setEffectParameter(true);
+        EffectStack.setEffectParameter(true);
 
         assertThat(underTest.getBattleline().getLeftFlank(), is(normalCreature));
     }
@@ -62,7 +61,7 @@ public class PlayerTest {
         assertThat(underTest.getDiscardPile().size(), is(0));
 
         underTest.playFromHand(0);
-        GameState.setEffectParameter(true);
+        EffectStack.setEffectParameter(true);
 
         underTest.getBattleline().getLeftFlank().getInstance().dealDamage(2);
 
@@ -71,7 +70,7 @@ public class PlayerTest {
 
     @Test public void testPlayingCreatureWillResetIt() {
         underTest.playFromHand(1);
-        GameState.setEffectParameter(true);
+        EffectStack.setEffectParameter(true);
 
         assertThat(underTest.getBattleline().getLeftFlank().getInstance().getRemainingArmor(), is(1));
     }
@@ -140,7 +139,7 @@ public class PlayerTest {
         assertThat(underTest.getAemberPool(), is(0));
 
         new DustPixie().play(underTest);
-        GameState.setEffectParameter(true);
+        EffectStack.setEffectParameter(true);
 
         assertThat(underTest.getAemberPool(), is(2));
     }
@@ -149,10 +148,10 @@ public class PlayerTest {
         assertThat(underTest.getBattleline().getCreatureCount(), is(0));
 
         normalCreature.play(underTest);
-        GameState.setEffectParameter(true);
+        EffectStack.setEffectParameter(true);
 
         armoredCreature.play(underTest);
-        GameState.setEffectParameter(false);
+        EffectStack.setEffectParameter(false);
 
         assertThat(normalCreature.getInstance().getRightNeighbor(), is(armoredCreature));
     }
@@ -181,7 +180,7 @@ public class PlayerTest {
         opponent.addAember(2);
 
         actionCreature.play(underTest);
-        GameState.setEffectParameter(true);
+        EffectStack.setEffectParameter(true);
 
         actionCreature.action();
 

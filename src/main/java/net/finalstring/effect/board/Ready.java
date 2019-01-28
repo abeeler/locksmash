@@ -1,24 +1,23 @@
 package net.finalstring.effect.board;
 
 import lombok.Getter;
-import net.finalstring.card.Card;
+import net.finalstring.BoardState;
 import net.finalstring.card.Spawnable;
 import net.finalstring.effect.AbstractEffect;
-import net.finalstring.effect.EffectParameter;
-
-import java.util.function.Predicate;
+import net.finalstring.effect.EffectCardParameter;
+import net.finalstring.effect.TargetSpecification;
 
 public class Ready extends AbstractEffect {
     @Getter
-    private final EffectParameter<Spawnable> target = new EffectParameter<>("Select target to ready");
+    private final EffectCardParameter<Spawnable> target = new EffectCardParameter<>("Select target to ready");
 
-    public Ready() {
+    public Ready(TargetSpecification targetSpecification) {
+        target.setTargetSpecification(targetSpecification);
         registerParameters(target);
     }
 
-    public Ready(Predicate<Card> filter) {
-        this();
-        target.setFilter(filter);
+    public Ready() {
+        this(new TargetSpecification(null, BoardState::allCreatures));
     }
 
     @Override

@@ -1,6 +1,6 @@
 package net.finalstring.card;
 
-import net.finalstring.GameState;
+import net.finalstring.effect.EffectStack;
 import net.finalstring.Player;
 import net.finalstring.effect.board.Fight;
 import org.junit.After;
@@ -38,7 +38,7 @@ public abstract class AbstractCardTest<T extends Card> {
     }
 
     @After public void cleanup() {
-        GameState.reset();
+        EffectStack.reset();
     }
 
     protected void play(Card toPlay, Object... effectParameters) {
@@ -80,11 +80,11 @@ public abstract class AbstractCardTest<T extends Card> {
 
     void triggerEffects(Object[] effectParameters) {
         for (Object effectParameter : effectParameters) {
-            GameState.setEffectParameter(effectParameter);
+            EffectStack.setEffectParameter(effectParameter);
         }
 
-        if (GameState.isEffectPending()) {
-            GameState.trigger();
+        while (EffectStack.isEffectPending()) {
+            EffectStack.trigger();
         }
     }
 }

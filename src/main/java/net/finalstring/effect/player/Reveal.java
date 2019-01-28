@@ -15,7 +15,11 @@ public class Reveal extends AbstractEffect {
     private final Player revealer;
 
     @Override
-    protected void affect() {
+    public boolean trigger() {
         // TODO: Reveal selected cards to revealer's opponent
+        return !toReveal.isEmpty();
     }
+
+    @Override
+    protected void affect() { }
 }

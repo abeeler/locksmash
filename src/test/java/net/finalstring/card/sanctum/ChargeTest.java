@@ -1,8 +1,7 @@
 package net.finalstring.card.sanctum;
 
-import net.finalstring.GameState;
+import net.finalstring.effect.EffectStack;
 import net.finalstring.card.AbstractCardTest;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -19,18 +18,15 @@ public class ChargeTest extends AbstractCardTest<Charge> {
 
     @Test public void testEffectEndsAfterTurn() {
         play(underTest);
-        GameState.endTurn();
+        EffectStack.endTurn();
 
         destroy(friendly);
         play(friendly, true);
 
-        assertThat(GameState.isEffectPending(), is(false));
+        assertThat(EffectStack.isEffectPending(), is(false));
         assertThat(enemy.getInstance().getDamage(), is(0));
     }
 
-
-    // TODO: Detect when there are no valid targets for an effect and trigger it
-    @Ignore
     @Test public void testNothingHappensWithoutTarget() {
         play(underTest);
 
@@ -38,7 +34,7 @@ public class ChargeTest extends AbstractCardTest<Charge> {
         destroy(friendly);
         play(friendly, true);
 
-        assertThat(GameState.isEffectPending(), is(false));
+        assertThat(EffectStack.isEffectPending(), is(false));
     }
 
     @Override

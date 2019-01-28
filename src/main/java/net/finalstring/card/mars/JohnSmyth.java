@@ -1,11 +1,13 @@
 package net.finalstring.card.mars;
 
+import net.finalstring.BoardState;
 import net.finalstring.Player;
 import net.finalstring.card.Creature;
 import net.finalstring.card.House;
 import net.finalstring.card.Spawnable;
 import net.finalstring.card.Trait;
-import net.finalstring.effect.ParameterFilters;
+import net.finalstring.effect.TargetFilter;
+import net.finalstring.effect.TargetSpecification;
 import net.finalstring.effect.node.EffectNode;
 import net.finalstring.effect.board.Ready;
 
@@ -30,6 +32,7 @@ public class JohnSmyth extends Creature {
 
     @Override
     protected void buildFightReapEffects(EffectNode.Builder builder, Player owner) {
-        builder.effect(new Ready(ParameterFilters.builder().ofHouse(House.Mars).withoutTrait(Trait.Agent).build()));
+        builder.effect(new Ready(new TargetSpecification(owner, BoardState::friendlyCreatures,
+                new TargetFilter().ofHouse(House.Mars).withoutTrait(Trait.Agent))));
     }
 }

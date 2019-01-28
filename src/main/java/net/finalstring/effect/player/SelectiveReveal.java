@@ -1,28 +1,27 @@
 package net.finalstring.effect.player;
 
 import lombok.Getter;
+import net.finalstring.BoardState;
 import net.finalstring.Player;
 import net.finalstring.card.Card;
-import net.finalstring.card.House;
-import net.finalstring.effect.EffectParameter;
-
-import java.util.Arrays;
-import java.util.function.Predicate;
+import net.finalstring.effect.EffectMultiCardParameter;
+import net.finalstring.effect.TargetFilter;
+import net.finalstring.effect.TargetSpecification;
 
 public class SelectiveReveal extends Reveal {
     @Getter
-    private final EffectParameter<Card[]> selectedCards = new EffectParameter<>("Select cards to reveal");
+    private final EffectMultiCardParameter<Card> selectedCards
+            = new EffectMultiCardParameter<>("Select cards to reveal");
 
-    public SelectiveReveal(Player revealer, Predicate<Card> filter) {
+    public SelectiveReveal(Player revealer, TargetFilter filter) {
         super(revealer);
-
-        selectedCards.setFilter(filter);
+        selectedCards.setTargetSpecification(new TargetSpecification(revealer, BoardState::inHand, filter));
         registerParameters(selectedCards);
     }
 
     @Override
-    protected void affect() {
-        toReveal.addAll(Arrays.asList(selectedCards.getValue()));
-        super.affect();
+    public boolean trigger() {
+        toReveal.addAll(selectedCards.getValues());
+        return super.trigger();
     }
 }

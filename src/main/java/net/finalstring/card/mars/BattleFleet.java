@@ -3,7 +3,7 @@ package net.finalstring.card.mars;
 import net.finalstring.Player;
 import net.finalstring.card.Card;
 import net.finalstring.card.House;
-import net.finalstring.effect.ParameterFilters;
+import net.finalstring.effect.TargetFilter;
 import net.finalstring.effect.node.EffectNode;
 import net.finalstring.effect.player.DrawCard;
 import net.finalstring.effect.player.SelectiveReveal;
@@ -23,9 +23,9 @@ public class BattleFleet extends Card {
         super.buildPlayEffects(effectBuilder, player);
 
         SelectiveReveal selectiveReveal =
-                new SelectiveReveal(player, ParameterFilters.builder().ofHouse(House.Mars).build());
+                new SelectiveReveal(player, new TargetFilter().ofHouse(House.Mars));
         effectBuilder
                 .effect(selectiveReveal)
-                .dependentEffect(() -> new DrawCard(player, selectiveReveal.getSelectedCards().getValue().length));
+                .dependentEffect(() -> new DrawCard(player, selectiveReveal.getSelectedCards().getValues().size()));
     }
 }

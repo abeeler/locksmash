@@ -1,5 +1,6 @@
 package net.finalstring;
 
+import net.finalstring.card.Card;
 import net.finalstring.card.Creature;
 
 import java.util.*;
@@ -29,6 +30,10 @@ public class Battleline {
 
     public List<Creature> getCreatures() {
         return Collections.unmodifiableList((LinkedList<Creature>) creatures);
+    }
+
+    public List<Card> getPlacedCards() {
+        return Collections.unmodifiableList((LinkedList<? extends Card>) creatures);
     }
 
     public int getCreatureCount() {

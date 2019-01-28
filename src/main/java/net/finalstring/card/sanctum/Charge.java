@@ -1,11 +1,13 @@
 package net.finalstring.card.sanctum;
 
+import net.finalstring.BoardState;
 import net.finalstring.effect.EffectStack;
 import net.finalstring.Player;
 import net.finalstring.card.Card;
 import net.finalstring.card.Creature;
 import net.finalstring.card.House;
 import net.finalstring.effect.Stateful;
+import net.finalstring.effect.TargetSpecification;
 import net.finalstring.effect.board.Damage;
 import net.finalstring.effect.misc.RegisterTurnConstant;
 import net.finalstring.effect.node.EffectNode;
@@ -29,6 +31,10 @@ public class Charge extends Card implements Stateful {
 
     @Override
     public void onCreatureEnter(Creature target) {
-        EffectStack.pushEffect(new SimpleEffectNode(new Damage(2)));
+        EffectStack.pushEffect(new SimpleEffectNode(new Damage(
+                new TargetSpecification(
+                        target.getInstance().getOwner(),
+                        BoardState::enemyCreatures),
+                2)));
     }
 }

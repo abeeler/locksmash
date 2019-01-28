@@ -66,7 +66,12 @@ public class EffectStack {
         return !effectStack.isEmpty();
     }
 
-    public void trigger() {
+    public void triggerChain() {
+        trigger();
+        triggerIfReady();
+    }
+
+    private void trigger() {
         if (effectStack.isEmpty()) {
             throw new IllegalStateException("No effects on stack to trigger");
         }

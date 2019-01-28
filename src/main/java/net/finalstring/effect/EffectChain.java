@@ -2,8 +2,6 @@ package net.finalstring.effect;
 
 import net.finalstring.effect.node.EffectNode;
 
-import java.util.Optional;
-
 public class EffectChain {
     private EffectNode currentNode;
 
@@ -16,7 +14,7 @@ public class EffectChain {
     }
 
     public boolean isReadyToTrigger() {
-        return !currentNode.getNextUnsetParameter().isPresent();
+        return !currentNode.getNextAssignableParameter().isPresent();
     }
 
     public void trigger() {

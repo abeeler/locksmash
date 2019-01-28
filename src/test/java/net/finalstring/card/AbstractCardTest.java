@@ -47,27 +47,27 @@ public abstract class AbstractCardTest<T extends Card> {
         }
 
         toPlay.play(player);
-        triggerEffects(effectParameters);
+        setEffectParameters(effectParameters);
     }
 
     protected void fight(Creature attacker, Creature defender, Object... effectParameters) {
         new Fight(attacker, defender).affect();
-        triggerEffects(effectParameters);
+        setEffectParameters(effectParameters);
     }
 
     protected void reap(Creature toReap, Object... effectParameters) {
         toReap.reaped();
-        triggerEffects(effectParameters);
+        setEffectParameters(effectParameters);
     }
 
     protected void action(Spawnable<?> toAct, Object... effectParameters) {
         toAct.action();
-        triggerEffects(effectParameters);
+        setEffectParameters(effectParameters);
     }
 
     protected void destroy(Spawnable<?> toDestroy, Object... effectParameters) {
         toDestroy.destroy();
-        triggerEffects(effectParameters);
+        setEffectParameters(effectParameters);
     }
 
     protected T createInstance() {
@@ -78,13 +78,18 @@ public abstract class AbstractCardTest<T extends Card> {
         return new LinkedList<>();
     }
 
-    void triggerEffects(Object[] effectParameters) {
+    protected int triggerEffects() {
+        int effectsTriggered = 0;
+        while (EffectStack.isEffectPending()) {
+            effectsTriggered++;
+            EffectStack.triggerChain();
+        }
+        return effectsTriggered;
+    }
+
+    private void setEffectParameters(Object[] effectParameters) {
         for (Object effectParameter : effectParameters) {
             EffectStack.setEffectParameter(effectParameter);
-        }
-
-        while (EffectStack.isEffectPending()) {
-            EffectStack.trigger();
         }
     }
 }

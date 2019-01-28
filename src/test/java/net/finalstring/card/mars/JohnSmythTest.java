@@ -3,6 +3,7 @@ package net.finalstring.card.mars;
 import net.finalstring.card.AbstractCreatureTest;
 import net.finalstring.card.House;
 import net.finalstring.card.Trait;
+import net.finalstring.effect.EffectStack;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -32,20 +33,28 @@ public class JohnSmythTest extends AbstractCreatureTest<JohnSmyth> {
         assertThat(friendly.getInstance().isReady(), is(true));
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testNonMarsTargetIsIllegal() {
+    @Test public void testReapWithValidTargetPushesEffectOnStack() {
+        play(underTest);
+        reap(underTest);
+        assertThat(EffectStack.isEffectPending(), is(true));
+    }
+
+    @Test public void testNonMarsTargetIsIllegal() {
         when(friendly.getHouse()).thenReturn(House.Brobnar);
 
         play(underTest);
-        reap(underTest, friendly);
+        reap(underTest);
+
+        assertThat(EffectStack.isEffectPending(), is(false));
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testAgentTraitTargetIsIllegal() {
+    @Test public void testAgentTraitTargetIsIllegal() {
         when(friendly.hasTrait(Trait.Agent)).thenReturn(true);
 
         play(underTest);
-        reap(underTest, friendly);
+        reap(underTest);
+
+        assertThat(EffectStack.isEffectPending(), is(false));
     }
 
     @Test public void testFightWillReadyMarsNonAgentTarget() {

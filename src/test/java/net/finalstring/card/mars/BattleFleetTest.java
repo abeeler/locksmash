@@ -30,6 +30,8 @@ public class BattleFleetTest extends AbstractCardTest<BattleFleet> {
     @Test public void testDrawsCardWithSingleReveal() {
         play(underTest, addMockMarsCard());
 
+        assertThat(triggerEffects(), is(1));
+
         assertThat(player.getAemberPool(), is(STARTING_AEMBER + 1));
         assertThat(player.getHandSize(), is(2));
         assertThat(player.getDeck().size(), is(startingDeck.size() - 1));
@@ -38,14 +40,17 @@ public class BattleFleetTest extends AbstractCardTest<BattleFleet> {
     @Test public void testDrawsMultipleCardsWithMultipleReveals() {
         play(underTest, addMockMarsCard(), addMockMarsCard(), addMockMarsCard());
 
+        assertThat(triggerEffects(), is(1));
+
         assertThat(player.getAemberPool(), is(STARTING_AEMBER + 1));
         assertThat(player.getHandSize(), is(6));
         assertThat(player.getDeck().size(), is(startingDeck.size() - 3));
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testFailsToAssignCardNotActuallyInHand() {
-        play(underTest, new BattleFleet());
+    @Test public void testFailsToPushEffectWithoutValidCardInHand() {
+        play(underTest);
+
+        assertThat(EffectStack.isEffectPending(), is(false));
     }
 
     @Override

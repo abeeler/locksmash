@@ -32,7 +32,7 @@ public class ChargeTest extends AbstractCardTest<Charge> {
 
         destroy(enemy);
         destroy(friendly);
-        play(friendly, true);
+        play(friendly);
 
         assertThat(EffectStack.isEffectPending(), is(false));
     }

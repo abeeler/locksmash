@@ -14,6 +14,8 @@ import net.finalstring.effect.node.EffectNode;
 import net.finalstring.effect.node.SimpleEffectNode;
 
 public class Charge extends Card implements Stateful {
+    private Player activePlayer;
+
     public Charge() {
         super(214, House.Sanctum);
     }
@@ -26,14 +28,19 @@ public class Charge extends Card implements Stateful {
     @Override
     protected void buildPlayEffects(EffectNode.Builder effectBuilder, Player player) {
         super.buildPlayEffects(effectBuilder, player);
+        activePlayer = player;
         effectBuilder.effect(new RegisterTurnConstant(this));
     }
 
     @Override
     public void onCreatureEnter(Creature target) {
+        if (target.getInstance().getOwner() != activePlayer) {
+            return;
+        }
+
         EffectStack.pushEffect(new SimpleEffectNode(new Damage(
                 new TargetSpecification(
-                        target.getInstance().getOwner(),
+                        activePlayer,
                         BoardState::enemyCreatures),
                 2)));
     }

@@ -37,6 +37,16 @@ public class ChargeTest extends AbstractCardTest<Charge> {
         assertThat(EffectStack.isEffectPending(), is(false));
     }
 
+    @Test public void testEnemyCreaturesDoNotTriggerEffect() {
+        play(underTest);
+
+        destroy(enemy);
+        enemy.play(opponent);
+        EffectStack.setEffectParameter(true);
+
+        assertThat(EffectStack.isEffectPending(), is(false));
+    }
+
     @Override
     protected Charge createInstance() {
         return new Charge();

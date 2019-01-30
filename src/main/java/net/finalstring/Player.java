@@ -115,6 +115,14 @@ public class Player {
         artifacts.remove(artifact);
     }
 
+    public void setAember(int newValue) {
+        if (newValue < 0) {
+            throw new IllegalArgumentException("Invalid aember amount: " + newValue);
+        }
+
+        aemberPool = newValue;
+    }
+
     public void addAember(int amount) {
         if (amount < 0) {
             throw new IllegalArgumentException("Invalid aember amount to add to pool: " + amount);

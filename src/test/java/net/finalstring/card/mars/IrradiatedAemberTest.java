@@ -26,9 +26,4 @@ public class IrradiatedAemberTest extends AbstractCardTest<IrradiatedAember> {
 
         assertThat(enemy.getInstance(), is(nullValue()));
     }
-
-    @Override
-    protected IrradiatedAember createInstance() {
-        return new IrradiatedAember();
-    }
 }

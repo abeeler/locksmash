@@ -65,9 +65,4 @@ public class JohnSmythTest extends AbstractCreatureTest<JohnSmyth> {
         fight(underTest, enemy, friendly);
         assertThat(friendly.getInstance().isReady(), is(true));
     }
-
-    @Override
-    protected JohnSmyth createInstance() {
-        return new JohnSmyth();
-    }
 }

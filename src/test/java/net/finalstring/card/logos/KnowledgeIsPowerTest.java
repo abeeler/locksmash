@@ -32,9 +32,4 @@ public class KnowledgeIsPowerTest extends AbstractCardTest<KnowledgeIsPower> {
 
         assertThat(player.getAemberPool(), is(STARTING_AEMBER + 3));
     }
-
-    @Override
-    protected KnowledgeIsPower createInstance() {
-        return new KnowledgeIsPower();
-    }
 }

@@ -14,9 +14,4 @@ public class DustImpTest extends AbstractCreatureTest<DustImp> {
 
         assertThat(player.getAemberPool(), is(STARTING_AEMBER + 2));
     }
-
-    @Override
-    protected DustImp createInstance() {
-        return new DustImp();
-    }
 }

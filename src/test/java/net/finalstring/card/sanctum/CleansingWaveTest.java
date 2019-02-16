@@ -44,9 +44,4 @@ public class CleansingWaveTest extends AbstractCardTest<CleansingWave> {
 
         assertThat(player.getAemberPool(), is(STARTING_AEMBER + 2));
     }
-
-    @Override
-    protected CleansingWave createInstance() {
-        return new CleansingWave();
-    }
 }

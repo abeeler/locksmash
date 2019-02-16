@@ -39,9 +39,4 @@ public class WildWormholeTest extends AbstractCardTest<WildWormhole> {
 
     // TODO: Test with Library Access
     // TODO: Test with unplayable card (Upgrade / Truebaru)
-
-    @Override
-    protected WildWormhole createInstance() {
-        return new WildWormhole();
-    }
 }

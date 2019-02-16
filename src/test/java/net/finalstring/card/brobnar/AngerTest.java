@@ -28,9 +28,4 @@ public class AngerTest extends AbstractCardTest<Anger> {
 
         assertThat(player.getAemberPool(), is(STARTING_AEMBER + 1));
     }
-
-    @Override
-    protected Anger createInstance() {
-        return new Anger();
-    }
 }

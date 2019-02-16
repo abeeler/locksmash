@@ -41,9 +41,4 @@ public class DoorstepToHeavenTest extends AbstractCardTest<DoorstepToHeaven> {
         play(underTest);
         assertThat(opponent.getAemberPool(), is(3));
     }
-
-    @Override
-    protected DoorstepToHeaven createInstance() {
-        return new DoorstepToHeaven();
-    }
 }

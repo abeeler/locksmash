@@ -19,9 +19,4 @@ public class DodgerTest extends AbstractCreatureTest<Dodger> {
         assertThat(player.getAemberPool(), is(STARTING_AEMBER + 1));
         assertThat(opponent.getAemberPool(), is(STARTING_AEMBER - 1));
     }
-
-    @Override
-    protected Dodger createInstance() {
-        return new Dodger();
-    }
 }

@@ -46,9 +46,4 @@ public class ChargeTest extends AbstractCardTest<Charge> {
 
         assertThat(EffectStack.isEffectPending(), is(false));
     }
-
-    @Override
-    protected Charge createInstance() {
-        return new Charge();
-    }
 }

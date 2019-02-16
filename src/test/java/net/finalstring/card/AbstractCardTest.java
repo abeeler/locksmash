@@ -9,6 +9,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -70,8 +72,14 @@ public abstract class AbstractCardTest<T extends Card> {
         setEffectParameters(effectParameters);
     }
 
+    @SuppressWarnings("unchecked")
     protected T createInstance() {
-        return null;
+        try {
+            Type genericType = ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+            return ((Class<T>) genericType).newInstance();
+        } catch (IllegalAccessException | InstantiationException e) {
+            throw new RuntimeException("Failed to instantiate parent class", e);
+        }
     }
 
     protected List<Card> getStartingDeck() {

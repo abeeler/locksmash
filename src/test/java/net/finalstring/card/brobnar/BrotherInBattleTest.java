@@ -21,9 +21,4 @@ public class BrotherInBattleTest extends AbstractCardTest<BrothersInBattle> {
         assertThat(friendly.canAct(), is(false));
         assertThat(friendly.canFight(), is(true));
     }
-
-    @Override
-    protected BrothersInBattle createInstance() {
-        return new BrothersInBattle();
-    }
 }

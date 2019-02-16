@@ -58,11 +58,6 @@ public class BattleFleetTest extends AbstractCardTest<BattleFleet> {
         return startingDeck;
     }
 
-    @Override
-    protected BattleFleet createInstance() {
-        return new BattleFleet();
-    }
-
     private Card addMockMarsCard() {
         Card mockCard = mock(Card.class);
         when(mockCard.getHouse()).thenReturn(House.Mars);

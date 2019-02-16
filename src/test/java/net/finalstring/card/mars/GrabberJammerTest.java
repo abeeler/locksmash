@@ -36,9 +36,4 @@ public class GrabberJammerTest extends AbstractCreatureTest<GrabberJammer> {
         reap(underTest);
         assertThat(underTest.getInstance().getCapturedAember(), is(1));
     }
-
-    @Override
-    protected GrabberJammer createInstance() {
-        return new GrabberJammer();
-    }
 }

@@ -50,9 +50,4 @@ public class KeyAbductionTest extends AbstractCardTest<KeyAbduction> {
         assertThat(player.getForgedKeys(), is(1));
         assertThat(player.getAemberPool(), is(STARTING_AEMBER - targetCost + 1));
     }
-
-    @Override
-    protected KeyAbduction createInstance() {
-        return new KeyAbduction();
-    }
 }

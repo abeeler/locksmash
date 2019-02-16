@@ -24,9 +24,4 @@ public class AutocannonTest extends AbstractSpawnableTest<Autocannon> {
 
         assertThat(enemy.getInstance().getDamage(), is(0));
     }
-
-    @Override
-    protected Autocannon createInstance() {
-        return new Autocannon();
-    }
 }

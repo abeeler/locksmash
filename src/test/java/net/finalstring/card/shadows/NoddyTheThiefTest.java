@@ -14,9 +14,4 @@ public class NoddyTheThiefTest extends AbstractCreatureTest<NoddyTheThief> {
         assertThat(player.getAemberPool(), is(STARTING_AEMBER + 1));
         assertThat(opponent.getAemberPool(), is(STARTING_AEMBER - 1));
     }
-
-    @Override
-    protected NoddyTheThief createInstance() {
-        return new NoddyTheThief();
-    }
 }

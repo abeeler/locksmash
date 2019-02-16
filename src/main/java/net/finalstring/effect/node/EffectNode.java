@@ -38,6 +38,18 @@ public interface EffectNode extends Effect {
             return this;
         }
 
+        public Builder effects(List<Effect> effects, boolean orderable) {
+            if (orderable) {
+                current.setNext(new OrderableEffectNode(effects));
+                current = current.getNext();
+            } else {
+                for (Effect effect : effects) {
+                    this.effect(effect);
+                }
+            }
+            return this;
+        }
+
         public Builder branch(String branchDescription) {
             branchDescriptions.add(branchDescription);
             return new Builder(this);

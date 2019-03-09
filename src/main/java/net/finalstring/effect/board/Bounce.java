@@ -9,10 +9,10 @@ import java.util.List;
 
 public class Bounce extends AbstractEffect {
     @Getter
-    private final EffectParameter<List<Spawnable>> targets =
+    private final EffectParameter<List<? extends Spawnable>> targets =
             new EffectParameter<>("Select targets to bounce");
 
-    public Bounce(List<Spawnable> targets) {
+    public Bounce(List<? extends Spawnable> targets) {
         this();
 
         this.targets.setValue(targets);

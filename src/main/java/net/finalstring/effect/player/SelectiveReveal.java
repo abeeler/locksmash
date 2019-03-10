@@ -21,7 +21,9 @@ public class SelectiveReveal extends Reveal {
 
     @Override
     public boolean trigger() {
-        toReveal.addAll(selectedCards.getValues());
+        if (selectedCards.isSet()) {
+            toReveal.addAll(selectedCards.getValue());
+        }
         return super.trigger();
     }
 }

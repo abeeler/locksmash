@@ -3,10 +3,6 @@ package net.finalstring.effect;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import net.finalstring.card.Card;
-
-import java.util.function.Predicate;
 
 @Getter
 @AllArgsConstructor
@@ -22,10 +18,20 @@ public class EffectParameter<T> {
     }
 
     public void setValue(Object value) {
-        this.value = (T) value;
+        T possibleValue = (T) value;
+
+        if (!validateValue(possibleValue)) {
+            throw new IllegalArgumentException("Invalid value passed to parameter");
+        }
+
+        this.value = possibleValue;
     }
 
     public boolean canBeSet() {
+        return true;
+    }
+
+    protected boolean validateValue(T value) {
         return true;
     }
 }

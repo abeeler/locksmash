@@ -8,6 +8,7 @@ import net.finalstring.effect.EffectStack;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -28,9 +29,7 @@ public class BattleFleetTest extends AbstractCardTest<BattleFleet> {
     }
 
     @Test public void testDrawsCardWithSingleReveal() {
-        play(underTest, addMockMarsCard());
-
-        assertThat(triggerEffects(), is(1));
+        play(underTest, Collections.singletonList(addMockMarsCard()));
 
         assertThat(player.getAemberPool(), is(STARTING_AEMBER + 1));
         assertThat(player.getHandSize(), is(2));
@@ -38,9 +37,7 @@ public class BattleFleetTest extends AbstractCardTest<BattleFleet> {
     }
 
     @Test public void testDrawsMultipleCardsWithMultipleReveals() {
-        play(underTest, addMockMarsCard(), addMockMarsCard(), addMockMarsCard());
-
-        assertThat(triggerEffects(), is(1));
+        play(underTest, Arrays.asList(addMockMarsCard(), addMockMarsCard(), addMockMarsCard()));
 
         assertThat(player.getAemberPool(), is(STARTING_AEMBER + 1));
         assertThat(player.getHandSize(), is(6));

@@ -1,30 +1,38 @@
 package net.finalstring.effect;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.finalstring.card.Card;
-
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public class EffectMultiCardParameter<T extends Card> extends EffectCardParameter<T> {
-    private final List<T> parameters = new ArrayList<>();
+public class EffectMultiCardParameter<T extends Card> extends EffectParameter<List<T>> {
+    @Getter
+    private final int minimumTargets;
+
+    @Getter
+    private final int maximumTargets;
+
+    @Setter
+    private TargetSpecification targetSpecification = null;
 
     public EffectMultiCardParameter(String description) {
+        this(description, 0, Integer.MAX_VALUE);
+    }
+
+    public EffectMultiCardParameter(String description, int minimum, int maximum) {
         super(description);
+
+        this.minimumTargets = minimum;
+        this.maximumTargets = maximum;
     }
 
     @Override
-    public void setValue(Object value) {
-        super.setValue(value);
-        parameters.add(getValue());
-    }
-
-    public List<T> getValues() {
-        return Collections.unmodifiableList(parameters);
+    public boolean canBeSet() {
+        return targetSpecification.hasValidTarget();
     }
 
     @Override
-    public boolean isSet() {
-        return false;
+    protected boolean validateValue(List<T> value) {
+        return targetSpecification == null || value.stream().allMatch(targetSpecification::isValidTarget);
     }
 }

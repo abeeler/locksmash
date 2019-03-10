@@ -26,6 +26,6 @@ public class BattleFleet extends Card {
                 new SelectiveReveal(player, new TargetFilter().ofHouse(House.Mars));
         effectBuilder
                 .effect(selectiveReveal)
-                .dependentEffect(() -> new DrawCard(player, selectiveReveal.getSelectedCards().getValues().size()));
+                .dependentEffect(() -> new DrawCard(player, selectiveReveal.getSelectedCards().getValue().size()));
     }
 }

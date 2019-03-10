@@ -6,6 +6,7 @@ import net.finalstring.card.Card;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class EffectCardParameter<T extends Card> extends EffectParameter<List<T>> {
     public static <T extends Card> EffectCardParameter<T> unlimitedTargets(String description) {
@@ -33,8 +34,17 @@ public class EffectCardParameter<T extends Card> extends EffectParameter<List<T>
     }
 
     @Override
-    public boolean canBeSet() {
-        return targetSpecification.hasValidTarget();
+    @SuppressWarnings("unchecked")
+    public boolean hasAmbiguousOptions() {
+        List<Card> possibleTargets = targetSpecification.getValidTargets();
+        if (possibleTargets.size() > minimumTargets) {
+            return true;
+        } else if (possibleTargets.isEmpty()) {
+            return false;
+        }
+
+        setValue(targetSpecification.getValidTargets().stream().map(card -> (T) card).collect(Collectors.toList()));
+        return false;
     }
 
     public void setSingleValue(T value) {

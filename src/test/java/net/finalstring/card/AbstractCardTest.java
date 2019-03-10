@@ -13,6 +13,10 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Consumer;
+
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public abstract class AbstractCardTest<T extends Card> {
@@ -86,13 +90,19 @@ public abstract class AbstractCardTest<T extends Card> {
         return new LinkedList<>();
     }
 
-    protected int triggerEffects() {
-        int effectsTriggered = 0;
-        while (EffectStack.isEffectPending()) {
-            effectsTriggered++;
-            EffectStack.triggerChain();
-        }
-        return effectsTriggered;
+    protected Creature placeCreature() {
+        return placeCreature(player, creature -> {});
+    }
+
+    protected Creature placeCreature(Consumer<Creature> optionSetter) {
+        return placeCreature(player, optionSetter);
+    }
+
+    protected Creature placeCreature(Player owner, Consumer<Creature> optionSetter) {
+        Creature creature = spy(Creature.class);
+        optionSetter.accept(creature);
+        creature.place(owner, false);
+        return creature;
     }
 
     private void setEffectParameters(Object[] effectParameters) {

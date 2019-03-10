@@ -1,6 +1,7 @@
 package net.finalstring.card.mars;
 
 import net.finalstring.card.AbstractCreatureTest;
+import net.finalstring.card.Creature;
 import net.finalstring.card.House;
 import net.finalstring.card.Trait;
 import net.finalstring.effect.EffectStack;
@@ -15,27 +16,29 @@ import static org.mockito.Mockito.when;
 
 public class JohnSmythTest extends AbstractCreatureTest<JohnSmyth> {
     @Before public void privateSetup() {
-        when(friendly.getHouse()).thenReturn(House.Mars);
-        when(friendly.hasTrait(Trait.Agent)).thenReturn(false);
+        makeNonAgentMars(friendly);
 
         friendly.getInstance().exhaust();
     }
 
     @Test public void testDoesNothingWithoutTarget() {
+        destroy(friendly);
+
         play(underTest);
         reap(underTest);
 
         assertThat(player.getAemberPool(), is(STARTING_AEMBER + 1));
-        assertThat(friendly.getInstance().isReady(), is(false));
     }
 
     @Test public void testReapWillReadyMarsNonAgentTarget() {
         play(underTest);
-        reap(underTest, Collections.singletonList(friendly));
+        reap(underTest);
         assertThat(friendly.getInstance().isReady(), is(true));
     }
 
-    @Test public void testReapWithValidTargetPushesEffectOnStack() {
+    @Test public void testReapWithValidTargetsPushesEffectOnStack() {
+        placeCreature(this::makeNonAgentMars);
+
         play(underTest);
         reap(underTest);
         assertThat(EffectStack.isEffectPending(), is(true));
@@ -64,7 +67,12 @@ public class JohnSmythTest extends AbstractCreatureTest<JohnSmyth> {
         enemy.getInstance().reset();
 
         play(underTest);
-        fight(underTest, enemy, Collections.singletonList(friendly));
+        fight(underTest, enemy);
         assertThat(friendly.getInstance().isReady(), is(true));
+    }
+
+    private void makeNonAgentMars(Creature creature) {
+        when(creature.getHouse()).thenReturn(House.Mars);
+        when(creature.hasTrait(Trait.Agent)).thenReturn(false);
     }
 }

@@ -27,7 +27,7 @@ public class EffectParameter<T> {
         this.value = possibleValue;
     }
 
-    public boolean canBeSet() {
+    public boolean hasAmbiguousOptions() {
         return true;
     }
 

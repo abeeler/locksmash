@@ -8,6 +8,6 @@ public interface Effect {
     boolean trigger();
 
     default Optional<EffectParameter> getNextAssignableParameter() {
-        return getNextUnsetParameter().map(parameter -> parameter.canBeSet() ? parameter : null);
+        return getNextUnsetParameter().map(parameter -> parameter.hasAmbiguousOptions() ? parameter : null);
     }
 }

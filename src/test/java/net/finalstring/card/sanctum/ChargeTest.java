@@ -4,8 +4,6 @@ import net.finalstring.effect.EffectStack;
 import net.finalstring.card.AbstractCardTest;
 import org.junit.Test;
 
-import java.util.Collections;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -13,7 +11,7 @@ public class ChargeTest extends AbstractCardTest<Charge> {
     @Test public void testPlayingCreatureDealsDamageToTarget() {
         play(underTest);
         destroy(friendly);
-        play(friendly, true, Collections.singletonList(enemy));
+        play(friendly, true);
 
         assertThat(enemy.getInstance().getDamage(), is(2));
     }

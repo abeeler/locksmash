@@ -94,6 +94,10 @@ public abstract class AbstractCardTest<T extends Card> {
         return placeCreature(player, creature -> {});
     }
 
+    protected Creature placeEnemyCreature() {
+        return placeCreature(opponent, creature -> {});
+    }
+
     protected Creature placeCreature(Consumer<Creature> optionSetter) {
         return placeCreature(player, optionSetter);
     }

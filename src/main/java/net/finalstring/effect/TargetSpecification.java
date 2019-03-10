@@ -1,6 +1,5 @@
 package net.finalstring.effect;
 
-import lombok.Getter;
 import net.finalstring.Player;
 import net.finalstring.card.Card;
 

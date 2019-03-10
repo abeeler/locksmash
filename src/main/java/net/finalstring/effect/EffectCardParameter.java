@@ -64,6 +64,10 @@ public class EffectCardParameter<T extends Card> extends EffectParameter<List<T>
 
     @Override
     protected boolean validateValue(List<T> value) {
+        if (value.size() > maximumTargets) {
+            return false;
+        }
+
         return targetSpecification == null || value.stream().allMatch(targetSpecification::isValidTarget);
     }
 }

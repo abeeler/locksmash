@@ -6,14 +6,14 @@ import net.finalstring.effect.EffectCardParameter;
 import net.finalstring.effect.TargetSpecification;
 
 public class Damage extends AbstractEffect {
-    private final EffectCardParameter<Creature> target = new EffectCardParameter<>("Select creature to damage");
+    private final EffectCardParameter<Creature> target = EffectCardParameter.singleTarget("Select creature to damage");
 
     private final int amount;
 
     public Damage(Creature target, int amount) {
         this(amount);
 
-        this.target.setValue(target);
+        this.target.setSingleValue(target);
     }
 
     public Damage(TargetSpecification targetSpecification, int amount) {
@@ -29,6 +29,6 @@ public class Damage extends AbstractEffect {
 
     @Override
     public void affect() {
-        target.getValue().getInstance().dealDamage(amount);
+        target.getFirst().getInstance().dealDamage(amount);
     }
 }

@@ -4,14 +4,14 @@ import lombok.Getter;
 import net.finalstring.BoardState;
 import net.finalstring.Player;
 import net.finalstring.card.Card;
-import net.finalstring.effect.EffectMultiCardParameter;
+import net.finalstring.effect.EffectCardParameter;
 import net.finalstring.effect.TargetFilter;
 import net.finalstring.effect.TargetSpecification;
 
 public class SelectiveReveal extends Reveal {
     @Getter
-    private final EffectMultiCardParameter<Card> selectedCards
-            = new EffectMultiCardParameter<>("Select cards to reveal");
+    private final EffectCardParameter<Card> selectedCards
+            = EffectCardParameter.unlimitedTargets("Select cards to reveal");
 
     public SelectiveReveal(Player revealer, TargetFilter filter) {
         super(revealer);

@@ -9,7 +9,7 @@ import net.finalstring.effect.TargetSpecification;
 
 public class Ready extends AbstractEffect {
     @Getter
-    private final EffectCardParameter<Spawnable> target = new EffectCardParameter<>("Select target to ready");
+    private final EffectCardParameter<Spawnable> target = EffectCardParameter.singleTarget("Select target to ready");
 
     public Ready(TargetSpecification targetSpecification) {
         target.setTargetSpecification(targetSpecification);
@@ -23,7 +23,7 @@ public class Ready extends AbstractEffect {
     @Override
     public void affect() {
         if (target.isSet()) {
-            target.getValue().getInstance().ready();
+            target.getFirst().getInstance().ready();
         }
     }
 }

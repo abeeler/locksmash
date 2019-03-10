@@ -7,6 +7,8 @@ import net.finalstring.effect.EffectStack;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Collections;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.when;
@@ -29,7 +31,7 @@ public class JohnSmythTest extends AbstractCreatureTest<JohnSmyth> {
 
     @Test public void testReapWillReadyMarsNonAgentTarget() {
         play(underTest);
-        reap(underTest, friendly);
+        reap(underTest, Collections.singletonList(friendly));
         assertThat(friendly.getInstance().isReady(), is(true));
     }
 
@@ -62,7 +64,7 @@ public class JohnSmythTest extends AbstractCreatureTest<JohnSmyth> {
         enemy.getInstance().reset();
 
         play(underTest);
-        fight(underTest, enemy, friendly);
+        fight(underTest, enemy, Collections.singletonList(friendly));
         assertThat(friendly.getInstance().isReady(), is(true));
     }
 }

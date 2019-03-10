@@ -30,6 +30,12 @@ public class Anger extends Card {
 
         builder
             .effect(ready)
-            .dependentEffect(() -> new Fight((Creature) ready.getTarget().getValue()));
+            .dependentEffect(() -> {
+                Creature attacker = (Creature) ready.getTarget().getFirst();
+                Fight fightEffect = new Fight(attacker);
+                fightEffect.getDefending().setTargetSpecification(
+                        new TargetSpecification(attacker.getInstance().getOwner(), BoardState::enemyCreatures));
+                return fightEffect;
+            });
     }
 }

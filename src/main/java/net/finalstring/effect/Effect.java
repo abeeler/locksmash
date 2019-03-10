@@ -8,13 +8,6 @@ public interface Effect {
     boolean trigger();
 
     default Optional<EffectParameter> getNextAssignableParameter() {
-        Optional<EffectParameter> unsetParameter = getNextUnsetParameter();
-        if (!unsetParameter.isPresent()) {
-            return unsetParameter;
-        }
-
-        return unsetParameter.get().canBeSet() ?
-                unsetParameter :
-                Optional.empty();
+        return getNextUnsetParameter().map(parameter -> parameter.canBeSet() ? parameter : null);
     }
 }

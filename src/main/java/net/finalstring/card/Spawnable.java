@@ -9,7 +9,7 @@ import net.finalstring.effect.Stateful;
 import java.util.function.Function;
 
 public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
-    private T instance;
+    protected T instance;
 
     Spawnable(int id, House house) {
         super(id, house);
@@ -36,7 +36,7 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
             throw new IllegalStateException("Trying to use an action without a spawned instance");
         }
 
-        buildEffects(instance.getOwner(), this::buildActionEffects);
+        buildEffects(instance.getController(), this::buildActionEffects);
     }
 
     public void destroy() {
@@ -45,9 +45,9 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
         }
 
         leavePlay();
-        getInstance().getOwner().discard(this);
+        getOwner().discard(this);
 
-        buildEffects(getInstance().getOwner(), Spawnable.this::buildDestroyedEffects);
+        buildEffects(getInstance().getController(), Spawnable.this::buildDestroyedEffects);
         instance = null;
     }
 
@@ -57,7 +57,7 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
         }
 
         leavePlay();
-        getInstance().getOwner().addToHand(this);
+        getOwner().addToHand(this);
         instance = null;
     }
 
@@ -66,7 +66,7 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
     }
 
     protected boolean canUse(Function<Player, Boolean> useCheck) {
-        return getInstance() != null && useCheck.apply(getInstance().getOwner());
+        return getInstance() != null && useCheck.apply(getInstance().getController());
     }
 
     protected void buildActionEffects(EffectNode.Builder builder, Player player) { }
@@ -81,12 +81,12 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
 
     @Getter
     public class Instance {
-        private final Player owner;
+        private final Player controller;
 
         private boolean ready = false;
 
-        protected Instance(Player owner) {
-            this.owner = owner;
+        protected Instance(Player controller) {
+            this.controller = controller;
         }
 
         public void reset() {

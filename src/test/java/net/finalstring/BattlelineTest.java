@@ -12,7 +12,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BattlelineTest {
@@ -23,13 +22,20 @@ public class BattlelineTest {
     private Creature otherCreature;
 
     @Before public void setup() {
+        Player firstPlayer = new Player();
+        Player secondPlayer = new Player();
+
         mockCreature.place(new Player(), true);
+        mockCreature.setOwner(firstPlayer);
 
         creature = new EmberImp();
-        otherCreature = new TheVaultKeeper();
+        creature.setOwner(firstPlayer);
 
-        creature.place(new Player(), true);
-        otherCreature.place(new Player(), true);
+        otherCreature = new TheVaultKeeper();
+        otherCreature.setOwner(secondPlayer);
+
+        creature.place(firstPlayer, true);
+        otherCreature.place(secondPlayer, true);
 
         underTest = new Player().getBattleline();
     }
@@ -83,7 +89,7 @@ public class BattlelineTest {
     }
 
     @Test public void testCreaturesRemovedAfterBeingDestroyedInFight() {
-        underTest = creature.getInstance().getOwner().getBattleline();
+        underTest = creature.getInstance().getController().getBattleline();
 
         assertThat(underTest.getCreatureCount(), is(1));
 

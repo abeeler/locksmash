@@ -21,6 +21,7 @@ public class Player {
     private final List<Card> hand = new ArrayList<>();
     private final List<Card> discard = new ArrayList<>();
     private final List<Card> archive = new ArrayList<>();
+    private final List<Creature> purged = new ArrayList<>();
     private final List<Artifact> artifacts = new ArrayList<>();
 
     private final List<Predicate<Card>> playConditions = new LinkedList<>();
@@ -42,6 +43,10 @@ public class Player {
 
     public Player(List<Card> deck) {
         this.deck = new LinkedList<>(deck);
+
+        for (Card card : deck) {
+            card.setOwner(this);
+        }
     }
 
     public Player() {
@@ -87,6 +92,13 @@ public class Player {
         archive.add(card);
     }
 
+    public void purge(Creature creature) {
+        if (!hand.remove(creature)) {
+            discard.remove(creature);
+        }
+        purged.add(creature);
+    }
+
     public List<Card> getDeck() {
         return Collections.unmodifiableList(new ArrayList<>(deck));
     }
@@ -105,6 +117,10 @@ public class Player {
 
     public List<Artifact> getArtifacts() {
         return Collections.unmodifiableList(artifacts);
+    }
+
+    public List<Creature> getPurged() {
+        return Collections.unmodifiableList(purged);
     }
 
     public void addArtifact(Artifact artifact) {

@@ -14,6 +14,8 @@ public abstract class Card {
     private final int id;
     private final House house;
 
+    private Player owner;
+
     public int getAember() {
         return 0;
     }

@@ -32,6 +32,6 @@ public class GrabberJammer extends Creature {
     protected void leavePlay() {
         super.leavePlay();
 
-        getInstance().getOwner().getOpponent().modifyKeyCost(-1);
+        getInstance().getController().getOpponent().modifyKeyCost(-1);
     }
 }

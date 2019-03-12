@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class PlayerTest {
     private Player underTest;
@@ -26,12 +26,17 @@ public class PlayerTest {
 
     private List<Card> deck;
 
-    private Creature normalCreature = new EmberImp();
-    private Creature armoredCreature = new TheVaultKeeper();
-    private Creature actionCreature = new PitDemon();
-    private Artifact artifact = new LibraryOfBabble();
+    private Creature normalCreature;
+    private Creature armoredCreature;
+    private Creature actionCreature;
+    private Artifact artifact;
 
     @Before public void setup() {
+        normalCreature = new EmberImp();
+        armoredCreature = new TheVaultKeeper();
+        actionCreature = new PitDemon();
+        artifact = new LibraryOfBabble();
+
         underTest = new Player(Arrays.asList(
                 normalCreature,
                 armoredCreature
@@ -295,5 +300,34 @@ public class PlayerTest {
         underTest.archiveFromHand(0);
 
         assertThat(underTest.getHandSize(), is(1));
+    }
+
+    @Test public void testPurgeRemovesFromHand() {
+        underTest.purge(normalCreature);
+
+        assertThat(underTest.getHand().size(), is(1));
+        assertThat(underTest.getHand().get(0), is(armoredCreature));
+        assertThat(underTest.getPurged().size(), is(1));
+        assertThat(underTest.getPurged().get(0), is(normalCreature));
+    }
+
+    @Test public void testPurgeRemovesFromDiscard() {
+        underTest.discardFromHand(0);
+
+        underTest.purge(normalCreature);
+
+        assertThat(underTest.getDiscardPile().size(), is(0));
+        assertThat(underTest.getPurged().size(), is(1));
+        assertThat(underTest.getPurged().get(0), is(normalCreature));
+    }
+
+    @Test public void testPurgeRemovesFromBattleline() {
+        underTest.playFromHand(0);
+
+        normalCreature.purge();
+
+        assertThat(underTest.getBattleline().getCreatureCount(), is(0));
+        assertThat(underTest.getPurged().size(), is(1));
+        assertThat(underTest.getPurged().get(0), is(normalCreature));
     }
 }

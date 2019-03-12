@@ -9,7 +9,7 @@ public class CaptureOpponentAember extends CaptureAember {
 
     @Override
     public void affect() {
-        target.setValue(captor.getInstance().getOwner().getOpponent());
+        target.setValue(captor.getInstance().getController().getOpponent());
         super.affect();
     }
 }

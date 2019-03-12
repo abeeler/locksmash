@@ -15,6 +15,6 @@ public class DustImp extends Creature {
     @Override
     protected void buildDestroyedEffects(EffectNode.Builder builder, Player owner) {
         super.buildDestroyedEffects(builder, owner);
-        builder.effect(new GainAember(getInstance().getOwner(), 2));
+        builder.effect(new GainAember(getInstance().getController(), 2));
     }
 }

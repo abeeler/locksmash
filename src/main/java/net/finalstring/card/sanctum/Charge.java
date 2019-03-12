@@ -34,7 +34,7 @@ public class Charge extends Card implements Stateful {
 
     @Override
     public void onCreatureEnter(Creature target) {
-        if (target.getInstance().getOwner() != activePlayer) {
+        if (target.getInstance().getController() != activePlayer) {
             return;
         }
 

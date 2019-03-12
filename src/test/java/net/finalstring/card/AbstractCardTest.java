@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public abstract class AbstractCardTest<T extends Card> {
@@ -31,15 +30,19 @@ public abstract class AbstractCardTest<T extends Card> {
     @Spy protected Creature enemy;
 
     @Before public void setup() {
-        underTest = createInstance();
-
         player = new Player(getStartingDeck());
         player.setOpponent(opponent = new Player());
+
+        underTest = createInstance();
+        underTest.setOwner(player);
 
         player.addAember(STARTING_AEMBER);
         opponent.addAember(STARTING_AEMBER);
 
+        friendly.setOwner(player);
         friendly.place(player, true);
+
+        enemy.setOwner(opponent);
         enemy.place(opponent, true);
     }
 
@@ -105,6 +108,7 @@ public abstract class AbstractCardTest<T extends Card> {
     protected Creature placeCreature(Player owner, Consumer<Creature> optionSetter) {
         Creature creature = spy(Creature.class);
         optionSetter.accept(creature);
+        creature.setOwner(owner);
         creature.place(owner, false);
         return creature;
     }

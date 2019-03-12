@@ -2,6 +2,7 @@ package net.finalstring.card;
 
 import net.finalstring.Player;
 import net.finalstring.card.dis.EmberImp;
+import net.finalstring.effect.EffectStack;
 import net.finalstring.effect.board.Fight;
 import net.finalstring.card.sanctum.ChampionAnaphiel;
 import net.finalstring.card.sanctum.TheVaultKeeper;
@@ -9,10 +10,14 @@ import net.finalstring.card.shadows.NoddyTheThief;
 import net.finalstring.card.untamed.DustPixie;
 import net.finalstring.card.untamed.Snufflegator;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
@@ -29,20 +34,24 @@ public class CreatureCardTest {
     private Creature elusiveCreature;
     private Creature skirmishCreature;
 
-    @Before public void setup() {
-        normalCreature = new EmberImp();
-        armoredCreature = new TheVaultKeeper();
-        aemberCreature = new DustPixie();
-        tauntCreature = new ChampionAnaphiel();
-        elusiveCreature = new NoddyTheThief();
-        skirmishCreature = new Snufflegator();
+    @BeforeClass public static void staticSetup() {
+        EffectStack.reset();
+    }
 
-        normalCreature.place(mockPlayer, true);
-        tauntCreature.place(mockPlayer, true);
-        armoredCreature.place(mockPlayer, true);
-        aemberCreature.place(mockPlayer, true);
-        elusiveCreature.place(mockPlayer, true);
-        skirmishCreature.place(mockPlayer, true);
+    @Before public void setup() {
+        List<Creature> testCreatures = Arrays.asList(
+            normalCreature = new EmberImp(),
+            tauntCreature = new ChampionAnaphiel(),
+            armoredCreature = new TheVaultKeeper(),
+            aemberCreature = new DustPixie(),
+            elusiveCreature = new NoddyTheThief(),
+            skirmishCreature = new Snufflegator()
+        );
+
+        for (Creature creature : testCreatures) {
+            creature.setOwner(mockPlayer);
+            creature.place(mockPlayer, true);
+        }
     }
 
     @Test public void testCreatureIsDestroyedAfterTakingFatalDamage() {
@@ -106,7 +115,7 @@ public class CreatureCardTest {
         assertThat(armoredCreature.getInstance().isReady(), is(true));
     }
 
-    @Test public void testReapingAddsOneAmberForOwner() {
+    @Test public void testReapingAddsOneAmberForController() {
         normalCreature.getInstance().reap();
 
         assertThat(mockPlayer.getAemberPool(), is(1));

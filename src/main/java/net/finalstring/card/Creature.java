@@ -1,10 +1,7 @@
 package net.finalstring.card;
 
 import lombok.Getter;
-import lombok.Setter;
-import net.finalstring.AttackResult;
 import net.finalstring.Player;
-import net.finalstring.effect.EffectChain;
 import net.finalstring.effect.node.EffectNode;
 import net.finalstring.effect.board.CreaturePlace;
 import net.finalstring.effect.player.GainAember;
@@ -47,19 +44,28 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
         return false;
     }
 
-    public CreatureInstance place(Player owner, boolean onLeft) {
-        spawn(new CreatureInstance(owner));
-        owner.getBattleline().placeCreature(this, onLeft);
+    public CreatureInstance place(Player controller, boolean onLeft) {
+        spawn(new CreatureInstance(controller));
+        controller.getBattleline().placeCreature(this, onLeft);
 
-        return getInstance();
+        return instance;
+    }
+
+    public void purge() {
+        if (instance != null) {
+            leavePlay();
+            instance = null;
+        }
+
+        getOwner().purge(this);
     }
 
     public void fought() {
-        buildEffects(getInstance().getOwner(), this::buildFightEffects);
+        buildEffects(instance.getController(), this::buildFightEffects);
     }
 
     public void reaped() {
-        buildEffects(getInstance().getOwner(), Creature.this::buildReapEffects);
+        buildEffects(instance.getController(), Creature.this::buildReapEffects);
     }
 
     public boolean canFight() {
@@ -79,13 +85,13 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
         builder.effect(new CreaturePlace(player, this));
     }
 
-    protected void buildFightEffects(EffectNode.Builder builder, Player owner) {
-        buildFightReapEffects(builder, owner);
+    protected void buildFightEffects(EffectNode.Builder builder, Player controller) {
+        buildFightReapEffects(builder, controller);
     }
 
-    protected void buildReapEffects(EffectNode.Builder builder, Player owner) {
-        builder.effect(new GainAember(owner, 1));
-        buildFightReapEffects(builder, owner);
+    protected void buildReapEffects(EffectNode.Builder builder, Player controller) {
+        builder.effect(new GainAember(controller, 1));
+        buildFightReapEffects(builder, controller);
     }
 
     protected void buildFightReapEffects(EffectNode.Builder builder, Player owner) { }
@@ -94,7 +100,7 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
     protected void leavePlay() {
         super.leavePlay();
 
-        getInstance().getOwner().getBattleline().removeCreature(this);
+        instance.getController().getBattleline().removeCreature(this);
     }
 
     @Getter
@@ -107,8 +113,8 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
 
         private boolean eluding = hasElusive();
 
-        CreatureInstance(Player owner) {
-            super(owner);
+        CreatureInstance(Player controller) {
+            super(controller);
         }
 
         public void dealDamage(int amount) {
@@ -193,7 +199,7 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
         }
 
         private Creature getNeighbor(boolean left) {
-            List<Creature> creatures = getOwner().getBattleline().getCreatures();
+            List<Creature> creatures = getController().getBattleline().getCreatures();
             int index = creatures.indexOf(Creature.this);
 
             if (index == 0 && left || index == creatures.size() - 1 && !left) {

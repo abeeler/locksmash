@@ -20,6 +20,6 @@ public class NoddyTheThief extends Creature {
     @Override
     protected void buildActionEffects(EffectNode.Builder builder, Player player) {
         super.buildActionEffects(builder, player);
-        builder.effect(new StealAember(getInstance().getOwner(), 1));
+        builder.effect(new StealAember(getInstance().getController(), 1));
     }
 }

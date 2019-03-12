@@ -28,8 +28,7 @@ public class EffectCardParameter<T extends Card> extends EffectParameter<List<T>
 
     public EffectCardParameter(String description, List<T> targets) {
         super(description);
-        this.minimumTargets = 0;
-        this.maximumTargets = 0;
+        this.minimumTargets = this.maximumTargets = targets.size();
         setValue(targets);
     }
 

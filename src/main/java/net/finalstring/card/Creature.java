@@ -156,6 +156,10 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
             return neighbor != null && neighbor.hasTaunt();
         }
 
+        public boolean isOnFlank() {
+            return getLeftNeighbor() == null || getRightNeighbor() == null;
+        }
+
         public void reap() {
             exhaust();
 

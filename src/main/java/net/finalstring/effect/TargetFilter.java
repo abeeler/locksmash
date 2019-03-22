@@ -46,6 +46,11 @@ public class TargetFilter {
         return this;
     }
 
+    public TargetFilter onFlank() {
+        filters.add(card -> withCreature(card, creature -> creature.getInstance().isOnFlank()));
+        return this;
+    }
+
     // Utility
 
     private static boolean withCreature(Card card, Predicate<Creature> condition) {

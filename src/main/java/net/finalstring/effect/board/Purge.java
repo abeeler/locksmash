@@ -25,9 +25,6 @@ public class Purge extends AbstractEffect {
 
     @Override
     protected void affect() {
-        Creature target = this.target.getFirst();
-        if (target.getInstance() != null) {
-            target.purge();
-        }
+        this.target.getFirst().purge();
     }
 }

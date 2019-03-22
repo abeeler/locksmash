@@ -31,4 +31,8 @@ public class Damage extends AbstractEffect {
     public void affect() {
         target.getFirst().getInstance().dealDamage(amount);
     }
+
+    public Creature getTarget() {
+        return target.getFirst();
+    }
 }

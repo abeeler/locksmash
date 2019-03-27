@@ -4,8 +4,6 @@ import net.finalstring.card.AbstractSpawnableTest;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import java.util.Collections;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -23,7 +21,7 @@ public class SpecialDeliveryTest extends AbstractSpawnableTest<SpecialDelivery> 
 
     @Test public void testDealsDamageToFlankCreature() {
         play(underTest);
-        action(underTest, Collections.singletonList(enemy));
+        action(underTest, enemy);
 
         assertThat(enemy.getInstance().getDamage(), is(3));
     }
@@ -41,7 +39,7 @@ public class SpecialDeliveryTest extends AbstractSpawnableTest<SpecialDelivery> 
         enemy.getInstance().dealDamage(2);
 
         play(underTest);
-        action(underTest, Collections.singletonList(enemy));
+        action(underTest, enemy);
 
         assertThat(opponent.getPurged().get(0), is(enemy));
     }

@@ -5,8 +5,6 @@ import net.finalstring.card.Creature;
 import net.finalstring.effect.EffectStack;
 import org.junit.Test;
 
-import java.util.Collections;
-
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.when;
@@ -32,7 +30,7 @@ public class OublietteTest extends AbstractCardTest<Oubliette> {
         when(friendly.getPower()).thenReturn(3);
         when(enemy.getPower()).thenReturn(3);
 
-        play(underTest, Collections.singletonList(enemy));
+        play(underTest, enemy);
 
         assertThat(enemy.getInstance(), is(nullValue()));
     }

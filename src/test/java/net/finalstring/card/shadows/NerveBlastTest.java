@@ -4,14 +4,12 @@ import net.finalstring.card.AbstractCardTest;
 import net.finalstring.effect.EffectStack;
 import org.junit.Test;
 
-import java.util.Collections;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class NerveBlastTest extends AbstractCardTest<NerveBlast> {
     @Test public void testStealingDamagesEnemy() {
-        play(underTest, Collections.singletonList(enemy));
+        play(underTest, enemy);
 
         assertThat(enemy.getInstance().getDamage(), is(2));
         assertThat(player.getAemberPool(), is(STARTING_AEMBER + 1));

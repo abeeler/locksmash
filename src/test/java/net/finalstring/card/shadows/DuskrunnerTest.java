@@ -3,14 +3,12 @@ package net.finalstring.card.shadows;
 import net.finalstring.card.AbstractCardTest;
 import org.junit.Test;
 
-import java.util.Collections;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class DuskrunnerTest extends AbstractCardTest<Duskrunner> {
     @Test public void testAttachedCreatureStealsWhenItReaps() {
-        play(underTest, Collections.singletonList(friendly));
+        play(underTest, friendly);
 
         reap(friendly);
 

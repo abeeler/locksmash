@@ -11,6 +11,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -114,8 +115,12 @@ public abstract class AbstractCardTest<T extends Card> {
     }
 
     private void setEffectParameters(Object[] effectParameters) {
-        for (Object effectParameter : effectParameters) {
-            EffectStack.setEffectParameter(effectParameter);
+        if (effectParameters.length == 1 && effectParameters[0] instanceof Card) {
+            EffectStack.setEffectParameter(Collections.singletonList(effectParameters[0]));
+        } else {
+            for (Object effectParameter : effectParameters) {
+                EffectStack.setEffectParameter(effectParameter);
+            }
         }
     }
 }

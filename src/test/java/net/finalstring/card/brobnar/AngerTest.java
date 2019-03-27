@@ -4,8 +4,6 @@ import net.finalstring.card.AbstractCardTest;
 import net.finalstring.card.Creature;
 import org.junit.Test;
 
-import java.util.Collections;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -43,7 +41,7 @@ public class AngerTest extends AbstractCardTest<Anger> {
         Creature otherFriendly = placeCreature();
         otherFriendly.getInstance().exhaust();
 
-        play(underTest, Collections.singletonList(otherFriendly));
+        play(underTest, otherFriendly);
 
         assertThat(otherFriendly.getInstance().isReady(), is(true));
     }
@@ -53,7 +51,7 @@ public class AngerTest extends AbstractCardTest<Anger> {
             when(creature.getPower()).thenReturn(1);
         });
 
-        play(underTest, Collections.singletonList(otherEnemy));
+        play(underTest, otherEnemy);
 
         assertThat(otherEnemy.getInstance(), nullValue());
     }

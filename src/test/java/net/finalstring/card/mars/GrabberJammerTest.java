@@ -1,6 +1,6 @@
 package net.finalstring.card.mars;
 
-import net.finalstring.card.AbstractCreatureTest;
+import net.finalstring.card.AbstractCardTest;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -8,7 +8,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.when;
 
-public class GrabberJammerTest extends AbstractCreatureTest<GrabberJammer> {
+public class GrabberJammerTest extends AbstractCardTest<GrabberJammer> {
     @Before public void boardSetup() {
         play(underTest);
     }

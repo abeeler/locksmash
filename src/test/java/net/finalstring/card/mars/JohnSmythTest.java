@@ -1,6 +1,6 @@
 package net.finalstring.card.mars;
 
-import net.finalstring.card.AbstractCreatureTest;
+import net.finalstring.card.AbstractCardTest;
 import net.finalstring.card.Creature;
 import net.finalstring.card.House;
 import net.finalstring.card.Trait;
@@ -8,13 +8,11 @@ import net.finalstring.effect.EffectStack;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Collections;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.when;
 
-public class JohnSmythTest extends AbstractCreatureTest<JohnSmyth> {
+public class JohnSmythTest extends AbstractCardTest<JohnSmyth> {
     @Before public void privateSetup() {
         makeNonAgentMars(friendly);
 

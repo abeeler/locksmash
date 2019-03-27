@@ -1,12 +1,12 @@
 package net.finalstring.card.brobnar;
 
-import net.finalstring.card.AbstractSpawnableTest;
+import net.finalstring.card.AbstractCardTest;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class AutocannonTest extends AbstractSpawnableTest<Autocannon> {
+public class AutocannonTest extends AbstractCardTest<Autocannon> {
     @Test public void testAutocannonDamagesNewCreatures() {
         play(underTest);
         destroy(enemy);

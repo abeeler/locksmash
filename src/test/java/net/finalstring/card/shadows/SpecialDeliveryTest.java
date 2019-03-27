@@ -1,6 +1,6 @@
 package net.finalstring.card.shadows;
 
-import net.finalstring.card.AbstractSpawnableTest;
+import net.finalstring.card.AbstractCardTest;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -8,7 +8,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class SpecialDeliveryTest extends AbstractSpawnableTest<SpecialDelivery> {
+public class SpecialDeliveryTest extends AbstractCardTest<SpecialDelivery> {
     @Test public void testSacrificesItselfEvenWithoutTargets() {
         destroy(friendly);
         destroy(enemy);

@@ -6,14 +6,12 @@ import net.finalstring.effect.node.EffectNode;
 import net.finalstring.effect.board.CreaturePlace;
 import net.finalstring.effect.player.GainAember;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 public class Creature extends Spawnable<Creature.CreatureInstance> {
     private final Set<Trait> traits = new HashSet<>();
+    private final List<Upgrade> activeUpgrades = new ArrayList<>();
     private final int power;
     private boolean stunned;
 
@@ -80,6 +78,10 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
         return traits.contains(trait);
     }
 
+    public void attachUpgrade(Upgrade toAttach) {
+        activeUpgrades.add(toAttach);
+    }
+
     protected void buildPlayEffects(EffectNode.Builder builder, Player player) {
         super.buildPlayEffects(builder, player);
         builder.effect(new CreaturePlace(player, this));
@@ -92,6 +94,9 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
     protected void buildReapEffects(EffectNode.Builder builder, Player controller) {
         builder.effect(new GainAember(controller, 1));
         buildFightReapEffects(builder, controller);
+        for (Upgrade upgrade : activeUpgrades) {
+            upgrade.buildReapEffects(builder, controller);
+        }
     }
 
     protected void buildFightReapEffects(EffectNode.Builder builder, Player owner) { }
@@ -100,7 +105,15 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
     protected void leavePlay() {
         super.leavePlay();
 
-        instance.getController().getBattleline().removeCreature(this);
+        for (Upgrade upgrade : activeUpgrades) {
+            upgrade.getOwner().discard(upgrade);
+        }
+
+        activeUpgrades.clear();
+
+        if (instance != null) {
+            instance.getController().getBattleline().removeCreature(this);
+        }
     }
 
     @Getter

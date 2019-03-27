@@ -44,10 +44,13 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
             throw new IllegalStateException("Trying to destroy without a spawned instance");
         }
 
+        buildEffects(getInstance().getController(), Spawnable.this::buildDestroyedEffects);
+        if (instance == null) {
+            return;
+        }
+
         leavePlay();
         getOwner().discard(this);
-
-        buildEffects(getInstance().getController(), Spawnable.this::buildDestroyedEffects);
         instance = null;
     }
 

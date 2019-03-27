@@ -1,13 +1,11 @@
 package net.finalstring;
 
-import net.finalstring.card.Artifact;
-import net.finalstring.card.Card;
-import net.finalstring.card.Creature;
-import net.finalstring.card.House;
+import net.finalstring.card.*;
 import net.finalstring.card.dis.EmberImp;
 import net.finalstring.card.dis.PitDemon;
 import net.finalstring.card.logos.LibraryOfBabble;
 import net.finalstring.card.sanctum.TheVaultKeeper;
+import net.finalstring.card.shadows.Duskrunner;
 import net.finalstring.card.untamed.DustPixie;
 import net.finalstring.effect.EffectStack;
 import org.junit.Before;
@@ -30,17 +28,21 @@ public class PlayerTest {
     private Creature armoredCreature;
     private Creature actionCreature;
     private Artifact artifact;
+    private Upgrade upgrade;
 
     @Before public void setup() {
         normalCreature = new EmberImp();
         armoredCreature = new TheVaultKeeper();
         actionCreature = new PitDemon();
         artifact = new LibraryOfBabble();
+        upgrade = new Duskrunner();
 
         underTest = new Player(Arrays.asList(
                 normalCreature,
                 armoredCreature
         ));
+
+        upgrade.setOwner(underTest);
 
         opponent = new Player();
 
@@ -329,5 +331,17 @@ public class PlayerTest {
         assertThat(underTest.getBattleline().getCreatureCount(), is(0));
         assertThat(underTest.getPurged().size(), is(1));
         assertThat(underTest.getPurged().get(0), is(normalCreature));
+    }
+
+    @Test public void testUpgradeIsRemovedWhenCreatureLeavesPlay() {
+        normalCreature.play(underTest);
+        EffectStack.setEffectParameter(true);
+
+        normalCreature.attachUpgrade(upgrade);
+        normalCreature.destroy();
+
+        assertThat(underTest.getDiscardPile().size(), is(2));
+        assertThat(underTest.getDiscardPile().get(0), is(upgrade));
+        assertThat(underTest.getDiscardPile().get(1), is(normalCreature));
     }
 }

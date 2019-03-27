@@ -239,7 +239,11 @@ public class Player {
         keyCostModifier += delta;
     }
 
-    private <T> boolean testConditions(T toTest, List<Predicate<T>> conditions) {
+    private <T extends Card> boolean testConditions(T toTest, List<Predicate<T>> conditions) {
+        if (!toTest.canPlay(this)) {
+            return false;
+        }
+
         for (Predicate<T> condition : conditions) {
             if (condition.test(toTest)) {
                 return true;

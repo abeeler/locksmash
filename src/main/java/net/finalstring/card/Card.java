@@ -24,6 +24,10 @@ public abstract class Card {
         buildEffects(player, this::buildPlayEffects);
     }
 
+    public boolean canPlay(Player owner) {
+        return true;
+    }
+
     void buildEffects(Player player, BiConsumer<EffectNode.Builder, Player> generator) {
         EffectNode.Builder builder = new EffectNode.Builder();
         generator.accept(builder, player);

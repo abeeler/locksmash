@@ -11,7 +11,6 @@ import net.finalstring.effect.TargetSpecification;
 import net.finalstring.effect.board.Damage;
 import net.finalstring.effect.misc.RegisterTurnConstant;
 import net.finalstring.effect.node.EffectNode;
-import net.finalstring.effect.node.SimpleEffectNode;
 
 public class Charge extends Card implements Stateful {
     private Player activePlayer;
@@ -38,10 +37,10 @@ public class Charge extends Card implements Stateful {
             return;
         }
 
-        EffectStack.pushEffect(new SimpleEffectNode(new Damage(
+        EffectStack.pushDelayedEffect(new Damage(
                 new TargetSpecification(
                         activePlayer,
                         BoardState::enemyCreatures),
-                2)));
+                2));
     }
 }

@@ -28,8 +28,8 @@ public class SpecialDelivery extends Artifact {
         builder
                 .effect(new Destroy(this))
                 .effect(damageEffect)
-                .dependentEffect(() -> damageEffect.getTarget().getInstance() == null ?
-                        new Purge(damageEffect.getTarget()) :
+                .dependentEffect(() -> !damageEffect.getTarget().getInstance().isAlive() ?
+                        new Purge(player, damageEffect.getTarget()) :
                         new BlankEffect());
     }
 }

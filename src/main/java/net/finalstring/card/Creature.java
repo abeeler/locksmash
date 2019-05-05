@@ -2,6 +2,8 @@ package net.finalstring.card;
 
 import lombok.Getter;
 import net.finalstring.Player;
+import net.finalstring.effect.EffectStack;
+import net.finalstring.effect.board.Destroy;
 import net.finalstring.effect.node.EffectNode;
 import net.finalstring.effect.board.CreaturePlace;
 import net.finalstring.effect.player.GainAember;
@@ -103,8 +105,6 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
 
     @Override
     protected void leavePlay() {
-        super.leavePlay();
-
         for (Upgrade upgrade : activeUpgrades) {
             upgrade.getOwner().discard(upgrade);
         }
@@ -114,6 +114,8 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
         if (instance != null) {
             instance.getController().getBattleline().removeCreature(this);
         }
+
+        super.leavePlay();
     }
 
     @Getter
@@ -137,7 +139,7 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
             damage += amount - absorbed;
 
             if (!isAlive()) {
-               destroy();
+                destroy();
             }
         }
 

@@ -22,8 +22,7 @@ public class Artifact extends Spawnable<Spawnable.Instance> {
 
     @Override
     protected void leavePlay() {
-        super.leavePlay();
-
         getInstance().getController().removeArtifact(this);
+        super.leavePlay();
     }
 }

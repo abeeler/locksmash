@@ -3,6 +3,7 @@ package net.finalstring.card;
 import lombok.Getter;
 import net.finalstring.effect.EffectStack;
 import net.finalstring.Player;
+import net.finalstring.effect.misc.RunnableEffect;
 import net.finalstring.effect.node.EffectNode;
 import net.finalstring.effect.Stateful;
 
@@ -45,13 +46,8 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
         }
 
         buildEffects(getInstance().getController(), Spawnable.this::buildDestroyedEffects);
-        if (instance == null) {
-            return;
-        }
-
-        leavePlay();
+        EffectStack.pushDelayedEffect(new RunnableEffect(this::leavePlay));
         getOwner().discard(this);
-        instance = null;
     }
 
     public void bounce() {
@@ -61,7 +57,6 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
 
         leavePlay();
         getOwner().addToHand(this);
-        instance = null;
     }
 
     public boolean canAct() {
@@ -74,12 +69,18 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
 
     protected void buildActionEffects(EffectNode.Builder builder, Player player) { }
 
-    protected void buildDestroyedEffects(EffectNode.Builder builder, Player owner) { }
+    protected void buildDestroyedEffects(EffectNode.Builder builder, Player controller) { }
 
     protected void leavePlay() {
+        if (instance == null) {
+            return;
+        }
+
         if (this instanceof Stateful) {
             EffectStack.deregisterConstantEffect((Stateful) this);
         }
+
+        instance = null;
     }
 
     @Getter

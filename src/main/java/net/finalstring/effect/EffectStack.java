@@ -44,7 +44,15 @@ public class EffectStack {
         effectStack.clear();
     }
 
-    public void pushEffect(EffectNode effectNode) {
+    public void pushDelayedEffect(AbstractEffect effect) {
+       effectStack.addLast(new EffectChain(new EffectNode.Builder().effect(effect).build()));
+
+        if (effectStack.size() == 1) {
+            triggerIfReady();
+        }
+    }
+
+    public void pushEffectNode(EffectNode effectNode) {
         effectStack.push(new EffectChain(effectNode));
 
         if (effectStack.size() == 1) {

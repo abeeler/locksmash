@@ -1,12 +1,10 @@
 package net.finalstring.effect;
 
-import net.finalstring.Player;
 import net.finalstring.card.*;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class TargetFilter {
@@ -26,6 +24,13 @@ public class TargetFilter {
 
     public TargetFilter ofHouse(final House house) {
         filters.add(card -> card.getHouse() == house);
+        return this;
+    }
+
+    // Spawnable
+
+    public TargetFilter hasInstance() {
+        filters.add(card -> withSpawnable(card, spawnable -> spawnable.getInstance() != null));
         return this;
     }
 

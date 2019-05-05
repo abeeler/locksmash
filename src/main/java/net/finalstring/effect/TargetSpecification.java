@@ -39,4 +39,8 @@ public class TargetSpecification {
     public boolean isValidTarget(Card card) {
         return getValidTargets().contains(card);
     }
+
+    public boolean passesFilter(Card card){
+        return filter.isValid(card);
+    }
 }

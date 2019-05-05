@@ -1,7 +1,6 @@
 package net.finalstring.card.shadows;
 
 import net.finalstring.card.AbstractCardTest;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -42,9 +41,5 @@ public class SpecialDeliveryTest extends AbstractCardTest<SpecialDelivery> {
         action(underTest, enemy);
 
         assertThat(opponent.getPurged().get(0), is(enemy));
-    }
-
-    @Ignore // FIXME: Implement this with BadPenny
-    @Test public void testBadPennyGoesBackToHandAndIsNotPurged() {
     }
 }

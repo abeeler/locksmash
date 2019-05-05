@@ -24,6 +24,7 @@ public class EffectCardParameter<T extends Card> extends EffectParameter<List<T>
     private final int maximumTargets;
 
     @Setter
+    @Getter
     private TargetSpecification targetSpecification = null;
 
     public EffectCardParameter(String description, List<T> targets) {

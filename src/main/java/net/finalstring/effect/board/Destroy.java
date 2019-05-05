@@ -16,7 +16,9 @@ public class Destroy extends AbstractEffect {
     @Override
     protected void affect() {
         for (Spawnable spawnable : targets.getValue()) {
-            spawnable.destroy();
+            if (spawnable.getInstance() != null) {
+                spawnable.destroy();
+            }
         }
     }
 }

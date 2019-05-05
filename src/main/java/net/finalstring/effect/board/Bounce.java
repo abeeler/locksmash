@@ -5,6 +5,7 @@ import net.finalstring.card.Spawnable;
 import net.finalstring.effect.AbstractEffect;
 import net.finalstring.effect.EffectCardParameter;
 
+import java.util.Collections;
 import java.util.List;
 
 public class Bounce extends AbstractEffect {
@@ -12,6 +13,10 @@ public class Bounce extends AbstractEffect {
 
     @Getter
     private final EffectCardParameter<Spawnable> targets;
+
+    public Bounce(Spawnable target) {
+        this(Collections.singletonList(target));
+    }
 
     public Bounce(List<Spawnable> targets) {
         this(new EffectCardParameter<>(PARAMETER_DESCRIPTION, targets));

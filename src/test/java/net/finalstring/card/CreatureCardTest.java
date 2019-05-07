@@ -51,6 +51,7 @@ public class CreatureCardTest {
         for (Creature creature : testCreatures) {
             creature.setOwner(mockPlayer);
             creature.place(mockPlayer, true);
+            creature.getInstance().ready();
         }
     }
 

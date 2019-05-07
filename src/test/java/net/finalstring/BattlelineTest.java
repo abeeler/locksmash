@@ -97,4 +97,10 @@ public class BattlelineTest {
 
         assertThat(underTest.getCreatureCount(), is(0));
     }
+
+    @Test public void testNewCreatureEntersExhausted() {
+        underTest.placeCreature(creature, false);
+
+        assertThat(creature.getInstance().isReady(), is(false));
+    }
 }

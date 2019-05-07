@@ -1,5 +1,6 @@
 package net.finalstring.card.sanctum;
 
+import net.finalstring.GameState;
 import net.finalstring.effect.EffectStack;
 import net.finalstring.card.AbstractCardTest;
 import org.junit.Test;
@@ -18,7 +19,7 @@ public class ChargeTest extends AbstractCardTest<Charge> {
 
     @Test public void testEffectEndsAfterTurn() {
         play(underTest);
-        EffectStack.endTurn();
+        gameState.endTurn();
 
         destroy(friendly);
         play(friendly, true);

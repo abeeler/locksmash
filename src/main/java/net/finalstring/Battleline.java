@@ -16,6 +16,7 @@ public class Battleline {
         }
 
         creature.getInstance().reset();
+        creature.getInstance().exhaust();
     }
 
     public void resetAll() {

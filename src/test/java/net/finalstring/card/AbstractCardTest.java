@@ -1,5 +1,6 @@
 package net.finalstring.card;
 
+import net.finalstring.GameState;
 import net.finalstring.effect.EffectStack;
 import net.finalstring.Player;
 import net.finalstring.effect.board.Fight;
@@ -26,6 +27,7 @@ public abstract class AbstractCardTest<T extends Card> {
 
     protected Player player;
     protected Player opponent;
+    protected GameState gameState;
 
     @Spy protected Creature friendly;
     @Spy protected Creature enemy;
@@ -45,6 +47,8 @@ public abstract class AbstractCardTest<T extends Card> {
 
         enemy.setOwner(opponent);
         enemy.place(opponent, true);
+
+        gameState = new GameState(player);
     }
 
     @After public void cleanup() {

@@ -3,6 +3,7 @@ package net.finalstring.effect.node;
 import net.finalstring.effect.ConditionalEffect;
 import net.finalstring.effect.Effect;
 import net.finalstring.effect.misc.BlankEffect;
+import net.finalstring.effect.misc.RunnableEffect;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -36,6 +37,10 @@ public interface EffectNode extends Effect {
             current.setNext(new SimpleEffectNode(effect));
             current = current.getNext();
             return this;
+        }
+
+        public Builder effect(Runnable runnable) {
+            return effect(new RunnableEffect(runnable));
         }
 
         public Builder effects(List<Effect> effects, boolean orderable) {

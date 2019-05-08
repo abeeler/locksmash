@@ -18,17 +18,26 @@ public class GameState implements Stateful {
     @Getter
     private Turn currentTurn;
 
+    @Getter
+    private Turn nextTurn;
+
     public GameState(Player firstPlayer) {
         currentTurn = new Turn(firstPlayer);
         EffectStack.registerConstantEffect(this);
         instance = this;
+
+        nextTurn = new Turn(firstPlayer.getOpponent());
     }
 
     public void endTurn() {
         EffectStack.endTurn();
         turns.add(currentTurn);
-        currentTurn = new Turn(currentTurn.getActivePlayer().getOpponent());
-        currentTurn.getActivePlayer().forgeKey();
+        currentTurn = nextTurn;
+        nextTurn = new Turn(currentTurn.getActivePlayer().getOpponent());
+
+        if (currentTurn.willForge) {
+            currentTurn.getActivePlayer().forgeKey();
+        }
     }
 
     @Override
@@ -39,7 +48,13 @@ public class GameState implements Stateful {
     @Getter
     @RequiredArgsConstructor
     public class Turn implements Stateful {
+        private boolean willForge = true;
+
         private final Player activePlayer;
         private int creaturesPlayed = 0;
+
+        public void skipForgeStep() {
+            willForge = false;
+        }
     }
 }

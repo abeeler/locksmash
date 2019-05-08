@@ -35,6 +35,7 @@ public abstract class AbstractCardTest<T extends Card> {
     @Before public void setup() {
         player = new Player(getStartingDeck());
         player.setOpponent(opponent = new Player());
+        opponent.setOpponent(player);
 
         underTest = createInstance();
         underTest.setOwner(player);

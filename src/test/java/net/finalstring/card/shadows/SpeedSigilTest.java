@@ -15,7 +15,7 @@ public class SpeedSigilTest extends AbstractCardTest<SpeedSigil> {
     @Test public void testFirstCreaturePlayedIsReady() {
         play(underTest);
         play(firstCreature);
-        
+
         assertThat(firstCreature.getInstance().isReady(), is(true));
     }
 

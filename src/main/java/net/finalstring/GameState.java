@@ -28,6 +28,7 @@ public class GameState implements Stateful {
         EffectStack.endTurn();
         turns.add(currentTurn);
         currentTurn = new Turn(currentTurn.getActivePlayer().getOpponent());
+        currentTurn.getActivePlayer().forgeKey();
     }
 
     @Override

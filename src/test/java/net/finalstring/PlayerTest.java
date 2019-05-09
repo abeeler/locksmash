@@ -6,6 +6,7 @@ import net.finalstring.card.dis.PitDemon;
 import net.finalstring.card.logos.LibraryOfBabble;
 import net.finalstring.card.sanctum.TheVaultKeeper;
 import net.finalstring.card.shadows.Duskrunner;
+import net.finalstring.card.shadows.KeyOfDarkness;
 import net.finalstring.card.untamed.DustPixie;
 import net.finalstring.effect.EffectStack;
 import org.junit.Before;
@@ -343,5 +344,15 @@ public class PlayerTest {
         assertThat(underTest.getDiscardPile().size(), is(2));
         assertThat(underTest.getDiscardPile().get(0), is(upgrade));
         assertThat(underTest.getDiscardPile().get(1), is(normalCreature));
+    }
+
+    @Test public void testPlayingActionPutsItInDiscard() {
+        assertThat(underTest.getDiscardPile().size(), is(0));
+
+        Card actionCard = new KeyOfDarkness();
+        actionCard.play(underTest);
+
+        assertThat(underTest.getDiscardPile().size(), is(1));
+        assertThat(underTest.getDiscardPile().get(0), is(actionCard));
     }
 }

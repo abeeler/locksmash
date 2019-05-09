@@ -4,6 +4,7 @@ import lombok.Data;
 import net.finalstring.effect.EffectStack;
 import net.finalstring.Player;
 import net.finalstring.effect.node.EffectNode;
+import net.finalstring.effect.player.Discard;
 import net.finalstring.effect.player.GainAember;
 
 import java.util.function.BiConsumer;
@@ -20,8 +21,11 @@ public abstract class Card {
         return 0;
     }
 
-    public void play(Player player) {
-        buildEffects(player, this::buildPlayEffects);
+    public void play(Player passedPlayer) {
+        buildEffects(passedPlayer, (builder, player) -> {
+            buildPlayEffects(builder, player);
+            buildDelayedPlayEffects(builder, player);
+        });
     }
 
     public boolean canPlay(Player owner) {
@@ -36,5 +40,9 @@ public abstract class Card {
 
     protected void buildPlayEffects(EffectNode.Builder effectBuilder, Player player) {
         effectBuilder.effect(new GainAember(player, getAember()));
+    }
+
+    protected void buildDelayedPlayEffects(EffectNode.Builder effectBuilder, Player player) {
+        effectBuilder.effect(new Discard(player, this));
     }
 }

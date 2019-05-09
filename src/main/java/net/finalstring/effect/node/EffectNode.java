@@ -43,6 +43,13 @@ public interface EffectNode extends Effect {
             return effect(new RunnableEffect(runnable));
         }
 
+        public Builder repeatEffect(Supplier<Effect> effectSupplier, int times) {
+            for (int i = 0; i < times; i++) {
+                effect(effectSupplier.get());
+            }
+            return this;
+        }
+
         public Builder effects(List<Effect> effects, boolean orderable) {
             if (orderable) {
                 current.setNext(new OrderableEffectNode(effects));

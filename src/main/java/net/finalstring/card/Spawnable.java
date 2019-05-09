@@ -71,6 +71,9 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
 
     protected void buildDestroyedEffects(EffectNode.Builder builder, Player controller) { }
 
+    @Override
+    protected void buildDelayedPlayEffects(EffectNode.Builder effectBuilder, Player player) { }
+
     protected void leavePlay() {
         if (instance == null) {
             return;

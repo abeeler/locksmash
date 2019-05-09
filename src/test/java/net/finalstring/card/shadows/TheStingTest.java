@@ -35,7 +35,7 @@ public class TheStingTest extends AbstractCardTest<TheSting> {
 
         gameState.endTurn();
 
-        assertThat(player.getAemberPool(), is(STARTING_AEMBER + Player.DEFAULT_KEY_COST));
+        assertThat(player.getAemberPool(), is(STARTING_AEMBER + 1 + Player.DEFAULT_KEY_COST));
     }
 
     @Test public void testAemberGivenIsEqualToAmountPaid() {
@@ -46,7 +46,7 @@ public class TheStingTest extends AbstractCardTest<TheSting> {
 
         gameState.endTurn();
 
-        assertThat(player.getAemberPool(), is(STARTING_AEMBER + 3));
+        assertThat(player.getAemberPool(), is(STARTING_AEMBER + 3 + 1));
     }
 
     @Test public void testActionSacrificesTheSting() {

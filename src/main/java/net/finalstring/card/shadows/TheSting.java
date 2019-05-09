@@ -13,6 +13,11 @@ public class TheSting extends Artifact implements Stateful {
     }
 
     @Override
+    public int getAember() {
+        return 1;
+    }
+
+    @Override
     protected void buildPlayEffects(EffectNode.Builder builder, Player player) {
         super.buildPlayEffects(builder, player);
 

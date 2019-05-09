@@ -3,7 +3,7 @@ package net.finalstring;
 import lombok.Getter;
 import lombok.Setter;
 import net.finalstring.card.*;
-import net.finalstring.effect.node.EffectNode;
+import net.finalstring.effect.EffectStack;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -40,6 +40,8 @@ public class Player {
     private int forgedKeys = 0;
 
     private int keyCostModifier = 0;
+
+    private int forgeRestrictionCounter = 0;
 
     public Player(List<Card> deck) {
         this.deck = new LinkedList<>(deck);
@@ -161,11 +163,25 @@ public class Player {
     }
 
     public void forgeKey(int modifier) {
+        if (forgeRestrictionCounter > 0) {
+            return;
+        }
+
         int keyCost = Math.max(getKeyCost() + modifier, 0);
         if (aemberPool >= keyCost) {
             aemberPool -= keyCost;
             ++forgedKeys;
+
+            EffectStack.keyForged(this);
         }
+    }
+
+    public void addForgeRestriction() {
+        forgeRestrictionCounter++;
+    }
+
+    public void removeForgeRestriction() {
+        forgeRestrictionCounter--;
     }
 
     public int getHandSize() {

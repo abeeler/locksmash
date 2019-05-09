@@ -1,6 +1,7 @@
 package net.finalstring.effect;
 
 import lombok.experimental.UtilityClass;
+import net.finalstring.Player;
 import net.finalstring.card.Creature;
 import net.finalstring.effect.node.EffectNode;
 
@@ -36,6 +37,10 @@ public class EffectStack {
     public void creaturePlaced(Creature placed) {
         activeTurnEffects.forEach(stateful -> stateful.onCreatureEnter(placed));
         activeConstantEffects.forEach(stateful -> stateful.onCreatureEnter(placed));
+    }
+
+    public void keyForged(Player forger) {
+        activeConstantEffects.forEach(stateful -> stateful.onForge(forger));
     }
 
     public void reset() {

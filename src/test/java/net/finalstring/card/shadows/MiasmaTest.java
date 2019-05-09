@@ -21,6 +21,20 @@ public class MiasmaTest extends AbstractCardTest<Miasma> {
         assertThat(opponent.getForgedKeys(), is(1));
     }
 
+    @Test public void testMultipleMiasmasDoNotStack() {
+        opponent.setAember(Player.DEFAULT_KEY_COST);
+
+        play(underTest);
+        play(underTest);
+
+        gameState.endTurn();
+        assertThat(opponent.getForgedKeys(), is(0));
+
+        gameState.endTurn();
+        gameState.endTurn();
+        assertThat(opponent.getForgedKeys(), is(1));
+    }
+
     @Test public void testDoesNotAffectPlayerForging() {
         player.setAember(Player.DEFAULT_KEY_COST);
 

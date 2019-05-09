@@ -2,8 +2,6 @@ package net.finalstring.card;
 
 import lombok.Getter;
 import net.finalstring.Player;
-import net.finalstring.effect.EffectStack;
-import net.finalstring.effect.board.Destroy;
 import net.finalstring.effect.node.EffectNode;
 import net.finalstring.effect.board.CreaturePlace;
 import net.finalstring.effect.player.GainAember;

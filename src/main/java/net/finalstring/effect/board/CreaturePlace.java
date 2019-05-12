@@ -1,5 +1,6 @@
 package net.finalstring.effect.board;
 
+import net.finalstring.GameState;
 import net.finalstring.effect.EffectStack;
 import net.finalstring.Player;
 import net.finalstring.card.Creature;
@@ -23,6 +24,6 @@ public class CreaturePlace extends AbstractEffect {
     @Override
     public void affect() {
         creature.place(player, onLeft.getValue());
-        EffectStack.creaturePlaced(creature);
+        GameState.getInstance().creaturePlaced(creature);
     }
 }

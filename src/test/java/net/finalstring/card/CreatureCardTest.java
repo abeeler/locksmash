@@ -1,5 +1,6 @@
 package net.finalstring.card;
 
+import net.finalstring.GameState;
 import net.finalstring.Player;
 import net.finalstring.card.dis.EmberImp;
 import net.finalstring.effect.EffectStack;
@@ -21,7 +22,6 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
-import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CreatureCardTest {
@@ -53,6 +53,8 @@ public class CreatureCardTest {
             creature.place(mockPlayer, true);
             creature.getInstance().ready();
         }
+
+        new GameState(mockPlayer);
     }
 
     @Test public void testCreatureIsDestroyedAfterTakingFatalDamage() {

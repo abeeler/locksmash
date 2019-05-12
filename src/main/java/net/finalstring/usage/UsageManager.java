@@ -1,5 +1,6 @@
 package net.finalstring.usage;
 
+import net.finalstring.GameState;
 import net.finalstring.card.Card;
 import net.finalstring.card.Creature;
 import net.finalstring.card.House;
@@ -18,19 +19,19 @@ public class UsageManager {
     }
 
     public boolean canPlay(Card card) {
-        return testAllowances(CardUsage.Play, card);
+        return testUsageConditions(CardUsage.Play, card);
     }
 
     public boolean canAct(Spawnable<?> spawnable) {
-        return testAllowances(CardUsage.Act, spawnable);
+        return testUsageConditions(CardUsage.Act, spawnable);
     }
 
     public boolean canFight(Creature creature) {
-        return testAllowances(CardUsage.Fight, creature);
+        return testUsageConditions(CardUsage.Fight, creature);
     }
 
     public boolean canReap(Creature creature) {
-        return testAllowances(CardUsage.Reap, creature);
+        return testUsageConditions(CardUsage.Reap, creature);
     }
 
     public void addAllowance(CardUsage usage, Predicate<Card> allowanceCondition) {
@@ -41,8 +42,9 @@ public class UsageManager {
         restrictions.add(new UsageRestriction(usage, restrictionCondition));
     }
 
-    private boolean testAllowances(CardUsage usage, Card toTest) {
+    private boolean testUsageConditions(CardUsage usage, Card toTest) {
         return
+                GameState.getInstance().calculateCost(usage, toTest) <= toTest.getOwner().getAemberPool() &&
                 restrictions.stream().allMatch(restriction -> restriction.isAllowed(usage, toTest)) &&
                 allowances.stream().anyMatch(usageAllowance -> usageAllowance.isAllowed(usage, toTest));
     }

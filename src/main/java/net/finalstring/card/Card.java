@@ -7,7 +7,10 @@ import net.finalstring.Player;
 import net.finalstring.effect.node.EffectNode;
 import net.finalstring.effect.player.Discard;
 import net.finalstring.effect.player.GainAember;
+import net.finalstring.usage.CardUsage;
+import net.finalstring.usage.UsageCost;
 
+import java.util.Optional;
 import java.util.function.BiConsumer;
 
 
@@ -23,6 +26,7 @@ public abstract class Card {
     }
 
     public void play(Player passedPlayer) {
+        GameState.getInstance().payCosts(CardUsage.Play, this);
         buildEffects(passedPlayer, (builder, player) -> {
             buildPlayEffects(builder, player);
             buildDelayedPlayEffects(builder, player);
@@ -30,7 +34,8 @@ public abstract class Card {
     }
 
     public boolean canPlay() {
-        return GameState.getInstance().getCurrentTurn().getUsageManager().canPlay(this);
+        return getPlayCost().map(UsageCost::getCost).map(aemberCost -> getAember() >= aemberCost).orElse(true) &&
+                GameState.getInstance().getCurrentTurn().getUsageManager().canPlay(this);
     }
 
     void buildEffects(Player player, BiConsumer<EffectNode.Builder, Player> generator) {
@@ -47,5 +52,9 @@ public abstract class Card {
 
     protected void buildDelayedPlayEffects(EffectNode.Builder effectBuilder, Player player) {
         effectBuilder.effect(new Discard(player, this));
+    }
+
+    protected Optional<UsageCost> getPlayCost() {
+        return Optional.empty();
     }
 }

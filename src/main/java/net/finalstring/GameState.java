@@ -2,20 +2,25 @@ package net.finalstring;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import net.finalstring.card.Card;
 import net.finalstring.card.Creature;
 import net.finalstring.card.House;
-import net.finalstring.effect.EffectStack;
 import net.finalstring.effect.Stateful;
+import net.finalstring.usage.CardUsage;
+import net.finalstring.usage.UsageCost;
 import net.finalstring.usage.UsageManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
-public class GameState implements Stateful {
+public class GameState {
     @Getter
     public static GameState instance;
 
+    private final List<Stateful> activePermanentEffects = new ArrayList<>();
     private final List<Turn> turns = new ArrayList<>();
+    private final List<UsageCost> activeCosts = new ArrayList<>();
 
     @Getter
     private Turn currentTurn;
@@ -25,14 +30,12 @@ public class GameState implements Stateful {
 
     public GameState(Player firstPlayer) {
         currentTurn = new Turn(firstPlayer);
-        EffectStack.registerConstantEffect(this);
         instance = this;
 
         nextTurn = new Turn(firstPlayer.getOpponent());
     }
 
     public void endTurn() {
-        EffectStack.endTurn();
         turns.add(currentTurn);
         currentTurn = nextTurn;
         nextTurn = new Turn(currentTurn.getActivePlayer().getOpponent());
@@ -46,14 +49,60 @@ public class GameState implements Stateful {
         currentTurn.cardsPlayed++;
     }
 
-    @Override
-    public void onCreatureEnter(Creature target) {
+    public void creaturePlaced(Creature placed) {
         currentTurn.creaturesPlayed++;
+        currentTurn.activeTurnEffects.forEach(stateful -> stateful.onCreatureEnter(placed));
+        activePermanentEffects.forEach(stateful -> stateful.onCreatureEnter(placed));
+    }
+
+    public int calculateCost(CardUsage usage, Card toAssess) {
+        return activeCosts.stream()
+                .filter(cost -> cost.appliesTo(usage, toAssess))
+                .mapToInt(UsageCost::getCost)
+                .sum();
+    }
+
+    public void payCosts(CardUsage usage, Card played) {
+        final Player player = currentTurn.activePlayer;
+
+        if (player.getAemberPool() < calculateCost(usage, played)) {
+            throw new IllegalStateException("Attempting to play / use a card without being able to pay the cost");
+        }
+
+        activeCosts.stream()
+                .filter(cost -> cost.appliesTo(usage, played))
+                .forEach(cost -> {
+                    player.setAember(player.getAemberPool() - cost.getCost());
+                    if (cost.paidToOpponent()) {
+                        player.getOpponent().addAember(cost.getCost());
+                    }
+                });
+    }
+
+    public void registerPermanentEffect(Stateful constantEffect) {
+        activePermanentEffects.add(constantEffect);
+    }
+
+    public void deregisterPermanentEffect(Stateful constantEffect) {
+        activePermanentEffects.remove(constantEffect);
+    }
+
+    public void registerPlayCost(UsageCost playCost) {
+        activeCosts.add(playCost);
+    }
+
+    public void deregisterPlayCost(UsageCost playCost) {
+        activeCosts.remove(playCost);
+    }
+
+    public void keyForged(Player forger) {
+        activePermanentEffects.forEach(stateful -> stateful.onForge(forger));
     }
 
     @Getter
     @RequiredArgsConstructor
     public class Turn implements Stateful {
+        private final List<Stateful> activeTurnEffects = new ArrayList<>();
         private final Player activePlayer;
 
         private boolean willForge = true;
@@ -74,6 +123,10 @@ public class GameState implements Stateful {
 
             selectedHouse = house;
             usageManager = new UsageManager(selectedHouse);
+        }
+
+        public void registerTurnEffect(Stateful turnEffect) {
+            activeTurnEffects.add(turnEffect);
         }
     }
 }

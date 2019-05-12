@@ -1,53 +1,17 @@
 package net.finalstring.effect;
 
 import lombok.experimental.UtilityClass;
-import net.finalstring.Player;
-import net.finalstring.card.Creature;
+
 import net.finalstring.effect.node.EffectNode;
 
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Deque;
-import java.util.List;
 
 // TODO: Allow effects added to the stack at the same time to have their order specified
 
 @UtilityClass
 public class EffectStack {
-    private final List<Stateful> activeConstantEffects = new ArrayList<>();
-    private final List<Stateful> activeTurnEffects = new ArrayList<>();
     private final Deque<EffectChain> effectStack = new ArrayDeque<>();
-
-    public void registerConstantEffect(Stateful constantEffect) {
-        activeConstantEffects.add(constantEffect);
-    }
-
-    public void deregisterConstantEffect(Stateful constantEffect) {
-        activeConstantEffects.remove(constantEffect);
-    }
-
-    public void registerTurnEffect(Stateful turnEffect) {
-        activeTurnEffects.add(turnEffect);
-    }
-
-    public void endTurn() {
-        activeTurnEffects.clear();
-    }
-
-    public void creaturePlaced(Creature placed) {
-        activeTurnEffects.forEach(stateful -> stateful.onCreatureEnter(placed));
-        activeConstantEffects.forEach(stateful -> stateful.onCreatureEnter(placed));
-    }
-
-    public void keyForged(Player forger) {
-        activeConstantEffects.forEach(stateful -> stateful.onForge(forger));
-    }
-
-    public void reset() {
-        activeConstantEffects.clear();
-        activeTurnEffects.clear();
-        effectStack.clear();
-    }
 
     public void pushDelayedEffect(AbstractEffect effect) {
        effectStack.addLast(new EffectChain(new EffectNode.Builder().effect(effect).build()));
@@ -104,5 +68,9 @@ public class EffectStack {
         while (!effectStack.isEmpty() && effectStack.peek().isReadyToTrigger()) {
             trigger();
         }
+    }
+
+    public void reset() {
+        effectStack.clear();
     }
 }

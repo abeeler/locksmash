@@ -7,8 +7,7 @@ import net.finalstring.Player;
 import net.finalstring.effect.misc.RunnableEffect;
 import net.finalstring.effect.node.EffectNode;
 import net.finalstring.effect.Stateful;
-
-import java.util.function.Function;
+import net.finalstring.usage.UsageCost;
 
 public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
     protected T instance;
@@ -23,7 +22,11 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
         }
 
         if (this instanceof Stateful) {
-            EffectStack.registerConstantEffect((Stateful) this);
+            GameState.getInstance().registerPermanentEffect((Stateful) this);
+        }
+
+        if (this instanceof UsageCost) {
+            GameState.getInstance().registerPlayCost((UsageCost) this);
         }
 
         this.instance = instance;
@@ -81,7 +84,11 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
         }
 
         if (this instanceof Stateful) {
-            EffectStack.deregisterConstantEffect((Stateful) this);
+            GameState.getInstance().deregisterPermanentEffect((Stateful) this);
+        }
+
+        if (this instanceof UsageCost) {
+            GameState.getInstance().deregisterPlayCost((UsageCost) this);
         }
 
         instance = null;

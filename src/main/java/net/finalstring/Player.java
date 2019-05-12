@@ -167,7 +167,7 @@ public class Player {
             aemberPool -= keyCost;
             ++forgedKeys;
 
-            EffectStack.keyForged(this);
+            GameState.getInstance().keyForged(this);
         }
     }
 

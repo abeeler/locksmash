@@ -13,8 +13,8 @@ public abstract class Upgrade extends Card {
     public void buildReapEffects(EffectNode.Builder builder, Player controller) { }
 
     @Override
-    public boolean canPlay(Player owner) {
-        return !BoardState.allCreatures(owner).isEmpty();
+    public boolean canPlay() {
+        return !BoardState.allCreatures(getOwner()).isEmpty();
     }
 
     @Override

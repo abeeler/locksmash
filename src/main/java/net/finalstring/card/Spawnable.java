@@ -1,6 +1,7 @@
 package net.finalstring.card;
 
 import lombok.Getter;
+import net.finalstring.GameState;
 import net.finalstring.effect.EffectStack;
 import net.finalstring.Player;
 import net.finalstring.effect.misc.RunnableEffect;
@@ -60,11 +61,11 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
     }
 
     public boolean canAct() {
-        return canUse(player -> player.canAct(this));
+        return canUse() && GameState.getInstance().getCurrentTurn().getUsageManager().canAct(this);
     }
 
-    protected boolean canUse(Function<Player, Boolean> useCheck) {
-        return getInstance() != null && useCheck.apply(getInstance().getController());
+    protected boolean canUse() {
+        return getInstance() != null;
     }
 
     protected void buildActionEffects(EffectNode.Builder builder, Player player) { }

@@ -1,6 +1,7 @@
 package net.finalstring.card;
 
 import lombok.Getter;
+import net.finalstring.GameState;
 import net.finalstring.Player;
 import net.finalstring.effect.node.EffectNode;
 import net.finalstring.effect.board.CreaturePlace;
@@ -67,11 +68,11 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
     }
 
     public boolean canFight() {
-        return canUse(player -> player.canFight(this));
+        return canUse() && GameState.getInstance().getCurrentTurn().getUsageManager().canFight(this);
     }
 
     public boolean canReap() {
-        return canUse(player -> player.canReap(this));
+        return canUse() && GameState.getInstance().getCurrentTurn().getUsageManager().canReap(this);
     }
 
     public boolean hasTrait(Trait trait) {

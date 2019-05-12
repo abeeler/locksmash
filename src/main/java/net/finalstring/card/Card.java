@@ -1,6 +1,7 @@
 package net.finalstring.card;
 
 import lombok.Data;
+import net.finalstring.GameState;
 import net.finalstring.effect.EffectStack;
 import net.finalstring.Player;
 import net.finalstring.effect.node.EffectNode;
@@ -28,8 +29,8 @@ public abstract class Card {
         });
     }
 
-    public boolean canPlay(Player owner) {
-        return true;
+    public boolean canPlay() {
+        return GameState.getInstance().getCurrentTurn().getUsageManager().canPlay(this);
     }
 
     void buildEffects(Player player, BiConsumer<EffectNode.Builder, Player> generator) {
@@ -39,7 +40,9 @@ public abstract class Card {
     }
 
     protected void buildPlayEffects(EffectNode.Builder effectBuilder, Player player) {
-        effectBuilder.effect(new GainAember(player, getAember()));
+        effectBuilder
+                .effect(new GainAember(player, getAember()))
+                .effect(() -> GameState.getInstance().cardPlayed());
     }
 
     protected void buildDelayedPlayEffects(EffectNode.Builder effectBuilder, Player player) {

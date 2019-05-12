@@ -1,6 +1,5 @@
 package net.finalstring.card.sanctum;
 
-import net.finalstring.GameState;
 import net.finalstring.effect.EffectStack;
 import net.finalstring.card.AbstractCardTest;
 import org.junit.Test;

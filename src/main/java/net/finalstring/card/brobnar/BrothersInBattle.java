@@ -19,6 +19,6 @@ public class BrothersInBattle extends Card {
     @Override
     protected void buildPlayEffects(EffectNode.Builder builder, Player player) {
         super.buildPlayEffects(builder, player);
-        builder.effect(new AllowHouseToFight(player));
+        builder.effect(new AllowHouseToFight());
     }
 }

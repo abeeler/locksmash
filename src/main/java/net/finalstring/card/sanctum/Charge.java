@@ -1,6 +1,7 @@
 package net.finalstring.card.sanctum;
 
 import net.finalstring.BoardState;
+import net.finalstring.GameState;
 import net.finalstring.effect.EffectStack;
 import net.finalstring.Player;
 import net.finalstring.card.Card;
@@ -13,8 +14,6 @@ import net.finalstring.effect.misc.RegisterTurnConstant;
 import net.finalstring.effect.node.EffectNode;
 
 public class Charge extends Card implements Stateful {
-    private Player activePlayer;
-
     public Charge() {
         super(214, House.Sanctum);
     }
@@ -27,13 +26,13 @@ public class Charge extends Card implements Stateful {
     @Override
     protected void buildPlayEffects(EffectNode.Builder effectBuilder, Player player) {
         super.buildPlayEffects(effectBuilder, player);
-        activePlayer = player;
         effectBuilder.effect(new RegisterTurnConstant(this));
     }
 
     @Override
     public void onCreatureEnter(Creature target) {
-        if (target.getInstance().getController() != activePlayer) {
+        Player activePlayer = GameState.getInstance().getCurrentTurn().getActivePlayer();
+        if (!target.getInstance().getController().equals(activePlayer)) {
             return;
         }
 

@@ -24,11 +24,6 @@ public class Player {
     private final List<Creature> purged = new ArrayList<>();
     private final List<Artifact> artifacts = new ArrayList<>();
 
-    private final List<Predicate<Card>> playConditions = new LinkedList<>();
-    private final List<Predicate<Spawnable<?>>> actionConditions = new LinkedList<>();
-    private final List<Predicate<Creature>> fightConditions = new LinkedList<>();
-    private final List<Predicate<Creature>> reapConditions = new LinkedList<>();
-
     @Getter
     @Setter
     private Player opponent;
@@ -200,45 +195,6 @@ public class Player {
         return DEFAULT_MAXIMUM_HAND_SIZE;
     }
 
-    public void endTurn() {
-        actionConditions.clear();
-        fightConditions.clear();
-    }
-
-    public void addPlayCondition(Predicate<Card> condition) {
-        playConditions.add(condition);
-    }
-
-    public void addActionCondition(Predicate<Spawnable<?>> condition) {
-        actionConditions.add(condition);
-    }
-
-    public void addFightCondition(Predicate<Creature> condition) {
-        fightConditions.add(condition);
-    }
-
-    public boolean canPlay(Card card) {
-        return testConditions(card, playConditions);
-    }
-
-    public boolean canAct(Spawnable<?> spawnable) {
-        return testConditions(spawnable, actionConditions);
-    }
-
-    public boolean canFight(Creature creature) {
-        return testConditions(creature, fightConditions);
-    }
-
-    public boolean canReap(Creature creature) {
-        return testConditions(creature, reapConditions);
-    }
-
-    public void selectHouse(House activeHouse) {
-        addPlayCondition(card -> card.getHouse() == activeHouse);
-        addActionCondition(spawnable -> spawnable.getHouse() == activeHouse);
-        addFightCondition(creature -> creature.getHouse() == activeHouse);
-    }
-
     public Optional<Card> peekTopCard() {
         return Optional.ofNullable(deck.peek());
     }
@@ -255,17 +211,5 @@ public class Player {
         keyCostModifier += delta;
     }
 
-    private <T extends Card> boolean testConditions(T toTest, List<Predicate<T>> conditions) {
-        if (!toTest.canPlay(this)) {
-            return false;
-        }
 
-        for (Predicate<T> condition : conditions) {
-            if (condition.test(toTest)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
 }

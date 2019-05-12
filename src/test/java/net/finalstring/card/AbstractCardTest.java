@@ -50,6 +50,7 @@ public abstract class AbstractCardTest<T extends Card> {
         enemy.place(opponent, true);
 
         gameState = new GameState(player);
+        gameState.getCurrentTurn().setSelectedHouse(underTest.getHouse());
     }
 
     @After public void cleanup() {

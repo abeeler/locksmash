@@ -10,7 +10,6 @@ import static org.mockito.Mockito.when;
 
 public class BrotherInBattleTest extends AbstractCardTest<BrothersInBattle> {
     @Test public void testPlayingAllowsNonActiveHouseToFight() {
-        player.selectHouse(House.Brobnar);
         when(friendly.getHouse()).thenReturn(House.Dis);
 
         assertThat(friendly.canAct(), is(false));

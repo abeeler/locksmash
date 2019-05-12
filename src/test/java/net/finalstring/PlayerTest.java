@@ -23,6 +23,8 @@ public class PlayerTest {
     private Player underTest;
     private Player opponent;
 
+    private GameState gameState;
+
     private List<Card> deck;
 
     private Creature normalCreature;
@@ -48,6 +50,7 @@ public class PlayerTest {
         opponent = new Player();
 
         underTest.setOpponent(opponent);
+        opponent.setOpponent(underTest);
 
         underTest.draw();
         underTest.draw();
@@ -56,6 +59,8 @@ public class PlayerTest {
         for (int i = 0; i < 8; i++) {
             deck.add(normalCreature);
         }
+
+        gameState = new GameState(underTest);
     }
 
     @Test public void testPlayingCreatureCardFromHand() {
@@ -248,17 +253,6 @@ public class PlayerTest {
 
         assertThat(player.getHandSize(), is(5));
         assertThat(player.getDeck().size(), is(0));
-    }
-
-    @Test public void testCardsOutsideActiveHouseCannotBePlayed() {
-        assertThat(underTest.canPlay(normalCreature), is(false));
-        assertThat(underTest.canPlay(armoredCreature), is(false));
-    }
-
-    @Test public void testCardsInsideActiveHouseCanBePlayed() {
-        assertThat(underTest.canPlay(normalCreature), is(false));
-        underTest.selectHouse(House.Dis);
-        assertThat(underTest.canPlay(normalCreature), is(true));
     }
 
     @Test public void testStealReducesAemberPool() {

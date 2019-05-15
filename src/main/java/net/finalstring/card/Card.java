@@ -34,8 +34,11 @@ public abstract class Card {
     }
 
     public boolean canPlay() {
-        return getPlayCost().map(UsageCost::getCost).map(aemberCost -> getAember() >= aemberCost).orElse(true) &&
-                GameState.getInstance().getCurrentTurn().getUsageManager().canPlay(this);
+        return GameState.getInstance().getCurrentTurn().getUsageManager().canPlay(this);
+    }
+
+    public Optional<UsageCost> getPlayCost() {
+        return Optional.empty();
     }
 
     void buildEffects(Player player, BiConsumer<EffectNode.Builder, Player> generator) {
@@ -52,9 +55,5 @@ public abstract class Card {
 
     protected void buildDelayedPlayEffects(EffectNode.Builder effectBuilder, Player player) {
         effectBuilder.effect(new Discard(player, this));
-    }
-
-    protected Optional<UsageCost> getPlayCost() {
-        return Optional.empty();
     }
 }

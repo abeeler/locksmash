@@ -56,7 +56,7 @@ public class GameState {
     }
 
     public int calculateCost(CardUsage usage, Card toAssess) {
-        return activeCosts.stream()
+        return toAssess.getPlayCost().map(UsageCost::getCost).orElse(0) + activeCosts.stream()
                 .filter(cost -> cost.appliesTo(usage, toAssess))
                 .mapToInt(UsageCost::getCost)
                 .sum();
@@ -71,12 +71,8 @@ public class GameState {
 
         activeCosts.stream()
                 .filter(cost -> cost.appliesTo(usage, played))
-                .forEach(cost -> {
-                    player.setAember(player.getAemberPool() - cost.getCost());
-                    if (cost.paidToOpponent()) {
-                        player.getOpponent().addAember(cost.getCost());
-                    }
-                });
+                .forEach(cost -> UsageCost.pay(cost, player));
+        played.getPlayCost().ifPresent(cost -> UsageCost.pay(cost, player));
     }
 
     public void registerPermanentEffect(Stateful constantEffect) {

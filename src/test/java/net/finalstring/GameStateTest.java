@@ -36,7 +36,9 @@ public class GameStateTest {
 
     @Test public void testCardsOutsideOfActiveHouseCannotBePlayedNormally() {
         Card shadowsCard = new KeyOfDarkness();
+        shadowsCard.setOwner(player);
         Card sanctumCard = new CleansingWave();
+        sanctumCard.setOwner(player);
 
         underTest.getCurrentTurn().setSelectedHouse(House.Mars);
 
@@ -46,7 +48,9 @@ public class GameStateTest {
 
     @Test public void testCardsInsideActiveHouseCanBePlayed() {
         Card shadowsCard = new KeyOfDarkness();
+        shadowsCard.setOwner(player);
         Card sanctumCard = new CleansingWave();
+        sanctumCard.setOwner(player);
 
         underTest.getCurrentTurn().setSelectedHouse(House.Shadows);
         assertThat(shadowsCard.canPlay(), is(true));

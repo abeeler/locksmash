@@ -9,7 +9,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class TreasureMapTest extends AbstractCardTest<TreasureMap> {
     @Test public void testNoAemberIsAddedIfOtherCardsPlayedAlready() {
-        play(new KeyOfDarkness());
+        KeyOfDarkness actionCard = new KeyOfDarkness();
+        actionCard.setOwner(player);
+        play(actionCard);
         play(underTest);
         assertThat(player.getAemberPool(), is(STARTING_AEMBER + 1));
     }

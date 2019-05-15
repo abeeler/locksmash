@@ -23,7 +23,9 @@ public class RoutineJobTest extends AbstractCardTest<RoutineJob> {
 
         while (stolenAember < opponentStartingAember) {
             stolenAember = Math.min(stolenAember + player.getDiscardPile().size() + 1, opponentStartingAember);
-            play(new RoutineJob());
+            RoutineJob routineJob = new RoutineJob();
+            routineJob.setOwner(player);
+            play(routineJob);
             assertThat(player.getAemberPool(), is (stolenAember));
             assertThat(opponent.getAemberPool(), is(opponentStartingAember - stolenAember));
         }

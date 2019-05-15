@@ -10,12 +10,15 @@ import net.finalstring.effect.player.GainAember;
 import net.finalstring.usage.CardUsage;
 import net.finalstring.usage.UsageCost;
 
+import java.util.EnumSet;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 
 
 @Data
 public abstract class Card {
+    private static final EnumSet<CardUsage> DEFAULT_OMNI_USAGE = EnumSet.noneOf(CardUsage.class);
+
     private final int id;
     private final House house;
 
@@ -41,6 +44,10 @@ public abstract class Card {
         return Optional.empty();
     }
 
+    public EnumSet<CardUsage> getOmniUsages() {
+        return DEFAULT_OMNI_USAGE;
+    }
+
     void buildEffects(Player player, BiConsumer<EffectNode.Builder, Player> generator) {
         EffectNode.Builder builder = new EffectNode.Builder();
         generator.accept(builder, player);
@@ -54,6 +61,6 @@ public abstract class Card {
     }
 
     protected void buildDelayedPlayEffects(EffectNode.Builder effectBuilder, Player player) {
-        effectBuilder.effect(new Discard(player, this));
+        effectBuilder.effect(new Discard(getOwner(), this));
     }
 }

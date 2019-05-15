@@ -8,14 +8,13 @@ import net.finalstring.card.Spawnable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 
 public class UsageManager {
-    private final List<UsageAllowance> allowances = new ArrayList<>();
-    private final List<UsageRestriction> restrictions = new ArrayList<>();
+    private final List<UsagePredicate> allowances = new ArrayList<>();
+    private final List<UsagePredicate> restrictions = new ArrayList<>();
 
     public UsageManager(final House selectedHouse) {
-        allowances.add(new UsageAllowance(card -> card.getHouse() == selectedHouse));
+        allowances.add(new HouseAllowance(selectedHouse));
     }
 
     public boolean canPlay(Card card) {
@@ -34,18 +33,22 @@ public class UsageManager {
         return testUsageConditions(CardUsage.Reap, creature);
     }
 
-    public void addAllowance(CardUsage usage, Predicate<Card> allowanceCondition) {
-        allowances.add(new UsageAllowance(usage, allowanceCondition));
+    public void addAllowance(UsagePredicate predicate) {
+        allowances.add(predicate);
     }
 
-    public void addRestriction(CardUsage usage, Predicate<Card> restrictionCondition) {
-        restrictions.add(new UsageRestriction(usage, restrictionCondition));
+    public void removeAllowance(UsagePredicate predicate) {
+        allowances.remove(predicate);
+    }
+
+    public void addRestriction(UsagePredicate predicate) {
+        restrictions.add(predicate);
     }
 
     private boolean testUsageConditions(CardUsage usage, Card toTest) {
         return
                 GameState.getInstance().calculateCost(usage, toTest) <= toTest.getOwner().getAemberPool() &&
-                restrictions.stream().allMatch(restriction -> restriction.isAllowed(usage, toTest)) &&
-                allowances.stream().anyMatch(usageAllowance -> usageAllowance.isAllowed(usage, toTest));
+                restrictions.stream().allMatch(restriction -> restriction.matches(usage, toTest)) &&
+                allowances.stream().anyMatch(usageAllowance -> usageAllowance.matches(usage, toTest));
     }
 }

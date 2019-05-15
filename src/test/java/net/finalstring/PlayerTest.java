@@ -344,6 +344,7 @@ public class PlayerTest {
         assertThat(underTest.getDiscardPile().size(), is(0));
 
         Card actionCard = new KeyOfDarkness();
+        actionCard.setOwner(underTest);
         actionCard.play(underTest);
 
         assertThat(underTest.getDiscardPile().size(), is(1));

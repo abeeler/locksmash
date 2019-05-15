@@ -1,11 +1,13 @@
 package net.finalstring.effect.player;
 
+import lombok.RequiredArgsConstructor;
 import net.finalstring.GameState;
-import net.finalstring.card.Creature;
+import net.finalstring.card.Card;
 import net.finalstring.card.House;
 import net.finalstring.effect.AbstractEffect;
 import net.finalstring.effect.EffectParameter;
 import net.finalstring.usage.CardUsage;
+import net.finalstring.usage.UsagePredicate;
 
 public class AllowHouseToFight extends AbstractEffect {
     private final EffectParameter<House> toAllow =
@@ -17,11 +19,16 @@ public class AllowHouseToFight extends AbstractEffect {
 
     @Override
     public void affect() {
-        final House allowedHouse = toAllow.getValue();
-        GameState.getInstance().getCurrentTurn().getUsageManager().addAllowance(CardUsage.Fight, card -> card.getHouse() == allowedHouse);
+        GameState.getInstance().getCurrentTurn().getUsageManager().addAllowance(new FightPredicate(toAllow.getValue()));
     }
 
-    private boolean allow(Creature toCheck) {
-        return toCheck.getHouse() == toAllow.getValue();
+    @RequiredArgsConstructor
+    private static class FightPredicate implements UsagePredicate {
+        private final House selectedHouse;
+
+        @Override
+        public boolean matches(CardUsage usage, Card card) {
+            return usage == CardUsage.Fight && card.getHouse() == selectedHouse;
+        }
     }
 }

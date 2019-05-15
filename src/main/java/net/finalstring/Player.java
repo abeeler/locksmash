@@ -54,6 +54,10 @@ public class Player {
         hand.add(card);
     }
 
+    public Card removeFromHand(int index) {
+        return hand.remove(index);
+    }
+
     public boolean draw() {
         if (deck.isEmpty() && !discard.isEmpty()) {
             Collections.shuffle(discard);

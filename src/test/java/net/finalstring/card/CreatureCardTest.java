@@ -3,6 +3,7 @@ package net.finalstring.card;
 import net.finalstring.GameState;
 import net.finalstring.Player;
 import net.finalstring.card.dis.EmberImp;
+import net.finalstring.card.shadows.MacisAsp;
 import net.finalstring.effect.EffectStack;
 import net.finalstring.effect.board.Fight;
 import net.finalstring.card.sanctum.ChampionAnaphiel;
@@ -20,8 +21,10 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.CoreMatchers.is;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CreatureCardTest {
@@ -33,6 +36,7 @@ public class CreatureCardTest {
     private Creature tauntCreature;
     private Creature elusiveCreature;
     private Creature skirmishCreature;
+    private Creature poisonCreature;
 
     @BeforeClass public static void staticSetup() {
         EffectStack.reset();
@@ -45,7 +49,8 @@ public class CreatureCardTest {
             armoredCreature = new TheVaultKeeper(),
             aemberCreature = new DustPixie(),
             elusiveCreature = new NoddyTheThief(),
-            skirmishCreature = new Snufflegator()
+            skirmishCreature = new Snufflegator(),
+            poisonCreature = new MacisAsp()
         );
 
         for (Creature creature : testCreatures) {
@@ -249,6 +254,31 @@ public class CreatureCardTest {
         assertThat(armoredCreature.getInstance().getDamage(), is(3));
         assertThat(armoredCreature.getInstance().heal(20), is(3));
         assertThat(armoredCreature.getInstance().getDamage(), is(0));
+    }
+
+    @Test public void testPoisonWillInstantlyKillCreatureEvenWithInsufficientDamage() {
+        assertThat(poisonCreature.getPower() < skirmishCreature.getPower(), is(true));
+
+        fight(poisonCreature, skirmishCreature);
+
+        assertThat(skirmishCreature.getInstance(), is(nullValue()));
+    }
+
+    @Test public void testPoisonDoesNothingIfAllDamageIsAbsorbedByArmor() {
+        Creature heavilyArmored = spy(Creature.class);
+        when(heavilyArmored.getArmor()).thenReturn(3);
+        heavilyArmored.place(mockPlayer, true);
+
+        fight(poisonCreature, heavilyArmored);
+
+        assertThat(heavilyArmored.getInstance().isAlive(), is(true));
+    }
+
+    @Test public void testPoisonStillInstantlyKillsIfArmorOnlyPartiallyBlocksDamage() {
+        assertThat(poisonCreature.getPower() > armoredCreature.getArmor(), is(true));
+        fight(poisonCreature, armoredCreature);
+
+        assertThat(armoredCreature.getInstance(), is(nullValue()));
     }
 
     private void fight(Creature attacker, Creature defender) {

@@ -32,24 +32,27 @@ public class Fight extends AbstractEffect {
 
     @Override
     public void affect() {
-        Creature.CreatureInstance attacker = attacking.getFirst().getInstance();
-        Creature.CreatureInstance defender = defending.getFirst().getInstance();
+        Creature attacker = attacking.getFirst();
+        Creature defender = defending.getFirst();
 
-        attacker.exhaust();
+        Creature.CreatureInstance attackerInstance = attacker.getInstance();
+        Creature.CreatureInstance defenderInstance = defender.getInstance();
 
-        if (attacker.unstun()) {
-        } else if (defender.isEluding()) {
-            defender.elude();
+        attackerInstance.exhaust();
+
+        if (attackerInstance.unstun()) {
+        } else if (defenderInstance.isEluding()) {
+            defenderInstance.elude();
         } else {
-            defender.dealDamage(attacking.getFirst().getPower());
+            defenderInstance.dealDamage(attacker.getPower(), attacker.hasPoison());
 
-            if (!attacking.getFirst().hasSkirmish()) {
-                attacker.dealDamage(defending.getFirst().getPower());
+            if (!attacker.hasSkirmish()) {
+                attackerInstance.dealDamage(defender.getPower());
             }
         }
 
-        if (attacker.isAlive()) {
-            attacking.getFirst().fought();
+        if (attackerInstance.isAlive()) {
+            attacker.fought();
         }
     }
 }

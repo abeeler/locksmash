@@ -43,6 +43,10 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
         return false;
     }
 
+    public boolean hasPoison() {
+        return false;
+    }
+
     public CreatureInstance place(Player controller, boolean onLeft) {
         spawn(new CreatureInstance(controller));
         controller.getBattleline().placeCreature(this, onLeft);
@@ -132,13 +136,22 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
         }
 
         public void dealDamage(int amount) {
+            dealDamage(amount, false);
+        }
+
+        public void dealDamage(int amount, boolean withPoison) {
             int absorbed = Math.min(remainingArmor, amount);
             remainingArmor -= absorbed;
+            int dealt = amount - absorbed;
 
-            damage += amount - absorbed;
-
-            if (!isAlive()) {
+            if (dealt > 0 && withPoison) {
                 destroy();
+            } else {
+                damage += dealt;
+
+                if (!isAlive()) {
+                    destroy();
+                }
             }
         }
 

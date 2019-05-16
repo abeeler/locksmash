@@ -37,6 +37,7 @@ public class MasterplanTest extends AbstractCardTest<Masterplan> {
     @Test public void testMasterplanCanBeUsedAsOmni() {
         assertThat(underTest.canPlay(), is(true));
         play(underTest);
+        underTest.getInstance().ready();
 
         gameState.endTurn();
         gameState.endTurn();

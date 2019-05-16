@@ -11,6 +11,7 @@ import static org.mockito.Mockito.when;
 public class BrotherInBattleTest extends AbstractCardTest<BrothersInBattle> {
     @Test public void testPlayingAllowsNonActiveHouseToFight() {
         when(friendly.getHouse()).thenReturn(House.Dis);
+        friendly.getInstance().ready();
 
         assertThat(friendly.canAct(), is(false));
         assertThat(friendly.canFight(), is(false));

@@ -68,7 +68,7 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
     }
 
     protected boolean canUse() {
-        return getInstance() != null;
+        return getInstance() != null && getInstance().isReady();
     }
 
     protected void buildActionEffects(EffectNode.Builder builder, Player player) { }

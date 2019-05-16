@@ -9,13 +9,21 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public abstract class AemberPoolArtifactTest<T extends AemberPoolArtifact> extends AbstractCardTest<T> {
-    @Test
-    public void testActionMovesAemberOntoAemberPoolArtifact() {
+    @Test public void testActionMovesAemberOntoAemberPoolArtifact() {
         play(underTest);
 
         assertThat(underTest.getHeldAember(), is(0));
         action(underTest);
         assertThat(underTest.getHeldAember(), is(1));
+    }
+
+    @Test public void testNothingHappensIfPlayerHasNoAember() {
+        play(underTest);
+
+        player.setAember(0);
+        action(underTest);
+
+        assertThat(underTest.getHeldAember(), is(0));
     }
 
     @Test public void testLeavingPlayClearsHeldAember() {

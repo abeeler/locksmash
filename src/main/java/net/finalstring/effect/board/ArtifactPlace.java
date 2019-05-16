@@ -1,6 +1,7 @@
 package net.finalstring.effect.board;
 
 import lombok.RequiredArgsConstructor;
+import net.finalstring.GameState;
 import net.finalstring.Player;
 import net.finalstring.card.Artifact;
 import net.finalstring.effect.AbstractEffect;
@@ -13,5 +14,6 @@ public class ArtifactPlace extends AbstractEffect {
     @Override
     public void affect() {
         artifact.place(player);
+        GameState.getInstance().artifactPlaced(artifact);
     }
 }

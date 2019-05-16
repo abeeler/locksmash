@@ -2,6 +2,7 @@ package net.finalstring;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import net.finalstring.card.Artifact;
 import net.finalstring.card.Card;
 import net.finalstring.card.Creature;
 import net.finalstring.card.House;
@@ -54,6 +55,11 @@ public class GameState {
         currentTurn.creaturesPlayed++;
         currentTurn.activeTurnEffects.forEach(stateful -> stateful.onCreatureEnter(placed));
         activePermanentEffects.forEach(stateful -> stateful.onCreatureEnter(placed));
+    }
+
+    public void artifactPlaced(Artifact placed) {
+        currentTurn.activeTurnEffects.forEach(stateful -> stateful.onArtifactEnter(placed));
+        activePermanentEffects.forEach(stateful -> stateful.onArtifactEnter(placed));
     }
 
     public int calculateCost(CardUsage usage, Card toAssess) {

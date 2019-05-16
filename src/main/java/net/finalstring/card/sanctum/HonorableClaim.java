@@ -34,7 +34,7 @@ public class HonorableClaim extends Card {
                 .map(creature -> new CaptureOpponentAember(creature, 1))
                 .collect(Collectors.toList());
 
-        boolean orderMatters = captureEffects.size() > player.getOpponent().getAemberPool();
+        boolean orderMatters = captureEffects.size() > player.getOpponent().getHeldAember();
         effectBuilder.effects(captureEffects, orderMatters);
     }
 }

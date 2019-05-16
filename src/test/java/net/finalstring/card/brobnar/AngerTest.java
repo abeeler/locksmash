@@ -32,7 +32,7 @@ public class AngerTest extends AbstractCardTest<Anger> {
 
         play(underTest);
 
-        assertThat(player.getAemberPool(), is(STARTING_AEMBER + 1));
+        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 1));
     }
 
     @Test public void testAngerWithMultipleReadyTargets() {

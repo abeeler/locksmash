@@ -14,8 +14,8 @@ public class HonorableClaimTest extends AbstractCardTest<HonorableClaim> {
     @Test public void testNothingIsCaptureWithoutKnights() {
         play(underTest);
 
-        assertThat(opponent.getAemberPool(), is(STARTING_AEMBER));
-        assertThat(player.getAemberPool(), is(STARTING_AEMBER + 1));
+        assertThat(opponent.getHeldAember(), is(STARTING_AEMBER));
+        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 1));
         assertThat(friendly.getInstance().getCapturedAember(), is(0));
     }
 
@@ -24,7 +24,7 @@ public class HonorableClaimTest extends AbstractCardTest<HonorableClaim> {
 
         play(underTest);
 
-        assertThat(opponent.getAemberPool(), is(STARTING_AEMBER - 1));
+        assertThat(opponent.getHeldAember(), is(STARTING_AEMBER - 1));
         assertThat(friendly.getInstance().getCapturedAember(), is(1));
     }
 

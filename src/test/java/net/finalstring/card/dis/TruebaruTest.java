@@ -20,13 +20,13 @@ public class TruebaruTest extends AbstractCardTest<Truebaru> {
     @Test public void testAemberIsPaidToPlay() {
         play(underTest);
 
-        assertThat(player.getAemberPool(), is(STARTING_AEMBER - Truebaru.PLAY_COST));
+        assertThat(player.getHeldAember(), is(STARTING_AEMBER - Truebaru.PLAY_COST));
     }
 
     @Test public void testAemberIsGainedWhenTruebaruIsDestroyed() {
         play(underTest);
         destroy(underTest);
 
-        assertThat(player.getAemberPool(), is(STARTING_AEMBER - Truebaru.PLAY_COST + Truebaru.DESTROYED_AEMBER_GAIN));
+        assertThat(player.getHeldAember(), is(STARTING_AEMBER - Truebaru.PLAY_COST + Truebaru.DESTROYED_AEMBER_GAIN));
     }
 }

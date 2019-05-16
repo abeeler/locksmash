@@ -24,12 +24,12 @@ public class KnowledgeIsPowerTest extends AbstractCardTest<KnowledgeIsPower> {
     @Test public void testGainingAemberFromArchive() {
         play(underTest, 1);
 
-        assertThat(player.getAemberPool(), is(STARTING_AEMBER + 1));
+        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 1));
 
         player.archiveFromHand(0);
 
         play(underTest, 1);
 
-        assertThat(player.getAemberPool(), is(STARTING_AEMBER + 3));
+        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 3));
     }
 }

@@ -11,7 +11,7 @@ public class KeyOfDarknessTest extends AbstractCardTest<KeyOfDarkness> {
     @Test public void testPlayingWithoutEnoughAemberDoesNothing() {
         play(underTest);
 
-        assertThat(player.getAemberPool(), is(STARTING_AEMBER));
+        assertThat(player.getHeldAember(), is(STARTING_AEMBER));
         assertThat(player.getForgedKeys(), is(0));
     }
 
@@ -21,7 +21,7 @@ public class KeyOfDarknessTest extends AbstractCardTest<KeyOfDarkness> {
 
         play(underTest);
 
-        assertThat(player.getAemberPool(), is(0));
+        assertThat(player.getHeldAember(), is(0));
         assertThat(player.getForgedKeys(), is(1));
     }
 
@@ -32,7 +32,7 @@ public class KeyOfDarknessTest extends AbstractCardTest<KeyOfDarkness> {
 
         play(underTest);
 
-        assertThat(player.getAemberPool(), is(0));
+        assertThat(player.getHeldAember(), is(0));
         assertThat(player.getForgedKeys(), is(1));
     }
 }

@@ -47,7 +47,7 @@ public class UsageManager {
 
     private boolean testUsageConditions(CardUsage usage, Card toTest) {
         return
-                GameState.getInstance().calculateCost(usage, toTest) <= toTest.getOwner().getAemberPool() &&
+                GameState.getInstance().calculateCost(usage, toTest) <= toTest.getOwner().getHeldAember() &&
                 restrictions.stream().allMatch(restriction -> restriction.matches(usage, toTest)) &&
                 allowances.stream().anyMatch(usageAllowance -> usageAllowance.matches(usage, toTest));
     }

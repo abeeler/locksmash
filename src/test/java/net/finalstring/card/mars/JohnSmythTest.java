@@ -25,7 +25,7 @@ public class JohnSmythTest extends AbstractCardTest<JohnSmyth> {
         play(underTest);
         reap(underTest);
 
-        assertThat(player.getAemberPool(), is(STARTING_AEMBER + 1));
+        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 1));
     }
 
     @Test public void testReapWillReadyMarsNonAgentTarget() {

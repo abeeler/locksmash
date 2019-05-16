@@ -10,8 +10,8 @@ public class RoutineJobTest extends AbstractCardTest<RoutineJob> {
     @Test public void testSingleRoutineJobStealsOnce() {
         play(underTest);
 
-        assertThat(player.getAemberPool(), is(STARTING_AEMBER + 1));
-        assertThat(opponent.getAemberPool(), is(STARTING_AEMBER - 1));
+        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 1));
+        assertThat(opponent.getHeldAember(), is(STARTING_AEMBER - 1));
     }
 
     @Test public void testMultipleRoutineJobsStealAdditional() {
@@ -26,8 +26,8 @@ public class RoutineJobTest extends AbstractCardTest<RoutineJob> {
             RoutineJob routineJob = new RoutineJob();
             routineJob.setOwner(player);
             play(routineJob);
-            assertThat(player.getAemberPool(), is (stolenAember));
-            assertThat(opponent.getAemberPool(), is(opponentStartingAember - stolenAember));
+            assertThat(player.getHeldAember(), is (stolenAember));
+            assertThat(opponent.getHeldAember(), is(opponentStartingAember - stolenAember));
         }
     }
 }

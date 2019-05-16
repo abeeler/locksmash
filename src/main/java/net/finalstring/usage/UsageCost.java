@@ -9,7 +9,7 @@ public interface UsageCost {
     default boolean paidToOpponent() { return true; }
 
     static void pay(UsageCost cost, Player payer) {
-        payer.setAember(payer.getAemberPool() - cost.getCost());
+        payer.setAember(payer.getHeldAember() - cost.getCost());
         if (cost.paidToOpponent()) {
             payer.getOpponent().addAember(cost.getCost());
         }

@@ -2,7 +2,6 @@ package net.finalstring.card.logos;
 
 import net.finalstring.card.AbstractCardTest;
 import net.finalstring.card.Card;
-import net.finalstring.card.dis.DustImp;
 import net.finalstring.card.untamed.DustPixie;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +19,7 @@ public class WildWormholeTest extends AbstractCardTest<WildWormhole> {
     @Test public void testTopCardIsPlayed() {
         play(underTest, true);
 
-        assertThat(player.getAemberPool(), is(STARTING_AEMBER + 3));
+        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 3));
         assertThat(player.getDeck().size(), is(0));
     }
 
@@ -31,7 +30,7 @@ public class WildWormholeTest extends AbstractCardTest<WildWormhole> {
 
         play(underTest, true);
 
-        assertThat(player.getAemberPool(), is(STARTING_AEMBER + 4));
+        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 4));
         assertThat(player.getDeck().size(), is(0));
     }
 
@@ -40,7 +39,7 @@ public class WildWormholeTest extends AbstractCardTest<WildWormhole> {
 
         play(underTest);
 
-        assertThat(player.getAemberPool(), is(STARTING_AEMBER + 1));
+        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 1));
     }
 
     // TODO: Test with Library Access

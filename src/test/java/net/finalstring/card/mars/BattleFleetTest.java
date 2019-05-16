@@ -22,7 +22,7 @@ public class BattleFleetTest extends AbstractCardTest<BattleFleet> {
         play(underTest);
 
         assertThat(EffectStack.isEffectPending(), is(false));
-        assertThat(player.getAemberPool(), is(STARTING_AEMBER + 1));
+        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 1));
         assertThat(player.getHandSize(), is(0));
         assertThat(player.getDeck().size(), is(startingDeck.size()));
     }
@@ -30,7 +30,7 @@ public class BattleFleetTest extends AbstractCardTest<BattleFleet> {
     @Test public void testDrawsCardWithSingleReveal() {
         play(underTest, addMockMarsCard());
 
-        assertThat(player.getAemberPool(), is(STARTING_AEMBER + 1));
+        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 1));
         assertThat(player.getHandSize(), is(2));
         assertThat(player.getDeck().size(), is(startingDeck.size() - 1));
     }
@@ -38,7 +38,7 @@ public class BattleFleetTest extends AbstractCardTest<BattleFleet> {
     @Test public void testDrawsMultipleCardsWithMultipleReveals() {
         play(underTest, Arrays.asList(addMockMarsCard(), addMockMarsCard(), addMockMarsCard()));
 
-        assertThat(player.getAemberPool(), is(STARTING_AEMBER + 1));
+        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 1));
         assertThat(player.getHandSize(), is(6));
         assertThat(player.getDeck().size(), is(startingDeck.size() - 3));
     }

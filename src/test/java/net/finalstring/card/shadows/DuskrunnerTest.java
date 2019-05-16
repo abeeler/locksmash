@@ -12,7 +12,7 @@ public class DuskrunnerTest extends AbstractCardTest<Duskrunner> {
 
         reap(friendly);
 
-        assertThat(player.getAemberPool(), is(STARTING_AEMBER + 2));
-        assertThat(opponent.getAemberPool(), is(STARTING_AEMBER - 1));
+        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 2));
+        assertThat(opponent.getHeldAember(), is(STARTING_AEMBER - 1));
     }
 }

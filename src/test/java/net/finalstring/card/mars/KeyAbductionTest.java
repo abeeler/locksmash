@@ -2,7 +2,6 @@ package net.finalstring.card.mars;
 
 import net.finalstring.Player;
 import net.finalstring.card.AbstractCardTest;
-import net.finalstring.card.Creature;
 import net.finalstring.card.House;
 import org.junit.Test;
 
@@ -32,7 +31,7 @@ public class KeyAbductionTest extends AbstractCardTest<KeyAbduction> {
         play(underTest, true);
 
         assertThat(player.getForgedKeys(), is(0));
-        assertThat(player.getAemberPool(), is(STARTING_AEMBER + 1));
+        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 1));
     }
 
     @Test public void testKeyIsForgedWithCostReducedByHandSize() {
@@ -48,6 +47,6 @@ public class KeyAbductionTest extends AbstractCardTest<KeyAbduction> {
         play(underTest, true);
 
         assertThat(player.getForgedKeys(), is(1));
-        assertThat(player.getAemberPool(), is(STARTING_AEMBER - targetCost + 1));
+        assertThat(player.getHeldAember(), is(STARTING_AEMBER - targetCost + 1));
     }
 }

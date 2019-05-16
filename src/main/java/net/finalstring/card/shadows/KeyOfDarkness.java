@@ -17,7 +17,7 @@ public class KeyOfDarkness extends Card {
     @Override
     protected void buildPlayEffects(EffectNode.Builder effectBuilder, Player player) {
         super.buildPlayEffects(effectBuilder, player);
-        effectBuilder.effect(new ForgeKey(player, player.getOpponent().getAemberPool() == 0 ?
+        effectBuilder.effect(new ForgeKey(player, player.getOpponent().getHeldAember() == 0 ?
                 CONDITIONAL_KEY_COST_MODIFIER :
                 NORMAL_KEY_COST_MODIFIER));
     }

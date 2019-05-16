@@ -13,13 +13,13 @@ public class TreasureMapTest extends AbstractCardTest<TreasureMap> {
         actionCard.setOwner(player);
         play(actionCard);
         play(underTest);
-        assertThat(player.getAemberPool(), is(STARTING_AEMBER + 1));
+        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 1));
     }
 
     @Test public void testAemberGainedIfFirstCardPlayed() {
         play(underTest);
 
-        assertThat(player.getAemberPool(), is(STARTING_AEMBER + 1 + TreasureMap.CONDITIONAL_AEMBER));
+        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 1 + TreasureMap.CONDITIONAL_AEMBER));
     }
 
     @Test public void testNoOtherCardsCanBePlayedAfterTreasureMap() {

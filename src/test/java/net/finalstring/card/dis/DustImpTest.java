@@ -12,7 +12,7 @@ public class DustImpTest extends AbstractCardTest<DustImp> {
         play(underTest);
         destroy(underTest);
 
-        assertThat(player.getAemberPool(), is(STARTING_AEMBER + 2));
+        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 2));
     }
 
     @Test public void testPurgeDoesNotAddAember() {
@@ -20,6 +20,6 @@ public class DustImpTest extends AbstractCardTest<DustImp> {
         underTest.purge();
 
         assertThat(underTest.getInstance(), is(nullValue()));
-        assertThat(player.getAemberPool(), is(STARTING_AEMBER));
+        assertThat(player.getHeldAember(), is(STARTING_AEMBER));
     }
 }

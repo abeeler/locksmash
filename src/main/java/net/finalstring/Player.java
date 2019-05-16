@@ -3,12 +3,10 @@ package net.finalstring;
 import lombok.Getter;
 import lombok.Setter;
 import net.finalstring.card.*;
-import net.finalstring.effect.EffectStack;
 
 import java.util.*;
-import java.util.function.Predicate;
 
-public class Player {
+public class Player implements AemberPool {
     public static final int DEFAULT_KEY_COST = 6;
 
     private static final int DEFAULT_MAXIMUM_HAND_SIZE = 6;
@@ -24,12 +22,14 @@ public class Player {
     private final List<Creature> purged = new ArrayList<>();
     private final List<Artifact> artifacts = new ArrayList<>();
 
+    private final List<AemberPool> aemberPools = new ArrayList<>();
+
     @Getter
     @Setter
     private Player opponent;
 
     @Getter
-    private int aemberPool = 0;
+    private int heldAember = 0;
 
     @Getter
     private int forgedKeys = 0;
@@ -44,10 +44,12 @@ public class Player {
         for (Card card : deck) {
             card.setOwner(this);
         }
+
+        aemberPools.add(this);
     }
 
     public Player() {
-        this.deck = new LinkedList<>();
+        this(new ArrayList<>());
     }
 
     public void addToHand(Card card) {
@@ -124,6 +126,10 @@ public class Player {
         return Collections.unmodifiableList(purged);
     }
 
+    public List<AemberPool> getAemberPools() {
+        return Collections.unmodifiableList(aemberPools);
+    }
+
     public void addArtifact(Artifact artifact) {
         artifacts.add(artifact);
     }
@@ -132,47 +138,95 @@ public class Player {
         artifacts.remove(artifact);
     }
 
+    public void addAemberPool(AemberPool aemberHolder) {
+        aemberPools.add(aemberHolder);
+    }
+
+    public void removeAemberPool(AemberPool aemberHolder) {
+        aemberPools.remove(aemberHolder);
+    }
+
+    @Override
     public void setAember(int newValue) {
         if (newValue < 0) {
             throw new IllegalArgumentException("Invalid aember amount: " + newValue);
         }
 
-        aemberPool = newValue;
+        heldAember = newValue;
     }
 
+    @Override
     public void addAember(int amount) {
         if (amount < 0) {
             throw new IllegalArgumentException("Invalid aember amount to add to pool: " + amount);
         }
-        aemberPool += amount;
+        heldAember += amount;
+    }
+
+    @Override
+    public void removeAember(int amount) {
+        if (amount < 0) {
+            throw new IllegalArgumentException("Invalid aember amount to remove from pool: " + amount);
+        }
+
+        heldAember = Math.max(heldAember - amount, 0);
     }
 
     public int takeAember(int maxAmount) {
-        int amountStolen = Math.min(aemberPool, maxAmount);
-        aemberPool -= amountStolen;
+        int amountStolen = Math.min(heldAember, maxAmount);
+        heldAember -= amountStolen;
         return amountStolen;
     }
 
+    public int getKeyCost(int modifier) {
+        return DEFAULT_KEY_COST + keyCostModifier + modifier;
+    }
+
     public int getKeyCost() {
-        return DEFAULT_KEY_COST + keyCostModifier;
+        return getKeyCost(0);
     }
 
     public void forgeKey() {
-        forgeKey(0);
+        forgeKey(0, new Integer[] { heldAember });
     }
 
-    public void forgeKey(int modifier) {
+    public void forgeKey(int modifier, Integer[] paymentDistribution) {
         if (forgeRestrictionCounter > 0) {
             return;
         }
 
         int keyCost = Math.max(getKeyCost() + modifier, 0);
-        if (aemberPool >= keyCost) {
-            aemberPool -= keyCost;
+
+        int totalAemberPaid = 0;
+        for (int i = 0; i < paymentDistribution.length; i++) {
+            if (paymentDistribution[i] > aemberPools.get(i).getHeldAember()) {
+                throw new IllegalArgumentException("Attempting to pay with more aember than is held in a pool");
+            }
+
+            totalAemberPaid += paymentDistribution[i];
+        }
+
+        if (totalAemberPaid > keyCost) {
+            throw new IllegalArgumentException("The payment distribution totaled more than the key cost");
+        } else if (totalAemberPaid == keyCost) {
+            for (int i = 0; i < paymentDistribution.length; i++) {
+                aemberPools.get(i).removeAember(paymentDistribution[i]);
+            }
+
             ++forgedKeys;
 
             GameState.getInstance().keyForged(this);
         }
+    }
+
+    public boolean canForgeKey(int modifier) {
+        int keyCost = Math.max(getKeyCost() + modifier, 0);
+
+        for (AemberPool pool : aemberPools) {
+            keyCost -= pool.getHeldAember();
+        }
+
+        return keyCost <= 0;
     }
 
     public void addForgeRestriction() {

@@ -145,16 +145,16 @@ public class PlayerTest {
     }
 
     @Test public void testPlayerStartsWithZeroAember() {
-        assertThat(underTest.getAemberPool(), is(0));
+        assertThat(underTest.getHeldAember(), is(0));
     }
 
     @Test public void testPlayingCardWithAemberIncrementsPool() {
-        assertThat(underTest.getAemberPool(), is(0));
+        assertThat(underTest.getHeldAember(), is(0));
 
         new DustPixie().play(underTest);
         EffectStack.setEffectParameter(true);
 
-        assertThat(underTest.getAemberPool(), is(2));
+        assertThat(underTest.getHeldAember(), is(2));
     }
 
     @Test public void testPlayingCreatureOnSpecificFlankWorks() {
@@ -197,8 +197,8 @@ public class PlayerTest {
 
         actionCreature.action();
 
-        assertThat(underTest.getAemberPool(), is(1));
-        assertThat(opponent.getAemberPool(), is(1));
+        assertThat(underTest.getHeldAember(), is(1));
+        assertThat(opponent.getHeldAember(), is(1));
     }
 
     @Test public void testPlayerStartsWithZeroForgedKeys() {
@@ -226,7 +226,7 @@ public class PlayerTest {
 
         underTest.forgeKey();
 
-        assertThat(underTest.getAemberPool(), is(0));
+        assertThat(underTest.getHeldAember(), is(0));
     }
 
     @Test public void testRefillingHandDrawsToMaximumAmount() {
@@ -259,13 +259,13 @@ public class PlayerTest {
         underTest.addAember(5);
         underTest.takeAember(2);
 
-        assertThat(underTest.getAemberPool(), is(3));
+        assertThat(underTest.getHeldAember(), is(3));
     }
 
     @Test public void testStealCannotReduceAemberBelowZero() {
         underTest.addAember(1);
         underTest.takeAember(2);
-        assertThat(underTest.getAemberPool(), is(0));
+        assertThat(underTest.getHeldAember(), is(0));
     }
 
     @Test public void testStealReturnsAmountStolen() {

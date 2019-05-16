@@ -11,7 +11,7 @@ public class NoddyTheThiefTest extends AbstractCardTest<NoddyTheThief> {
         play(underTest);
         action(underTest);
 
-        assertThat(player.getAemberPool(), is(STARTING_AEMBER + 1));
-        assertThat(opponent.getAemberPool(), is(STARTING_AEMBER - 1));
+        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 1));
+        assertThat(opponent.getHeldAember(), is(STARTING_AEMBER - 1));
     }
 }

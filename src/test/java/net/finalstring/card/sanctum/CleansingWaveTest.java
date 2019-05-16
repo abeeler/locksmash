@@ -10,14 +10,14 @@ public class CleansingWaveTest extends AbstractCardTest<CleansingWave> {
     @Test public void testNoAemberGainedWithUndamageCreatures() {
         play(underTest);
 
-        assertThat(player.getAemberPool(), is(STARTING_AEMBER));
+        assertThat(player.getHeldAember(), is(STARTING_AEMBER));
     }
 
     @Test public void testHealsDamagedFriendlyCreature() {
         friendly.getInstance().dealDamage(1);
         play(underTest);
 
-        assertThat(player.getAemberPool(), is(STARTING_AEMBER + 1));
+        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 1));
         assertThat(friendly.getInstance().getDamage(), is(0));
     }
 
@@ -32,7 +32,7 @@ public class CleansingWaveTest extends AbstractCardTest<CleansingWave> {
         enemy.getInstance().dealDamage(1);
         play(underTest);
 
-        assertThat(player.getAemberPool(), is(STARTING_AEMBER + 1));
+        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 1));
         assertThat(enemy.getInstance().getDamage(), is(0));
     }
 
@@ -42,6 +42,6 @@ public class CleansingWaveTest extends AbstractCardTest<CleansingWave> {
 
         play(underTest);
 
-        assertThat(player.getAemberPool(), is(STARTING_AEMBER + 2));
+        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 2));
     }
 }

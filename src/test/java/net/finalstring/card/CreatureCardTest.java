@@ -121,7 +121,7 @@ public class CreatureCardTest {
     @Test public void testReapingAddsOneAmberForController() {
         normalCreature.getInstance().reap();
 
-        assertThat(mockPlayer.getAemberPool(), is(1));
+        assertThat(mockPlayer.getHeldAember(), is(1));
     }
 
     @Test public void testNormalCreatureCanBeFought() {
@@ -197,7 +197,7 @@ public class CreatureCardTest {
 
         normalCreature.getInstance().capture(mockPlayer, 1);
 
-        assertThat(mockPlayer.getAemberPool(), is(0));
+        assertThat(mockPlayer.getHeldAember(), is(0));
     }
 
     @Test public void testCaptureMovesAemberOntoInstance() {
@@ -220,7 +220,7 @@ public class CreatureCardTest {
         normalCreature.getInstance().stun();
         normalCreature.getInstance().reap();
         assertThat(normalCreature.getInstance().isReady(), is(false));
-        assertThat(mockPlayer.getAemberPool(), is(0));
+        assertThat(mockPlayer.getHeldAember(), is(0));
     }
 
     @Test public void testStunPreventsFight() {

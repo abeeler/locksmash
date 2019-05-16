@@ -10,6 +10,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.Collections;
+
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.*;
@@ -25,13 +27,14 @@ public class GameStateTest {
     @Before public void setup() {
         when(player.getOpponent()).thenReturn(opponent);
         when(opponent.getOpponent()).thenReturn(player);
+        when(opponent.getAemberPools()).thenReturn(Collections.singletonList(opponent));
         underTest = new GameState(player);
     }
 
     @Test public void testKeyIsAttemptedToBeForgedAtStartOfTurn() {
         verify(opponent, never()).forgeKey();
         underTest.endTurn();
-        verify(opponent).forgeKey();
+        verify(opponent).forgeKey(0, new Integer[] { 0 });
     }
 
     @Test public void testCardsOutsideOfActiveHouseCannotBePlayedNormally() {

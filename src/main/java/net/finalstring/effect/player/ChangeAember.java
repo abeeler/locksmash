@@ -17,7 +17,7 @@ public class ChangeAember extends AbstractEffect {
     @Override
     protected void affect() {
         for (Player target : targets) {
-            target.setAember(deltaFunction.applyAsInt(target.getAemberPool()));
+            target.setAember(deltaFunction.applyAsInt(target.getHeldAember()));
         }
     }
 }

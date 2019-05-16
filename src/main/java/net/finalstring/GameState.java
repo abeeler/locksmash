@@ -5,14 +5,15 @@ import lombok.RequiredArgsConstructor;
 import net.finalstring.card.Card;
 import net.finalstring.card.Creature;
 import net.finalstring.card.House;
+import net.finalstring.effect.EffectStack;
 import net.finalstring.effect.Stateful;
+import net.finalstring.effect.player.ForgeKey;
 import net.finalstring.usage.CardUsage;
 import net.finalstring.usage.UsageCost;
 import net.finalstring.usage.UsageManager;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class GameState {
     @Getter
@@ -41,7 +42,7 @@ public class GameState {
         nextTurn = new Turn(currentTurn.getActivePlayer().getOpponent());
 
         if (currentTurn.willForge) {
-            currentTurn.getActivePlayer().forgeKey();
+            EffectStack.pushDelayedEffect(new ForgeKey(currentTurn.getActivePlayer()));
         }
     }
 
@@ -65,7 +66,7 @@ public class GameState {
     public void payCosts(CardUsage usage, Card played) {
         final Player player = currentTurn.activePlayer;
 
-        if (player.getAemberPool() < calculateCost(usage, played)) {
+        if (player.getHeldAember() < calculateCost(usage, played)) {
             throw new IllegalStateException("Attempting to play / use a card without being able to pay the cost");
         }
 

@@ -10,6 +10,6 @@ public class CharetteTest extends AbstractCardTest<Charette> {
     @Test public void testCapturesAemberWhenPlayed() {
         play(underTest);
 
-        assertThat(opponent.getAemberPool(), is(STARTING_AEMBER - 3));
+        assertThat(opponent.getHeldAember(), is(STARTING_AEMBER - 3));
     }
 }

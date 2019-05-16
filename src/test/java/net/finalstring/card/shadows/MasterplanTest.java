@@ -52,7 +52,7 @@ public class MasterplanTest extends AbstractCardTest<Masterplan> {
         assertThat(player.getDiscardPile().contains(underTest), is(true));
         assertThat(player.getDiscardPile().contains(inHand), is(true));
     }
-    
+
     @Test public void testCardUnderPaysAnyAssociatedCosts() {
         Card cardWithCost = new Truebaru();
         cardWithCost.setOwner(player);
@@ -61,7 +61,7 @@ public class MasterplanTest extends AbstractCardTest<Masterplan> {
         play(underTest, 1);
         action(underTest, true);
 
-        assertThat(player.getAemberPool(), is(STARTING_AEMBER - 2));
+        assertThat(player.getHeldAember(), is(STARTING_AEMBER - 2));
         assertThat(player.getBattleline().getCreatures().contains(cardWithCost), is(true));
     }
 
@@ -89,7 +89,7 @@ public class MasterplanTest extends AbstractCardTest<Masterplan> {
         play(underTest, 1);
         action(underTest);
 
-        assertThat(player.getAemberPool(), is(1));
+        assertThat(player.getHeldAember(), is(1));
         assertThat(player.getDiscardPile().contains(underTest), is(true));
         assertThat(player.getDiscardPile().contains(cardWithCost), is(true));
     }

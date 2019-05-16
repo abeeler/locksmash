@@ -15,7 +15,7 @@ public class NeuroSyphonTest extends AbstractCardTest<NeuroSyphon> {
     @Test public void testDoesNothingAtEqualAember() {
         play(underTest);
 
-        assertThat(player.getAemberPool(), is(STARTING_AEMBER + 1));
+        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 1));
         assertThat(player.getHandSize(), is(0));
     }
 
@@ -30,8 +30,8 @@ public class NeuroSyphonTest extends AbstractCardTest<NeuroSyphon> {
 
         play(underTest);
 
-        assertThat(player.getAemberPool(), is(STARTING_AEMBER + 2));
-        assertThat(opponent.getAemberPool(), is(STARTING_AEMBER + 1));
+        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 2));
+        assertThat(opponent.getHeldAember(), is(STARTING_AEMBER + 1));
         assertThat(player.getHandSize(), is(1));
     }
 

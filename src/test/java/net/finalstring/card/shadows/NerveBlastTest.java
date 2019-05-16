@@ -12,8 +12,8 @@ public class NerveBlastTest extends AbstractCardTest<NerveBlast> {
         play(underTest, enemy);
 
         assertThat(enemy.getInstance().getDamage(), is(2));
-        assertThat(player.getAemberPool(), is(STARTING_AEMBER + 1));
-        assertThat(opponent.getAemberPool(), is(STARTING_AEMBER - 1));
+        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 1));
+        assertThat(opponent.getHeldAember(), is(STARTING_AEMBER - 1));
     }
 
     @Test public void testStealingCanDamageFriendly() {
@@ -22,8 +22,8 @@ public class NerveBlastTest extends AbstractCardTest<NerveBlast> {
         play(underTest);
 
         assertThat(friendly.getInstance().getDamage(), is(2));
-        assertThat(player.getAemberPool(), is(STARTING_AEMBER + 1));
-        assertThat(opponent.getAemberPool(), is(STARTING_AEMBER - 1));
+        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 1));
+        assertThat(opponent.getHeldAember(), is(STARTING_AEMBER - 1));
     }
 
     @Test public void testNotStealingCausesNoDamage() {
@@ -31,7 +31,7 @@ public class NerveBlastTest extends AbstractCardTest<NerveBlast> {
 
         play(underTest);
 
-        assertThat(player.getAemberPool(), is(STARTING_AEMBER));
+        assertThat(player.getHeldAember(), is(STARTING_AEMBER));
         assertThat(EffectStack.isEffectPending(), is(false));
     }
 }

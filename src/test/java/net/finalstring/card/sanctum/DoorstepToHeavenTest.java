@@ -11,34 +11,34 @@ public class DoorstepToHeavenTest extends AbstractCardTest<DoorstepToHeaven> {
         player.setAember(5);
 
         play(underTest);
-        assertThat(player.getAemberPool(), is(5));
+        assertThat(player.getHeldAember(), is(5));
     }
 
     @Test public void testAffectsPlayer() {
         player.setAember(10);
 
         play(underTest);
-        assertThat(player.getAemberPool(), is(5));
+        assertThat(player.getHeldAember(), is(5));
     }
 
     @Test public void testPlayerGainsAemberBelowFive() {
         player.setAember(2);
 
         play(underTest);
-        assertThat(player.getAemberPool(), is(3));
+        assertThat(player.getHeldAember(), is(3));
     }
 
     @Test public void testAffectsOpponent() {
         opponent.setAember(10);
 
         play(underTest);
-        assertThat(opponent.getAemberPool(), is(5));
+        assertThat(opponent.getHeldAember(), is(5));
     }
 
     @Test public void testOpponentUnaffectedBeneathThreshold() {
         opponent.setAember(3);
 
         play(underTest);
-        assertThat(opponent.getAemberPool(), is(3));
+        assertThat(opponent.getHeldAember(), is(3));
     }
 }

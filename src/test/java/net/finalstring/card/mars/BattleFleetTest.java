@@ -7,6 +7,7 @@ import net.finalstring.card.brobnar.Anger;
 import net.finalstring.effect.EffectStack;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class BattleFleetTest extends AbstractCardTest<BattleFleet> {
     }
 
     @Test public void testDrawsCardWithSingleReveal() {
-        play(underTest, addMockMarsCard());
+        play(underTest, addMockMarsCard(1));
 
         assertThat(player.getHeldAember(), is(STARTING_AEMBER + 1));
         assertThat(player.getHandSize(), is(2));
@@ -36,7 +37,7 @@ public class BattleFleetTest extends AbstractCardTest<BattleFleet> {
     }
 
     @Test public void testDrawsMultipleCardsWithMultipleReveals() {
-        play(underTest, Arrays.asList(addMockMarsCard(), addMockMarsCard(), addMockMarsCard()));
+        play(underTest, addMockMarsCard(3));
 
         assertThat(player.getHeldAember(), is(STARTING_AEMBER + 1));
         assertThat(player.getHandSize(), is(6));
@@ -54,10 +55,15 @@ public class BattleFleetTest extends AbstractCardTest<BattleFleet> {
         return startingDeck;
     }
 
-    private Card addMockMarsCard() {
-        Card mockCard = mock(Card.class);
-        when(mockCard.getHouse()).thenReturn(House.Mars);
-        player.addToHand(mockCard);
-        return mockCard;
+    private List<Integer> addMockMarsCard(int count) {
+        List<Integer> result = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            Card mockCard = mock(Card.class);
+            when(mockCard.getHouse()).thenReturn(House.Mars);
+            player.addToHand(mockCard);
+            result.add(i);
+        }
+
+        return result;
     }
 }

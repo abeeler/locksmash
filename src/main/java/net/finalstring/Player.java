@@ -3,6 +3,7 @@ package net.finalstring;
 import lombok.Getter;
 import lombok.Setter;
 import net.finalstring.card.*;
+import net.finalstring.effect.TargetFilter;
 
 import java.util.*;
 
@@ -16,7 +17,7 @@ public class Player implements AemberPool {
     @Getter
     private final Battleline battleline = new Battleline();
 
-    private final List<Card> hand = new ArrayList<>();
+    private final List<HandCard> hand = new ArrayList<>();
     private final List<Card> discard = new ArrayList<>();
     private final List<Card> archive = new ArrayList<>();
     private final List<Creature> purged = new ArrayList<>();
@@ -53,11 +54,11 @@ public class Player implements AemberPool {
     }
 
     public void addToHand(Card card) {
-        hand.add(card);
+        hand.add(new HandCard(card));
     }
 
     public Card removeFromHand(int index) {
-        return hand.remove(index);
+        return hand.remove(index).getCard();
     }
 
     public boolean draw() {
@@ -68,7 +69,7 @@ public class Player implements AemberPool {
         }
 
         if (!deck.isEmpty()) {
-            hand.add(deck.poll());
+            addToHand(deck.poll());
             return true;
         }
 
@@ -76,11 +77,11 @@ public class Player implements AemberPool {
     }
 
     public void playFromHand(int index) {
-        hand.remove(index).play(this);
+        removeFromHand(index).play(this);
     }
 
     public void discardFromHand(int index) {
-        discard.add(hand.remove(index));
+        discard.add(removeFromHand(index));
     }
 
     public void discard(Card card) {
@@ -88,7 +89,7 @@ public class Player implements AemberPool {
     }
 
     public void archiveFromHand(int index) {
-        archive.add(hand.remove(index));
+        archive.add(removeFromHand(index));
     }
 
     public void archive(Card card) {
@@ -96,9 +97,19 @@ public class Player implements AemberPool {
     }
 
     public void purge(Creature creature) {
-        if (!hand.remove(creature)) {
+        boolean removed = false;
+        for (int i = 0; i < hand.size(); i++) {
+            if (hand.get(i).getCard() == creature) {
+                hand.remove(i);
+                removed = true;
+                break;
+            }
+        }
+
+        if (!removed) {
             discard.remove(creature);
         }
+
         purged.add(creature);
     }
 
@@ -110,7 +121,7 @@ public class Player implements AemberPool {
         return Collections.unmodifiableList(discard);
     }
 
-    public List<Card> getHand() {
+    public List<HandCard> getHand() {
         return Collections.unmodifiableList(hand);
     }
 
@@ -247,6 +258,16 @@ public class Player implements AemberPool {
                 break;
             }
         }
+    }
+
+    public List<Integer> getMatchingCardsInHand(TargetFilter filter) {
+        List<Integer> matchingIndices = new ArrayList<>();
+        for (int i = 0; i < hand.size(); i++) {
+            if (filter.isValid(hand.get(i).getCard())) {
+                matchingIndices.add(i);
+            }
+        }
+        return matchingIndices;
     }
 
     public int getMaximumHandSize() {

@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class EffectCardParameter<T extends Card> extends EffectParameter<List<T>> {
+public class EffectCardParameter<T extends Card> extends EffectListParameter<T> {
     public static <T extends Card> EffectCardParameter<T> unlimitedTargets(String description) {
         return new EffectCardParameter<>(description, 0, Integer.MAX_VALUE);
     }
@@ -17,57 +17,21 @@ public class EffectCardParameter<T extends Card> extends EffectParameter<List<T>
         return new EffectCardParameter<>(description, 1, 1);
     }
 
-    @Getter
-    private final int minimumTargets;
-
-    @Getter
-    private final int maximumTargets;
-
     @Setter
     @Getter
     private TargetSpecification targetSpecification = null;
 
     public EffectCardParameter(String description, List<T> targets) {
-        super(description);
-        this.minimumTargets = this.maximumTargets = targets.size();
-        setValue(targets);
+        super(description, targets);
     }
 
     public EffectCardParameter(String description, int minimum, int maximum) {
-        super(description);
-
-        this.minimumTargets = minimum;
-        this.maximumTargets = maximum;
+        super(description, minimum, maximum);
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public boolean hasAmbiguousOptions() {
-        List<Card> possibleTargets = targetSpecification.getValidTargets();
-        if (possibleTargets.size() > minimumTargets) {
-            return true;
-        } else if (possibleTargets.isEmpty()) {
-            return false;
-        }
-
-        setValue(targetSpecification.getValidTargets().stream().map(card -> (T) card).collect(Collectors.toList()));
-        return false;
-    }
-
-    public void setSingleValue(T value) {
-        setValue(Collections.singletonList(value));
-    }
-
-    public T getFirst() {
-        return getValue().get(0);
-    }
-
-    @Override
-    protected boolean validateValue(List<T> value) {
-        if (value.size() > maximumTargets) {
-            return false;
-        }
-
-        return targetSpecification == null || value.stream().allMatch(targetSpecification::isValidTarget);
+    protected List<T> getPossibleOptions() {
+        return targetSpecification == null ? null : (List<T>) targetSpecification.getValidTargets();
     }
 }

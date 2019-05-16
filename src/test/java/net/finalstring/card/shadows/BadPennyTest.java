@@ -14,7 +14,7 @@ public class BadPennyTest extends AbstractCardTest<BadPenny> {
         destroy(underTest);
 
         assertThat(player.getHand().size(), is(1));
-        assertThat(player.getHand().get(0), is(underTest));
+        assertThat(player.getHand().get(0).getCard(), is(underTest));
     }
 
     @Test public void testAvoidsBeingPurgedBySpecialDelivery() {
@@ -26,7 +26,7 @@ public class BadPennyTest extends AbstractCardTest<BadPenny> {
         action(specialDelivery, underTest);
 
         assertThat(player.getHand().size(), is(1));
-        assertThat(player.getHand().get(0), is(underTest));
+        assertThat(player.getHand().get(0).getCard(), is(underTest));
         assertThat(player.getDiscardPile().get(0), is(specialDelivery));
     }
 

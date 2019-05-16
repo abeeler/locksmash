@@ -3,10 +3,12 @@ package net.finalstring.card.mars;
 import net.finalstring.Player;
 import net.finalstring.card.Card;
 import net.finalstring.card.House;
+import net.finalstring.effect.EffectListParameter;
 import net.finalstring.effect.TargetFilter;
 import net.finalstring.effect.node.EffectNode;
 import net.finalstring.effect.player.DrawCard;
-import net.finalstring.effect.player.SelectiveReveal;
+import net.finalstring.effect.player.Reveal;
+import net.finalstring.effect.player.SelectCardsFromHand;
 
 public class BattleFleet extends Card {
     public BattleFleet() {
@@ -22,10 +24,15 @@ public class BattleFleet extends Card {
     protected void buildPlayEffects(EffectNode.Builder effectBuilder, Player player) {
         super.buildPlayEffects(effectBuilder, player);
 
-        SelectiveReveal selectiveReveal =
-                new SelectiveReveal(player, new TargetFilter().ofHouse(House.Mars));
+        final SelectCardsFromHand selectiveReveal =
+                new SelectCardsFromHand(player, new EffectListParameter<>(
+                        "Select cards to reveal",
+                        0,
+                        Integer.MAX_VALUE,
+                        () -> player.getMatchingCardsInHand(new TargetFilter().ofHouse(House.Mars))));
         effectBuilder
                 .effect(selectiveReveal)
-                .dependentEffect(() -> new DrawCard(player, selectiveReveal.getSelectedCards().getValue().size()));
+                .dependentEffect(() -> new Reveal(selectiveReveal.getSelectedCards()))
+                .dependentEffect(() -> new DrawCard(player, selectiveReveal.getSelectedCards().size()));
     }
 }

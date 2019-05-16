@@ -1,25 +1,27 @@
 package net.finalstring.effect.player;
 
-import lombok.RequiredArgsConstructor;
 import net.finalstring.Player;
-import net.finalstring.card.Card;
+import net.finalstring.card.HandCard;
 import net.finalstring.effect.AbstractEffect;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
-@RequiredArgsConstructor
 public class Reveal extends AbstractEffect {
-    protected final List<Card> toReveal = new LinkedList<>();
+    protected final List<HandCard> toReveal = new ArrayList<>();
 
-    private final Player revealer;
+    public Reveal(Player revealer) {
+        toReveal.addAll(revealer.getHand());
+    }
 
-    @Override
-    public boolean trigger() {
-        // TODO: Reveal selected cards to revealer's opponent
-        return !toReveal.isEmpty();
+    public Reveal(List<HandCard> toReveal) {
+        this.toReveal.addAll(toReveal);
     }
 
     @Override
-    protected void affect() { }
+    protected void affect() {
+        for (HandCard handCard : toReveal) {
+            handCard.reveal();
+        }
+    }
 }

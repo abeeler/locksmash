@@ -26,6 +26,7 @@ public class PlayerTest {
     private GameState gameState;
 
     private List<Card> deck;
+    private List<Card> startingHand;
 
     private Creature normalCreature;
     private Creature armoredCreature;
@@ -40,10 +41,11 @@ public class PlayerTest {
         artifact = new LibraryOfBabble();
         upgrade = new Duskrunner();
 
-        underTest = new Player(Arrays.asList(
+        startingHand = Arrays.asList(
                 normalCreature,
                 armoredCreature
-        ));
+        );
+        underTest = new Player(startingHand);
 
         upgrade.setOwner(underTest);
 
@@ -89,7 +91,7 @@ public class PlayerTest {
     }
 
     @Test public void testCardsAreDrawnToHand() {
-        underTest = new Player(underTest.getHand());
+        underTest = new Player(startingHand);
 
         assertThat(underTest.getHand().size(), is(0));
         assertThat(underTest.getDeck().size(), is(2));
@@ -178,7 +180,7 @@ public class PlayerTest {
     }
 
     @Test public void testUsingArtifactActionTriggersEffect() {
-        underTest = new Player(underTest.getHand());
+        underTest = new Player(startingHand);
 
         artifact.play(underTest);
 
@@ -280,7 +282,7 @@ public class PlayerTest {
         assertThat(underTest.getHandSize(), is(2));
         underTest.addToHand(toAdd);
         assertThat(underTest.getHandSize(), is(3));
-        assertThat(underTest.getHand().get(2), is(toAdd));
+        assertThat(underTest.getHand().get(2).getCard(), is(toAdd));
     }
 
     @Test public void testArchivingAddsToArchive() {
@@ -303,7 +305,7 @@ public class PlayerTest {
         underTest.purge(normalCreature);
 
         assertThat(underTest.getHand().size(), is(1));
-        assertThat(underTest.getHand().get(0), is(armoredCreature));
+        assertThat(underTest.getHand().get(0).getCard(), is(armoredCreature));
         assertThat(underTest.getPurged().size(), is(1));
         assertThat(underTest.getPurged().get(0), is(normalCreature));
     }

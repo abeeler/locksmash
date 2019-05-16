@@ -3,6 +3,7 @@ package net.finalstring.card.shadows;
 import net.finalstring.BoardState;
 import net.finalstring.Player;
 import net.finalstring.card.Artifact;
+import net.finalstring.card.Creature;
 import net.finalstring.card.House;
 import net.finalstring.effect.TargetFilter;
 import net.finalstring.effect.TargetSpecification;
@@ -28,8 +29,10 @@ public class SpecialDelivery extends Artifact {
         builder
                 .effect(new Destroy(this))
                 .effect(damageEffect)
-                .dependentEffect(() -> !damageEffect.getTarget().getInstance().isAlive() ?
-                        new Purge(player, damageEffect.getTarget()) :
-                        new BlankEffect());
+                .conditional(() -> {
+                    Creature target = damageEffect.getTarget().getFirst();
+                    return target != null && target.getInstance() != null && !target.getInstance().isAlive();
+                })
+                .dependentEffect(() -> new Purge(damageEffect.getTarget().getFirst()));
     }
 }

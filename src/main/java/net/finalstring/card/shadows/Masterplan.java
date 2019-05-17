@@ -15,8 +15,6 @@ import net.finalstring.usage.UsagePredicate;
 import java.util.EnumSet;
 
 public class Masterplan extends Artifact {
-    private static final EnumSet<CardUsage> OMNI_USAGE = EnumSet.of(CardUsage.Act);
-
     @Getter
     private Card heldCard;
 
@@ -31,7 +29,7 @@ public class Masterplan extends Artifact {
 
     @Override
     public EnumSet<CardUsage> getOmniUsages() {
-        return OMNI_USAGE;
+        return OMNI_ACTION_USAGE;
     }
 
     @Override

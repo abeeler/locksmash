@@ -38,6 +38,8 @@ public class GameState {
     }
 
     public void endTurn() {
+        currentTurn.getActivePlayer().getBattleline().resetAll();
+
         turns.add(currentTurn);
         currentTurn = nextTurn;
         nextTurn = new Turn(currentTurn.getActivePlayer().getOpponent());

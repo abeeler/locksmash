@@ -27,6 +27,11 @@ public class TargetFilter {
         return this;
     }
 
+    public TargetFilter isNot(final Card ignored) {
+        filters.add(card -> card != ignored);
+        return this;
+    }
+
     // Spawnable
 
     public TargetFilter hasInstance() {

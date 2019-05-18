@@ -33,4 +33,9 @@ public class Damage extends AbstractEffect {
     public void affect() {
         target.getFirst().getInstance().dealDamage(amount);
     }
+
+    public boolean targetDestroyed() {
+        Creature actualTaret = target.getFirst();
+        return actualTaret != null && actualTaret.getInstance() != null && !actualTaret.getInstance().isAlive();
+    }
 }

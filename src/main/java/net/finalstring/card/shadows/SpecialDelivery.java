@@ -29,10 +29,7 @@ public class SpecialDelivery extends Artifact {
         builder
                 .effect(new Destroy(this))
                 .effect(damageEffect)
-                .conditional(() -> {
-                    Creature target = damageEffect.getTarget().getFirst();
-                    return target != null && target.getInstance() != null && !target.getInstance().isAlive();
-                })
+                .conditional(damageEffect::targetDestroyed)
                 .dependentEffect(() -> new Purge(damageEffect.getTarget().getFirst()));
     }
 }

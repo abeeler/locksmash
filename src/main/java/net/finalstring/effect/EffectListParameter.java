@@ -34,7 +34,7 @@ public class EffectListParameter<T> extends EffectParameter<List<T>>  {
     @Override
     public boolean hasAmbiguousOptions() {
         List<T> possibleTargets = getPossibleOptions();
-        if (possibleTargets.size() > minimumTargets) {
+        if (possibleTargets == null || possibleTargets.size() > minimumTargets) {
             return true;
         } else if (possibleTargets.isEmpty()) {
             return false;

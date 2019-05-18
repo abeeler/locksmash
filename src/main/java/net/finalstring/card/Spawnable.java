@@ -6,7 +6,6 @@ import net.finalstring.effect.EffectStack;
 import net.finalstring.Player;
 import net.finalstring.effect.misc.RunnableEffect;
 import net.finalstring.effect.node.EffectNode;
-import net.finalstring.effect.Stateful;
 import net.finalstring.usage.UsageCost;
 
 public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
@@ -23,6 +22,10 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
 
         if (this instanceof Stateful) {
             GameState.getInstance().registerPermanentEffect((Stateful) this);
+        }
+
+        if (this instanceof UseListener) {
+            GameState.getInstance().registerUseListener((UseListener) this);
         }
 
         if (this instanceof UsageCost) {

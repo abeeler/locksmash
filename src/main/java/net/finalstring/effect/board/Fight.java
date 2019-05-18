@@ -1,6 +1,7 @@
 package net.finalstring.effect.board;
 
 import lombok.Getter;
+import net.finalstring.GameState;
 import net.finalstring.card.Creature;
 import net.finalstring.effect.AbstractEffect;
 import net.finalstring.effect.EffectCardParameter;
@@ -38,10 +39,24 @@ public class Fight extends AbstractEffect {
         Creature.CreatureInstance attackerInstance = attacker.getInstance();
         Creature.CreatureInstance defenderInstance = defender.getInstance();
 
-        attackerInstance.exhaust();
+        if (attackerInstance == null) {
+            return;
+        }
 
         if (attackerInstance.unstun()) {
-        } else if (defenderInstance.isEluding()) {
+            attackerInstance.exhaust();
+            return;
+        }
+
+        GameState.getInstance().beforeFight(attacker, defender);
+
+        if (!attackerInstance.isReady() || defenderInstance == null) {
+            return;
+        }
+
+        attackerInstance.exhaust();
+
+        if (defenderInstance.isEluding()) {
             defenderInstance.elude();
         } else {
             defenderInstance.dealDamage(attacker.getPower(), attacker.hasPoison());

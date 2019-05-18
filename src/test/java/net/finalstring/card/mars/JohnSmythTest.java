@@ -65,6 +65,7 @@ public class JohnSmythTest extends AbstractCardTest<JohnSmyth> {
         enemy.getInstance().reset();
 
         play(underTest);
+        underTest.getInstance().ready();
         fight(underTest, enemy);
         assertThat(friendly.getInstance().isReady(), is(true));
     }

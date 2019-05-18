@@ -11,6 +11,7 @@ import static org.mockito.Mockito.when;
 public class GrabberJammerTest extends AbstractCardTest<GrabberJammer> {
     @Before public void boardSetup() {
         play(underTest);
+        underTest.getInstance().ready();
     }
 
     @Test public void testOpponentKeyCostIsHigher() {

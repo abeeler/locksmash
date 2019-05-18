@@ -3,7 +3,7 @@ package net.finalstring.card.shadows;
 import net.finalstring.Player;
 import net.finalstring.card.Artifact;
 import net.finalstring.card.House;
-import net.finalstring.effect.Stateful;
+import net.finalstring.card.Stateful;
 import net.finalstring.effect.board.Destroy;
 import net.finalstring.effect.node.EffectNode;
 

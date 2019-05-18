@@ -1,4 +1,4 @@
-package net.finalstring.effect;
+package net.finalstring.card;
 
 import net.finalstring.Player;
 import net.finalstring.card.Artifact;

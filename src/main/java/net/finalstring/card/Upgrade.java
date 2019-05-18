@@ -5,6 +5,8 @@ import net.finalstring.Player;
 import net.finalstring.effect.board.UpgradeAttach;
 import net.finalstring.effect.node.EffectNode;
 
+// TODO: Rework to be a UseListener attached to the card
+// TODO: Allow active player to decide which order UseListeners trigger in
 public abstract class Upgrade extends Card {
     public Upgrade(int id, House house) {
         super(id, house);

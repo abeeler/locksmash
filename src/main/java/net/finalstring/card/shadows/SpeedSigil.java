@@ -4,7 +4,7 @@ import net.finalstring.GameState;
 import net.finalstring.card.Artifact;
 import net.finalstring.card.Creature;
 import net.finalstring.card.House;
-import net.finalstring.effect.Stateful;
+import net.finalstring.card.Stateful;
 
 public class SpeedSigil extends Artifact implements Stateful {
     public SpeedSigil() {

@@ -7,7 +7,7 @@ import net.finalstring.Player;
 import net.finalstring.card.Card;
 import net.finalstring.card.Creature;
 import net.finalstring.card.House;
-import net.finalstring.effect.Stateful;
+import net.finalstring.card.Stateful;
 import net.finalstring.effect.TargetSpecification;
 import net.finalstring.effect.board.Damage;
 import net.finalstring.effect.misc.RegisterTurnConstant;

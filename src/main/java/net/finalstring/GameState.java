@@ -2,12 +2,8 @@ package net.finalstring;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import net.finalstring.card.Artifact;
-import net.finalstring.card.Card;
-import net.finalstring.card.Creature;
-import net.finalstring.card.House;
+import net.finalstring.card.*;
 import net.finalstring.effect.EffectStack;
-import net.finalstring.effect.Stateful;
 import net.finalstring.effect.player.ForgeKey;
 import net.finalstring.usage.CardUsage;
 import net.finalstring.usage.UsageCost;
@@ -21,6 +17,7 @@ public class GameState {
     public static GameState instance;
 
     private final List<Stateful> activePermanentEffects = new ArrayList<>();
+    private final List<UseListener> activeUseListeners = new ArrayList<>();
     private final List<Turn> turns = new ArrayList<>();
     private final List<UsageCost> activeCosts = new ArrayList<>();
 
@@ -64,6 +61,12 @@ public class GameState {
         activePermanentEffects.forEach(stateful -> stateful.onArtifactEnter(placed));
     }
 
+    public void beforeFight(Creature attacker, Creature defender) {
+        for (UseListener useListener : activeUseListeners) {
+            useListener.beforeFight(attacker, defender);
+        }
+    }
+
     public int calculateCost(CardUsage usage, Card toAssess) {
         return toAssess.getPlayCost().map(UsageCost::getCost).orElse(0) + activeCosts.stream()
                 .filter(cost -> cost.appliesTo(usage, toAssess))
@@ -90,6 +93,14 @@ public class GameState {
 
     public void deregisterPermanentEffect(Stateful constantEffect) {
         activePermanentEffects.remove(constantEffect);
+    }
+
+    public void registerUseListener(UseListener useListener) {
+        activeUseListeners.add(useListener);
+    }
+
+    public void deregisterUseListener(UseListener useListener) {
+        activeUseListeners.remove(useListener);
     }
 
     public void registerPlayCost(UsageCost playCost) {

@@ -14,6 +14,7 @@ public class DodgerTest extends AbstractCardTest<Dodger> {
         when(enemy.getPower()).thenReturn(1);
 
         play(underTest);
+        underTest.getInstance().ready();
         fight(underTest, enemy);
 
         assertThat(player.getHeldAember(), is(STARTING_AEMBER + 1));

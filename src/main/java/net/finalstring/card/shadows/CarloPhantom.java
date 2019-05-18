@@ -4,7 +4,7 @@ import net.finalstring.card.Artifact;
 import net.finalstring.card.Creature;
 import net.finalstring.card.House;
 import net.finalstring.effect.EffectStack;
-import net.finalstring.effect.Stateful;
+import net.finalstring.card.Stateful;
 import net.finalstring.effect.player.StealAember;
 
 public class CarloPhantom extends Creature implements Stateful {

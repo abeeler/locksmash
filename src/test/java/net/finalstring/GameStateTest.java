@@ -27,6 +27,7 @@ public class GameStateTest {
     @Before public void setup() {
         when(player.getOpponent()).thenReturn(opponent);
         when(opponent.getOpponent()).thenReturn(player);
+        when(player.getBattleline()).thenReturn(new Battleline());
         when(opponent.getAemberPools()).thenReturn(Collections.singletonList(opponent));
         underTest = new GameState(player);
     }

@@ -38,6 +38,7 @@ public class BattlelineTest {
         otherCreature.place(secondPlayer, true);
 
         underTest = new Player().getBattleline();
+        new GameState(firstPlayer);
     }
 
     @Test public void testBattlelineStartsEmpty() {
@@ -93,6 +94,7 @@ public class BattlelineTest {
 
         assertThat(underTest.getCreatureCount(), is(1));
 
+        creature.getInstance().ready();
         new Fight(creature, otherCreature).affect();
 
         assertThat(underTest.getCreatureCount(), is(0));

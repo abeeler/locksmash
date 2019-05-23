@@ -24,7 +24,7 @@ public class GrabberJammer extends Creature {
     }
 
     @Override
-    protected void buildFightReapEffects(EffectNode.Builder builder, Player owner) {
+    protected void buildFightReapEffects(EffectNode.Builder builder, Player controller) {
         builder.effect(new CaptureOpponentAember(this, 1));
     }
 

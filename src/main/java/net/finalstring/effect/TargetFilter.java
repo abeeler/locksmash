@@ -63,6 +63,11 @@ public class TargetFilter {
 
     // Utility
 
+    public TargetFilter and(Predicate<Card> filter) {
+        filters.add(filter);
+        return this;
+    }
+
     private static boolean withCreature(Card card, Predicate<Creature> condition) {
         return toCreature(card).map(condition::test).orElse(false);
     }

@@ -31,8 +31,8 @@ public class JohnSmyth extends Creature {
     }
 
     @Override
-    protected void buildFightReapEffects(EffectNode.Builder builder, Player owner) {
-        builder.effect(new Ready(new TargetSpecification(owner, BoardState::friendlyCreatures,
+    protected void buildFightReapEffects(EffectNode.Builder builder, Player controller) {
+        builder.effect(new Ready(new TargetSpecification(controller, BoardState::friendlyCreatures,
                 new TargetFilter().ofHouse(House.Mars).withoutTrait(Trait.Agent))));
     }
 }

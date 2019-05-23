@@ -1,6 +1,7 @@
 package net.finalstring.card;
 
 import lombok.Getter;
+import net.finalstring.AemberPool;
 import net.finalstring.GameState;
 import net.finalstring.Player;
 import net.finalstring.effect.node.EffectNode;
@@ -10,7 +11,7 @@ import net.finalstring.effect.player.GainAember;
 import java.util.*;
 
 @Getter
-public class Creature extends Spawnable<Creature.CreatureInstance> {
+public class Creature extends Spawnable<Creature.CreatureInstance> implements AemberPool {
     private final Set<Trait> traits = new HashSet<>();
     private final List<Upgrade> activeUpgrades = new ArrayList<>();
     private final int power;
@@ -104,7 +105,7 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
         }
     }
 
-    protected void buildFightReapEffects(EffectNode.Builder builder, Player owner) { }
+    protected void buildFightReapEffects(EffectNode.Builder builder, Player controller) { }
 
     @Override
     protected void leavePlay() {
@@ -119,6 +120,32 @@ public class Creature extends Spawnable<Creature.CreatureInstance> {
         }
 
         super.leavePlay();
+    }
+
+    @Override
+    public int getHeldAember() {
+        return instance == null ? 0 : instance.capturedAember;
+    }
+
+    @Override
+    public void addAember(int amount) {
+        if (instance != null) {
+            instance.capturedAember += amount;
+        }
+    }
+
+    @Override
+    public void removeAember(int amount) {
+        if (instance != null) {
+            instance.capturedAember -= amount;
+        }
+    }
+
+    @Override
+    public void setAember(int amount) {
+        if (instance != null) {
+            instance.capturedAember = amount;
+        }
     }
 
     @Getter

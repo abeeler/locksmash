@@ -22,6 +22,11 @@ public class TargetFilter {
 
     // Card
 
+    public TargetFilter isSpecifically(Class<? extends Card> clazz) {
+        filters.add(card -> card.getClass().equals(clazz));
+        return this;
+    }
+
     public TargetFilter ofHouse(final House house) {
         filters.add(card -> card.getHouse() == house);
         return this;

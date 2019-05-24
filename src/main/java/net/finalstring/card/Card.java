@@ -38,6 +38,15 @@ public abstract class Card {
         });
     }
 
+    public void bounce() {
+        if (owner.isInHand(this)) {
+            throw new IllegalStateException("Attempting to bounce card already in hand");
+        }
+
+        owner.removeFromDiscard(this);
+        owner.addToHand(this);
+    }
+
     public boolean canPlay() {
         return GameState.getInstance().getCurrentTurn().getUsageManager().canPlay(this);
     }

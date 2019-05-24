@@ -1,6 +1,7 @@
 package net.finalstring.effect.board;
 
 import lombok.Getter;
+import net.finalstring.card.Card;
 import net.finalstring.card.Spawnable;
 import net.finalstring.effect.AbstractEffect;
 import net.finalstring.effect.EffectCardParameter;
@@ -12,13 +13,13 @@ public class Bounce extends AbstractEffect {
     private static final String PARAMETER_DESCRIPTION = "Select targets to bounce";
 
     @Getter
-    private final EffectCardParameter<Spawnable> targets;
+    private final EffectCardParameter<Card> targets;
 
-    public Bounce(Spawnable target) {
+    public Bounce(Card target) {
         this(Collections.singletonList(target));
     }
 
-    public Bounce(List<Spawnable> targets) {
+    public Bounce(List<Card> targets) {
         this(new EffectCardParameter<>(PARAMETER_DESCRIPTION, targets));
         this.targets.setValue(targets);
     }
@@ -31,15 +32,15 @@ public class Bounce extends AbstractEffect {
         this(new EffectCardParameter<>(PARAMETER_DESCRIPTION, minimum, maximum));
     }
 
-    public Bounce(EffectCardParameter<Spawnable> targets) {
+    public Bounce(EffectCardParameter<Card> targets) {
         this.targets = targets;
         registerParameters(targets);
     }
 
     @Override
     protected void affect() {
-        for (Spawnable spawnable : targets.getValue()) {
-            spawnable.bounce();
+        for (Card card : targets.getValue()) {
+            card.bounce();
         }
     }
 }

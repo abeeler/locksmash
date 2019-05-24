@@ -6,6 +6,7 @@ public enum Trait {
     Demon,
     Elf,
     Faerie,
+    Human,
     Imp,
     Knight,
     Martian,

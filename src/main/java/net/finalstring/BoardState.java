@@ -8,11 +8,12 @@ import java.util.List;
 
 @UtilityClass
 public class BoardState {
+    public List<Card> friendlyDiscard(Player player) {
+        return player.getDiscardPile();
+    }
+
     public List<Card> friendlySpawnables(Player player) {
-        List<Card> spawnables = new ArrayList<>();
-        spawnables.addAll(friendlyCreatures(player));
-        spawnables.addAll(friendlyArtifacts(player));
-        return spawnables;
+        return multiple(friendlyCreatures(player), friendlyArtifacts(player));
     }
 
     public List<Card> friendlyArtifacts(Player player) {
@@ -28,9 +29,13 @@ public class BoardState {
     }
 
     public List<Card> allCreatures(Player player) {
-        List<Card> creatures = new ArrayList<>();
-        creatures.addAll(friendlyCreatures(player));
-        creatures.addAll(enemyCreatures(player));
-        return creatures;
+        return multiple(friendlyCreatures(player), enemyCreatures(player));
+    }
+
+    public List<Card> multiple(List<Card> first, List<Card> second) {
+        List<Card> list = new ArrayList<>();
+        list.addAll(first);
+        list.addAll(second);
+        return list;
     }
 }

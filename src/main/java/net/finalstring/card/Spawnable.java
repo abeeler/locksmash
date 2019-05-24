@@ -57,9 +57,10 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
         getOwner().discard(this);
     }
 
+    @Override
     public void bounce() {
         if (instance == null) {
-            throw new IllegalStateException("Trying to bounce without a spawned instance");
+            super.bounce();
         }
 
         leavePlay();

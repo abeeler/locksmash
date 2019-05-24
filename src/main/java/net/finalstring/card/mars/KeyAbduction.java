@@ -27,7 +27,7 @@ public class KeyAbduction extends Card {
     protected void buildPlayEffects(EffectNode.Builder effectBuilder, Player player) {
         super.buildPlayEffects(effectBuilder, player);
 
-        List<Spawnable> toBounce = player
+        List<Card> toBounce = player
                 .getBattleline()
                 .getCreatures()
                 .stream()

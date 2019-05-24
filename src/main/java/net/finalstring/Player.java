@@ -61,6 +61,10 @@ public class Player implements AemberPool {
         return hand.remove(index).getCard();
     }
 
+    public boolean isInHand(Card card) {
+        return hand.stream().anyMatch(handCard -> handCard.getCard() == card);
+    }
+
     public boolean draw() {
         if (deck.isEmpty() && !discard.isEmpty()) {
             Collections.shuffle(discard);
@@ -86,6 +90,10 @@ public class Player implements AemberPool {
 
     public void discard(Card card) {
         discard.add(card);
+    }
+
+    public boolean removeFromDiscard(Card card) {
+        return discard.remove(card);
     }
 
     public void archiveFromHand(int index) {

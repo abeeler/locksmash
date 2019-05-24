@@ -115,14 +115,6 @@ public class CreatureCardTest {
         assertThat(armoredCreature.getInstance().isReady(), is(false));
     }
 
-    @Test public void testExhaustedCreatureIsReadyAfterReset() {
-        armoredCreature.getInstance().exhaust();
-
-        armoredCreature.getInstance().reset();
-
-        assertThat(armoredCreature.getInstance().isReady(), is(true));
-    }
-
     @Test public void testReapingAddsOneAmberForController() {
         normalCreature.getInstance().reap();
 

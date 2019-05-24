@@ -24,6 +24,10 @@ public class BoardState {
         return player.getBattleline().getPlacedCards();
     }
 
+    public List<Card> enemyArtifacts(Player player) {
+        return new ArrayList<>(player.getOpponent().getArtifacts());
+    }
+
     public List<Card> enemyCreatures(Player player) {
         return player.getOpponent().getBattleline().getPlacedCards();
     }

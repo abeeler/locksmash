@@ -8,7 +8,7 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 // TODO: Allow effects added to the stack at the same time to have their order specified
-
+// TODO: Allow parameters to be registered to the chain directly and accessible throughout
 @UtilityClass
 public class EffectStack {
     private final Deque<EffectChain> effectStack = new ArrayDeque<>();

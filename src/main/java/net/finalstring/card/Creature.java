@@ -4,8 +4,10 @@ import lombok.Getter;
 import net.finalstring.AemberPool;
 import net.finalstring.GameState;
 import net.finalstring.Player;
+import net.finalstring.effect.EffectParameter;
+import net.finalstring.effect.EffectStack;
+import net.finalstring.effect.misc.RunnableEffect;
 import net.finalstring.effect.node.EffectNode;
-import net.finalstring.effect.board.CreaturePlace;
 import net.finalstring.effect.player.GainAember;
 
 import java.util.*;
@@ -50,8 +52,7 @@ public class Creature extends Spawnable<Creature.CreatureInstance> implements Ae
 
     public CreatureInstance place(Player controller, boolean onLeft) {
         spawn(new CreatureInstance(controller));
-        controller.getBattleline().placeCreature(this, onLeft);
-
+        EffectStack.setEffectParameter(onLeft);
         return instance;
     }
 
@@ -88,9 +89,15 @@ public class Creature extends Spawnable<Creature.CreatureInstance> implements Ae
         activeUpgrades.add(toAttach);
     }
 
+    @Override
+    public void spawn(CreatureInstance instance) {
+        super.spawn(instance);
+        GameState.getInstance().creaturePlaced(this);
+    }
+
     protected void buildPlayEffects(EffectNode.Builder builder, Player player) {
         super.buildPlayEffects(builder, player);
-        builder.effect(new CreaturePlace(player, this));
+        builder.effect(() -> spawn(new CreatureInstance(player)));
     }
 
     protected void buildFightEffects(EffectNode.Builder builder, Player controller) {
@@ -114,12 +121,21 @@ public class Creature extends Spawnable<Creature.CreatureInstance> implements Ae
         }
 
         activeUpgrades.clear();
-
-        if (instance != null) {
-            instance.getController().getBattleline().removeCreature(this);
-        }
-
         super.leavePlay();
+    }
+
+    @Override
+    protected void preControlChange() {
+        getInstance().getController().getBattleline().removeCreature(this);
+    }
+
+    @Override
+    protected void postControlChange() {
+        final EffectParameter<Boolean> onLeft = new EffectParameter<>("Select which side of the battleline to place the creature");
+        EffectStack.pushDelayedEffect(new RunnableEffect(
+                () -> getInstance().getController().getBattleline().placeCreature(this, onLeft.getValue()),
+                onLeft));
+
     }
 
     @Override
@@ -226,10 +242,7 @@ public class Creature extends Spawnable<Creature.CreatureInstance> implements Ae
             capturedAember += target.takeAember(maxAmount);
         }
 
-        @Override
         public void reset() {
-            super.reset();
-
             remainingArmor = getArmor();
             eluding = hasElusive();
         }

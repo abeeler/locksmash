@@ -1,13 +1,17 @@
 package net.finalstring;
 
+import net.finalstring.card.Artifact;
 import net.finalstring.card.Card;
+import net.finalstring.card.Creature;
 import net.finalstring.card.House;
+import net.finalstring.card.dis.DustImp;
 import net.finalstring.card.sanctum.CleansingWave;
 import net.finalstring.card.shadows.KeyOfDarkness;
+import net.finalstring.card.shadows.TheSting;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Collections;
@@ -19,8 +23,8 @@ import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class GameStateTest {
-    @Mock private Player player;
-    @Mock private Player opponent;
+    @Spy private Player player;
+    @Spy private Player opponent;
 
     private GameState underTest;
 
@@ -63,6 +67,28 @@ public class GameStateTest {
 
         underTest.getCurrentTurn().setSelectedHouse(House.Sanctum);
         assertThat(sanctumCard.canPlay(), is(true));
+    }
+
+    @Test public void testActivePlayerCreaturesAreReadiedAtTurnEnd() {
+        Creature creature = new DustImp();
+        creature.setOwner(player);
+
+        creature.place(player, true);
+        assertThat(creature.getInstance().isReady(), is(false));
+
+        underTest.endTurn();
+        assertThat(creature.getInstance().isReady(), is(true));
+    }
+
+    @Test public void testActivePlayerArtifactsAreReadiedAtTurnEnd() {
+        Artifact artifact = new TheSting();
+        artifact.setOwner(player);
+
+        artifact.play(player);
+        assertThat(artifact.getInstance().isReady(), is(false));
+
+        underTest.endTurn();
+        assertThat(artifact.getInstance().isReady(), is(true));
     }
 
     @Test(expected = IllegalStateException.class)

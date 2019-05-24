@@ -1,6 +1,8 @@
 package net.finalstring.card;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.Setter;
 import net.finalstring.GameState;
 import net.finalstring.effect.EffectStack;
 import net.finalstring.Player;
@@ -15,7 +17,7 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
         super(id, house);
     }
 
-    void spawn(T instance) {
+    public void spawn(T instance) {
         if (this.instance != null) {
             throw new IllegalStateException("Spawnable card cannot have multiple instances");
         }
@@ -33,6 +35,8 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
         }
 
         this.instance = instance;
+        this.instance.exhaust();
+        postControlChange();
     }
 
     public T getInstance() {
@@ -67,6 +71,20 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
         getOwner().addToHand(this);
     }
 
+    protected abstract void preControlChange();
+
+    protected abstract void postControlChange();
+
+    public void changeController() {
+        if (instance == null) {
+            throw new IllegalStateException("Cannot take control of a card without a spawned instance");
+        }
+
+        preControlChange();
+        instance.setController(instance.getController().getOpponent());
+        postControlChange();
+    }
+
     public boolean canAct() {
         return canUse() && GameState.getInstance().getCurrentTurn().getUsageManager().canAct(this);
     }
@@ -95,21 +113,19 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
             GameState.getInstance().deregisterPlayCost((UsageCost) this);
         }
 
+        preControlChange();
         instance = null;
     }
 
     @Getter
     public class Instance {
-        private final Player controller;
+        @Setter(AccessLevel.PROTECTED)
+        private Player controller;
 
         private boolean ready = false;
 
         protected Instance(Player controller) {
             this.controller = controller;
-        }
-
-        public void reset() {
-            ready();
         }
 
         public void exhaust() {

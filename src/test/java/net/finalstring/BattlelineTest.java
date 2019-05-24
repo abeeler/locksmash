@@ -25,6 +25,8 @@ public class BattlelineTest {
         Player firstPlayer = new Player();
         Player secondPlayer = new Player();
 
+        new GameState(firstPlayer);
+
         mockCreature.place(new Player(), true);
         mockCreature.setOwner(firstPlayer);
 
@@ -38,7 +40,6 @@ public class BattlelineTest {
         otherCreature.place(secondPlayer, true);
 
         underTest = new Player().getBattleline();
-        new GameState(firstPlayer);
     }
 
     @Test public void testBattlelineStartsEmpty() {

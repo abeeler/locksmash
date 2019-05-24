@@ -35,7 +35,9 @@ public class GameState {
     }
 
     public void endTurn() {
-        currentTurn.getActivePlayer().getBattleline().resetAll();
+        for (Card spawnable : BoardState.friendlySpawnables(currentTurn.getActivePlayer())) {
+            ((Spawnable) spawnable).getInstance().ready();
+        }
 
         turns.add(currentTurn);
         currentTurn = nextTurn;

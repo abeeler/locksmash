@@ -15,7 +15,7 @@ public class CustomsOffice extends Artifact implements UsageCost {
 
     @Override
     public boolean appliesTo(CardUsage usage, Card card) {
-        return usage == CardUsage.Play && card instanceof Artifact && card.getOwner().equals(getOwner().getOpponent());
+        return usage == CardUsage.Play && card instanceof Artifact && card.getOwner().equals(getInstance().getController().getOpponent());
     }
 
     @Override

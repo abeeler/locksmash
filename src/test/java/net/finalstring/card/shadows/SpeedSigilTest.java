@@ -2,6 +2,7 @@ package net.finalstring.card.shadows;
 
 import net.finalstring.card.AbstractCardTest;
 import net.finalstring.card.Creature;
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Spy;
 
@@ -11,6 +12,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class SpeedSigilTest extends AbstractCardTest<SpeedSigil> {
     @Spy Creature firstCreature;
     @Spy Creature secondCreature;
+
+    @Before public void resetPlayedCreatureCount() {
+        gameState.endTurn();
+        gameState.endTurn();
+    }
 
     @Test public void testFirstCreaturePlayedIsReady() {
         play(underTest);

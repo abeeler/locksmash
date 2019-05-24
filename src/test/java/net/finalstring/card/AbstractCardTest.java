@@ -40,6 +40,9 @@ public abstract class AbstractCardTest<T extends Card> {
         underTest = createInstance();
         underTest.setOwner(player);
 
+        gameState = new GameState(player);
+        gameState.getCurrentTurn().setSelectedHouse(underTest.getHouse());
+
         player.addAember(STARTING_AEMBER);
         opponent.addAember(STARTING_AEMBER);
 
@@ -48,9 +51,6 @@ public abstract class AbstractCardTest<T extends Card> {
 
         enemy.setOwner(opponent);
         enemy.place(opponent, true);
-
-        gameState = new GameState(player);
-        gameState.getCurrentTurn().setSelectedHouse(underTest.getHouse());
     }
 
     @After public void cleanup() {

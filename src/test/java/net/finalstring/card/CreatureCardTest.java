@@ -43,6 +43,8 @@ public class CreatureCardTest {
     }
 
     @Before public void setup() {
+        new GameState(mockPlayer);
+
         List<Creature> testCreatures = Arrays.asList(
             normalCreature = new EmberImp(),
             tauntCreature = new ChampionAnaphiel(),
@@ -58,8 +60,6 @@ public class CreatureCardTest {
             creature.place(mockPlayer, true);
             creature.getInstance().ready();
         }
-
-        new GameState(mockPlayer);
     }
 
     @Test public void testCreatureIsDestroyedAfterTakingFatalDamage() {
@@ -248,12 +248,26 @@ public class CreatureCardTest {
         assertThat(armoredCreature.getInstance().getDamage(), is(0));
     }
 
-    @Test public void testPoisonWillInstantlyKillCreatureEvenWithInsufficientDamage() {
+    @Test public void testPoisonWillInstantlyKillDefendingCreatureEvenWithInsufficientDamage() {
         assertThat(poisonCreature.getPower() < skirmishCreature.getPower(), is(true));
 
         fight(poisonCreature, skirmishCreature);
 
         assertThat(skirmishCreature.getInstance(), is(nullValue()));
+    }
+
+    @Test public void testPoisonWillInstantlyKillAttackingCreatureEvenWithInsufficientDamage() {
+        assertThat(poisonCreature.getPower() > armoredCreature.getArmor(), is(true));
+
+        fight(armoredCreature, poisonCreature);
+
+        assertThat(armoredCreature.getInstance(), is(nullValue()));
+    }
+
+    @Test public void testPoisonDoesNotAffectAttackingSkirmishCreature() {
+        fight(skirmishCreature, poisonCreature);
+
+        assertThat(skirmishCreature.getInstance(), is(notNullValue()));
     }
 
     @Test public void testPoisonDoesNothingIfAllDamageIsAbsorbedByArmor() {

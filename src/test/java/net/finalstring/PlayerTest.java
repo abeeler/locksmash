@@ -18,6 +18,8 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
 
 public class PlayerTest {
     private Player underTest;
@@ -35,7 +37,7 @@ public class PlayerTest {
     private Upgrade upgrade;
 
     @Before public void setup() {
-        normalCreature = new EmberImp();
+        normalCreature = spy(new EmberImp());
         armoredCreature = new TheVaultKeeper();
         actionCreature = new PitDemon();
         artifact = new LibraryOfBabble();
@@ -168,7 +170,7 @@ public class PlayerTest {
         armoredCreature.play(underTest);
         EffectStack.setEffectParameter(false);
 
-        assertThat(normalCreature.getInstance().getRightNeighbor(), is(armoredCreature));
+        verify(normalCreature).neighborAdded(armoredCreature);
     }
 
     @Test public void testPlayingArtifactCreatesInstance() {

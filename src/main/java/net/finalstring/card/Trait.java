@@ -11,6 +11,7 @@ public enum Trait {
     Knight,
     Martian,
     Robot,
+    Specter,
     Spirit,
     Thief,
 }

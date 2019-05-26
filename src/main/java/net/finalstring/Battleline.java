@@ -6,34 +6,50 @@ import net.finalstring.card.Creature;
 import java.util.*;
 
 public class Battleline {
-    private final Deque<Creature> creatures = new LinkedList<>();
+    private final LinkedList<Creature> creatures = new LinkedList<>();
 
     public void placeCreature(Creature creature, boolean onLeft) {
+        Creature neighbor = onLeft ? creatures.peekFirst() : creatures.peekLast();
         if (onLeft) {
             creatures.addFirst(creature);
         } else {
             creatures.addLast(creature);
         }
 
-        creature.getInstance().reset();
-    }
-
-    public void resetAll() {
-        for (Creature creature : creatures) {
-            creature.getInstance().reset();
+        if (neighbor != null) {
+            creature.neighborAdded(neighbor);
+            neighbor.neighborAdded(creature);
         }
     }
 
     public void removeCreature(Creature creature) {
+        int index = creatures.indexOf(creature);
+        Creature originalLeft = index - 1 >= 0 ? creatures.get(index - 1) : null;
+        Creature originalRight = index + 1 < creatures.size() ? creatures.get(index + 1) : null;
+
+        if (originalLeft != null) {
+            creature.neighborRemoved(originalLeft);
+            originalLeft.neighborRemoved(creature);
+        }
+        if (originalRight != null) {
+            creature.neighborRemoved(originalRight);
+            originalRight.neighborRemoved(creature);
+        }
+
         creatures.remove(creature);
+
+        if (originalLeft != null && originalRight != null) {
+            originalLeft.neighborAdded(originalRight);
+            originalRight.neighborAdded(originalLeft);
+        }
     }
 
     public List<Creature> getCreatures() {
-        return Collections.unmodifiableList((LinkedList<Creature>) creatures);
+        return Collections.unmodifiableList(creatures);
     }
 
     public List<Card> getPlacedCards() {
-        return Collections.unmodifiableList((LinkedList<? extends Card>) creatures);
+        return Collections.unmodifiableList(creatures);
     }
 
     public int getCreatureCount() {

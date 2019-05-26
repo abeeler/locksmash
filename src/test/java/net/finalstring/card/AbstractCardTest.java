@@ -48,9 +48,11 @@ public abstract class AbstractCardTest<T extends Card> {
 
         friendly.setOwner(player);
         friendly.place(player, true);
+        friendly.getInstance().ready();
 
         enemy.setOwner(opponent);
         enemy.place(opponent, true);
+        enemy.getInstance().ready();
     }
 
     @After public void cleanup() {
@@ -127,6 +129,10 @@ public abstract class AbstractCardTest<T extends Card> {
         creature.setOwner(owner);
         creature.place(owner, false);
         return creature;
+    }
+
+    protected void setEffectParameter(Object effectParameter) {
+        setEffectParameters(new Object[] { effectParameter });
     }
 
     private void setEffectParameters(Object[] effectParameters) {

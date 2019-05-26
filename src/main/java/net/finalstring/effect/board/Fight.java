@@ -59,10 +59,10 @@ public class Fight extends AbstractEffect {
         if (defenderInstance.isEluding()) {
             defenderInstance.elude();
         } else {
-            defenderInstance.dealDamage(attacker.getPower(), attacker.hasPoison());
+            defenderInstance.dealDamage(attacker.getFightingDamage(true, defender), attacker.hasPoison());
 
             if (!attacker.hasSkirmish()) {
-                attackerInstance.dealDamage(defender.getPower());
+                attackerInstance.dealDamage(defender.getFightingDamage(false, attacker), defender.hasPoison());
             }
         }
 

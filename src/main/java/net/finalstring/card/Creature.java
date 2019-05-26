@@ -6,18 +6,22 @@ import net.finalstring.GameState;
 import net.finalstring.Player;
 import net.finalstring.effect.EffectParameter;
 import net.finalstring.effect.EffectStack;
+import net.finalstring.effect.board.Damage;
 import net.finalstring.effect.misc.RunnableEffect;
 import net.finalstring.effect.node.EffectNode;
 import net.finalstring.effect.player.GainAember;
 
 import java.util.*;
 
-@Getter
 public class Creature extends Spawnable<Creature.CreatureInstance> implements AemberPool {
     private final Set<Trait> traits = new HashSet<>();
     private final List<Upgrade> activeUpgrades = new ArrayList<>();
-    private final int power;
-    private boolean stunned;
+    private final List<Creature> damageInterceptors = new ArrayList<>();
+
+    @Getter private final int power;
+    @Getter private boolean stunned;
+    private int neighborCount = 0;
+    private int tauntNeighborCount = 0;
 
     public Creature(int id, House house, int power, Trait... traits) {
         super(id, house);
@@ -89,10 +93,37 @@ public class Creature extends Spawnable<Creature.CreatureInstance> implements Ae
         activeUpgrades.add(toAttach);
     }
 
+    public int getFightingDamage(boolean isAttacker, Creature target) {
+        return getPower();
+    }
+
+    public void neighborAdded(Creature neighbor) {
+        ++neighborCount;
+        if (neighbor.hasTaunt()) {
+            ++tauntNeighborCount;
+        }
+    }
+
+    public void neighborRemoved(Creature neighbor) {
+        --neighborCount;
+        if (neighbor.hasTaunt()) {
+            --tauntNeighborCount;
+        }
+    }
+
     @Override
     public void spawn(CreatureInstance instance) {
         super.spawn(instance);
+        instance.reset();
         GameState.getInstance().creaturePlaced(this);
+    }
+
+    public void addDamageInterceptor(Creature damageInterceptor) {
+        damageInterceptors.add(damageInterceptor);
+    }
+
+    public void removeDamageInterceptor(Creature damageInterceptor) {
+        damageInterceptors.remove(damageInterceptor);
     }
 
     protected void buildPlayEffects(EffectNode.Builder builder, Player player) {
@@ -187,14 +218,25 @@ public class Creature extends Spawnable<Creature.CreatureInstance> implements Ae
             remainingArmor -= absorbed;
             int dealt = amount - absorbed;
 
-            if (dealt > 0 && withPoison) {
-                destroy();
-            } else {
-                damage += dealt;
-
-                if (!isAlive()) {
-                    destroy();
+            if (!damageInterceptors.isEmpty()) {
+                if (damageInterceptors.size() == 1) {
+                    damageInterceptors.get(0).getInstance().dealDamage(dealt, withPoison);
+                } else {
+                    EffectStack.pushEffectNode(new EffectNode.Builder()
+                            .effect(new Damage(dealt, withPoison, "Select which creature will intercept the damage", damageInterceptors))
+                            .build());
                 }
+                return;
+            }
+
+            if (dealt > 0 && withPoison) {
+                dealt = getPower();
+            }
+
+            damage += dealt;
+
+            if (!isAlive()) {
+                destroy();
             }
         }
 
@@ -217,17 +259,11 @@ public class Creature extends Spawnable<Creature.CreatureInstance> implements Ae
         }
 
         public boolean underTaunt() {
-            Creature neighbor = getLeftNeighbor();
-            if (neighbor != null && neighbor.hasTaunt()) {
-                return true;
-            }
-
-            neighbor = getRightNeighbor();
-            return neighbor != null && neighbor.hasTaunt();
+            return tauntNeighborCount > 0;
         }
 
         public boolean isOnFlank() {
-            return getLeftNeighbor() == null || getRightNeighbor() == null;
+            return neighborCount < 2;
         }
 
         public void reap() {

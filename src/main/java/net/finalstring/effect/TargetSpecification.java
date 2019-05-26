@@ -10,16 +10,16 @@ import java.util.stream.Collectors;
 
 public class TargetSpecification {
     private final Player player;
-    private final Function<Player, List<Card>> initialPool;
+    private final Function<Player, List<? extends Card>> initialPool;
     private final TargetFilter filter;
 
     private List<Card> validTargets = null;
 
-    public TargetSpecification(Player player, Function<Player, List<Card>> initialPool) {
+    public TargetSpecification(Player player, Function<Player, List<? extends Card>> initialPool) {
         this(player, initialPool, new TargetFilter());
     }
 
-    public TargetSpecification(Player player, Function<Player, List<Card>> initialPool, TargetFilter filter) {
+    public TargetSpecification(Player player, Function<Player, List<? extends Card>> initialPool, TargetFilter filter) {
         this.player = player;
         this.initialPool = initialPool;
         this.filter = filter;

@@ -43,7 +43,7 @@ public class GameState {
         currentTurn = nextTurn;
         nextTurn = new Turn(currentTurn.getActivePlayer().getOpponent());
 
-        if (currentTurn.willForge) {
+        if (currentTurn.canForge) {
             EffectStack.pushDelayedEffect(new ForgeKey(currentTurn.getActivePlayer()));
         }
     }
@@ -114,24 +114,29 @@ public class GameState {
     }
 
     public void keyForged(Player forger) {
+        currentTurn.didForge = true;
         activePermanentEffects.forEach(stateful -> stateful.onForge(forger));
     }
 
-    @Getter
     @RequiredArgsConstructor
     public class Turn implements Stateful {
         private final List<Stateful> activeTurnEffects = new ArrayList<>();
-        private final Player activePlayer;
+        @Getter private final Player activePlayer;
 
-        private boolean willForge = true;
-        private int cardsPlayed = 0;
-        private int creaturesPlayed = 0;
-        private House selectedHouse;
+        private boolean canForge = true;
+        private boolean didForge = false;
+        @Getter private int cardsPlayed = 0;
+        @Getter private int creaturesPlayed = 0;
+        @Getter private House selectedHouse;
 
-        private UsageManager usageManager;
+        @Getter private UsageManager usageManager;
+
+        public boolean didForge() {
+            return didForge;
+        }
 
         public void skipForgeStep() {
-            willForge = false;
+            canForge = false;
         }
 
         public void setSelectedHouse(House house) {

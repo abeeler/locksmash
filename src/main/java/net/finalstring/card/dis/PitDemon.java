@@ -13,8 +13,8 @@ public class PitDemon extends Creature {
     }
 
     @Override
-    protected void buildActionEffects(EffectNode.Builder builder, Player player) {
-        super.buildActionEffects(builder, player);
-        builder.effect(new StealAember(player, 1));
+    protected void buildActionEffects(EffectNode.Builder builder, Player controller) {
+        super.buildActionEffects(builder, controller);
+        builder.effect(new StealAember(controller, 1));
     }
 }

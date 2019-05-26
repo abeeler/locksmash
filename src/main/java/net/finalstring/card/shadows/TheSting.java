@@ -39,8 +39,8 @@ public class TheSting extends Artifact implements Stateful {
     }
 
     @Override
-    protected void buildActionEffects(EffectNode.Builder builder, Player player) {
-        super.buildActionEffects(builder, player);
+    protected void buildActionEffects(EffectNode.Builder builder, Player controller) {
+        super.buildActionEffects(builder, controller);
         builder.effect(new Destroy(this));
     }
 }

@@ -93,7 +93,7 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
         return getInstance() != null && getInstance().isReady();
     }
 
-    protected void buildActionEffects(EffectNode.Builder builder, Player player) { }
+    protected void buildActionEffects(EffectNode.Builder builder, Player controller) { }
 
     protected void buildDestroyedEffects(EffectNode.Builder builder, Player controller) { }
 

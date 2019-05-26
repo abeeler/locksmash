@@ -12,8 +12,8 @@ public class LibraryOfBabble extends Artifact {
     }
 
     @Override
-    protected void buildActionEffects(EffectNode.Builder builder, Player player) {
-        super.buildActionEffects(builder, player);
-        builder.effect(new DrawCard(player));
+    protected void buildActionEffects(EffectNode.Builder builder, Player controller) {
+        super.buildActionEffects(builder, controller);
+        builder.effect(new DrawCard(controller));
     }
 }

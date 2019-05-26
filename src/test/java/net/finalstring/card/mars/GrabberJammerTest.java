@@ -1,5 +1,6 @@
 package net.finalstring.card.mars;
 
+import net.finalstring.Player;
 import net.finalstring.card.AbstractCardTest;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,13 +16,13 @@ public class GrabberJammerTest extends AbstractCardTest<GrabberJammer> {
     }
 
     @Test public void testOpponentKeyCostIsHigher() {
-        assertThat(opponent.getKeyCost(), is(7));
+        assertThat(opponent.getKeyCost(), is(Player.DEFAULT_KEY_COST + 1));
     }
 
     @Test public void testOpponentKeyCostResetsWhenDestroyed() {
         destroy(underTest);
 
-        assertThat(opponent.getKeyCost(), is(6));
+        assertThat(opponent.getKeyCost(), is(Player.DEFAULT_KEY_COST));
     }
 
     @Test public void testFightingCaptures() {
@@ -36,5 +37,15 @@ public class GrabberJammerTest extends AbstractCardTest<GrabberJammer> {
         assertThat(underTest.getInstance().getCapturedAember(), is(0));
         reap(underTest);
         assertThat(underTest.getInstance().getCapturedAember(), is(1));
+    }
+
+    @Test public void testKeyCostEffectSwitchesVictimsAfterChangingControl() {
+        changeControl(underTest);
+        assertThat(player.getKeyCost(), is(Player.DEFAULT_KEY_COST + 1));
+        assertThat(opponent.getKeyCost(), is(Player.DEFAULT_KEY_COST));
+
+        destroy(underTest);
+        assertThat(player.getKeyCost(), is(Player.DEFAULT_KEY_COST));
+        assertThat(opponent.getKeyCost(), is(Player.DEFAULT_KEY_COST));
     }
 }

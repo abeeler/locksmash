@@ -19,11 +19,11 @@ public class SpecialDelivery extends Artifact {
     }
 
     @Override
-    protected void buildActionEffects(EffectNode.Builder builder, Player player) {
-        super.buildActionEffects(builder, player);
+    protected void buildActionEffects(EffectNode.Builder builder, Player controller) {
+        super.buildActionEffects(builder, controller);
 
         TargetSpecification flankCreature =
-                new TargetSpecification(player, BoardState::allCreatures, new TargetFilter().onFlank());
+                new TargetSpecification(controller, BoardState::allCreatures, new TargetFilter().onFlank());
         Damage damageEffect = new Damage(flankCreature, 3);
 
         builder

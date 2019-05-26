@@ -27,12 +27,12 @@ public abstract class AemberPoolArtifact extends Artifact implements AemberPool 
     }
 
     @Override
-    protected void buildActionEffects(EffectNode.Builder builder, Player player) {
-        super.buildActionEffects(builder, player);
+    protected void buildActionEffects(EffectNode.Builder builder, Player controller) {
+        super.buildActionEffects(builder, controller);
 
         builder
-                .conditional(() -> player.getHeldAember() >= 1)
-                .effect(new ChangeAember(aember -> aember - 1, player))
+                .conditional(() -> controller.getHeldAember() >= 1)
+                .effect(new ChangeAember(aember -> aember - 1, controller))
                 .effect(new GainAember(this, 1));
     }
 

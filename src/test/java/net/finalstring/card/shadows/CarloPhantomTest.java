@@ -17,4 +17,14 @@ public class CarloPhantomTest extends AbstractCardTest<CarloPhantom> {
         assertThat(player.getHeldAember(), is(STARTING_AEMBER + 1));
         assertThat(opponent.getHeldAember(), is(STARTING_AEMBER - 1));
     }
+
+    @Test public void testNoAemberIsStolenWhenOpponentPlaysAnArtifact() {
+        play(underTest);
+        changeControl(underTest);
+
+        play(new CustomsOffice());
+
+        assertThat(player.getHeldAember(), is(STARTING_AEMBER));
+        assertThat(opponent.getHeldAember(), is(STARTING_AEMBER));
+    }
 }

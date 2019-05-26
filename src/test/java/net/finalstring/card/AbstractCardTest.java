@@ -86,6 +86,15 @@ public abstract class AbstractCardTest<T extends Card> {
         setEffectParameters(effectParameters);
     }
 
+    protected void changeControl(Spawnable<?> toChange, Object... effectParameters) {
+        if (toChange instanceof Creature && effectParameters.length == 0) {
+            effectParameters = new Object[] { true };
+        }
+
+        toChange.changeController();
+        setEffectParameters(effectParameters);
+    }
+
     @SuppressWarnings("unchecked")
     protected T createInstance() {
         try {

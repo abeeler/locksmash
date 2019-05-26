@@ -26,8 +26,8 @@ public class DeipnoSpymaster extends Creature {
     }
 
     @Override
-    protected void buildActionEffects(EffectNode.Builder builder, Player player) {
-        super.buildActionEffects(builder, player);
-        builder.effect(new AllowCreatureUsage(player));
+    protected void buildActionEffects(EffectNode.Builder builder, Player controller) {
+        super.buildActionEffects(builder, controller);
+        builder.effect(new AllowCreatureUsage(controller));
     }
 }

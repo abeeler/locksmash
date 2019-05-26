@@ -30,7 +30,17 @@ public class BadPennyTest extends AbstractCardTest<BadPenny> {
         assertThat(player.getDiscardPile().get(0), is(specialDelivery));
     }
 
-    // FIXME: Test even after being controlled by opponent, goes back to owner's hand
+    @Test public void testReturnsToOwnerHandEvenAfterChangingControl() {
+        play(underTest);
+        changeControl(underTest);
+
+        assertThat(underTest.getInstance().getController(), is(opponent));
+
+        destroy(underTest);
+        assertThat(player.getHand().size(), is(1));
+        assertThat(player.getHand().get(0).getCard(), is(underTest));
+    }
+
     // FIXME: Test with Yxilo Bolter
     // FIXME: Test with Stealer of Souls
 }

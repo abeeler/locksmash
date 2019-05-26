@@ -18,20 +18,19 @@ public class GrabberJammer extends Creature {
     }
 
     @Override
-    protected void buildPlayEffects(EffectNode.Builder effectBuilder, Player player) {
-        super.buildPlayEffects(effectBuilder, player);
-        player.getOpponent().modifyKeyCost(1);
+    protected void preControlChange() {
+        super.preControlChange();
+        getInstance().getController().getOpponent().modifyKeyCost(-1);
+    }
+
+    @Override
+    protected void postControlChange() {
+        super.postControlChange();
+        getInstance().getController().getOpponent().modifyKeyCost(1);
     }
 
     @Override
     protected void buildFightReapEffects(EffectNode.Builder builder, Player controller) {
         builder.effect(new CaptureOpponentAember(this, 1));
-    }
-
-    @Override
-    protected void leavePlay() {
-        getInstance().getController().getOpponent().modifyKeyCost(-1);
-
-        super.leavePlay();
     }
 }

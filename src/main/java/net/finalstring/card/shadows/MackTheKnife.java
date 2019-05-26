@@ -27,13 +27,13 @@ public class MackTheKnife extends Creature {
     }
 
     @Override
-    protected void buildActionEffects(EffectNode.Builder builder, Player player) {
-        super.buildActionEffects(builder, player);
+    protected void buildActionEffects(EffectNode.Builder builder, Player controller) {
+        super.buildActionEffects(builder, controller);
 
         Damage damageEffect = new Damage(1);
         builder
                 .effect(damageEffect)
                 .conditional(damageEffect::targetDestroyed)
-                .dependentEffect(() -> new GainAember(player, 1));
+                .dependentEffect(() -> new GainAember(controller, 1));
     }
 }

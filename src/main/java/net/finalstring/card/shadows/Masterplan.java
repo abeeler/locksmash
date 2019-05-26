@@ -42,8 +42,8 @@ public class Masterplan extends Artifact {
     }
 
     @Override
-    protected void buildActionEffects(EffectNode.Builder builder, Player player) {
-        super.buildActionEffects(builder, player);
+    protected void buildActionEffects(EffectNode.Builder builder, Player controller) {
+        super.buildActionEffects(builder, controller);
         builder
                 .effect(() -> {
                     if (heldCard != null) {
@@ -51,7 +51,7 @@ public class Masterplan extends Artifact {
                         try {
                             GameState.getInstance().getCurrentTurn().getUsageManager().addAllowance(temporaryUsage);
                             if (heldCard.canPlay()) {
-                                heldCard.play(player);
+                                heldCard.play(controller);
                                 heldCard = null;
                             }
                         } finally {

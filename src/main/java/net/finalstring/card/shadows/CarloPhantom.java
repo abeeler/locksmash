@@ -26,6 +26,8 @@ public class CarloPhantom extends Creature implements Stateful {
 
     @Override
     public void onArtifactEnter(Artifact target) {
-        EffectStack.pushDelayedEffect(new StealAember(getInstance().getController(), AMOUNT_TO_STEAL));
+        if (target.getInstance().getController() == this.getInstance().getController()) {
+            EffectStack.pushDelayedEffect(new StealAember(getInstance().getController(), AMOUNT_TO_STEAL));
+        }
     }
 }

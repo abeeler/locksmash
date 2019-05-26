@@ -107,6 +107,17 @@ public class CustomsOfficeTest extends AbstractCardTest<CustomsOffice> {
         assertThat(opponent.getHeldAember(), is(1));
     }
 
+    @Test public void testChangingControlSwitchesVictimOfEffect() {
+        play(underTest);
+        underTest.changeController();
+
+        play(createAdditionalOffice());
+        assertThat(player.getHeldAember(), is(STARTING_AEMBER - 1));
+
+        player.setAember(0);
+        assertThat(underTest.canPlay(), is(false));
+    }
+
     private void swapTurns() {
         gameState.endTurn();
         gameState.getCurrentTurn().setSelectedHouse(House.Logos);

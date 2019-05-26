@@ -32,6 +32,7 @@ public abstract class AemberPoolArtifactTest<T extends AemberPoolArtifact> exten
         action(underTest);
         destroy(underTest);
 
+        assertThat(player.getHeldAember(), is(STARTING_AEMBER - 1 + underTest.getAember()));
         assertThat(underTest.getHeldAember(), is(0));
     }
 
@@ -114,5 +115,20 @@ public abstract class AemberPoolArtifactTest<T extends AemberPoolArtifact> exten
         assertThat(player.getForgedKeys(), is(0));
     }
 
-    // TODO: Test when AemberPoolArtifact is taken over by opponent
+    @Test public void testOpponentForgesWhenTheyTakeControl() {
+        opponent.setAember(Player.DEFAULT_KEY_COST - 3);
+
+        play(underTest);
+        action(underTest);
+        action(underTest);
+        action(underTest);
+
+        underTest.changeController();
+
+        gameState.endTurn();
+
+        assertThat(underTest.getHeldAember(), is(0));
+        assertThat(opponent.getHeldAember(), is(0));
+        assertThat(opponent.getForgedKeys(), is(1));
+    }
 }

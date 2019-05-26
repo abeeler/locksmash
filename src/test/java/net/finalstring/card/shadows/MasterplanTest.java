@@ -95,5 +95,20 @@ public class MasterplanTest extends AbstractCardTest<Masterplan> {
         assertThat(player.getDiscardPile().contains(cardWithCost), is(true));
     }
 
-    // TODO: Test when opponent uses your masterplan and how that resolves
+    @Test public void testOpponentCanUseAfterTakingControl() {
+        opponent.discard(new RoutineJob());
+
+        Card action = new RoutineJob();
+        action.setOwner(player);
+        player.addToHand(action);
+
+        play(underTest, 1);
+        underTest.changeController();
+        action(underTest);
+
+        assertThat(opponent.getHeldAember(), is(STARTING_AEMBER + 2));
+        assertThat(player.getHeldAember(), is(STARTING_AEMBER - 1));
+        assertThat(player.getDiscardPile().contains(action), is(true));
+        assertThat(player.getDiscardPile().contains(underTest), is(true));
+    }
 }

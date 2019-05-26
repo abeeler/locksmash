@@ -18,10 +18,15 @@ public class TheSting extends Artifact implements Stateful {
     }
 
     @Override
-    protected void buildPlayEffects(EffectNode.Builder builder, Player player) {
-        super.buildPlayEffects(builder, player);
+    protected void preControlChange() {
+        super.preControlChange();
+        getInstance().getController().removeForgeRestriction();
+    }
 
-        player.addForgeRestriction();
+    @Override
+    protected void postControlChange() {
+        super.postControlChange();
+        getInstance().getController().addForgeRestriction();
     }
 
     @Override
@@ -37,11 +42,5 @@ public class TheSting extends Artifact implements Stateful {
     protected void buildActionEffects(EffectNode.Builder builder, Player player) {
         super.buildActionEffects(builder, player);
         builder.effect(new Destroy(this));
-    }
-
-    @Override
-    protected void leavePlay() {
-        getInstance().getController().removeForgeRestriction();
-        super.leavePlay();
     }
 }

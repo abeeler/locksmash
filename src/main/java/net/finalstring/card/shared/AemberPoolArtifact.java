@@ -16,10 +16,14 @@ public abstract class AemberPoolArtifact extends Artifact implements AemberPool 
     }
 
     @Override
-    protected void buildPlayEffects(EffectNode.Builder builder, Player player) {
-        super.buildPlayEffects(builder, player);
+    protected void preControlChange() {
+        getInstance().getController().removeAemberPool(this);
+    }
 
-        builder.effect(() -> player.addAemberPool(this));
+    @Override
+    protected void postControlChange() {
+        super.postControlChange();
+        getInstance().getController().addAemberPool(this);
     }
 
     @Override
@@ -35,8 +39,6 @@ public abstract class AemberPoolArtifact extends Artifact implements AemberPool 
     @Override
     protected void leavePlay() {
         heldAember = 0;
-        getInstance().getController().removeAemberPool(this);
-
         super.leavePlay();
     }
 

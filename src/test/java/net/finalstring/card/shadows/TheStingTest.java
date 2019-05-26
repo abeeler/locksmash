@@ -59,5 +59,31 @@ public class TheStingTest extends AbstractCardTest<TheSting> {
         assertThat(underTest.getInstance(), is(nullValue()));
     }
 
+    @Test public void testChangingControllerChangesWhoIsAffected() {
+        play(underTest);
+        underTest.changeController();
+
+        opponent.setAember(Player.DEFAULT_KEY_COST);
+        player.setAember(Player.DEFAULT_KEY_COST);
+
+        gameState.endTurn();
+
+        assertThat(opponent.getHeldAember(), is(Player.DEFAULT_KEY_COST));
+        assertThat(opponent.getForgedKeys(), is(0));
+
+        gameState.endTurn();
+
+        assertThat(player.getHeldAember(), is(0));
+        assertThat(player.getForgedKeys(), is(1));
+        assertThat(opponent.getHeldAember(), is(Player.DEFAULT_KEY_COST * 2));
+
+        destroy(underTest);
+
+        gameState.endTurn();
+
+        assertThat(opponent.getHeldAember(), is(Player.DEFAULT_KEY_COST));
+        assertThat(opponent.getForgedKeys(), is(1));
+    }
+
     // TODO: Test with Key Charge / Key Abduction
 }

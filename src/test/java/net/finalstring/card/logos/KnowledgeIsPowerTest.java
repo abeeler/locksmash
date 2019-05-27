@@ -15,7 +15,7 @@ public class KnowledgeIsPowerTest extends AbstractCardTest<KnowledgeIsPower> {
     }
 
     @Test public void testArchivingCard() {
-        play(underTest, 0, 0);
+        play(underTest, 0);
 
         assertThat(player.getHandSize(), is(0));
         assertThat(player.getArchive().size(), is(2));

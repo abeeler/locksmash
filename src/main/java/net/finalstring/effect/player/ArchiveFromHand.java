@@ -13,11 +13,17 @@ public class ArchiveFromHand extends AbstractEffect {
     public ArchiveFromHand(Player player) {
         this.player = player;
 
-        registerParameters(cardIndex);
+        if (player.getHandSize() == 1) {
+            cardIndex.setValue(0);
+        } else if (player.getHandSize() > 1) {
+            registerParameters(cardIndex);
+        }
     }
 
     @Override
     protected void affect() {
-        player.archiveFromHand(cardIndex.getValue());
+        if (cardIndex.getValue() != null) {
+            player.archiveFromHand(cardIndex.getValue());
+        }
     }
 }

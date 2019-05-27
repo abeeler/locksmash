@@ -9,6 +9,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class EffectCardParameter<T extends Card> extends EffectListParameter<T> {
+    public static <T extends Card> EffectCardParameter<T> allPossible(String description) {
+        return new EffectCardParameter<>(description, Integer.MAX_VALUE, Integer.MAX_VALUE);
+    }
+
     public static <T extends Card> EffectCardParameter<T> unlimitedTargets(String description) {
         return new EffectCardParameter<>(description, 0, Integer.MAX_VALUE);
     }

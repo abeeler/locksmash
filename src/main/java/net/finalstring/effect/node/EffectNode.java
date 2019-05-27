@@ -87,6 +87,11 @@ public interface EffectNode extends Effect {
             return this;
         }
 
+        public Builder delay() {
+            addNode(new DelayingNode());
+            return this;
+        }
+
         public EffectNode build() {
             if (!branches.isEmpty()) {
                 addNode(new BranchingEffectNode(branchDescriptions, branches));

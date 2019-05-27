@@ -29,7 +29,7 @@ public class SpecialDelivery extends Artifact {
         builder
                 .effect(new Destroy(this))
                 .effect(damageEffect)
-                .conditional(damageEffect::targetDestroyed)
+                .conditional(() -> damageEffect.isTargetDestroyed() && damageEffect.getTarget().getFirst().isInLimbo())
                 .dependentEffect(() -> new Purge(damageEffect.getTarget().getFirst()));
     }
 }

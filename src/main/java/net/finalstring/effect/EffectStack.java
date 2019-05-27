@@ -48,6 +48,10 @@ public class EffectStack {
         triggerIfReady();
     }
 
+    public void delayCurrentNode() {
+        effectStack.addLast(effectStack.pop());
+    }
+
     private void trigger() {
         if (effectStack.isEmpty()) {
             throw new IllegalStateException("No effects on stack to trigger");

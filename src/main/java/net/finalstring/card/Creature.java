@@ -23,6 +23,8 @@ public class Creature extends Spawnable<Creature.CreatureInstance> implements Ae
     private int neighborCount = 0;
     private int tauntNeighborCount = 0;
 
+    @Getter private boolean inLimbo = false;
+
     public Creature(int id, House house, int power, Trait... traits) {
         super(id, house);
 
@@ -62,6 +64,7 @@ public class Creature extends Spawnable<Creature.CreatureInstance> implements Ae
 
     public void purge() {
         if (instance != null) {
+            inLimbo = true;
             leavePlay();
             instance = null;
         }
@@ -112,10 +115,24 @@ public class Creature extends Spawnable<Creature.CreatureInstance> implements Ae
     }
 
     @Override
+    public void bounce() {
+        inLimbo = true;
+        super.bounce();
+    }
+
+
+
+    @Override
     public void spawn(CreatureInstance instance) {
         super.spawn(instance);
         instance.reset();
         GameState.getInstance().creaturePlaced(this);
+    }
+
+    @Override
+    public void destroy() {
+        inLimbo = true;
+        super.destroy();
     }
 
     public void addDamageInterceptor(Creature damageInterceptor) {
@@ -147,6 +164,11 @@ public class Creature extends Spawnable<Creature.CreatureInstance> implements Ae
 
     @Override
     protected void leavePlay() {
+        if (!inLimbo) {
+            return;
+        }
+        inLimbo = false;
+
         for (Upgrade upgrade : activeUpgrades) {
             upgrade.getOwner().discard(upgrade);
         }

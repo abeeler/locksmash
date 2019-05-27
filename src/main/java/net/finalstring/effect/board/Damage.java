@@ -15,6 +15,8 @@ public class Damage extends AbstractEffect {
     private final int amount;
     private final boolean isPoisonDamage;
 
+    @Getter private boolean targetDestroyed;
+
     public Damage(Creature target, int amount) {
         this(amount);
 
@@ -42,13 +44,21 @@ public class Damage extends AbstractEffect {
         registerParameters(target);
     }
 
-    @Override
-    public void affect() {
-        target.getFirst().getInstance().dealDamage(amount, isPoisonDamage);
+    public Damage(int amount, EffectCardParameter<Creature> effectParameter) {
+        this.amount = amount;
+        this.isPoisonDamage = false;
+
+        this.target = effectParameter;
+        registerParameters(this.target);
     }
 
-    public boolean targetDestroyed() {
-        Creature actualTaret = target.getFirst();
-        return actualTaret != null && actualTaret.getInstance() != null && !actualTaret.getInstance().isAlive();
+    @Override
+    public void affect() {
+        for (Creature creature : target.getValue()) {
+            creature.getInstance().dealDamage(amount, isPoisonDamage);
+            if (!creature.getInstance().isAlive()) {
+                targetDestroyed = true;
+            }
+        }
     }
 }

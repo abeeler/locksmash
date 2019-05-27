@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import net.finalstring.GameState;
+import net.finalstring.effect.Effect;
 import net.finalstring.effect.EffectStack;
 import net.finalstring.Player;
 import net.finalstring.effect.misc.RunnableEffect;

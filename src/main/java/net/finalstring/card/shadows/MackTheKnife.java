@@ -33,7 +33,7 @@ public class MackTheKnife extends Creature {
         Damage damageEffect = new Damage(1);
         builder
                 .effect(damageEffect)
-                .conditional(damageEffect::targetDestroyed)
+                .conditional(damageEffect::isTargetDestroyed)
                 .dependentEffect(() -> new GainAember(controller, 1));
     }
 }

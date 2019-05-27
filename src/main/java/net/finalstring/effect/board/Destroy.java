@@ -13,6 +13,11 @@ public class Destroy extends AbstractEffect {
         this.targets = new EffectCardParameter<>("Select target", Collections.singletonList(target));
     }
 
+    public Destroy(EffectCardParameter<Spawnable> targets) {
+        this.targets = targets;
+        registerParameters(targets);
+    }
+
     @Override
     protected void affect() {
         for (Spawnable spawnable : targets.getValue()) {

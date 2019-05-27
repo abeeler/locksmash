@@ -71,6 +71,11 @@ public class TargetFilter {
         return this;
     }
 
+    public TargetFilter damaged() {
+        filters.add(card -> withCreature(card, creature -> creature.getInstance().getDamage() > 0));
+        return this;
+    }
+
     // Utility
 
     public TargetFilter and(Predicate<Card> filter) {

@@ -66,6 +66,11 @@ public class TargetFilter {
         return this;
     }
 
+    public TargetFilter notOnFlank() {
+        filters.add(card -> withCreature(card, creature -> !creature.getInstance().isOnFlank()));
+        return this;
+    }
+
     // Utility
 
     public TargetFilter and(Predicate<Card> filter) {

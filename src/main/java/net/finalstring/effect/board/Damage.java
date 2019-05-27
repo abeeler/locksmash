@@ -1,7 +1,6 @@
 package net.finalstring.effect.board;
 
 import lombok.Getter;
-import net.finalstring.card.Card;
 import net.finalstring.card.Creature;
 import net.finalstring.effect.AbstractEffect;
 import net.finalstring.effect.EffectCardParameter;

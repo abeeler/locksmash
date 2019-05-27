@@ -1,5 +1,6 @@
 package net.finalstring;
 
+import lombok.Getter;
 import net.finalstring.card.Card;
 import net.finalstring.card.Creature;
 
@@ -62,5 +63,43 @@ public class Battleline {
 
     public Creature getRightFlank() {
         return creatures.peekLast();
+    }
+
+    public List<Creature> getNeighbors(Creature creature) {
+        NeighborIterator iter = new NeighborIterator();
+        while (iter.hasNext()) {
+            if (iter.next() == creature) {
+                return Arrays.asList(iter.getLeftNeighbor(), iter.getRightNeighbor());
+            }
+        }
+
+        return Collections.emptyList();
+    }
+
+    public class NeighborIterator implements Iterator<Creature> {
+        private final Iterator<Creature> wrappedIterator;
+
+        @Getter private Creature leftNeighbor;
+        @Getter private Creature current;
+        @Getter private Creature rightNeighbor;
+
+        public NeighborIterator() {
+            wrappedIterator = creatures.iterator();
+            next();
+        }
+
+        @Override
+        public Creature next() {
+            leftNeighbor = current;
+            current = rightNeighbor;
+            rightNeighbor = wrappedIterator.hasNext() ? wrappedIterator.next() : null;
+
+            return current;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return rightNeighbor != null;
+        }
     }
 }

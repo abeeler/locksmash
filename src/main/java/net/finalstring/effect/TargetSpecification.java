@@ -13,7 +13,7 @@ public class TargetSpecification {
     private final Function<Player, List<? extends Card>> initialPool;
     private final TargetFilter filter;
 
-    private List<Card> validTargets = null;
+    private List<? extends Card> validTargets = null;
 
     public TargetSpecification(Player player, Function<Player, List<? extends Card>> initialPool) {
         this(player, initialPool, new TargetFilter());
@@ -27,13 +27,18 @@ public class TargetSpecification {
 
     public List<Card> getValidTargets() {
         if (validTargets == null) {
-            validTargets = initialPool.apply(player)
-                    .stream()
-                    .filter(filter::isValid)
-                    .collect(Collectors.toList());
+            validTargets = getValidTargets(Card.class);
         }
 
         return Collections.unmodifiableList(validTargets);
+    }
+
+    public <T extends Card> List<T> getValidTargets(Class<T> clazz) {
+        return Collections.unmodifiableList(initialPool.apply(player)
+                    .stream()
+                    .filter(filter::isValid)
+                    .map(clazz::cast)
+                    .collect(Collectors.toList()));
     }
 
     public boolean isValidTarget(Card card) {

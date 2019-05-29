@@ -51,6 +51,11 @@ public class TargetFilter {
         return this;
     }
 
+    public TargetFilter withTrait(final Trait toCheck) {
+        filters.add(card -> withCreature(card, creature -> creature.hasTrait(toCheck)));
+        return this;
+    }
+
     public TargetFilter withoutTrait(final Trait toCheck) {
         filters.add(card -> withCreature(card, creature -> !creature.hasTrait(toCheck)));
         return this;

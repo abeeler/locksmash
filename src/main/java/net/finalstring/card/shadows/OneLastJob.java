@@ -12,7 +12,6 @@ import net.finalstring.effect.node.EffectNode;
 import net.finalstring.effect.player.StealAember;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class OneLastJob extends Card {
     public OneLastJob() {
@@ -30,10 +29,7 @@ public class OneLastJob extends Card {
 
         List<Creature> friendlyShadowsCreatures = new TargetSpecification(player, BoardState::friendlyCreatures,
                         new TargetFilter().ofHouse(House.Shadows))
-                .getValidTargets()
-                .stream()
-                .map(Creature.class::cast)
-                .collect(Collectors.toList());
+                .getValidTargets(Creature.class);
         effectBuilder
                 .effect(new Purge(friendlyShadowsCreatures))
                 .effect(new StealAember(player, friendlyShadowsCreatures.size()));

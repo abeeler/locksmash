@@ -7,6 +7,8 @@ import net.finalstring.card.Creature;
 import net.finalstring.card.House;
 import net.finalstring.card.Trait;
 import net.finalstring.effect.Effect;
+import net.finalstring.effect.TargetFilter;
+import net.finalstring.effect.TargetSpecification;
 import net.finalstring.effect.node.EffectNode;
 import net.finalstring.effect.player.CaptureOpponentAember;
 
@@ -27,10 +29,11 @@ public class HonorableClaim extends Card {
     protected void buildPlayEffects(EffectNode.Builder effectBuilder, Player player) {
         super.buildPlayEffects(effectBuilder, player);
 
-        List<Effect> captureEffects = BoardState.friendlyCreatures(player)
+        List<Effect> captureEffects = new TargetSpecification(
+                player,
+                BoardState::friendlyCreatures,
+                new TargetFilter().withTrait(Trait.Knight)).getValidTargets(Creature.class)
                 .stream()
-                .map(Creature.class::cast)
-                .filter(creature -> creature.hasTrait(Trait.Knight))
                 .map(creature -> new CaptureOpponentAember(creature, 1))
                 .collect(Collectors.toList());
 

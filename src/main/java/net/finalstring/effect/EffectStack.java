@@ -21,6 +21,14 @@ public class EffectStack {
         }
     }
 
+    public void pushEffect(AbstractEffect effect) {
+        effectStack.push(new EffectChain(new EffectNode.Builder().effect(effect).build()));
+
+        if (effectStack.size() == 1) {
+            triggerIfReady();
+        }
+    }
+
     public void pushEffectNode(EffectNode effectNode) {
         effectStack.push(new EffectChain(effectNode));
 

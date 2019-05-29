@@ -26,6 +26,7 @@ public abstract class Card {
 
     private Player owner;
 
+    // TODO: Remove this, replace with final field bonusAember
     public int getAember() {
         return 0;
     }

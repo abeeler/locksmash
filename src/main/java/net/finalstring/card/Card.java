@@ -21,6 +21,7 @@ public abstract class Card {
     protected static final EnumSet<CardUsage> OMNI_ACTION_USAGE = EnumSet.of(CardUsage.Act);
     protected static final EnumSet<CardUsage> OMNI_USAGE = EnumSet.complementOf(EnumSet.of(CardUsage.Play));
 
+    // TODO: Remove this, make it part of the registry
     private final int id;
     private final House house;
 

@@ -40,6 +40,7 @@ public class Creature extends Spawnable<Creature.CreatureInstance> implements Ae
         return 0;
     }
 
+    // TODO: Remove the four below and replace with an enum set
     public boolean hasTaunt() {
         return false;
     }

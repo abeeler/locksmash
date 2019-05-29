@@ -45,11 +45,16 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
     }
 
     public void action() {
+        action(instance.getController());
+    }
+
+    public void action(Player actor) {
         if (instance == null) {
             throw new IllegalStateException("Trying to use an action without a spawned instance");
         }
 
-        buildEffects(instance.getController(), this::buildActionEffects);
+        instance.exhaust();
+        buildEffects(actor, this::buildActionEffects);
     }
 
     public void destroy() {

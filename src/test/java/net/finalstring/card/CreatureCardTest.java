@@ -28,7 +28,8 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CreatureCardTest {
-    @Spy private Player mockPlayer = new Player();
+    @Spy private Player mockPlayer;
+    @Spy private Player opponent;
 
     private Creature normalCreature;
     private Creature armoredCreature;
@@ -37,12 +38,16 @@ public class CreatureCardTest {
     private Creature elusiveCreature;
     private Creature skirmishCreature;
     private Creature poisonCreature;
+    private Creature actionCreature;
 
     @BeforeClass public static void staticSetup() {
         EffectStack.reset();
     }
 
     @Before public void setup() {
+        mockPlayer.setOpponent(opponent);
+        opponent.setOpponent(mockPlayer);
+
         new GameState(mockPlayer);
 
         List<Creature> testCreatures = Arrays.asList(
@@ -52,7 +57,8 @@ public class CreatureCardTest {
             aemberCreature = new DustPixie(),
             elusiveCreature = new NoddyTheThief(),
             skirmishCreature = new Snufflegator(),
-            poisonCreature = new MacisAsp()
+            poisonCreature = new MacisAsp(),
+            actionCreature = new NoddyTheThief()
         );
 
         for (Creature creature : testCreatures) {
@@ -285,6 +291,12 @@ public class CreatureCardTest {
         fight(poisonCreature, armoredCreature);
 
         assertThat(armoredCreature.getInstance(), is(nullValue()));
+    }
+
+    @Test public void testActionExhaustsCreature() {
+        assertThat(actionCreature.getInstance().isReady(), is(true));
+        actionCreature.action();
+        assertThat(actionCreature.getInstance().isReady(), is(false));
     }
 
     private void fight(Creature attacker, Creature defender) {

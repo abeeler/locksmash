@@ -1,0 +1,27 @@
+package net.finalstring.card.shadows;
+
+import net.finalstring.BoardState;
+import net.finalstring.Player;
+import net.finalstring.card.Creature;
+import net.finalstring.card.House;
+import net.finalstring.card.Trait;
+import net.finalstring.effect.TargetSpecification;
+import net.finalstring.effect.board.UseArtifact;
+import net.finalstring.effect.node.EffectNode;
+
+public class Nexus extends Creature {
+    public Nexus() {
+        super(305, House.Shadows, 3, Trait.Cyborg, Trait.Thief);
+    }
+
+    @Override
+    public boolean hasElusive() {
+        return true;
+    }
+
+    @Override
+    protected void buildReapEffects(EffectNode.Builder builder, Player controller) {
+        super.buildReapEffects(builder, controller);
+        builder.effect(new UseArtifact(controller, new TargetSpecification(controller, BoardState::enemyArtifacts)));
+    }
+}

@@ -113,13 +113,17 @@ public class Creature extends Spawnable<Creature.CreatureInstance> implements Ae
 
     public void attachUpgrade(Upgrade toAttach) {
         activeUpgrades.add(toAttach);
-        buildAbilityMapAndMerge(activeAbilities, this::buildDefaultAbilities, FrequencyEnumMap::addAll);
+        buildAbilityMapAndMerge(activeAbilities, toAttach::buildAbilities, FrequencyEnumMap::addAll);
     }
 
     public void removeUpgrade(Upgrade toRemove) {
         buildAbilityMapAndMerge(activeAbilities, toRemove::buildAbilities, FrequencyEnumMap::subtractAll);
         activeUpgrades.remove(toRemove);
         toRemove.getOwner().discard(toRemove);
+    }
+
+    public List<Upgrade> getActiveUpgrades() {
+        return Collections.unmodifiableList(activeUpgrades);
     }
 
     public int getFightingDamage(boolean isAttacker, Creature target) {

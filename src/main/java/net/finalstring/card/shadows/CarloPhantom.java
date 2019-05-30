@@ -6,6 +6,7 @@ import net.finalstring.card.House;
 import net.finalstring.effect.EffectStack;
 import net.finalstring.card.Stateful;
 import net.finalstring.effect.player.StealAember;
+import net.finalstring.utility.FrequencyAbilityMapBuilder;
 
 public class CarloPhantom extends Creature implements Stateful {
     private static final int AMOUNT_TO_STEAL = 1;
@@ -15,13 +16,8 @@ public class CarloPhantom extends Creature implements Stateful {
     }
 
     @Override
-    public boolean hasElusive() {
-        return true;
-    }
-
-    @Override
-    public boolean hasSkirmish() {
-        return true;
+    protected void buildDefaultAbilities(FrequencyAbilityMapBuilder builder) {
+        builder.elusive().skirmish();
     }
 
     @Override

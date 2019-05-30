@@ -1,6 +1,7 @@
 package net.finalstring.card.dis;
 
 import net.finalstring.Player;
+import net.finalstring.card.Ability;
 import net.finalstring.card.Creature;
 import net.finalstring.card.House;
 import net.finalstring.card.Trait;
@@ -8,6 +9,8 @@ import net.finalstring.effect.node.EffectNode;
 import net.finalstring.effect.player.GainAember;
 import net.finalstring.usage.SimpleUsageCost;
 import net.finalstring.usage.UsageCost;
+import net.finalstring.utility.FrequencyAbilityMapBuilder;
+import net.finalstring.utility.FrequencyEnumMap;
 
 import java.util.Optional;
 
@@ -28,8 +31,8 @@ public class Truebaru extends Creature {
     }
 
     @Override
-    public boolean hasTaunt() {
-        return true;
+    protected void buildDefaultAbilities(FrequencyAbilityMapBuilder builder) {
+        builder.taunt();
     }
 
     @Override

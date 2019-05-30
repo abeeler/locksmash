@@ -3,6 +3,7 @@ package net.finalstring.card.untamed;
 import net.finalstring.card.Creature;
 import net.finalstring.card.House;
 import net.finalstring.card.Trait;
+import net.finalstring.utility.FrequencyAbilityMapBuilder;
 
 public class Snufflegator extends Creature {
     public Snufflegator() {
@@ -10,7 +11,7 @@ public class Snufflegator extends Creature {
     }
 
     @Override
-    public boolean hasSkirmish() {
-        return true;
+    protected void buildDefaultAbilities(FrequencyAbilityMapBuilder builder) {
+        builder.skirmish();
     }
 }

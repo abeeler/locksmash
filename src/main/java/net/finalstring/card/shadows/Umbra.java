@@ -6,6 +6,7 @@ import net.finalstring.card.House;
 import net.finalstring.card.Trait;
 import net.finalstring.effect.node.EffectNode;
 import net.finalstring.effect.player.StealAember;
+import net.finalstring.utility.FrequencyAbilityMapBuilder;
 
 public class Umbra extends Creature {
     public Umbra() {
@@ -13,8 +14,8 @@ public class Umbra extends Creature {
     }
 
     @Override
-    public boolean hasSkirmish() {
-        return true;
+    protected void buildDefaultAbilities(FrequencyAbilityMapBuilder builder) {
+        builder.skirmish();
     }
 
     @Override

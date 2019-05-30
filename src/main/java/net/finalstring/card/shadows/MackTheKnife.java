@@ -8,6 +8,7 @@ import net.finalstring.effect.board.Damage;
 import net.finalstring.effect.node.EffectNode;
 import net.finalstring.effect.player.GainAember;
 import net.finalstring.usage.CardUsage;
+import net.finalstring.utility.FrequencyAbilityMapBuilder;
 
 import java.util.EnumSet;
 
@@ -22,8 +23,8 @@ public class MackTheKnife extends Creature {
     }
 
     @Override
-    public boolean hasElusive() {
-        return true;
+    protected void buildDefaultAbilities(FrequencyAbilityMapBuilder builder) {
+        builder.elusive();
     }
 
     @Override

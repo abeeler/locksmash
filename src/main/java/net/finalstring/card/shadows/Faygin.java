@@ -11,6 +11,7 @@ import net.finalstring.effect.TargetFilter;
 import net.finalstring.effect.TargetSpecification;
 import net.finalstring.effect.board.Bounce;
 import net.finalstring.effect.node.EffectNode;
+import net.finalstring.utility.FrequencyAbilityMapBuilder;
 
 public class Faygin extends Creature {
     public Faygin() {
@@ -18,8 +19,8 @@ public class Faygin extends Creature {
     }
 
     @Override
-    public boolean hasElusive() {
-        return true;
+    protected void buildDefaultAbilities(FrequencyAbilityMapBuilder builder) {
+        builder.elusive();
     }
 
     @Override

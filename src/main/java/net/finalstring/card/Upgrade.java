@@ -4,6 +4,7 @@ import net.finalstring.BoardState;
 import net.finalstring.Player;
 import net.finalstring.effect.board.UpgradeAttach;
 import net.finalstring.effect.node.EffectNode;
+import net.finalstring.utility.FrequencyAbilityMapBuilder;
 
 // TODO: Rework to be a UseListener attached to the card
 // TODO: Allow active player to decide which order UseListeners trigger in
@@ -12,12 +13,14 @@ public abstract class Upgrade extends Card {
         super(id, house);
     }
 
-    public void buildReapEffects(EffectNode.Builder builder, Player controller) { }
-
     @Override
     public boolean canPlay() {
         return !BoardState.allCreatures(getOwner()).isEmpty();
     }
+
+    public void buildAbilities(FrequencyAbilityMapBuilder builder) { }
+
+    public void buildReapEffects(EffectNode.Builder builder, Player controller) { }
 
     @Override
     protected void buildPlayEffects(EffectNode.Builder effectBuilder, Player player) {

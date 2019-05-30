@@ -6,6 +6,7 @@ import net.finalstring.card.House;
 import net.finalstring.card.Trait;
 import net.finalstring.effect.node.EffectNode;
 import net.finalstring.effect.player.CaptureOpponentAember;
+import net.finalstring.utility.FrequencyAbilityMapBuilder;
 
 public class OldBruno extends Creature {
     public OldBruno() {
@@ -13,8 +14,8 @@ public class OldBruno extends Creature {
     }
 
     @Override
-    public boolean hasElusive() {
-        return true;
+    protected void buildDefaultAbilities(FrequencyAbilityMapBuilder builder) {
+        builder.elusive();
     }
 
     @Override

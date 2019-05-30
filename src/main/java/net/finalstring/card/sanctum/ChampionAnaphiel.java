@@ -3,6 +3,7 @@ package net.finalstring.card.sanctum;
 import net.finalstring.card.Creature;
 import net.finalstring.card.House;
 import net.finalstring.card.Trait;
+import net.finalstring.utility.FrequencyAbilityMapBuilder;
 
 public class ChampionAnaphiel extends Creature {
     public ChampionAnaphiel() {
@@ -10,12 +11,7 @@ public class ChampionAnaphiel extends Creature {
     }
 
     @Override
-    public int getArmor() {
-        return 1;
-    }
-
-    @Override
-    public boolean hasTaunt() {
-        return true;
+    protected void buildDefaultAbilities(FrequencyAbilityMapBuilder builder) {
+        builder.armor(1).taunt();
     }
 }

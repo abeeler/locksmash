@@ -10,11 +10,26 @@ import net.finalstring.effect.board.Damage;
 import net.finalstring.effect.misc.RunnableEffect;
 import net.finalstring.effect.node.EffectNode;
 import net.finalstring.effect.player.GainAember;
+import net.finalstring.utility.FrequencyAbilityMapBuilder;
+import net.finalstring.utility.FrequencyEnumMap;
 
 import java.util.*;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public class Creature extends Spawnable<Creature.CreatureInstance> implements AemberPool {
-    private final Set<Trait> traits = new HashSet<>();
+    private static void buildAbilityMapAndMerge(FrequencyEnumMap<Ability> source,
+                                                Consumer<FrequencyAbilityMapBuilder> abilityBuildMethod,
+                                                BiConsumer<FrequencyEnumMap<Ability>, FrequencyEnumMap<Ability>> mergeMethod) {
+        FrequencyAbilityMapBuilder abilityBuilder = new FrequencyAbilityMapBuilder();
+        abilityBuildMethod.accept(abilityBuilder);
+        mergeMethod.accept(source, abilityBuilder.build());
+
+    }
+
+    private final Set<Trait> traits;
+    private final FrequencyEnumMap<Ability> activeAbilities = new FrequencyEnumMap<>(Ability.class);
+
     private final List<Upgrade> activeUpgrades = new ArrayList<>();
     private final List<Creature> damageInterceptors = new ArrayList<>();
 
@@ -29,32 +44,35 @@ public class Creature extends Spawnable<Creature.CreatureInstance> implements Ae
         super(id, house);
 
         this.power = power;
-        this.traits.addAll(Arrays.asList(traits));
+        this.traits = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(traits)));
+
+        buildAbilityMapAndMerge(activeAbilities, this::buildDefaultAbilities, FrequencyEnumMap::addAll);
     }
 
     Creature() {
         this(0, House.None, 5);
     }
 
+    protected void buildDefaultAbilities(FrequencyAbilityMapBuilder builder) { }
+
     public int getArmor() {
-        return 0;
+        return activeAbilities.get(Ability.Armor);
     }
 
-    // TODO: Remove the four below and replace with an enum set
     public boolean hasTaunt() {
-        return false;
+        return activeAbilities.containsKey(Ability.Taunt);
     }
 
     public boolean hasElusive() {
-        return false;
+        return activeAbilities.containsKey(Ability.Elusive);
     }
 
     public boolean hasSkirmish() {
-        return false;
+        return activeAbilities.containsKey(Ability.Skirmish);
     }
 
     public boolean hasPoison() {
-        return false;
+        return activeAbilities.containsKey(Ability.Poison);
     }
 
     public CreatureInstance place(Player controller, boolean onLeft) {
@@ -95,6 +113,13 @@ public class Creature extends Spawnable<Creature.CreatureInstance> implements Ae
 
     public void attachUpgrade(Upgrade toAttach) {
         activeUpgrades.add(toAttach);
+        buildAbilityMapAndMerge(activeAbilities, this::buildDefaultAbilities, FrequencyEnumMap::addAll);
+    }
+
+    public void removeUpgrade(Upgrade toRemove) {
+        buildAbilityMapAndMerge(activeAbilities, toRemove::buildAbilities, FrequencyEnumMap::subtractAll);
+        activeUpgrades.remove(toRemove);
+        toRemove.getOwner().discard(toRemove);
     }
 
     public int getFightingDamage(boolean isAttacker, Creature target) {
@@ -120,8 +145,6 @@ public class Creature extends Spawnable<Creature.CreatureInstance> implements Ae
         inLimbo = true;
         super.bounce();
     }
-
-
 
     @Override
     public void spawn(CreatureInstance instance) {
@@ -170,8 +193,8 @@ public class Creature extends Spawnable<Creature.CreatureInstance> implements Ae
         }
         inLimbo = false;
 
-        for (Upgrade upgrade : activeUpgrades) {
-            upgrade.getOwner().discard(upgrade);
+        while (!activeUpgrades.isEmpty()) {
+            removeUpgrade(activeUpgrades.get(0));
         }
 
         activeUpgrades.clear();

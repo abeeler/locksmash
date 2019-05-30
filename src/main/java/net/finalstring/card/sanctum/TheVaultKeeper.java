@@ -3,6 +3,7 @@ package net.finalstring.card.sanctum;
 import net.finalstring.card.Creature;
 import net.finalstring.card.House;
 import net.finalstring.card.Trait;
+import net.finalstring.utility.FrequencyAbilityMapBuilder;
 
 // FIXME: Implement this fully
 public class TheVaultKeeper extends Creature {
@@ -11,7 +12,7 @@ public class TheVaultKeeper extends Creature {
     }
 
     @Override
-    public int getArmor() {
-        return 1;
+    protected void buildDefaultAbilities(FrequencyAbilityMapBuilder builder) {
+        builder.armor(1);
     }
 }

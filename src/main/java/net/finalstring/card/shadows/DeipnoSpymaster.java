@@ -7,6 +7,7 @@ import net.finalstring.effect.TargetFilter;
 import net.finalstring.effect.misc.AllowCreatureUsage;
 import net.finalstring.effect.node.EffectNode;
 import net.finalstring.usage.CardUsage;
+import net.finalstring.utility.FrequencyAbilityMapBuilder;
 
 import java.util.EnumSet;
 
@@ -16,13 +17,13 @@ public class DeipnoSpymaster extends Creature {
     }
 
     @Override
-    public boolean hasElusive() {
-        return true;
+    public EnumSet<CardUsage> getOmniUsages() {
+        return OMNI_ACTION_USAGE;
     }
 
     @Override
-    public EnumSet<CardUsage> getOmniUsages() {
-        return OMNI_ACTION_USAGE;
+    protected void buildDefaultAbilities(FrequencyAbilityMapBuilder builder) {
+        builder.elusive();
     }
 
     @Override

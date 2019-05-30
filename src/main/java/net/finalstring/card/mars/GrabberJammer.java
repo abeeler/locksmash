@@ -6,6 +6,7 @@ import net.finalstring.card.House;
 import net.finalstring.card.Trait;
 import net.finalstring.effect.node.EffectNode;
 import net.finalstring.effect.player.CaptureOpponentAember;
+import net.finalstring.utility.FrequencyAbilityMapBuilder;
 
 public class GrabberJammer extends Creature {
     public GrabberJammer() {
@@ -13,8 +14,8 @@ public class GrabberJammer extends Creature {
     }
 
     @Override
-    public int getArmor() {
-        return 1;
+    protected void buildDefaultAbilities(FrequencyAbilityMapBuilder builder) {
+        builder.armor(1);
     }
 
     @Override

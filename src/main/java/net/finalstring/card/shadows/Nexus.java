@@ -8,6 +8,7 @@ import net.finalstring.card.Trait;
 import net.finalstring.effect.TargetSpecification;
 import net.finalstring.effect.board.UseArtifact;
 import net.finalstring.effect.node.EffectNode;
+import net.finalstring.utility.FrequencyAbilityMapBuilder;
 
 public class Nexus extends Creature {
     public Nexus() {
@@ -15,8 +16,8 @@ public class Nexus extends Creature {
     }
 
     @Override
-    public boolean hasElusive() {
-        return true;
+    protected void buildDefaultAbilities(FrequencyAbilityMapBuilder builder) {
+        builder.elusive();
     }
 
     @Override

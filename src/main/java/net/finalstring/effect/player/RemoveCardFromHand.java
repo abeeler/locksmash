@@ -4,7 +4,7 @@ import lombok.Getter;
 import net.finalstring.Player;
 import net.finalstring.card.Card;
 import net.finalstring.effect.AbstractEffect;
-import net.finalstring.effect.EffectParameter;
+import net.finalstring.effect.parameter.EffectParameter;
 
 public class RemoveCardFromHand extends AbstractEffect {
     private final Player player;

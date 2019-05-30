@@ -2,7 +2,7 @@ package net.finalstring.effect.board;
 
 import net.finalstring.card.Creature;
 import net.finalstring.effect.AbstractEffect;
-import net.finalstring.effect.EffectParameter;
+import net.finalstring.effect.parameter.EffectParameter;
 
 import java.util.List;
 

@@ -4,7 +4,7 @@ import net.finalstring.Player;
 import net.finalstring.card.Card;
 import net.finalstring.card.Creature;
 import net.finalstring.card.House;
-import net.finalstring.effect.EffectListParameter;
+import net.finalstring.effect.parameter.EffectListParameter;
 import net.finalstring.effect.TargetFilter;
 import net.finalstring.effect.board.Purge;
 import net.finalstring.effect.node.EffectNode;

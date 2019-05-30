@@ -4,7 +4,7 @@ import lombok.Getter;
 import net.finalstring.GameState;
 import net.finalstring.card.Creature;
 import net.finalstring.effect.AbstractEffect;
-import net.finalstring.effect.EffectCardParameter;
+import net.finalstring.effect.parameter.EffectCardParameter;
 
 public class Fight extends AbstractEffect {
     @Getter

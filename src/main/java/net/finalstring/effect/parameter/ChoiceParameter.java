@@ -1,4 +1,4 @@
-package net.finalstring.effect;
+package net.finalstring.effect.parameter;
 
 import java.util.List;
 

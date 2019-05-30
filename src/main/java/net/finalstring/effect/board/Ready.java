@@ -4,7 +4,7 @@ import lombok.Getter;
 import net.finalstring.BoardState;
 import net.finalstring.card.Spawnable;
 import net.finalstring.effect.AbstractEffect;
-import net.finalstring.effect.EffectCardParameter;
+import net.finalstring.effect.parameter.EffectCardParameter;
 import net.finalstring.effect.TargetSpecification;
 
 public class Ready extends AbstractEffect {

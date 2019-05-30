@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import net.finalstring.Player;
 import net.finalstring.card.Creature;
 import net.finalstring.effect.AbstractEffect;
-import net.finalstring.effect.EffectCardParameter;
-import net.finalstring.effect.EffectParameter;
+import net.finalstring.effect.parameter.EffectCardParameter;
+import net.finalstring.effect.parameter.EffectParameter;
 
 // TODO: Remove extension and make it just this
 @RequiredArgsConstructor

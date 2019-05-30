@@ -7,6 +7,7 @@ import net.finalstring.card.logos.LibraryOfBabble;
 import net.finalstring.card.sanctum.TheVaultKeeper;
 import net.finalstring.card.shadows.Duskrunner;
 import net.finalstring.card.shadows.KeyOfDarkness;
+import net.finalstring.card.shadows.Lamindra;
 import net.finalstring.card.untamed.DustPixie;
 import net.finalstring.effect.EffectStack;
 import org.junit.Before;
@@ -33,6 +34,7 @@ public class PlayerTest {
     private Creature normalCreature;
     private Creature armoredCreature;
     private Creature actionCreature;
+    private Creature deployCreature;
     private Artifact artifact;
     private Upgrade upgrade;
 
@@ -40,6 +42,7 @@ public class PlayerTest {
         normalCreature = spy(new EmberImp());
         armoredCreature = new TheVaultKeeper();
         actionCreature = new PitDemon();
+        deployCreature = new Lamindra();
         artifact = new LibraryOfBabble();
         upgrade = new Duskrunner();
 
@@ -64,6 +67,7 @@ public class PlayerTest {
             deck.add(normalCreature);
         }
 
+        EffectStack.reset();
         gameState = new GameState(underTest);
     }
 
@@ -353,5 +357,28 @@ public class PlayerTest {
 
         assertThat(underTest.getDiscardPile().size(), is(1));
         assertThat(underTest.getDiscardPile().get(0), is(actionCard));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testPlacingNonDeployCreatureOnNonFlankFails() {
+        normalCreature.play(underTest);
+        EffectStack.setEffectParameter(true);
+
+        armoredCreature.play(underTest);
+        EffectStack.setEffectParameter(false);
+
+        actionCreature.play(underTest);
+        EffectStack.setEffectParameter(1);
+    }
+
+    @Test public void testPlacingDeployCreatureOnNonFlankSucceeds() {
+        normalCreature.play(underTest);
+        EffectStack.setEffectParameter(true);
+
+        armoredCreature.play(underTest);
+        EffectStack.setEffectParameter(false);
+
+        deployCreature.play(underTest);
+        EffectStack.setEffectParameter(1);
     }
 }

@@ -2,7 +2,7 @@ package net.finalstring.effect.node;
 
 import lombok.Setter;
 import net.finalstring.effect.Effect;
-import net.finalstring.effect.EffectParameter;
+import net.finalstring.effect.parameter.EffectParameter;
 
 import java.util.List;
 import java.util.Optional;

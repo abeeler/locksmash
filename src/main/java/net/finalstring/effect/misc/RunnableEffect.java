@@ -1,7 +1,7 @@
 package net.finalstring.effect.misc;
 
 import net.finalstring.effect.AbstractEffect;
-import net.finalstring.effect.EffectParameter;
+import net.finalstring.effect.parameter.EffectParameter;
 
 public class RunnableEffect extends AbstractEffect {
     private final Runnable runnable;

@@ -3,7 +3,7 @@ package net.finalstring.effect.board;
 import net.finalstring.Player;
 import net.finalstring.card.Artifact;
 import net.finalstring.effect.AbstractEffect;
-import net.finalstring.effect.EffectCardParameter;
+import net.finalstring.effect.parameter.EffectCardParameter;
 import net.finalstring.effect.TargetSpecification;
 
 public class UseArtifact extends AbstractEffect {

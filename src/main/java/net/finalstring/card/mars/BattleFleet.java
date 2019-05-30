@@ -3,7 +3,7 @@ package net.finalstring.card.mars;
 import net.finalstring.Player;
 import net.finalstring.card.Card;
 import net.finalstring.card.House;
-import net.finalstring.effect.EffectListParameter;
+import net.finalstring.effect.parameter.EffectListParameter;
 import net.finalstring.effect.TargetFilter;
 import net.finalstring.effect.node.EffectNode;
 import net.finalstring.effect.player.DrawCard;

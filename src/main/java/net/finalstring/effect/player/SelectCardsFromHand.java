@@ -3,7 +3,7 @@ package net.finalstring.effect.player;
 import net.finalstring.Player;
 import net.finalstring.card.HandCard;
 import net.finalstring.effect.AbstractEffect;
-import net.finalstring.effect.EffectListParameter;
+import net.finalstring.effect.parameter.EffectListParameter;
 
 import java.util.ArrayList;
 import java.util.Collections;

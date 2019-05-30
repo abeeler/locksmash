@@ -2,7 +2,7 @@ package net.finalstring.effect.player;
 
 import net.finalstring.Player;
 import net.finalstring.effect.AbstractEffect;
-import net.finalstring.effect.EffectParameter;
+import net.finalstring.effect.parameter.EffectParameter;
 
 public class ArchiveFromHand extends AbstractEffect {
     private final Player player;

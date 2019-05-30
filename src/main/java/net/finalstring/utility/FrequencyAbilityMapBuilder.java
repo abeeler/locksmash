@@ -15,6 +15,11 @@ public class FrequencyAbilityMapBuilder {
         return this;
     }
 
+    public FrequencyAbilityMapBuilder deploy() {
+        abilities.increment(Ability.Deploy);
+        return this;
+    }
+
     public FrequencyAbilityMapBuilder elusive() {
         abilities.increment(Ability.Elusive);
         return this;

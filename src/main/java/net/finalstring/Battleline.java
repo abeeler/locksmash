@@ -10,16 +10,28 @@ public class Battleline {
     private final LinkedList<Creature> creatures = new LinkedList<>();
 
     public void placeCreature(Creature creature, boolean onLeft) {
-        Creature neighbor = onLeft ? creatures.peekFirst() : creatures.peekLast();
-        if (onLeft) {
-            creatures.addFirst(creature);
-        } else {
-            creatures.addLast(creature);
+        placeCreature(creature, onLeft ? 0 : creatures.size());
+    }
+
+    public void placeCreature(Creature creature, int index) {
+        Creature leftNeighbor = index > 0 && (index - 1) < creatures.size() ? creatures.get(index - 1) : null;
+        Creature rightNeighbor = index < creatures.size() ? creatures.get(index) : null;
+
+        if (leftNeighbor != null && rightNeighbor != null) {
+            leftNeighbor.neighborRemoved(rightNeighbor);
+            rightNeighbor.neighborRemoved(leftNeighbor);
         }
 
-        if (neighbor != null) {
-            creature.neighborAdded(neighbor);
-            neighbor.neighborAdded(creature);
+        creatures.add(index, creature);
+
+        if (leftNeighbor != null) {
+            leftNeighbor.neighborAdded(creature);
+            creature.neighborAdded(leftNeighbor);
+        }
+
+        if (rightNeighbor != null) {
+            rightNeighbor.neighborAdded(creature);
+            creature.neighborAdded(rightNeighbor);
         }
     }
 

@@ -4,7 +4,8 @@ import lombok.Getter;
 import net.finalstring.AemberPool;
 import net.finalstring.GameState;
 import net.finalstring.Player;
-import net.finalstring.effect.EffectParameter;
+import net.finalstring.effect.parameter.CreaturePlacementParameter;
+import net.finalstring.effect.parameter.EffectParameter;
 import net.finalstring.effect.EffectStack;
 import net.finalstring.effect.board.Damage;
 import net.finalstring.effect.misc.RunnableEffect;
@@ -81,6 +82,10 @@ public class Creature extends Spawnable<Creature.CreatureInstance> implements Ae
         return activeAbilities.containsKey(Ability.Taunt);
     }
 
+    public boolean hasDeploy() {
+        return activeAbilities.containsKey(Ability.Deploy);
+    }
+
     public boolean hasElusive() {
         return activeAbilities.containsKey(Ability.Elusive);
     }
@@ -127,6 +132,22 @@ public class Creature extends Spawnable<Creature.CreatureInstance> implements Ae
 
     public boolean hasTrait(Trait trait) {
         return traits.contains(trait);
+    }
+
+    public void addAbility(Ability ability, int amount) {
+        activeAbilities.add(ability, amount);
+    }
+
+    public void addAbility(Ability ability) {
+        activeAbilities.increment(ability);
+    }
+
+    public void removeAbility(Ability ability, int amount) {
+        activeAbilities.subtract(ability, amount);
+    }
+
+    public void removeAbility(Ability ability) {
+        activeAbilities.decrement(ability);
     }
 
     public void attachUpgrade(Upgrade toAttach) {
@@ -230,10 +251,11 @@ public class Creature extends Spawnable<Creature.CreatureInstance> implements Ae
 
     @Override
     protected void postControlChange() {
-        final EffectParameter<Boolean> onLeft = new EffectParameter<>("Select which side of the battleline to place the creature");
+        final CreaturePlacementParameter placementParameter =
+                new CreaturePlacementParameter(getInstance().getController(), hasDeploy());
         EffectStack.pushDelayedEffect(new RunnableEffect(
-                () -> getInstance().getController().getBattleline().placeCreature(this, onLeft.getValue()),
-                onLeft));
+                () -> getInstance().getController().getBattleline().placeCreature(this, placementParameter.getValue()),
+                placementParameter));
 
     }
 

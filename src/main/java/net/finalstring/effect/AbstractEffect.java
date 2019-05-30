@@ -1,5 +1,7 @@
 package net.finalstring.effect;
 
+import net.finalstring.effect.parameter.EffectParameter;
+
 import java.util.Optional;
 
 public abstract class AbstractEffect implements Effect {

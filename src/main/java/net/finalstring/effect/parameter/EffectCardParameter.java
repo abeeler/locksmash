@@ -1,12 +1,11 @@
-package net.finalstring.effect;
+package net.finalstring.effect.parameter;
 
 import lombok.Getter;
 import lombok.Setter;
 import net.finalstring.card.Card;
+import net.finalstring.effect.TargetSpecification;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class EffectCardParameter<T extends Card> extends EffectListParameter<T> {
     public static <T extends Card> EffectCardParameter<T> allPossible(String description) {

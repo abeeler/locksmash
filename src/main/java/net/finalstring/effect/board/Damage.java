@@ -3,7 +3,7 @@ package net.finalstring.effect.board;
 import lombok.Getter;
 import net.finalstring.card.Creature;
 import net.finalstring.effect.AbstractEffect;
-import net.finalstring.effect.EffectCardParameter;
+import net.finalstring.effect.parameter.EffectCardParameter;
 import net.finalstring.effect.TargetSpecification;
 
 import java.util.List;

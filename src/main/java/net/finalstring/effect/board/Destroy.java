@@ -2,7 +2,7 @@ package net.finalstring.effect.board;
 
 import net.finalstring.card.Spawnable;
 import net.finalstring.effect.AbstractEffect;
-import net.finalstring.effect.EffectCardParameter;
+import net.finalstring.effect.parameter.EffectCardParameter;
 
 import java.util.Collections;
 

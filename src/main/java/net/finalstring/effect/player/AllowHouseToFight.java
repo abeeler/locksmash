@@ -5,7 +5,7 @@ import net.finalstring.GameState;
 import net.finalstring.card.Card;
 import net.finalstring.card.House;
 import net.finalstring.effect.AbstractEffect;
-import net.finalstring.effect.EffectParameter;
+import net.finalstring.effect.parameter.EffectParameter;
 import net.finalstring.usage.CardUsage;
 import net.finalstring.usage.UsagePredicate;
 

@@ -6,7 +6,7 @@ import net.finalstring.card.Card;
 import net.finalstring.card.Creature;
 import net.finalstring.card.House;
 import net.finalstring.card.Trait;
-import net.finalstring.effect.EffectCardParameter;
+import net.finalstring.effect.parameter.EffectCardParameter;
 import net.finalstring.effect.TargetFilter;
 import net.finalstring.effect.TargetSpecification;
 import net.finalstring.effect.board.Bounce;

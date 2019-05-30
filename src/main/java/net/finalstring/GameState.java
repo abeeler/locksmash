@@ -48,7 +48,12 @@ public class GameState {
         }
     }
 
+    public void cardUsed() {
+        currentTurn.alphaPossible = false;
+    }
+
     public void cardPlayed() {
+        currentTurn.alphaPossible = false;
         currentTurn.cardsPlayed++;
     }
 
@@ -125,6 +130,7 @@ public class GameState {
 
         private boolean canForge = true;
         private boolean didForge = false;
+        @Getter private boolean alphaPossible = true;
         @Getter private int cardsPlayed = 0;
         @Getter private int creaturesPlayed = 0;
         @Getter private House selectedHouse;

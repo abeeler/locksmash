@@ -43,7 +43,7 @@ public class Fight extends AbstractEffect {
             return;
         }
 
-        if (attackerInstance.unstun()) {
+        if (!attacker.use()) {
             attackerInstance.exhaust();
             return;
         }

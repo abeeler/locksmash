@@ -74,7 +74,7 @@ public abstract class AbstractCardTest<T extends Card> {
     }
 
     protected void reap(Creature toReap, Object... effectParameters) {
-        toReap.reaped();
+        toReap.reap();
         setEffectParameters(effectParameters);
     }
 

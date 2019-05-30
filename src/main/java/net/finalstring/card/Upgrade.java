@@ -19,7 +19,7 @@ public abstract class Upgrade extends Card {
 
     @Override
     public boolean canPlay() {
-        return !BoardState.allCreatures(getOwner()).isEmpty();
+        return !BoardState.allCreatures(getOwner()).isEmpty() && super.canPlay();
     }
 
     public void buildAbilities(FrequencyAbilityMapBuilder builder) { }

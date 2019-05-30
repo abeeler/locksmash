@@ -16,7 +16,6 @@ import java.util.EnumSet;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 
-
 @Getter
 @Setter
 @RequiredArgsConstructor
@@ -78,5 +77,9 @@ public abstract class Card {
 
     protected void buildDelayedPlayEffects(EffectNode.Builder effectBuilder, Player player) {
         effectBuilder.effect(new Discard(getOwner(), this));
+    }
+
+    protected boolean alphaPossible() {
+        return GameState.getInstance().getCurrentTurn().isAlphaPossible();
     }
 }

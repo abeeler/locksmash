@@ -44,17 +44,27 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
         return instance;
     }
 
+    public boolean use() {
+        if (instance == null) {
+            throw new IllegalStateException("Trying to use a card without a spawned instance");
+        }
+
+        GameState.getInstance().cardUsed();
+        return true;
+    }
+
     public void action() {
         action(instance.getController());
     }
 
     public void action(Player actor) {
-        if (instance == null) {
-            throw new IllegalStateException("Trying to use an action without a spawned instance");
+        if (use()) {
+            buildEffects(actor, this::buildActionEffects);
         }
 
-        instance.exhaust();
-        buildEffects(actor, this::buildActionEffects);
+        if (instance != null) {
+            getInstance().exhaust();
+        }
     }
 
     public void destroy() {
@@ -77,9 +87,9 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
         getOwner().addToHand(this);
     }
 
-    protected abstract void preControlChange();
-
-    protected abstract void postControlChange();
+    public boolean canAct() {
+        return canUse() && GameState.getInstance().getCurrentTurn().getUsageManager().canAct(this);
+    }
 
     public void changeController() {
         if (instance == null) {
@@ -91,9 +101,9 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
         postControlChange();
     }
 
-    public boolean canAct() {
-        return canUse() && GameState.getInstance().getCurrentTurn().getUsageManager().canAct(this);
-    }
+    protected abstract void preControlChange();
+
+    protected abstract void postControlChange();
 
     protected boolean canUse() {
         return getInstance() != null && getInstance().isReady();
@@ -113,6 +123,10 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
 
         if (this instanceof Stateful) {
             GameState.getInstance().deregisterPermanentEffect((Stateful) this);
+        }
+
+        if (this instanceof UseListener) {
+            GameState.getInstance().deregisterUseListener((UseListener) this);
         }
 
         if (this instanceof UsageCost) {

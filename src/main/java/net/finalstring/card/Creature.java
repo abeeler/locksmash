@@ -5,7 +5,6 @@ import net.finalstring.AemberPool;
 import net.finalstring.GameState;
 import net.finalstring.Player;
 import net.finalstring.effect.parameter.CreaturePlacementParameter;
-import net.finalstring.effect.parameter.EffectParameter;
 import net.finalstring.effect.EffectStack;
 import net.finalstring.effect.board.Damage;
 import net.finalstring.effect.misc.RunnableEffect;
@@ -18,6 +17,7 @@ import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+// TODO: Make UseListener, maintain list of listeners and build all effects simultaneously
 public class Creature extends Spawnable<Creature.CreatureInstance> implements AemberPool {
     protected static Set<Trait> COMMON_SHADOW_TRAITS = EnumSet.of(Trait.Elf, Trait.Thief);
 
@@ -118,8 +118,14 @@ public class Creature extends Spawnable<Creature.CreatureInstance> implements Ae
         buildEffects(instance.getController(), this::buildFightEffects);
     }
 
-    public void reaped() {
-        buildEffects(instance.getController(), Creature.this::buildReapEffects);
+    public void reap() {
+        if (use()) {
+            buildEffects(instance.getController(), Creature.this::buildReapEffects);
+        }
+
+        if (instance != null) {
+            instance.exhaust();
+        }
     }
 
     public boolean canFight() {
@@ -285,6 +291,11 @@ public class Creature extends Spawnable<Creature.CreatureInstance> implements Ae
         }
     }
 
+    @Override
+    public boolean use() {
+        return super.use() && !instance.unstun();
+    }
+
     @Getter
     public class CreatureInstance extends Spawnable.Instance {
         private int damage = 0;
@@ -354,14 +365,6 @@ public class Creature extends Spawnable<Creature.CreatureInstance> implements Ae
 
         public boolean isOnFlank() {
             return neighborCount < 2;
-        }
-
-        public void reap() {
-            exhaust();
-
-            if (!unstun()) {
-                reaped();
-            }
         }
 
         public void capture(Player target, int maxAmount) {

@@ -7,7 +7,11 @@ import net.finalstring.card.House;
 import net.finalstring.card.dis.DustImp;
 import net.finalstring.card.sanctum.CleansingWave;
 import net.finalstring.card.shadows.KeyOfDarkness;
+import net.finalstring.card.shadows.SafePlace;
 import net.finalstring.card.shadows.TheSting;
+import net.finalstring.card.untamed.Snufflegator;
+import net.finalstring.effect.EffectStack;
+import net.finalstring.effect.board.Fight;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,6 +33,7 @@ public class GameStateTest {
     private GameState underTest;
 
     @Before public void setup() {
+        EffectStack.reset();
         when(player.getOpponent()).thenReturn(opponent);
         when(opponent.getOpponent()).thenReturn(player);
         when(player.getBattleline()).thenReturn(new Battleline());
@@ -95,5 +100,76 @@ public class GameStateTest {
     public void throwsWhenHouseIsSelectedWhileAnotherHouseIsActive() {
         underTest.getCurrentTurn().setSelectedHouse(House.Sanctum);
         underTest.getCurrentTurn().setSelectedHouse(House.Shadows);
+    }
+
+    @Test public void testAlphaIsPreventedByPlayingAction() {
+        Card action = new KeyOfDarkness();
+        action.setOwner(player);
+
+        assertThat(GameState.getInstance().getCurrentTurn().isAlphaPossible(), is(true));
+        action.play(player);
+        assertThat(GameState.getInstance().getCurrentTurn().isAlphaPossible(), is(false));
+    }
+
+    @Test public void testAlphaIsPreventedByPlayingArtifact() {
+        Card artifact = new SafePlace();
+        artifact.setOwner(player);
+
+        assertThat(GameState.getInstance().getCurrentTurn().isAlphaPossible(), is(true));
+        artifact.play(player);
+        assertThat(GameState.getInstance().getCurrentTurn().isAlphaPossible(), is(false));
+    }
+
+    @Test public void testAlphaIsPreventedByPlayingCreature() {
+        Card creature = new Snufflegator();
+        creature.setOwner(player);
+
+        assertThat(GameState.getInstance().getCurrentTurn().isAlphaPossible(), is(true));
+        creature.play(player);
+        assertThat(GameState.getInstance().getCurrentTurn().isAlphaPossible(), is(false));
+    }
+
+    @Test public void testAlphaIsPreventedByUsingArtifact() {
+        Artifact artifact = new SafePlace();
+        artifact.setOwner(player);
+        artifact.play(player);
+
+        underTest.endTurn();
+        assertThat(GameState.getInstance().getCurrentTurn().isAlphaPossible(), is(true));
+        artifact.action(player);
+        assertThat(GameState.getInstance().getCurrentTurn().isAlphaPossible(), is(false));
+    }
+
+    @Test public void testAlphaIsPreventedByFightingWithCreature() {
+        Creature creature = new Snufflegator();
+        creature.setOwner(player);
+        creature.play(player);
+
+        underTest.endTurn();
+        assertThat(GameState.getInstance().getCurrentTurn().isAlphaPossible(), is(true));
+        new Fight(creature, creature).affect();
+        assertThat(GameState.getInstance().getCurrentTurn().isAlphaPossible(), is(false));
+    }
+
+    @Test public void testAlphaIsPreventedByReapingWithCreature() {
+        Creature creature = new Snufflegator();
+        creature.setOwner(player);
+        creature.play(player);
+
+        underTest.endTurn();
+        assertThat(GameState.getInstance().getCurrentTurn().isAlphaPossible(), is(true));
+        creature.reap();
+        assertThat(GameState.getInstance().getCurrentTurn().isAlphaPossible(), is(false));
+    }
+
+    @Test public void testAlphaIsPreventedByActingWithCreature() {
+        Creature creature = new Snufflegator();
+        creature.setOwner(player);
+        creature.play(player);
+
+        underTest.endTurn();
+        assertThat(GameState.getInstance().getCurrentTurn().isAlphaPossible(), is(true));
+        creature.action();
+        assertThat(GameState.getInstance().getCurrentTurn().isAlphaPossible(), is(false));
     }
 }

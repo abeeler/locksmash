@@ -18,6 +18,8 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class Creature extends Spawnable<Creature.CreatureInstance> implements AemberPool {
+    protected static Set<Trait> COMMON_SHADOW_TRAITS = EnumSet.of(Trait.Elf, Trait.Thief);
+
     private static void buildAbilityMapAndMerge(FrequencyEnumMap<Ability> source,
                                                 Consumer<FrequencyAbilityMapBuilder> abilityBuildMethod,
                                                 BiConsumer<FrequencyEnumMap<Ability>, FrequencyEnumMap<Ability>> mergeMethod) {
@@ -40,17 +42,33 @@ public class Creature extends Spawnable<Creature.CreatureInstance> implements Ae
 
     @Getter private boolean inLimbo = false;
 
-    public Creature(int id, House house, int power, Trait... traits) {
-        super(id, house);
+    public Creature(House house, int power, Trait trait) {
+        this(house, power, EnumSet.of(trait));
+    }
+
+    public Creature(House house, int power, Set<Trait> traits) {
+        this(house, 0, power, traits);
+    }
+
+    public Creature(House house, int bonusAember, int power, Trait trait) {
+        this(house, bonusAember, power, EnumSet.of(trait));
+    }
+
+    public Creature(House house, int bonusAember, int power, Set<Trait> traits) {
+        super(house, bonusAember);
+
+        if (traits == null || traits.isEmpty()) {
+            throw new IllegalArgumentException("Creature must have at least one trait");
+        }
 
         this.power = power;
-        this.traits = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(traits)));
+        this.traits = Collections.unmodifiableSet(traits);
 
         buildAbilityMapAndMerge(activeAbilities, this::buildDefaultAbilities, FrequencyEnumMap::addAll);
     }
 
     Creature() {
-        this(0, House.None, 5);
+        this(House.None, 5, EnumSet.of(Trait.None));
     }
 
     protected void buildDefaultAbilities(FrequencyAbilityMapBuilder builder) { }

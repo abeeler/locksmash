@@ -9,7 +9,7 @@ import net.finalstring.effect.player.CaptureOpponentAember;
 
 public class Charette extends Creature {
     public Charette() {
-        super(81, House.Dis, 4, Trait.Demon);
+        super(House.Dis, 4, Trait.Demon);
     }
 
     @Override

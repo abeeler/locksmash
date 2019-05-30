@@ -15,12 +15,7 @@ import net.finalstring.effect.node.EffectNode;
 
 public class Charge extends Card implements Stateful {
     public Charge() {
-        super(214, House.Sanctum);
-    }
-
-    @Override
-    public int getAember() {
-        return 1;
+        super(House.Sanctum, 1);
     }
 
     @Override

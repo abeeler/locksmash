@@ -12,7 +12,7 @@ import net.finalstring.effect.player.StealAember;
 
 public class NerveBlast extends Card {
     public NerveBlast() {
-        super(276, House.Shadows);
+        super(House.Shadows);
     }
 
     @Override

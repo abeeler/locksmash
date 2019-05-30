@@ -6,7 +6,7 @@ import net.finalstring.card.Trait;
 
 public class ShadowSelf extends Creature {
     public ShadowSelf() {
-        super(310, House.Shadows, 9, Trait.Specter);
+        super(House.Shadows, 9, Trait.Specter);
     }
 
     @Override

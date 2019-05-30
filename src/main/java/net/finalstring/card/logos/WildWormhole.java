@@ -8,12 +8,7 @@ import net.finalstring.effect.player.UseTopCard;
 
 public class WildWormhole extends Card {
     public WildWormhole() {
-        super(125, House.Logos);
-    }
-
-    @Override
-    public int getAember() {
-        return 1;
+        super(House.Logos, 1);
     }
 
     @Override

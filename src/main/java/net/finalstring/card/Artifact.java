@@ -5,8 +5,12 @@ import net.finalstring.Player;
 import net.finalstring.effect.node.EffectNode;
 
 public class Artifact extends Spawnable<Spawnable.Instance> {
-    public Artifact(int id, House house) {
-        super(id, house);
+    public Artifact(House house, int bonusAember) {
+        super(house, bonusAember);
+    }
+
+    public Artifact(House house) {
+        super(house, 0);
     }
 
     @Override

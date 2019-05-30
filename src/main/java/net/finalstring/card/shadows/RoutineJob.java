@@ -8,7 +8,7 @@ import net.finalstring.effect.player.StealAember;
 
 public class RoutineJob extends Card {
     public RoutineJob() {
-        super(282, House.Shadows);
+        super(House.Shadows);
     }
 
     @Override

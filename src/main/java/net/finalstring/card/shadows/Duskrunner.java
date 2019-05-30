@@ -8,7 +8,7 @@ import net.finalstring.effect.player.StealAember;
 
 public class Duskrunner extends Upgrade {
     public Duskrunner() {
-        super(316, House.Shadows);
+        super(House.Shadows);
     }
 
     @Override

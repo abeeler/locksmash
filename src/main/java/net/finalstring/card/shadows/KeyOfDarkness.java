@@ -11,7 +11,7 @@ public class KeyOfDarkness extends Card {
     static final int CONDITIONAL_KEY_COST_MODIFIER = 2;
 
     public KeyOfDarkness() {
-        super(273, House.Shadows);
+        super(House.Shadows);
     }
 
     @Override

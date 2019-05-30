@@ -14,12 +14,7 @@ import net.finalstring.effect.player.StealAember;
 
 public class FinishingBlow extends Card {
     public FinishingBlow() {
-        super(269, House.Shadows);
-    }
-
-    @Override
-    public int getAember() {
-        return 1;
+        super(House.Shadows, 1);
     }
 
     @Override

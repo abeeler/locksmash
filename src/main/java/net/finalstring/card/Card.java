@@ -1,9 +1,11 @@
 package net.finalstring.card;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import net.finalstring.GameState;
-import net.finalstring.effect.EffectStack;
 import net.finalstring.Player;
+import net.finalstring.effect.EffectStack;
 import net.finalstring.effect.node.EffectNode;
 import net.finalstring.effect.player.Discard;
 import net.finalstring.effect.player.GainAember;
@@ -15,21 +17,22 @@ import java.util.Optional;
 import java.util.function.BiConsumer;
 
 
-@Data
+@Getter
+@Setter
+@RequiredArgsConstructor
 public abstract class Card {
     private static final EnumSet<CardUsage> DEFAULT_OMNI_USAGE = EnumSet.noneOf(CardUsage.class);
     protected static final EnumSet<CardUsage> OMNI_ACTION_USAGE = EnumSet.of(CardUsage.Act);
     protected static final EnumSet<CardUsage> OMNI_USAGE = EnumSet.complementOf(EnumSet.of(CardUsage.Play));
 
-    // TODO: Remove this, make it part of the registry
-    private final int id;
     private final House house;
+    private final int bonusAember;
 
     private Player owner;
+    private String identity;
 
-    // TODO: Remove this, replace with final field bonusAember
-    public int getAember() {
-        return 0;
+    public Card(House house) {
+        this(house, 0);
     }
 
     public void play(Player passedPlayer) {
@@ -69,7 +72,7 @@ public abstract class Card {
 
     protected void buildPlayEffects(EffectNode.Builder effectBuilder, Player player) {
         effectBuilder
-                .effect(new GainAember(player, getAember()))
+                .effect(new GainAember(player, bonusAember))
                 .effect(() -> GameState.getInstance().cardPlayed());
     }
 

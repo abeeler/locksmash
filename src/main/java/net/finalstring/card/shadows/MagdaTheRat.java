@@ -11,7 +11,7 @@ import net.finalstring.utility.FrequencyAbilityMapBuilder;
 
 public class MagdaTheRat extends Creature {
     public MagdaTheRat() {
-        super(303, House.Shadows, 4, Trait.Elf, Trait.Thief);
+        super(House.Shadows, 4, COMMON_SHADOW_TRAITS);
     }
 
     @Override

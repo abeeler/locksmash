@@ -10,9 +10,11 @@ import net.finalstring.effect.board.UseArtifact;
 import net.finalstring.effect.node.EffectNode;
 import net.finalstring.utility.FrequencyAbilityMapBuilder;
 
+import java.util.EnumSet;
+
 public class Nexus extends Creature {
     public Nexus() {
-        super(305, House.Shadows, 3, Trait.Cyborg, Trait.Thief);
+        super(House.Shadows, 3, EnumSet.of(Trait.Cyborg, Trait.Thief));
     }
 
     @Override

@@ -9,12 +9,7 @@ import net.finalstring.effect.player.StealAember;
 
 public class NeuroSyphon extends Card {
     public NeuroSyphon() {
-        super(116, House.Logos);
-    }
-
-    @Override
-    public int getAember() {
-        return 1;
+        super(House.Logos, 1);
     }
 
     @Override

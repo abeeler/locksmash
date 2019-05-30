@@ -17,12 +17,7 @@ import java.util.List;
 
 public class LongfusedMines extends Artifact {
     public LongfusedMines() {
-        super(287, House.Shadows);
-    }
-
-    @Override
-    public int getAember() {
-        return 1;
+        super(House.Shadows, 1);
     }
 
     @Override

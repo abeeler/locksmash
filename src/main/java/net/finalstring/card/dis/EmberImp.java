@@ -7,6 +7,6 @@ import net.finalstring.card.Trait;
 // FIXME: Implement this
 public class EmberImp extends Creature {
     public EmberImp() {
-        super(84, House.Dis, 2, Trait.Imp);
+        super(House.Dis, 2, Trait.Imp);
     }
 }

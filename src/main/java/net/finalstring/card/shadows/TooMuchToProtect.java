@@ -8,12 +8,7 @@ import net.finalstring.effect.player.StealAember;
 
 public class TooMuchToProtect extends Card {
     public TooMuchToProtect() {
-        super(283, House.Shadows);
-    }
-
-    @Override
-    public int getAember() {
-        return 1;
+        super(House.Shadows, 1);
     }
 
     @Override

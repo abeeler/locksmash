@@ -12,7 +12,7 @@ public class CarloPhantom extends Creature implements Stateful {
     private static final int AMOUNT_TO_STEAL = 1;
 
     public CarloPhantom() {
-        super(298, House.Shadows, 1);
+        super(House.Shadows, 1, COMMON_SHADOW_TRAITS);
     }
 
     @Override

@@ -11,9 +11,11 @@ import net.finalstring.effect.node.EffectNode;
 import net.finalstring.effect.board.Ready;
 import net.finalstring.utility.FrequencyAbilityMapBuilder;
 
+import java.util.EnumSet;
+
 public class JohnSmyth extends Creature {
     public JohnSmyth() {
-        super(195, House.Mars, 2, Trait.Agent, Trait.Martian);
+        super(House.Mars, 2, EnumSet.of(Trait.Agent, Trait.Martian));
     }
 
     @Override

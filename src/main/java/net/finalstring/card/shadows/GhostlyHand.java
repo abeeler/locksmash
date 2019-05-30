@@ -8,12 +8,7 @@ import net.finalstring.effect.player.StealAember;
 
 public class GhostlyHand extends Card {
     public GhostlyHand() {
-        super(270, House.Shadows);
-    }
-
-    @Override
-    public int getAember() {
-        return 2;
+        super(House.Shadows, 2);
     }
 
     @Override

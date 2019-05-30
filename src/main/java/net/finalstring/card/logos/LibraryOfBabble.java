@@ -8,7 +8,7 @@ import net.finalstring.effect.player.DrawCard;
 
 public class LibraryOfBabble extends Artifact {
     public LibraryOfBabble() {
-        super(129, House.Logos);
+        super(House.Logos);
     }
 
     @Override

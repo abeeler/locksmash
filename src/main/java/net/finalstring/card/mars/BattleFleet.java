@@ -12,12 +12,7 @@ import net.finalstring.effect.player.SelectCardsFromHand;
 
 public class BattleFleet extends Card {
     public BattleFleet() {
-        super(161, House.Mars);
-    }
-
-    @Override
-    public int getAember() {
-        return 1;
+        super(House.Mars, 1);
     }
 
     @Override

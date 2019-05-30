@@ -15,7 +15,7 @@ import net.finalstring.effect.node.EffectNode;
 
 public class SpecialDelivery extends Artifact {
     public SpecialDelivery() {
-        super(292, House.Shadows);
+        super(House.Shadows);
     }
 
     @Override

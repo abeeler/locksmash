@@ -10,7 +10,7 @@ import net.finalstring.utility.FrequencyAbilityMapBuilder;
 
 public class Urchin extends Creature {
     public Urchin() {
-        super(315, House.Shadows, 1, Trait.Elf, Trait.Thief);
+        super(House.Shadows, 1, COMMON_SHADOW_TRAITS);
     }
 
     @Override

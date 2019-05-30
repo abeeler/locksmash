@@ -8,12 +8,7 @@ import net.finalstring.effect.node.EffectNode;
 
 public class Miasma extends Card {
     public Miasma() {
-        super(275, House.Shadows);
-    }
-
-    @Override
-    public int getAember() {
-        return 1;
+        super(House.Shadows, 1);
     }
 
     @Override

@@ -10,7 +10,7 @@ import net.finalstring.utility.FrequencyAbilityMapBuilder;
 
 public class Mooncurser extends Creature {
     public Mooncurser() {
-        super(304, House.Shadows, 1, Trait.Elf, Trait.Thief);
+        super(House.Shadows, 1, COMMON_SHADOW_TRAITS);
     }
 
     @Override

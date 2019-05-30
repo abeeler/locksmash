@@ -15,7 +15,7 @@ import net.finalstring.utility.FrequencyAbilityMapBuilder;
 
 public class Bulleteye extends Creature {
     public Bulleteye() {
-        super(297, House.Shadows, 2, Trait.Elf, Trait.Thief);
+        super(House.Shadows, 2, COMMON_SHADOW_TRAITS);
     }
 
     @Override

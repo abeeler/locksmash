@@ -10,7 +10,7 @@ import net.finalstring.effect.player.GainAember;
 
 public class CleansingWave extends Card {
     public CleansingWave() {
-        super(215, House.Sanctum);
+        super(House.Sanctum);
     }
 
     @Override

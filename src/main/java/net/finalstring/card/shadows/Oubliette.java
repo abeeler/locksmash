@@ -13,7 +13,7 @@ public class Oubliette extends Card {
     private static final TargetFilter POWER_CONDITION = new TargetFilter().withPower(power -> power <= 3);
 
     public Oubliette() {
-        super(278, House.Shadows);
+        super(House.Shadows);
     }
 
     @Override

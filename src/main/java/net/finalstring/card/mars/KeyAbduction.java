@@ -15,12 +15,7 @@ public class KeyAbduction extends Card {
     static final int BASE_KEY_COST_MODIFIER = 9;
 
     public KeyAbduction() {
-        super(166, House.Mars);
-    }
-
-    @Override
-    public int getAember() {
-        return 1;
+        super(House.Mars, 1);
     }
 
     @Override

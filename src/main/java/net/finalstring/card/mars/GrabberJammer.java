@@ -10,7 +10,7 @@ import net.finalstring.utility.FrequencyAbilityMapBuilder;
 
 public class GrabberJammer extends Creature {
     public GrabberJammer() {
-        super(193, House.Mars, 4, Trait.Robot);
+        super(House.Mars, 4, Trait.Robot);
     }
 
     @Override

@@ -14,12 +14,7 @@ public class TreasureMap extends Card {
     private static UsagePredicate NO_MORE_CARDS_PLAYABLE = (usage, card) -> usage != CardUsage.Play;
 
     public TreasureMap() {
-        super(284, House.Shadows);
-    }
-
-    @Override
-    public int getAember() {
-        return 1;
+        super(House.Shadows, 1);
     }
 
     @Override

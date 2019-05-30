@@ -13,7 +13,7 @@ import java.util.EnumSet;
 
 public class DeipnoSpymaster extends Creature {
     public DeipnoSpymaster() {
-        super(299, House.Shadows, 1);
+        super(House.Shadows, 1, COMMON_SHADOW_TRAITS);
     }
 
     @Override

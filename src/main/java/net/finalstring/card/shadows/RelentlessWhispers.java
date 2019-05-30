@@ -11,12 +11,7 @@ import net.finalstring.effect.player.StealAember;
 
 public class RelentlessWhispers extends Card {
     public RelentlessWhispers() {
-        super(281, House.Shadows);
-    }
-
-    @Override
-    public int getAember() {
-        return 1;
+        super(House.Shadows, 1);
     }
 
     @Override

@@ -9,7 +9,7 @@ import net.finalstring.effect.player.GainAember;
 
 public class DustImp extends Creature {
     public DustImp() {
-        super(83, House.Dis, 2, Trait.Imp);
+        super(House.Dis, 2, Trait.Imp);
     }
 
     @Override

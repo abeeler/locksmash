@@ -8,12 +8,7 @@ import net.finalstring.card.UseListener;
 
 public class EvasionSigil extends Artifact implements UseListener {
     public EvasionSigil() {
-        super(286, House.Shadows);
-    }
-
-    @Override
-    public int getAember() {
-        return 1;
+        super(House.Shadows, 1);
     }
 
     @Override

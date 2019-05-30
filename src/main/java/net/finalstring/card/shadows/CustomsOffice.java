@@ -10,7 +10,7 @@ public class CustomsOffice extends Artifact implements UsageCost {
     public static final int ARTIFACT_PLAY_COST = 1;
 
     public CustomsOffice() {
-        super(285, House.Shadows);
+        super(House.Shadows);
     }
 
     @Override

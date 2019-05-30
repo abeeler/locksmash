@@ -11,8 +11,12 @@ import net.finalstring.effect.player.GainAember;
 public abstract class AemberPoolArtifact extends Artifact implements AemberPool {
     private int heldAember;
 
-    protected AemberPoolArtifact(int id, House house) {
-        super(id, house);
+    protected AemberPoolArtifact(House house, int bonusAember) {
+        super(house, bonusAember);
+    }
+
+    protected AemberPoolArtifact(House house) {
+        super(house);
     }
 
     @Override

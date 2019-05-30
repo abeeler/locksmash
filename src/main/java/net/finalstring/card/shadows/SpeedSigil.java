@@ -8,12 +8,7 @@ import net.finalstring.card.Stateful;
 
 public class SpeedSigil extends Artifact implements Stateful {
     public SpeedSigil() {
-        super(293, House.Shadows);
-    }
-
-    @Override
-    public int getAember() {
-        return 1;
+        super(House.Shadows, 1);
     }
 
     @Override

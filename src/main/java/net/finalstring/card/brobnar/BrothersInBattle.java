@@ -8,12 +8,7 @@ import net.finalstring.effect.player.AllowHouseToFight;
 
 public class BrothersInBattle extends Card {
     public BrothersInBattle() {
-        super(4, House.Brobnar);
-    }
-
-    @Override
-    public int getAember() {
-        return 1;
+        super(House.Brobnar, 1);
     }
 
     @Override

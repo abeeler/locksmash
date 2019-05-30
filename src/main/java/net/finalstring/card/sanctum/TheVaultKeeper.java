@@ -5,10 +5,12 @@ import net.finalstring.card.House;
 import net.finalstring.card.Trait;
 import net.finalstring.utility.FrequencyAbilityMapBuilder;
 
+import java.util.EnumSet;
+
 // FIXME: Implement this fully
 public class TheVaultKeeper extends Creature {
     public TheVaultKeeper() {
-        super(261, House.Sanctum, 4, Trait.Knight, Trait.Spirit);
+        super(House.Sanctum, 4, EnumSet.of(Trait.Knight, Trait.Spirit));
     }
 
     @Override

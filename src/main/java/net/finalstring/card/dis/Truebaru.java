@@ -18,16 +18,15 @@ public class Truebaru extends Creature {
     static final int PLAY_COST = 3;
     static final int DESTROYED_AEMBER_GAIN = 5;
 
-    private final UsageCost usageCost;
+    private static final UsageCost constantUsageCost = new SimpleUsageCost(PLAY_COST);
 
     public Truebaru() {
-        super(104, House.Dis, 7, Trait.Demon);
-        usageCost = new SimpleUsageCost(PLAY_COST);
+        super(House.Dis, 7, Trait.Demon);
     }
 
     @Override
     public Optional<UsageCost> getPlayCost() {
-        return Optional.of(usageCost);
+        return Optional.of(constantUsageCost);
     }
 
     @Override

@@ -9,7 +9,7 @@ import net.finalstring.effect.player.MoveAember;
 
 public class SelwynTheFence extends Creature {
     public SelwynTheFence() {
-        super(309, House.Shadows, 3, Trait.Elf, Trait.Thief);
+        super(House.Shadows, 3, COMMON_SHADOW_TRAITS);
     }
 
     @Override

@@ -8,7 +8,7 @@ import net.finalstring.effect.player.CaptureOpponentAember;
 
 public class SkeletonKey extends Artifact {
     public SkeletonKey() {
-        super(291, House.Shadows);
+        super(House.Shadows);
     }
 
     @Override

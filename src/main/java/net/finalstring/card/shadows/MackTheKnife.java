@@ -14,7 +14,7 @@ import java.util.EnumSet;
 
 public class MackTheKnife extends Creature {
     public MackTheKnife() {
-        super(302, House.Shadows, 3, Trait.Elf, Trait.Thief);
+        super(House.Shadows, 3, COMMON_SHADOW_TRAITS);
     }
 
     @Override

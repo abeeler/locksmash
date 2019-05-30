@@ -8,7 +8,7 @@ import net.finalstring.effect.player.UseRandomCardFromHand;
 
 public class SubtleMaul extends Artifact {
     public SubtleMaul() {
-        super(294, House.Shadows);
+        super(House.Shadows);
     }
 
     @Override

@@ -17,12 +17,7 @@ import java.util.stream.Collectors;
 
 public class HonorableClaim extends Card {
     public HonorableClaim() {
-        super(219, House.Sanctum);
-    }
-
-    @Override
-    public int getAember() {
-        return 1;
+        super(House.Sanctum, 1);
     }
 
     @Override

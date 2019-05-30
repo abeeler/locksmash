@@ -6,12 +6,7 @@ import net.finalstring.utility.FrequencyAbilityMapBuilder;
 
 public class RingOfInvisibility extends Upgrade {
     public RingOfInvisibility() {
-        super(317, House.Shadows);
-    }
-
-    @Override
-    public int getAember() {
-        return 1;
+        super(House.Shadows, 1);
     }
 
     @Override

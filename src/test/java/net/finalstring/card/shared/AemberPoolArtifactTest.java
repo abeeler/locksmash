@@ -32,7 +32,7 @@ public abstract class AemberPoolArtifactTest<T extends AemberPoolArtifact> exten
         action(underTest);
         destroy(underTest);
 
-        assertThat(player.getHeldAember(), is(STARTING_AEMBER - 1 + underTest.getAember()));
+        assertThat(player.getHeldAember(), is(STARTING_AEMBER - 1 + underTest.getBonusAember()));
         assertThat(underTest.getHeldAember(), is(0));
     }
 
@@ -51,7 +51,7 @@ public abstract class AemberPoolArtifactTest<T extends AemberPoolArtifact> exten
     }
 
     @Test public void testKeyIsForgedWithoutSpecifyingDistributionWhenExactAmountIsHeld() {
-        player.setAember(Player.DEFAULT_KEY_COST - underTest.getAember());
+        player.setAember(Player.DEFAULT_KEY_COST - underTest.getBonusAember());
 
         play(underTest);
         action(underTest);
@@ -110,7 +110,7 @@ public abstract class AemberPoolArtifactTest<T extends AemberPoolArtifact> exten
         gameState.endTurn();
         gameState.endTurn();
 
-        assertThat(player.getHeldAember(), is(2 + underTest.getAember()));
+        assertThat(player.getHeldAember(), is(2 + underTest.getBonusAember()));
         assertThat(underTest.getHeldAember(), is(1));
         assertThat(player.getForgedKeys(), is(0));
     }

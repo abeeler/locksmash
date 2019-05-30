@@ -9,7 +9,7 @@ import net.finalstring.effect.player.StealAember;
 
 public class Dodger extends Creature {
     public Dodger() {
-        super(308, House.Shadows, 5, Trait.Elf, Trait.Thief);
+        super(House.Shadows, 5, COMMON_SHADOW_TRAITS);
     }
 
     @Override

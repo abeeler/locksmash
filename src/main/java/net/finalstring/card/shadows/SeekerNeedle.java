@@ -11,7 +11,7 @@ import net.finalstring.effect.player.StealAember;
 
 public class SeekerNeedle extends Artifact {
     public SeekerNeedle() {
-        super(290, House.Shadows);
+        super(House.Shadows);
     }
 
     @Override

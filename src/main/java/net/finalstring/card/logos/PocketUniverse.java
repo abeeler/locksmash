@@ -5,6 +5,6 @@ import net.finalstring.card.shared.AemberPoolArtifact;
 
 public class PocketUniverse extends AemberPoolArtifact {
     public PocketUniverse() {
-        super(131, House.Logos);
+        super(House.Logos);
     }
 }

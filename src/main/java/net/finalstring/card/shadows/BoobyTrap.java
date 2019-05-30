@@ -11,12 +11,7 @@ import net.finalstring.effect.node.EffectNode;
 
 public class BoobyTrap extends Card {
     public BoobyTrap() {
-        super(268, House.Shadows);
-    }
-
-    @Override
-    public int getAember() {
-        return 1;
+        super(House.Shadows, 1);
     }
 
     @Override

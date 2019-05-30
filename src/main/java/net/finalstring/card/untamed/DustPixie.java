@@ -4,13 +4,10 @@ import net.finalstring.card.Creature;
 import net.finalstring.card.House;
 import net.finalstring.card.Trait;
 
+import java.util.EnumSet;
+
 public class DustPixie extends Creature {
     public DustPixie() {
-        super(351, House.Untamed, 1, Trait.Faerie);
-    }
-
-    @Override
-    public int getAember() {
-        return 2;
+        super(House.Untamed, 2, 1, Trait.Faerie);
     }
 }

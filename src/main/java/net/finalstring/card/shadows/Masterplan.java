@@ -19,12 +19,7 @@ public class Masterplan extends Artifact {
     private Card heldCard;
 
     public Masterplan() {
-        super(288, House.Shadows);
-    }
-
-    @Override
-    public int getAember() {
-        return 1;
+        super(House.Shadows, 1);
     }
 
     @Override

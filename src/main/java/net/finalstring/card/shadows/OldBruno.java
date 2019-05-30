@@ -10,7 +10,7 @@ import net.finalstring.utility.FrequencyAbilityMapBuilder;
 
 public class OldBruno extends Creature {
     public OldBruno() {
-        super(307, House.Shadows, 3, Trait.Elf, Trait.Thief);
+        super(House.Shadows, 3, COMMON_SHADOW_TRAITS);
     }
 
     @Override

@@ -15,12 +15,7 @@ import java.util.List;
 
 public class OneLastJob extends Card {
     public OneLastJob() {
-        super(277, House.Shadows);
-    }
-
-    @Override
-    public int getAember() {
-        return 1;
+        super(House.Shadows, 1);
     }
 
     @Override

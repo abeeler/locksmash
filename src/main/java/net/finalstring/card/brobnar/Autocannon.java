@@ -8,12 +8,7 @@ import net.finalstring.effect.board.Damage;
 
 public class Autocannon extends Artifact implements Stateful {
     public Autocannon() {
-        super(19, House.Brobnar);
-    }
-
-    @Override
-    public int getAember() {
-        return 1;
+        super(House.Brobnar, 1);
     }
 
     @Override

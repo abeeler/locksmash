@@ -13,12 +13,7 @@ import net.finalstring.effect.board.Ready;
 
 public class Anger extends Card {
     public Anger() {
-        super(1, House.Brobnar);
-    }
-
-    @Override
-    public int getAember() {
-        return 1;
+        super(House.Brobnar, 1);
     }
 
     @Override

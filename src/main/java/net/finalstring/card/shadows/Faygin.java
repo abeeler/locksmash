@@ -13,9 +13,11 @@ import net.finalstring.effect.board.Bounce;
 import net.finalstring.effect.node.EffectNode;
 import net.finalstring.utility.FrequencyAbilityMapBuilder;
 
+import java.util.EnumSet;
+
 public class Faygin extends Creature {
     public Faygin() {
-        super(300, House.Shadows, 3, Trait.Human, Trait.Thief);
+        super(House.Shadows, 3, EnumSet.of(Trait.Human, Trait.Thief));
     }
 
     @Override

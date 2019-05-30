@@ -7,7 +7,7 @@ import net.finalstring.effect.node.EffectNode;
 
 public class BaitAndSwitch extends Card {
     public BaitAndSwitch() {
-        super(267, House.Shadows);
+        super(House.Shadows);
     }
 
     @Override

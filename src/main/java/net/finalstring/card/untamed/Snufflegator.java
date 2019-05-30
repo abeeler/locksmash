@@ -7,7 +7,7 @@ import net.finalstring.utility.FrequencyAbilityMapBuilder;
 
 public class Snufflegator extends Creature {
     public Snufflegator() {
-        super(358, House.Untamed, 4, Trait.Beast);
+        super(House.Untamed, 4, Trait.Beast);
     }
 
     @Override

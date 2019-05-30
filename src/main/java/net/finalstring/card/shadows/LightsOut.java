@@ -10,7 +10,7 @@ import net.finalstring.effect.node.EffectNode;
 
 public class LightsOut extends Card {
     public LightsOut() {
-        super(274, House.Shadows);
+        super(House.Shadows);
     }
 
     @Override

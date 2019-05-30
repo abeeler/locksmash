@@ -8,12 +8,7 @@ import net.finalstring.effect.player.ArchiveFromHand;
 
 public class HiddenStash extends Card {
     public HiddenStash() {
-        super(271, House.Shadows);
-    }
-
-    @Override
-    public int getAember() {
-        return 1;
+        super(House.Shadows, 1);
     }
 
     @Override

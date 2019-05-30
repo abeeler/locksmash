@@ -14,8 +14,8 @@ import net.finalstring.usage.UsageCost;
 public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
     protected T instance;
 
-    Spawnable(int id, House house) {
-        super(id, house);
+    Spawnable(House house, int bonusAember) {
+        super(house, bonusAember);
     }
 
     public void spawn(T instance) {

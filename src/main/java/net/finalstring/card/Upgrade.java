@@ -9,8 +9,12 @@ import net.finalstring.utility.FrequencyAbilityMapBuilder;
 // TODO: Rework to be a UseListener attached to the card
 // TODO: Allow active player to decide which order UseListeners trigger in
 public abstract class Upgrade extends Card {
-    public Upgrade(int id, House house) {
-        super(id, house);
+    public Upgrade(House house, int bonusAember) {
+        super(house, bonusAember);
+    }
+
+    public Upgrade(House house) {
+        super(house, 0);
     }
 
     @Override

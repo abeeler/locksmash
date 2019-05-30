@@ -9,7 +9,7 @@ import net.finalstring.effect.player.GainAember;
 
 public class KnowledgeIsPower extends Card {
     public KnowledgeIsPower() {
-        super(113, House.Logos);
+        super(House.Logos);
     }
 
     @Override

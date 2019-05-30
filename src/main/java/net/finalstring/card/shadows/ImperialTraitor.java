@@ -15,12 +15,7 @@ import java.util.stream.Collectors;
 
 public class ImperialTraitor extends Card {
     public ImperialTraitor() {
-        super(272, House.Shadows);
-    }
-
-    @Override
-    public int getAember() {
-        return 1;
+        super(House.Shadows, 1);
     }
 
     @Override

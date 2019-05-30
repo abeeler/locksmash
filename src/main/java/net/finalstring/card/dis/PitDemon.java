@@ -9,7 +9,7 @@ import net.finalstring.effect.player.StealAember;
 
 public class PitDemon extends Creature {
     public PitDemon() {
-        super(92, House.Dis, 5, Trait.Demon);
+        super(House.Dis, 5, Trait.Demon);
     }
 
     @Override

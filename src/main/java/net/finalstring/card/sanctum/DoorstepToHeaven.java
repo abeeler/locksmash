@@ -8,12 +8,7 @@ import net.finalstring.effect.player.ChangeAember;
 
 public class DoorstepToHeaven extends Card{
     public DoorstepToHeaven() {
-        super(217, House.Sanctum);
-    }
-
-    @Override
-    public int getAember() {
-        return 1;
+        super(House.Sanctum, 1);
     }
 
     @Override

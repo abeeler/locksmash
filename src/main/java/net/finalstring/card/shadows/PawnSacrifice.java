@@ -14,12 +14,7 @@ import net.finalstring.effect.node.EffectNode;
 
 public class PawnSacrifice extends Card {
     public PawnSacrifice() {
-        super(279, House.Shadows);
-    }
-
-    @Override
-    public int getAember() {
-        return 1;
+        super(House.Shadows, 1);
     }
 
     @Override

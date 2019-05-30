@@ -11,12 +11,7 @@ import java.util.List;
 
 public class IrradiatedAember extends Card {
     public IrradiatedAember() {
-        super(165, House.Mars);
-    }
-
-    @Override
-    public int getAember() {
-        return 1;
+        super(House.Mars, 1);
     }
 
     @Override

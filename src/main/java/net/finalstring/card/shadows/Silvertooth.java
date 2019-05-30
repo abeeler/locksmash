@@ -6,7 +6,7 @@ import net.finalstring.card.Trait;
 
 public class Silvertooth extends Creature {
     public Silvertooth() {
-        super(311, House.Shadows, 2, Trait.Elf, Trait.Thief);
+        super(House.Shadows, 2, COMMON_SHADOW_TRAITS);
     }
 
     @Override

@@ -14,7 +14,7 @@ import net.finalstring.utility.FrequencyAbilityMapBuilder;
 
 public class SmilingRuth extends Creature {
     public SmilingRuth() {
-        super(312, House.Shadows, 1, Trait.Elf, Trait.Thief);
+        super(House.Shadows, 1, COMMON_SHADOW_TRAITS);
     }
 
     @Override

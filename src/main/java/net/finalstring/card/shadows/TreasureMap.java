@@ -22,7 +22,7 @@ public class TreasureMap extends Card {
         super.buildPlayEffects(effectBuilder, player);
         effectBuilder
                 .effect(() -> GameState.getInstance().getCurrentTurn().getUsageManager().addRestriction(NO_MORE_CARDS_PLAYABLE))
-                .conditional(() -> GameState.getInstance().getCurrentTurn().getCardsPlayed() == 1)
+                .phaseGate(() -> GameState.getInstance().getCurrentTurn().getCardsPlayed() == 1)
                 .effect(new GainAember(player, CONDITIONAL_AEMBER));
     }
 }

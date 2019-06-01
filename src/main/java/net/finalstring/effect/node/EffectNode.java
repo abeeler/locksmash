@@ -1,6 +1,7 @@
 package net.finalstring.effect.node;
 
 import net.finalstring.effect.ConditionalEffect;
+import net.finalstring.effect.PhaseGateEffect;
 import net.finalstring.effect.Effect;
 import net.finalstring.effect.misc.BlankEffect;
 import net.finalstring.effect.misc.RunnableEffect;
@@ -72,8 +73,18 @@ public interface EffectNode extends Effect {
             return parent;
         }
 
-        public Builder conditional(Supplier<Boolean> condition) {
-            addNode(new SimpleEffectNode(new ConditionalEffect(condition)));
+        public Builder phaseGate(Supplier<Boolean> condition) {
+            addNode(new SimpleEffectNode(new PhaseGateEffect(condition)));
+            return this;
+        }
+
+        public Builder conditional(Supplier<Boolean> condition, Effect effect) {
+            addNode(new SimpleEffectNode(new ConditionalEffect(condition, effect)));
+            return this;
+        }
+
+        public Builder conditional(Supplier<Boolean> condition, Runnable runnable) {
+            addNode(new SimpleEffectNode(new ConditionalEffect(condition, new RunnableEffect(runnable))));
             return this;
         }
 

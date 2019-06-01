@@ -54,7 +54,8 @@ public abstract class Card {
     }
 
     public boolean canPlay() {
-        return GameState.getInstance().getCurrentTurn().getUsageManager().canPlay(this);
+        return (!isAlpha() || GameState.getInstance().getCurrentTurn().isAlphaPossible()) &&
+                GameState.getInstance().getCurrentTurn().getUsageManager().canPlay(this);
     }
 
     public Optional<UsageCost> getPlayCost() {
@@ -84,11 +85,15 @@ public abstract class Card {
 
     protected void buildDelayedPlayEffects(EffectNode.Builder effectBuilder, Player player) {
         effectBuilder
-                .conditional(this::isInLimbo)
-                .effect(new Discard(getOwner(), this));
+                .conditional(this::isInLimbo, new Discard(getOwner(), this))
+                .conditional(this::isOmega, GameState.getInstance()::endTurn);
     }
 
-    protected boolean alphaPossible() {
-        return GameState.getInstance().getCurrentTurn().isAlphaPossible();
+    protected boolean isAlpha() {
+        return false;
+    }
+
+    protected boolean isOmega() {
+        return false;
     }
 }

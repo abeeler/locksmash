@@ -21,7 +21,7 @@ public class SeekerNeedle extends Artifact {
         Damage damageEffect = new Damage(new TargetSpecification(controller, BoardState::allCreatures), 1);
         builder
                 .effect(damageEffect)
-                .conditional(damageEffect::isTargetDestroyed)
+                .phaseGate(damageEffect::isTargetDestroyed)
                 .effect(new StealAember(controller, 1));
     }
 }

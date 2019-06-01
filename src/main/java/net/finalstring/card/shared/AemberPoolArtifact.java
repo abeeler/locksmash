@@ -35,7 +35,7 @@ public abstract class AemberPoolArtifact extends Artifact implements AemberPool 
         super.buildActionEffects(builder, controller);
 
         builder
-                .conditional(() -> controller.getHeldAember() >= 1)
+                .phaseGate(() -> controller.getHeldAember() >= 1)
                 .effect(new ChangeAember(aember -> aember - 1, controller))
                 .effect(new GainAember(this, 1));
     }

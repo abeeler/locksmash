@@ -15,7 +15,7 @@ public class GhostlyHand extends Card {
     protected void buildPlayEffects(EffectNode.Builder effectBuilder, Player player) {
         super.buildPlayEffects(effectBuilder, player);
         effectBuilder
-                .conditional(() -> player.getOpponent().getHeldAember() == 1)
+                .phaseGate(() -> player.getOpponent().getHeldAember() == 1)
                 .effect(new StealAember(player, 1));
     }
 }

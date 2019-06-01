@@ -3,7 +3,6 @@ package net.finalstring.card.shadows;
 import net.finalstring.Player;
 import net.finalstring.card.Creature;
 import net.finalstring.card.House;
-import net.finalstring.card.Trait;
 import net.finalstring.effect.board.Damage;
 import net.finalstring.effect.node.EffectNode;
 import net.finalstring.effect.player.GainAember;
@@ -34,7 +33,7 @@ public class MackTheKnife extends Creature {
         Damage damageEffect = new Damage(1);
         builder
                 .effect(damageEffect)
-                .conditional(damageEffect::isTargetDestroyed)
+                .phaseGate(damageEffect::isTargetDestroyed)
                 .dependentEffect(() -> new GainAember(controller, 1));
     }
 }

@@ -5,6 +5,7 @@ import net.finalstring.card.Card;
 import net.finalstring.card.Creature;
 import net.finalstring.card.House;
 import net.finalstring.card.dis.DustImp;
+import net.finalstring.card.dis.UnlockedGateway;
 import net.finalstring.card.sanctum.CleansingWave;
 import net.finalstring.card.shadows.KeyOfDarkness;
 import net.finalstring.card.shadows.SafePlace;
@@ -171,5 +172,16 @@ public class GameStateTest {
         assertThat(GameState.getInstance().getCurrentTurn().isAlphaPossible(), is(true));
         creature.action();
         assertThat(GameState.getInstance().getCurrentTurn().isAlphaPossible(), is(false));
+    }
+
+    @Test public void testOmegaEndsTheTurn() {
+        Card omegaCard = new UnlockedGateway();
+        omegaCard.setOwner(player);
+
+        assertThat(underTest.getCurrentTurn().getActivePlayer(), is(player));
+        omegaCard.play(player);
+        assertThat(underTest.getCurrentTurn().getActivePlayer(), is(opponent));
+
+
     }
 }

@@ -16,7 +16,7 @@ public class NeuroSyphon extends Card {
     protected void buildPlayEffects(EffectNode.Builder effectBuilder, Player player) {
         super.buildPlayEffects(effectBuilder, player);
         effectBuilder
-                .conditional(() -> player.getHeldAember() < player.getOpponent().getHeldAember())
+                .phaseGate(() -> player.getHeldAember() < player.getOpponent().getHeldAember())
                 .effect(new StealAember(player, 1))
                 .effect(new DrawCard(player));
     }

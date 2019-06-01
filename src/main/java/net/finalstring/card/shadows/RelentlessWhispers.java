@@ -21,7 +21,7 @@ public class RelentlessWhispers extends Card {
         Damage damageEffect = new Damage(new TargetSpecification(player, BoardState::allCreatures), 2);
         effectBuilder
                 .effect(damageEffect)
-                .conditional(damageEffect::isTargetDestroyed)
+                .phaseGate(damageEffect::isTargetDestroyed)
                 .effect(new StealAember(player, 1));
     }
 }

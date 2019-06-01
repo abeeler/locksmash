@@ -19,7 +19,7 @@ public class IrradiatedAember extends Card {
         super.buildPlayEffects(effectBuilder, player);
 
         effectBuilder
-            .conditional(() -> player.getOpponent().getHeldAember() >= 6)
+            .phaseGate(() -> player.getOpponent().getHeldAember() >= 6)
             .effect(new DamageMultiple(3, (List<Creature>) player.getOpponent().getBattleline().getCreatures()));
     }
 }

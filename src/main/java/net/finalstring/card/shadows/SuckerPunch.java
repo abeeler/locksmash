@@ -15,8 +15,8 @@ public class SuckerPunch extends Card {
     }
 
     @Override
-    public boolean canPlay() {
-        return alphaPossible() && super.canPlay();
+    protected boolean isAlpha() {
+        return true;
     }
 
     @Override
@@ -25,7 +25,7 @@ public class SuckerPunch extends Card {
         Damage damageEffect = new Damage(new TargetSpecification(player, BoardState::enemyCreatures), 2);
         effectBuilder
                 .effect(damageEffect)
-                .conditional(damageEffect::isTargetDestroyed)
+                .phaseGate(damageEffect::isTargetDestroyed)
                 .dependentEffect(() -> new RunnableEffect(() -> player.archive(this)));
     }
 }

@@ -24,6 +24,8 @@ public abstract class Card {
     protected static final EnumSet<CardUsage> OMNI_ACTION_USAGE = EnumSet.of(CardUsage.Act);
     protected static final EnumSet<CardUsage> OMNI_USAGE = EnumSet.complementOf(EnumSet.of(CardUsage.Play));
 
+    @Getter protected boolean inLimbo = false;
+
     private final House house;
     private final int bonusAember;
 
@@ -63,6 +65,10 @@ public abstract class Card {
         return DEFAULT_OMNI_USAGE;
     }
 
+    public void unlimbo() {
+        inLimbo = false;
+    }
+
     void buildEffects(Player player, BiConsumer<EffectNode.Builder, Player> generator) {
         EffectNode.Builder builder = new EffectNode.Builder();
         generator.accept(builder, player);
@@ -72,11 +78,14 @@ public abstract class Card {
     protected void buildPlayEffects(EffectNode.Builder effectBuilder, Player player) {
         effectBuilder
                 .effect(new GainAember(player, bonusAember))
+                .effect(() -> inLimbo = true)
                 .effect(() -> GameState.getInstance().cardPlayed());
     }
 
     protected void buildDelayedPlayEffects(EffectNode.Builder effectBuilder, Player player) {
-        effectBuilder.effect(new Discard(getOwner(), this));
+        effectBuilder
+                .conditional(this::isInLimbo)
+                .effect(new Discard(getOwner(), this));
     }
 
     protected boolean alphaPossible() {

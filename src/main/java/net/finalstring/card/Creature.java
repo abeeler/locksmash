@@ -41,8 +41,6 @@ public class Creature extends Spawnable<Creature.CreatureInstance> implements Ae
     private int neighborCount = 0;
     private int tauntNeighborCount = 0;
 
-    @Getter private boolean inLimbo = false;
-
     public Creature(House house, int power, Trait trait) {
         this(house, power, EnumSet.of(trait));
     }
@@ -157,6 +155,10 @@ public class Creature extends Spawnable<Creature.CreatureInstance> implements Ae
     }
 
     public void attachUpgrade(Upgrade toAttach) {
+        if (instance == null) {
+            throw new IllegalStateException("Cannot attach upgrades to a creature without an instance");
+        }
+
         activeUpgrades.add(toAttach);
         buildAbilityMapAndMerge(activeAbilities, toAttach::buildAbilities, FrequencyEnumMap::addAll);
     }
@@ -259,7 +261,7 @@ public class Creature extends Spawnable<Creature.CreatureInstance> implements Ae
     protected void postControlChange() {
         final CreaturePlacementParameter placementParameter =
                 new CreaturePlacementParameter(getInstance().getController(), hasDeploy());
-        EffectStack.pushDelayedEffect(new RunnableEffect(
+        EffectStack.pushEffect(new RunnableEffect(
                 () -> getInstance().getController().getBattleline().placeCreature(this, placementParameter.getValue()),
                 placementParameter));
 

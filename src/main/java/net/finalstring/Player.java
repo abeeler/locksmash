@@ -54,6 +54,7 @@ public class Player implements AemberPool {
     }
 
     public void addToHand(Card card) {
+        card.unlimbo();
         hand.add(new HandCard(card));
     }
 
@@ -101,6 +102,7 @@ public class Player implements AemberPool {
     }
 
     public void archive(Card card) {
+        card.unlimbo();
         archive.add(card);
     }
 
@@ -118,6 +120,7 @@ public class Player implements AemberPool {
             discard.remove(creature);
         }
 
+        creature.unlimbo();
         purged.add(creature);
     }
 
@@ -150,6 +153,7 @@ public class Player implements AemberPool {
     }
 
     public void addArtifact(Artifact artifact) {
+        artifact.unlimbo();
         artifacts.add(artifact);
     }
 

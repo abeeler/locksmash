@@ -22,6 +22,7 @@ public class Battleline {
             rightNeighbor.neighborRemoved(leftNeighbor);
         }
 
+        creature.unlimbo();
         creatures.add(index, creature);
 
         if (leftNeighbor != null) {

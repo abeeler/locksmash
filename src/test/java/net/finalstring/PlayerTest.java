@@ -52,6 +52,17 @@ public class PlayerTest {
         );
         underTest = new Player(startingHand);
 
+        for (Card card : new Card[] {
+                normalCreature,
+                armoredCreature,
+                actionCreature,
+                deployCreature,
+                armoredCreature,
+                upgrade
+        }) {
+            card.setOwner(underTest);
+        }
+
         upgrade.setOwner(underTest);
 
         opponent = new Player();
@@ -159,7 +170,9 @@ public class PlayerTest {
     @Test public void testPlayingCardWithAemberIncrementsPool() {
         assertThat(underTest.getHeldAember(), is(0));
 
-        new DustPixie().play(underTest);
+        Creature bonusAember = new DustPixie();
+        bonusAember.setOwner(underTest);
+        bonusAember.play(underTest);
         EffectStack.setEffectParameter(true);
 
         assertThat(underTest.getHeldAember(), is(2));

@@ -70,6 +70,7 @@ public abstract class AemberPoolArtifactTest<T extends AemberPoolArtifact> exten
         player.setAember(Player.DEFAULT_KEY_COST);
         for (int i = 0; i < Player.DEFAULT_KEY_COST - 1; i++) {
             T pool = createInstance();
+            pool.setOwner(player);
             play(pool);
             action(pool);
         }

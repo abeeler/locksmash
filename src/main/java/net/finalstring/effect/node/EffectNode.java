@@ -1,5 +1,6 @@
 package net.finalstring.effect.node;
 
+import net.finalstring.card.Creature;
 import net.finalstring.effect.ConditionalEffect;
 import net.finalstring.effect.PhaseGateEffect;
 import net.finalstring.effect.Effect;
@@ -101,6 +102,20 @@ public interface EffectNode extends Effect {
         public Builder delay() {
             addNode(new DelayingNode());
             return this;
+        }
+
+        public Builder fight(Creature attacker) {
+            addNode(new FightNode(attacker));
+            return this;
+        }
+
+        public Builder dependentFight(Supplier<Creature> attackerSupplier) {
+            addNode(new DependentFightNode(attackerSupplier));
+            return this;
+        }
+
+        public boolean wasAddedTo() {
+            return first != current;
         }
 
         public EffectNode build() {

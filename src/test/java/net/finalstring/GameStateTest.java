@@ -12,7 +12,7 @@ import net.finalstring.card.shadows.SafePlace;
 import net.finalstring.card.shadows.TheSting;
 import net.finalstring.card.untamed.Snufflegator;
 import net.finalstring.effect.EffectStack;
-import net.finalstring.effect.board.Fight;
+import net.finalstring.effect.node.FightNode;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -145,10 +145,11 @@ public class GameStateTest {
         Creature creature = new Snufflegator();
         creature.setOwner(player);
         creature.play(player);
+        EffectStack.setEffectParameter(true);
 
         underTest.endTurn();
         assertThat(GameState.getInstance().getCurrentTurn().isAlphaPossible(), is(true));
-        new Fight(creature, creature).affect();
+        EffectStack.pushEffectNode(new FightNode(creature, creature));
         assertThat(GameState.getInstance().getCurrentTurn().isAlphaPossible(), is(false));
     }
 

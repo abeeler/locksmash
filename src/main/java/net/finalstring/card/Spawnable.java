@@ -9,6 +9,8 @@ import net.finalstring.effect.EffectStack;
 import net.finalstring.Player;
 import net.finalstring.effect.misc.RunnableEffect;
 import net.finalstring.effect.node.EffectNode;
+import net.finalstring.effect.player.Discard;
+import net.finalstring.usage.CardUsage;
 import net.finalstring.usage.UsageCost;
 
 public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
@@ -27,8 +29,8 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
             GameState.getInstance().registerPermanentEffect((Stateful) this);
         }
 
-        if (this instanceof UseListener) {
-            GameState.getInstance().registerUseListener((UseListener) this);
+        if (isGlobalUseListener()) {
+            GameState.getInstance().registerUseListener(this);
         }
 
         if (this instanceof UsageCost) {
@@ -49,7 +51,6 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
             throw new IllegalStateException("Trying to use a card without a spawned instance");
         }
 
-        GameState.getInstance().cardUsed();
         return true;
     }
 
@@ -59,7 +60,7 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
 
     public void action(Player actor) {
         if (use()) {
-            buildEffects(actor, this::buildActionEffects);
+            GameState.getInstance().cardUsed(actor, CardUsage.Act, this);
         }
 
         if (instance != null) {
@@ -72,9 +73,8 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
             throw new IllegalStateException("Trying to destroy without a spawned instance");
         }
 
-        buildEffects(getInstance().getController(), Spawnable.this::buildDestroyedEffects);
-        EffectStack.pushDelayedEffect(new RunnableEffect(this::leavePlay));
-        getOwner().discard(this);
+        inLimbo = true;
+        GameState.getInstance().cardUsed(getInstance().getController(), CardUsage.Destroy, this);
     }
 
     @Override
@@ -101,6 +101,18 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
         postControlChange();
     }
 
+    @Override
+    public void buildEffects(EffectNode.Builder effectBuilder, CardUsage usage, Player user, Card used, Card target) {
+        super.buildEffects(effectBuilder, usage, user, used, target);
+
+        if (usage == CardUsage.Act) {
+            buildActionEffects(effectBuilder, user);
+        } else if (usage == CardUsage.Destroy) {
+            buildDestroyedEffects(effectBuilder, user);
+            buildDelayedDestroyedEffects(effectBuilder, user);
+        }
+    }
+
     protected abstract void preControlChange();
 
     protected abstract void postControlChange();
@@ -113,6 +125,16 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
 
     protected void buildDestroyedEffects(EffectNode.Builder builder, Player controller) { }
 
+    protected void buildDelayedDestroyedEffects(EffectNode.Builder builder, Player controller) {
+        builder
+                .effect(this::leavePlay)
+                .conditional(this::isInLimbo, new Discard(getOwner(), this));
+    }
+
+    protected boolean isGlobalUseListener() {
+        return false;
+    }
+
     protected void leavePlay() {
         if (instance == null) {
             return;
@@ -122,8 +144,8 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
             GameState.getInstance().deregisterPermanentEffect((Stateful) this);
         }
 
-        if (this instanceof UseListener) {
-            GameState.getInstance().deregisterUseListener((UseListener) this);
+        if (isGlobalUseListener()) {
+            GameState.getInstance().deregisterUseListener(this);
         }
 
         if (this instanceof UsageCost) {

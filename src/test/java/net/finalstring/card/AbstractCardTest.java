@@ -3,7 +3,7 @@ package net.finalstring.card;
 import net.finalstring.GameState;
 import net.finalstring.effect.EffectStack;
 import net.finalstring.Player;
-import net.finalstring.effect.board.Fight;
+import net.finalstring.effect.node.FightNode;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -69,7 +69,7 @@ public abstract class AbstractCardTest<T extends Card> {
     }
 
     protected void fight(Creature attacker, Creature defender, Object... effectParameters) {
-        new Fight(attacker, defender).affect();
+        EffectStack.pushEffectNode(new FightNode(attacker, defender));
         setEffectParameters(effectParameters);
     }
 

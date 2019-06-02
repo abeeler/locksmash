@@ -1,5 +1,9 @@
 package net.finalstring.card;
 
+import net.finalstring.Player;
+import net.finalstring.effect.node.EffectNode;
+import net.finalstring.usage.CardUsage;
+
 public interface UseListener {
-    default void beforeFight(Creature attacker, Creature defender) { }
+    void buildEffects(EffectNode.Builder effectBuilder, CardUsage usage, Player user, Card used, Card target);
 }

@@ -10,6 +10,7 @@ import net.finalstring.effect.board.Damage;
 import net.finalstring.effect.misc.RunnableEffect;
 import net.finalstring.effect.node.EffectNode;
 import net.finalstring.effect.player.GainAember;
+import net.finalstring.usage.CardUsage;
 import net.finalstring.utility.FrequencyAbilityMapBuilder;
 import net.finalstring.utility.FrequencyEnumMap;
 
@@ -27,7 +28,6 @@ public class Creature extends Spawnable<Creature.CreatureInstance> implements Ae
         FrequencyAbilityMapBuilder abilityBuilder = new FrequencyAbilityMapBuilder();
         abilityBuildMethod.accept(abilityBuilder);
         mergeMethod.accept(source, abilityBuilder.build());
-
     }
 
     private final Set<Trait> traits;
@@ -38,7 +38,7 @@ public class Creature extends Spawnable<Creature.CreatureInstance> implements Ae
 
     @Getter private final int power;
     @Getter private boolean stunned;
-    private int neighborCount = 0;
+    @Getter private int neighborCount = 0;
     private int tauntNeighborCount = 0;
 
     public Creature(House house, int power, Trait trait) {
@@ -112,13 +112,9 @@ public class Creature extends Spawnable<Creature.CreatureInstance> implements Ae
         getOwner().purge(this);
     }
 
-    public void fought() {
-        buildEffects(instance.getController(), this::buildFightEffects);
-    }
-
     public void reap() {
         if (use()) {
-            buildEffects(instance.getController(), Creature.this::buildReapEffects);
+            GameState.getInstance().cardUsed(getInstance().getController(), CardUsage.Reap, this);
         }
 
         if (instance != null) {
@@ -160,12 +156,14 @@ public class Creature extends Spawnable<Creature.CreatureInstance> implements Ae
         }
 
         activeUpgrades.add(toAttach);
+        useListeners.add(toAttach);
         buildAbilityMapAndMerge(activeAbilities, toAttach::buildAbilities, FrequencyEnumMap::addAll);
     }
 
     public void removeUpgrade(Upgrade toRemove) {
         buildAbilityMapAndMerge(activeAbilities, toRemove::buildAbilities, FrequencyEnumMap::subtractAll);
         activeUpgrades.remove(toRemove);
+        useListeners.remove(toRemove);
         toRemove.getOwner().discard(toRemove);
     }
 
@@ -204,18 +202,23 @@ public class Creature extends Spawnable<Creature.CreatureInstance> implements Ae
         GameState.getInstance().creaturePlaced(this);
     }
 
-    @Override
-    public void destroy() {
-        inLimbo = true;
-        super.destroy();
-    }
-
     public void addDamageInterceptor(Creature damageInterceptor) {
         damageInterceptors.add(damageInterceptor);
     }
 
     public void removeDamageInterceptor(Creature damageInterceptor) {
         damageInterceptors.remove(damageInterceptor);
+    }
+
+    @Override
+    public void buildEffects(EffectNode.Builder effectBuilder, CardUsage usage, Player user, Card used, Card target) {
+        super.buildEffects(effectBuilder, usage, user, used, target);
+
+        if (usage == CardUsage.Reap) {
+            buildReapEffects(effectBuilder, user);
+        } else if (usage == CardUsage.Fight) {
+            buildFightEffects(effectBuilder, user);
+        }
     }
 
     protected void buildPlayEffects(EffectNode.Builder builder, Player player) {
@@ -230,9 +233,6 @@ public class Creature extends Spawnable<Creature.CreatureInstance> implements Ae
     protected void buildReapEffects(EffectNode.Builder builder, Player controller) {
         builder.effect(new GainAember(controller, 1));
         buildFightReapEffects(builder, controller);
-        for (Upgrade upgrade : activeUpgrades) {
-            upgrade.buildReapEffects(builder, controller);
-        }
     }
 
     protected void buildFightReapEffects(EffectNode.Builder builder, Player controller) { }
@@ -242,7 +242,6 @@ public class Creature extends Spawnable<Creature.CreatureInstance> implements Ae
         if (!inLimbo) {
             return;
         }
-        inLimbo = false;
 
         while (!activeUpgrades.isEmpty()) {
             removeUpgrade(activeUpgrades.get(0));
@@ -388,6 +387,9 @@ public class Creature extends Spawnable<Creature.CreatureInstance> implements Ae
 
         public boolean unstun() {
             boolean wasStunned = stunned;
+            if (wasStunned) {
+                GameState.getInstance().cardUsed(getController(), CardUsage.Unstun, Creature.this);
+            }
             stunned = false;
             return wasStunned;
         }

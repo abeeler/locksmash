@@ -2,8 +2,9 @@ package net.finalstring;
 
 import net.finalstring.card.Creature;
 import net.finalstring.card.dis.EmberImp;
-import net.finalstring.effect.board.Fight;
 import net.finalstring.card.sanctum.TheVaultKeeper;
+import net.finalstring.effect.EffectStack;
+import net.finalstring.effect.node.FightNode;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -96,7 +97,7 @@ public class BattlelineTest {
         assertThat(underTest.getCreatureCount(), is(1));
 
         creature.getInstance().ready();
-        new Fight(creature, otherCreature).affect();
+        EffectStack.pushEffectNode(new FightNode(creature, otherCreature));
 
         assertThat(underTest.getCreatureCount(), is(0));
     }

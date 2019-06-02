@@ -4,6 +4,7 @@ import net.finalstring.BoardState;
 import net.finalstring.Player;
 import net.finalstring.effect.board.UpgradeAttach;
 import net.finalstring.effect.node.EffectNode;
+import net.finalstring.usage.CardUsage;
 import net.finalstring.utility.FrequencyAbilityMapBuilder;
 
 // TODO: Rework to be a UseListener attached to the card
@@ -24,7 +25,12 @@ public abstract class Upgrade extends Card {
 
     public void buildAbilities(FrequencyAbilityMapBuilder builder) { }
 
-    public void buildReapEffects(EffectNode.Builder builder, Player controller) { }
+    @Override
+    public void buildEffects(EffectNode.Builder effectBuilder, CardUsage usage, Player user, Card used, Card target) {
+        if (used == this) {
+            super.buildEffects(effectBuilder, usage, user, used, target);
+        }
+    }
 
     @Override
     protected void buildPlayEffects(EffectNode.Builder effectBuilder, Player player) {

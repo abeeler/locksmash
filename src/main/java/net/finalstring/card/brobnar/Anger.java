@@ -7,9 +7,7 @@ import net.finalstring.card.Creature;
 import net.finalstring.card.House;
 import net.finalstring.effect.TargetSpecification;
 import net.finalstring.effect.node.EffectNode;
-import net.finalstring.effect.board.Fight;
 import net.finalstring.effect.board.Ready;
-
 
 public class Anger extends Card {
     public Anger() {
@@ -24,12 +22,6 @@ public class Anger extends Card {
 
         builder
             .effect(ready)
-            .dependentEffect(() -> {
-                Creature attacker = (Creature) ready.getTarget().getFirst();
-                Fight fightEffect = new Fight(attacker);
-                fightEffect.getDefending().setTargetSpecification(
-                        new TargetSpecification(attacker.getInstance().getController(), BoardState::enemyCreatures));
-                return fightEffect;
-            });
+            .dependentFight(() ->(Creature) ready.getTarget().getFirst());
     }
 }

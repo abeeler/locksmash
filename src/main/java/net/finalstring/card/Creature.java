@@ -18,7 +18,6 @@ import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-// TODO: Make UseListener, maintain list of listeners and build all effects simultaneously
 public class Creature extends Spawnable<Creature.CreatureInstance> implements AemberPool {
     protected static Set<Trait> COMMON_SHADOW_TRAITS = EnumSet.of(Trait.Elf, Trait.Thief);
 

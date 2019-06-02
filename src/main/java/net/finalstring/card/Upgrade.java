@@ -7,8 +7,6 @@ import net.finalstring.effect.node.EffectNode;
 import net.finalstring.usage.CardUsage;
 import net.finalstring.utility.FrequencyAbilityMapBuilder;
 
-// TODO: Rework to be a UseListener attached to the card
-// TODO: Allow active player to decide which order UseListeners trigger in
 public abstract class Upgrade extends Card {
     public Upgrade(House house, int bonusAember) {
         super(house, bonusAember);

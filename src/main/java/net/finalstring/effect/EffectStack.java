@@ -7,9 +7,6 @@ import net.finalstring.effect.node.EffectNode;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-// TODO: Allow effects added to the stack at the same time to have their order specified
-    // Possible implementation: Raise flag when multiple effects may be added afterward, then lower it afterwards
-    // If more than one effect was added, allow active player to order them
 // TODO: Allow parameters to be registered to the chain directly and accessible throughout
 @UtilityClass
 public class EffectStack {

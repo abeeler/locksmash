@@ -3,7 +3,8 @@ package net.finalstring.card.brobnar;
 import net.finalstring.card.AbstractCardTest;
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.is;
+import static net.finalstring.matchers.creature.CreatureMatchers.hasDamage;
+import static net.finalstring.matchers.creature.CreatureMatchers.isUndamaged;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class AutocannonTest extends AbstractCardTest<Autocannon> {
@@ -12,7 +13,7 @@ public class AutocannonTest extends AbstractCardTest<Autocannon> {
         destroy(enemy);
         play(enemy);
 
-        assertThat(enemy.getInstance().getDamage(), is(1));
+        assertThat(enemy, hasDamage(1));
     }
 
     @Test public void testAutocannonStopsDamagingWhenDestroyed() {
@@ -22,6 +23,6 @@ public class AutocannonTest extends AbstractCardTest<Autocannon> {
         destroy(enemy);
         play(enemy);
 
-        assertThat(enemy.getInstance().getDamage(), is(0));
+        assertThat(enemy, isUndamaged());
     }
 }

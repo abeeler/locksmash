@@ -4,6 +4,7 @@ import net.finalstring.card.AbstractCardTest;
 import net.finalstring.effect.EffectStack;
 import org.junit.Test;
 
+import static net.finalstring.matchers.creature.CreatureMatchers.hasDamage;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -15,7 +16,7 @@ public class SilentDaggerTest extends AbstractCardTest<SilentDagger> {
         assertThat(EffectStack.isEffectPending(), is(true));
 
         setEffectParameter(enemy);
-        assertThat(enemy.getInstance().getDamage(), is(4));
+        assertThat(enemy, hasDamage(4));
     }
 
     @Test public void testCanTargetFriendlyCreature() {
@@ -23,6 +24,6 @@ public class SilentDaggerTest extends AbstractCardTest<SilentDagger> {
 
         play(underTest);
         reap(friendly);
-        assertThat(friendly.getInstance().getDamage(), is(4));
+        assertThat(friendly, hasDamage(4));
     }
 }

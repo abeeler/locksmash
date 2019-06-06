@@ -3,6 +3,7 @@ package net.finalstring.card.shadows;
 import net.finalstring.card.AbstractCardTest;
 import org.junit.Test;
 
+import static net.finalstring.matchers.creature.CreatureMatchers.hasDamage;
 import static net.finalstring.matchers.shared.SharedMatchers.hasAember;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -11,7 +12,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class RelentlessWhispersTest extends AbstractCardTest<RelentlessWhispers> {
     @Test public void testDoesNotStealIfTargetLives() {
         play(underTest, enemy);
-        assertThat(enemy.getInstance().getDamage(), is(2));
+        assertThat(enemy, hasDamage(2));
         assertThat(opponent, hasAember(STARTING_AEMBER));
         assertThat(player, hasAember(STARTING_AEMBER + 1));
     }
@@ -19,7 +20,7 @@ public class RelentlessWhispersTest extends AbstractCardTest<RelentlessWhispers>
     @Test public void testWillTargetFriendlyCreature() {
         destroy(enemy);
         play(underTest);
-        assertThat(friendly.getInstance().getDamage(), is(2));
+        assertThat(friendly, hasDamage(2));
         assertThat(player, hasAember(STARTING_AEMBER + 1));
     }
 

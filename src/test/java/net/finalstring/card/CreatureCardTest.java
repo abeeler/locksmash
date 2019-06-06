@@ -21,6 +21,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.Arrays;
 import java.util.List;
 
+import static net.finalstring.matchers.creature.CreatureMatchers.hasDamage;
+import static net.finalstring.matchers.creature.CreatureMatchers.isUndamaged;
 import static net.finalstring.matchers.shared.SharedMatchers.hasAember;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -82,18 +84,18 @@ public class CreatureCardTest {
     }
 
     @Test public void testCreatureWithArmorTakesReducedDamage() {
-        assertThat(armoredCreature.getInstance().getDamage(), is(0));
+        assertThat(armoredCreature, isUndamaged());
 
         armoredCreature.getInstance().dealDamage(2);
 
-        assertThat(armoredCreature.getInstance().getDamage(), is(1));
+        assertThat(armoredCreature, hasDamage(1));
     }
 
     @Test public void testCreatureWithArmorOnlyReducesDamageUpToArmor() {
         armoredCreature.getInstance().dealDamage(2);
         armoredCreature.getInstance().dealDamage(2);
 
-        assertThat(armoredCreature.getInstance().getDamage(), is(3));
+        assertThat(armoredCreature, hasDamage(3));
     }
 
     @Test public void testResetAllowsArmorToAbsorbAgain() {
@@ -103,7 +105,7 @@ public class CreatureCardTest {
 
         armoredCreature.getInstance().dealDamage(2);
 
-        assertThat(armoredCreature.getInstance().getDamage(), is(2));
+        assertThat(armoredCreature, hasDamage(2));
     }
 
     @Test public void testCreatureIsNoLongerReadyAfterFighting() {
@@ -151,8 +153,8 @@ public class CreatureCardTest {
     @Test public void testElusivePreventsDamageFromFirstFight() {
         fight(armoredCreature, elusiveCreature);
 
-        assertThat(armoredCreature.getInstance().getDamage(), is(0));
-        assertThat(elusiveCreature.getInstance().getDamage(), is(0));
+        assertThat(armoredCreature, isUndamaged());
+        assertThat(elusiveCreature, isUndamaged());
     }
 
     @Test public void testElusiveFightsNormallyInSecondFight() {
@@ -161,7 +163,7 @@ public class CreatureCardTest {
         fight(normalCreature, elusiveCreature);
         fight(armoredCreature, elusiveCreature);
 
-        assertThat(armoredCreature.getInstance().getDamage(), is(1));
+        assertThat(armoredCreature, hasDamage(1));
         assertThat(elusiveInstance.isAlive(), is(false));
     }
 
@@ -172,28 +174,28 @@ public class CreatureCardTest {
 
         fight(armoredCreature, elusiveCreature);
 
-        assertThat(armoredCreature.getInstance().getDamage(), is(0));
-        assertThat(elusiveCreature.getInstance().getDamage(), is(0));
+        assertThat(armoredCreature, isUndamaged());
+        assertThat(elusiveCreature, isUndamaged());
     }
 
     @Test public void testSkirmishPreventsCounterDamage() {
         fight(skirmishCreature, armoredCreature);
 
-        assertThat(skirmishCreature.getInstance().getDamage(), is(0));
-        assertThat(armoredCreature.getInstance().getDamage(), is(3));
+        assertThat(skirmishCreature, isUndamaged());
+        assertThat(armoredCreature, hasDamage(3));
     }
 
     @Test public void testSkirmishStillTakesFullDamageFromAttack() {
         fight(normalCreature, skirmishCreature);
 
-        assertThat(skirmishCreature.getInstance().getDamage(), is(2));
+        assertThat(skirmishCreature, hasDamage(2));
     }
 
     @Test public void testSkirmishDoesNotBypassElusive() {
         fight(skirmishCreature, elusiveCreature);
 
-        assertThat(skirmishCreature.getInstance().getDamage(), is(0));
-        assertThat(elusiveCreature.getInstance().getDamage(), is(0));
+        assertThat(skirmishCreature, isUndamaged());
+        assertThat(elusiveCreature, isUndamaged());
     }
 
     @Test public void testCaptureTakesAemberFromTarget() {
@@ -233,28 +235,28 @@ public class CreatureCardTest {
         normalCreature.getInstance().stun();
         new Fight(normalCreature, armoredCreature).affect();
         assertThat(normalCreature.getInstance().isAlive(), is(true));
-        assertThat(normalCreature.getInstance().getDamage(), is(0));
+        assertThat(normalCreature, isUndamaged());
         assertThat(normalCreature.getInstance().isReady(), is(false));
     }
 
     @Test public void testHealingCreatureWithNoDamageDoesNothing() {
-        assertThat(normalCreature.getInstance().getDamage(), is(0));
+        assertThat(normalCreature, isUndamaged());
         assertThat(normalCreature.getInstance().heal(10), is(0));
-        assertThat(normalCreature.getInstance().getDamage(), is(0));
+        assertThat(normalCreature, isUndamaged());
     }
 
     @Test public void testHealingAllDamage() {
         armoredCreature.getInstance().dealDamage(4);
-        assertThat(armoredCreature.getInstance().getDamage(), is(3));
+        assertThat(armoredCreature, hasDamage(3));
         assertThat(armoredCreature.getInstance().heal(3), is(3));
-        assertThat(armoredCreature.getInstance().getDamage(), is(0));
+        assertThat(armoredCreature, isUndamaged());
     }
 
     @Test public void testHealingExtraDamageDoesNothingExtra() {
         armoredCreature.getInstance().dealDamage(4);
-        assertThat(armoredCreature.getInstance().getDamage(), is(3));
+        assertThat(armoredCreature, hasDamage(3));
         assertThat(armoredCreature.getInstance().heal(20), is(3));
-        assertThat(armoredCreature.getInstance().getDamage(), is(0));
+        assertThat(armoredCreature, isUndamaged());
     }
 
     @Test public void testPoisonWillInstantlyKillDefendingCreatureEvenWithInsufficientDamage() {

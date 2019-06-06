@@ -4,6 +4,7 @@ import net.finalstring.card.AbstractCardTest;
 import net.finalstring.card.House;
 import org.junit.Test;
 
+import static net.finalstring.matchers.creature.CreatureMatchers.hasDamage;
 import static net.finalstring.matchers.shared.SharedMatchers.hasAember;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -25,7 +26,7 @@ public class MackTheKnifeTest extends AbstractCardTest<MackTheKnife> {
         play(underTest);
         action(underTest, enemy);
 
-        assertThat(enemy.getInstance().getDamage(), is(1));
+        assertThat(enemy, hasDamage(1));
         assertThat(player, hasAember(STARTING_AEMBER));
     }
 

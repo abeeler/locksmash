@@ -9,6 +9,7 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 
+import static net.finalstring.matchers.creature.CreatureMatchers.isUndamaged;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -42,7 +43,7 @@ public class EvasionSigilTest extends AbstractCardTest<EvasionSigil> {
     @Test public void testFightFizzlesIfTopCardIsActiveHouse() {
         fight(friendly, enemy);
         assertThat(friendly.getInstance().isReady(), is(false));
-        assertThat(enemy.getInstance().getDamage(), is(0));
+        assertThat(enemy, isUndamaged());
     }
 
     @Test public void testFightContinuesIfControllerDeckIsEmpty() {

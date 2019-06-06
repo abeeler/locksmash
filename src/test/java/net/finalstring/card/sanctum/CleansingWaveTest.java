@@ -3,8 +3,9 @@ package net.finalstring.card.sanctum;
 import net.finalstring.card.AbstractCardTest;
 import org.junit.Test;
 
+import static net.finalstring.matchers.creature.CreatureMatchers.hasDamage;
+import static net.finalstring.matchers.creature.CreatureMatchers.isUndamaged;
 import static net.finalstring.matchers.shared.SharedMatchers.hasAember;
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class CleansingWaveTest extends AbstractCardTest<CleansingWave> {
@@ -19,14 +20,14 @@ public class CleansingWaveTest extends AbstractCardTest<CleansingWave> {
         play(underTest);
 
         assertThat(player, hasAember(STARTING_AEMBER + 1));
-        assertThat(friendly.getInstance().getDamage(), is(0));
+        assertThat(friendly, isUndamaged());
     }
 
     @Test public void testOnlyHealsOneDamage() {
         friendly.getInstance().dealDamage(3);
         play(underTest);
 
-        assertThat(friendly.getInstance().getDamage(), is(2));
+        assertThat(friendly, hasDamage(2));
     }
 
     @Test public void testHealsDamagedEnemyCreature() {
@@ -34,7 +35,7 @@ public class CleansingWaveTest extends AbstractCardTest<CleansingWave> {
         play(underTest);
 
         assertThat(player, hasAember(STARTING_AEMBER + 1));
-        assertThat(enemy.getInstance().getDamage(), is(0));
+        assertThat(enemy, isUndamaged());
     }
 
     @Test public void testHealsAllCreatures() {

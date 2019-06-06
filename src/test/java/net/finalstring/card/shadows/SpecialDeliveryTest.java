@@ -3,6 +3,7 @@ package net.finalstring.card.shadows;
 import net.finalstring.card.AbstractCardTest;
 import org.junit.Test;
 
+import static net.finalstring.matchers.creature.CreatureMatchers.hasDamage;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -22,7 +23,7 @@ public class SpecialDeliveryTest extends AbstractCardTest<SpecialDelivery> {
         play(underTest);
         action(underTest, enemy);
 
-        assertThat(enemy.getInstance().getDamage(), is(3));
+        assertThat(enemy, hasDamage(3));
     }
 
     @Test public void testDealsDamageToFriendlyCreatureIfOnlyValidOption() {
@@ -31,7 +32,7 @@ public class SpecialDeliveryTest extends AbstractCardTest<SpecialDelivery> {
         play(underTest);
         action(underTest);
 
-        assertThat(friendly.getInstance().getDamage(), is(3));
+        assertThat(friendly, hasDamage(3));
     }
 
     @Test public void testDestroyedCreatureIsPurged() {

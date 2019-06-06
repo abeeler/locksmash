@@ -4,6 +4,8 @@ import net.finalstring.effect.EffectStack;
 import net.finalstring.card.AbstractCardTest;
 import org.junit.Test;
 
+import static net.finalstring.matchers.creature.CreatureMatchers.hasDamage;
+import static net.finalstring.matchers.creature.CreatureMatchers.isUndamaged;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -13,7 +15,7 @@ public class ChargeTest extends AbstractCardTest<Charge> {
         destroy(friendly);
         play(friendly, true);
 
-        assertThat(enemy.getInstance().getDamage(), is(2));
+        assertThat(enemy, hasDamage(2));
     }
 
     @Test public void testEffectEndsAfterTurn() {
@@ -24,7 +26,7 @@ public class ChargeTest extends AbstractCardTest<Charge> {
         play(friendly, true);
 
         assertThat(EffectStack.isEffectPending(), is(false));
-        assertThat(enemy.getInstance().getDamage(), is(0));
+        assertThat(enemy, isUndamaged());
     }
 
     @Test public void testNothingHappensWithoutTarget() {

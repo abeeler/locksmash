@@ -7,6 +7,8 @@ import org.junit.Test;
 
 import java.util.Arrays;
 
+import static net.finalstring.matchers.creature.CreatureMatchers.hasDamage;
+import static net.finalstring.matchers.creature.CreatureMatchers.isUndamaged;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -16,7 +18,7 @@ public class PawnSacrificeTest extends AbstractCardTest<PawnSacrifice> {
 
         play(underTest);
         assertThat(EffectStack.isEffectPending(), is(false));
-        assertThat(enemy.getInstance().getDamage(), is(0));
+        assertThat(enemy, isUndamaged());
     }
 
     @Test public void testSingleValidSacrificeIsSelectedAutomatically() {
@@ -37,7 +39,7 @@ public class PawnSacrificeTest extends AbstractCardTest<PawnSacrifice> {
         play(underTest);
         assertThat(EffectStack.isEffectPending(), is(false));
         assertThat(friendly.getInstance(), is(nullValue()));
-        assertThat(enemy.getInstance().getDamage(), is(3));
+        assertThat(enemy, hasDamage(3));
     }
 
     @Test public void testDamageIsDealtToTwoTargets() {
@@ -46,8 +48,8 @@ public class PawnSacrificeTest extends AbstractCardTest<PawnSacrifice> {
         play(underTest);
         assertThat(EffectStack.isEffectPending(), is(false));
         assertThat(friendly.getInstance(), is(nullValue()));
-        assertThat(enemy.getInstance().getDamage(), is(3));
-        assertThat(otherEnemy.getInstance().getDamage(), is(3));
+        assertThat(enemy, hasDamage(3));
+        assertThat(otherEnemy, hasDamage(3));
     }
 
     @Test public void testMultipleSacrificesRequiresDecision() {
@@ -70,9 +72,9 @@ public class PawnSacrificeTest extends AbstractCardTest<PawnSacrifice> {
         assertThat(EffectStack.isEffectPending(), is(true));
 
         setEffectParameter(Arrays.asList(enemy, third));
-        assertThat(enemy.getInstance().getDamage(), is(3));
-        assertThat(third.getInstance().getDamage(), is(3));
-        assertThat(second.getInstance().getDamage(), is(0));
+        assertThat(enemy, hasDamage(3));
+        assertThat(third, hasDamage(3));
+        assertThat(second, isUndamaged());
     }
 
     @Test public void testFriendlyCreaturesWillBeHurtIfOnlyValidTargets() {
@@ -80,7 +82,7 @@ public class PawnSacrificeTest extends AbstractCardTest<PawnSacrifice> {
 
         play(underTest, friendly);
         assertThat(friendly.getInstance(), is(nullValue()));
-        assertThat(otherFriendly.getInstance().getDamage(), is(3));
-        assertThat(enemy.getInstance().getDamage(), is(3));
+        assertThat(otherFriendly, hasDamage(3));
+        assertThat(enemy, hasDamage(3));
     }
 }

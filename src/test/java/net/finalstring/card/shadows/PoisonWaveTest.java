@@ -4,6 +4,7 @@ import net.finalstring.card.AbstractCardTest;
 import net.finalstring.effect.EffectStack;
 import org.junit.Test;
 
+import static net.finalstring.matchers.creature.CreatureMatchers.hasDamage;
 import static net.finalstring.matchers.shared.SharedMatchers.hasAember;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -12,8 +13,8 @@ public class PoisonWaveTest extends AbstractCardTest<PoisonWave> {
     @Test public void testAllCreaturesAreDamaged() {
         play(underTest);
 
-        assertThat(friendly.getInstance().getDamage(), is(2));
-        assertThat(enemy.getInstance().getDamage(), is(2));
+        assertThat(friendly, hasDamage(2));
+        assertThat(enemy, hasDamage(2));
     }
 
     @Test public void testNothingHappensWithoutCreatures() {

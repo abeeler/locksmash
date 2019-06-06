@@ -7,6 +7,8 @@ import net.finalstring.card.mars.IrradiatedAember;
 import net.finalstring.effect.EffectStack;
 import org.junit.Test;
 
+import static net.finalstring.matchers.creature.CreatureMatchers.hasDamage;
+import static net.finalstring.matchers.creature.CreatureMatchers.isUndamaged;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -19,31 +21,31 @@ public class ShadowSelfTest extends AbstractCardTest<ShadowSelf> {
         underTest.getInstance().ready();
 
         fight(underTest, enemy);
-        assertThat(underTest.getInstance().getDamage(), is(5));
-        assertThat(enemy.getInstance().getDamage(), is(0));
+        assertThat(underTest, hasDamage(5));
+        assertThat(enemy, isUndamaged());
 
         enemy.getInstance().ready();
         fight(enemy, underTest);
         assertThat(underTest.getInstance(), is(nullValue()));
-        assertThat(enemy.getInstance().getDamage(), is(0));
+        assertThat(enemy, isUndamaged());
     }
 
     @Test public void testShadowSelfAbsorbsDamageFromDefenderForNeighbors() {
         play(underTest);
         fight(friendly, enemy);
 
-        assertThat(friendly.getInstance().getDamage(), is(0));
+        assertThat(friendly, isUndamaged());
         assertThat(enemy.getInstance(), is(nullValue()));
-        assertThat(underTest.getInstance().getDamage(), is(5));
+        assertThat(underTest, hasDamage(5));
     }
 
     @Test public void testShadowSelfAbsorbsDamageFromAttackerForNeighbors() {
         play(underTest);
         fight(enemy, friendly);
 
-        assertThat(friendly.getInstance().getDamage(), is(0));
+        assertThat(friendly, isUndamaged());
         assertThat(enemy.getInstance(), is(nullValue()));
-        assertThat(underTest.getInstance().getDamage(), is(5));
+        assertThat(underTest, hasDamage(5));
     }
 
     @Test public void testNoDamageIsAbsorbedAfterShadowSelfLeavesPlay() {
@@ -60,7 +62,7 @@ public class ShadowSelfTest extends AbstractCardTest<ShadowSelf> {
         play(underTest);
         fight(friendly, enemy);
 
-        assertThat(friendly.getInstance().getDamage(), is(0));
+        assertThat(friendly, isUndamaged());
         assertThat(enemy.getInstance(), is(nullValue()));
         assertThat(underTest.getInstance(), is(nullValue()));
     }
@@ -70,9 +72,9 @@ public class ShadowSelfTest extends AbstractCardTest<ShadowSelf> {
         changeControl(underTest);
         fight(enemy, friendly);
 
-        assertThat(enemy.getInstance().getDamage(), is(0));
+        assertThat(enemy, isUndamaged());
         assertThat(friendly.getInstance(), is(nullValue()));
-        assertThat(underTest.getInstance().getDamage(), is(5));
+        assertThat(underTest, hasDamage(5));
     }
 
     @Test public void testShadowSelfDoesNotAbsorbForOtherShadowSelf() {
@@ -80,7 +82,7 @@ public class ShadowSelfTest extends AbstractCardTest<ShadowSelf> {
         play(createInstance());
         fight(enemy, underTest);
 
-        assertThat(underTest.getInstance().getDamage(), is(5));
+        assertThat(underTest, hasDamage(5));
     }
 
     @Test public void testShadowSelfCanAbsorbForBothNeighborsPastLethalDamageForSimultaneousDamages() {
@@ -97,8 +99,8 @@ public class ShadowSelfTest extends AbstractCardTest<ShadowSelf> {
         multiTargetDamager.setOwner(opponent);
         multiTargetDamager.play(opponent);
 
-        assertThat(otherCreature.getInstance().getDamage(), is(0));
-        assertThat(friendly.getInstance().getDamage(), is(0));
+        assertThat(otherCreature, isUndamaged());
+        assertThat(friendly, isUndamaged());
         assertThat(underTest.getInstance(), is(nullValue()));
     }
 
@@ -112,14 +114,14 @@ public class ShadowSelfTest extends AbstractCardTest<ShadowSelf> {
         assertThat(EffectStack.isEffectPending(), is(true));
 
         setEffectParameter(underTest);
-        assertThat(underTest.getInstance().getDamage(), is(3));
-        assertThat(friendly.getInstance().getDamage(), is(0));
-        assertThat(other.getInstance().getDamage(), is(0));
+        assertThat(underTest, hasDamage(3));
+        assertThat(friendly, isUndamaged());
+        assertThat(other, isUndamaged());
 
         friendly.getInstance().dealDamage(3);
         setEffectParameter(other);
-        assertThat(underTest.getInstance().getDamage(), is(3));
-        assertThat(friendly.getInstance().getDamage(), is(0));
-        assertThat(other.getInstance().getDamage(), is(3));
+        assertThat(underTest, hasDamage(3));
+        assertThat(friendly, isUndamaged());
+        assertThat(other, hasDamage(3));
     }
 }

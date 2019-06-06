@@ -5,6 +5,8 @@ import net.finalstring.card.Creature;
 import net.finalstring.card.House;
 import org.junit.Test;
 
+import static net.finalstring.matchers.creature.CreatureMatchers.hasDamage;
+import static net.finalstring.matchers.creature.CreatureMatchers.isUndamaged;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -36,8 +38,8 @@ public class LongfusedMinesTest extends AbstractCardTest<LongfusedMines> {
         play(underTest);
         action(underTest);
 
-        assertThat(enemy.getInstance().getDamage(), is(0));
-        assertThat(otherFlank.getInstance().getDamage(), is(0));
+        assertThat(enemy, isUndamaged());
+        assertThat(otherFlank, isUndamaged());
     }
 
     @Test public void testDamageIsDealtToAllNonFlankEnemyCreatures() {
@@ -48,10 +50,10 @@ public class LongfusedMinesTest extends AbstractCardTest<LongfusedMines> {
         play(underTest);
         action(underTest);
 
-        assertThat(enemy.getInstance().getDamage(), is(0));
-        assertThat(otherFlank.getInstance().getDamage(), is(0));
-        assertThat(second.getInstance().getDamage(), is(3));
-        assertThat(third.getInstance().getDamage(), is(3));
+        assertThat(enemy, isUndamaged());
+        assertThat(otherFlank, isUndamaged());
+        assertThat(second, hasDamage(3));
+        assertThat(third, hasDamage(3));
     }
 
     @Test public void testNoDamageIsDealtToFriendlyNonFlankCreatures() {
@@ -61,8 +63,8 @@ public class LongfusedMinesTest extends AbstractCardTest<LongfusedMines> {
         play(underTest);
         action(underTest);
 
-        assertThat(friendly.getInstance().getDamage(), is(0));
-        assertThat(middle.getInstance().getDamage(), is(0));
-        assertThat(otherFlank.getInstance().getDamage(), is(0));
+        assertThat(friendly, isUndamaged());
+        assertThat(middle, isUndamaged());
+        assertThat(otherFlank, isUndamaged());
     }
 }

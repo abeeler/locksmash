@@ -3,6 +3,7 @@ package net.finalstring.card.shadows;
 import net.finalstring.card.AbstractCardTest;
 import org.junit.Test;
 
+import static net.finalstring.matchers.creature.CreatureMatchers.hasDamage;
 import static net.finalstring.matchers.shared.SharedMatchers.hasAember;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -12,7 +13,7 @@ public class SeekerNeedleTest extends AbstractCardTest<SeekerNeedle> {
     @Test public void testDoesNotStealIfTargetLives() {
         play(underTest);
         action(underTest, enemy);
-        assertThat(enemy.getInstance().getDamage(), is(1));
+        assertThat(enemy, hasDamage(1));
         assertThat(opponent, hasAember(STARTING_AEMBER));
         assertThat(player, hasAember(STARTING_AEMBER));
     }
@@ -21,7 +22,7 @@ public class SeekerNeedleTest extends AbstractCardTest<SeekerNeedle> {
         destroy(enemy);
         play(underTest);
         action(underTest);
-        assertThat(friendly.getInstance().getDamage(), is(1));
+        assertThat(friendly, hasDamage(1));
         assertThat(player, hasAember(STARTING_AEMBER));
     }
 

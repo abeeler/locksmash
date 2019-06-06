@@ -3,6 +3,7 @@ package net.finalstring.card.shadows;
 import net.finalstring.card.AbstractCardTest;
 import org.junit.Test;
 
+import static net.finalstring.matchers.creature.CreatureMatchers.hasDamage;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -15,7 +16,7 @@ public class SuckerPunchTest extends AbstractCardTest<SuckerPunch> {
 
     @Test public void testSuckerPunchDealsDamage() {
         play(underTest);
-        assertThat(enemy.getInstance().getDamage(), is(2));
+        assertThat(enemy, hasDamage(2));
     }
 
     @Test public void testSuckerPunchIsArchivedIfItDestroysTarget() {

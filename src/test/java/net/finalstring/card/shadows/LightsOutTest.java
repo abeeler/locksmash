@@ -8,8 +8,8 @@ import org.junit.Test;
 
 import java.util.Arrays;
 
+import static net.finalstring.matchers.spawnable.SpawnableMatchers.hasNoInstance;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class LightsOutTest extends AbstractCardTest<LightsOut> {
@@ -21,7 +21,7 @@ public class LightsOutTest extends AbstractCardTest<LightsOut> {
         play(underTest);
 
         assertThat(opponent.getHandSize(), is(1));
-        assertThat(enemy.getInstance(), is(nullValue()));
+        assertThat(enemy, hasNoInstance());
     }
 
     @Test public void testTwoEnemiesAreAutomaticallyBounced() {
@@ -30,8 +30,8 @@ public class LightsOutTest extends AbstractCardTest<LightsOut> {
         play(underTest);
 
         assertThat(opponent.getHandSize(), is(2));
-        assertThat(enemy.getInstance(), is(nullValue()));
-        assertThat(otherEnemy.getInstance(), is(nullValue()));
+        assertThat(enemy, hasNoInstance());
+        assertThat(otherEnemy, hasNoInstance());
     }
 
     @Test public void testMultipleEnemiesPlacesEffectOnStack() {
@@ -50,7 +50,7 @@ public class LightsOutTest extends AbstractCardTest<LightsOut> {
         play(underTest, Arrays.asList(enemy, otherEnemy));
 
         assertThat(opponent.getHandSize(), is(2));
-        assertThat(enemy.getInstance(), is(nullValue()));
-        assertThat(otherEnemy.getInstance(), is(nullValue()));
+        assertThat(enemy, hasNoInstance());
+        assertThat(otherEnemy, hasNoInstance());
     }
 }

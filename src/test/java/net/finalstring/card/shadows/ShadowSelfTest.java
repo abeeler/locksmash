@@ -9,8 +9,8 @@ import org.junit.Test;
 
 import static net.finalstring.matchers.creature.CreatureMatchers.hasDamage;
 import static net.finalstring.matchers.creature.CreatureMatchers.isUndamaged;
+import static net.finalstring.matchers.spawnable.SpawnableMatchers.hasNoInstance;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
@@ -26,7 +26,7 @@ public class ShadowSelfTest extends AbstractCardTest<ShadowSelf> {
 
         enemy.getInstance().ready();
         fight(enemy, underTest);
-        assertThat(underTest.getInstance(), is(nullValue()));
+        assertThat(underTest, hasNoInstance());
         assertThat(enemy, isUndamaged());
     }
 
@@ -35,7 +35,7 @@ public class ShadowSelfTest extends AbstractCardTest<ShadowSelf> {
         fight(friendly, enemy);
 
         assertThat(friendly, isUndamaged());
-        assertThat(enemy.getInstance(), is(nullValue()));
+        assertThat(enemy, hasNoInstance());
         assertThat(underTest, hasDamage(5));
     }
 
@@ -44,7 +44,7 @@ public class ShadowSelfTest extends AbstractCardTest<ShadowSelf> {
         fight(enemy, friendly);
 
         assertThat(friendly, isUndamaged());
-        assertThat(enemy.getInstance(), is(nullValue()));
+        assertThat(enemy, hasNoInstance());
         assertThat(underTest, hasDamage(5));
     }
 
@@ -53,8 +53,8 @@ public class ShadowSelfTest extends AbstractCardTest<ShadowSelf> {
         destroy(underTest);
         fight(friendly, enemy);
 
-        assertThat(friendly.getInstance(), is(nullValue()));
-        assertThat(enemy.getInstance(), is(nullValue()));
+        assertThat(friendly, hasNoInstance());
+        assertThat(enemy, hasNoInstance());
     }
 
     @Test public void testShadowSelfIsAffectedByPoison() {
@@ -63,8 +63,8 @@ public class ShadowSelfTest extends AbstractCardTest<ShadowSelf> {
         fight(friendly, enemy);
 
         assertThat(friendly, isUndamaged());
-        assertThat(enemy.getInstance(), is(nullValue()));
-        assertThat(underTest.getInstance(), is(nullValue()));
+        assertThat(enemy, hasNoInstance());
+        assertThat(underTest, hasNoInstance());
     }
 
     @Test public void testEffectFunctionsProperlyAfterChangingController() {
@@ -73,7 +73,7 @@ public class ShadowSelfTest extends AbstractCardTest<ShadowSelf> {
         fight(enemy, friendly);
 
         assertThat(enemy, isUndamaged());
-        assertThat(friendly.getInstance(), is(nullValue()));
+        assertThat(friendly, hasNoInstance());
         assertThat(underTest, hasDamage(5));
     }
 
@@ -101,7 +101,7 @@ public class ShadowSelfTest extends AbstractCardTest<ShadowSelf> {
 
         assertThat(otherCreature, isUndamaged());
         assertThat(friendly, isUndamaged());
-        assertThat(underTest.getInstance(), is(nullValue()));
+        assertThat(underTest, hasNoInstance());
     }
 
     @Test public void testMultipleShadowSelfsAllowActivePlayerToChooseInterceptor() {

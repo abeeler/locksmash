@@ -6,6 +6,8 @@ import net.finalstring.card.House;
 import org.junit.Test;
 
 import static net.finalstring.matchers.shared.SharedMatchers.hasAember;
+import static net.finalstring.matchers.spawnable.SpawnableMatchers.hasInstance;
+import static net.finalstring.matchers.spawnable.SpawnableMatchers.hasNoInstance;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.when;
@@ -14,8 +16,8 @@ public class KeyAbductionTest extends AbstractCardTest<KeyAbduction> {
     @Test public void testNonMarsCreaturesAreNotAffected() {
         play(underTest, false);
 
-        assertThat(friendly.getInstance(), is(notNullValue()));
-        assertThat(enemy.getInstance(), is(notNullValue()));
+        assertThat(friendly, hasInstance());
+        assertThat(enemy, hasInstance());
     }
 
     @Test public void testMarsCreaturesAreAffected() {
@@ -24,8 +26,8 @@ public class KeyAbductionTest extends AbstractCardTest<KeyAbduction> {
 
         play(underTest, false);
 
-        assertThat(friendly.getInstance(), is(nullValue()));
-        assertThat(enemy.getInstance(), is(nullValue()));
+        assertThat(friendly, hasNoInstance());
+        assertThat(enemy, hasNoInstance());
     }
 
     @Test public void testKeyIsNotForgedWhenNotEnoughAember() {

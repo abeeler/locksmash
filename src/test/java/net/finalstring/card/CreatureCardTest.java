@@ -24,6 +24,8 @@ import java.util.List;
 import static net.finalstring.matchers.creature.CreatureMatchers.hasDamage;
 import static net.finalstring.matchers.creature.CreatureMatchers.isUndamaged;
 import static net.finalstring.matchers.shared.SharedMatchers.hasAember;
+import static net.finalstring.matchers.spawnable.SpawnableMatchers.hasInstance;
+import static net.finalstring.matchers.spawnable.SpawnableMatchers.hasNoInstance;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.spy;
@@ -264,7 +266,7 @@ public class CreatureCardTest {
 
         fight(poisonCreature, skirmishCreature);
 
-        assertThat(skirmishCreature.getInstance(), is(nullValue()));
+        assertThat(skirmishCreature, hasNoInstance());
     }
 
     @Test public void testPoisonWillInstantlyKillAttackingCreatureEvenWithInsufficientDamage() {
@@ -272,13 +274,13 @@ public class CreatureCardTest {
 
         fight(armoredCreature, poisonCreature);
 
-        assertThat(armoredCreature.getInstance(), is(nullValue()));
+        assertThat(armoredCreature, hasNoInstance());
     }
 
     @Test public void testPoisonDoesNotAffectAttackingSkirmishCreature() {
         fight(skirmishCreature, poisonCreature);
 
-        assertThat(skirmishCreature.getInstance(), is(notNullValue()));
+        assertThat(skirmishCreature, hasInstance());
     }
 
     @Test public void testPoisonDoesNothingIfAllDamageIsAbsorbedByArmor() {
@@ -295,7 +297,7 @@ public class CreatureCardTest {
         assertThat(poisonCreature.getPower() > armoredCreature.getArmor(), is(true));
         fight(poisonCreature, armoredCreature);
 
-        assertThat(armoredCreature.getInstance(), is(nullValue()));
+        assertThat(armoredCreature, hasNoInstance());
     }
 
     @Test public void testActionExhaustsCreature() {

@@ -5,16 +5,17 @@ import net.finalstring.card.Creature;
 import org.junit.Test;
 
 import static net.finalstring.matchers.shared.SharedMatchers.hasAember;
-import static org.hamcrest.CoreMatchers.*;
+import static net.finalstring.matchers.spawnable.SpawnableMatchers.hasInstance;
+import static net.finalstring.matchers.spawnable.SpawnableMatchers.hasNoInstance;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class BulleteyeTest extends AbstractCardTest<Bulleteye> {
     @Test public void testDestroysFlankCreature() {
         play(underTest);
-        assertThat(enemy.getInstance(), is(notNullValue()));
+        assertThat(enemy, hasInstance());
 
         reap(underTest, enemy);
-        assertThat(enemy.getInstance(), is(nullValue()));
+        assertThat(enemy, hasNoInstance());
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -32,7 +33,7 @@ public class BulleteyeTest extends AbstractCardTest<Bulleteye> {
 
         play(underTest);
         reap(underTest);
-        assertThat(underTest.getInstance(), is(nullValue()));
+        assertThat(underTest, hasNoInstance());
         assertThat(player, hasAember(STARTING_AEMBER + 1));
     }
 }

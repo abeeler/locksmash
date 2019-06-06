@@ -5,8 +5,8 @@ import net.finalstring.card.AbstractCardTest;
 import net.finalstring.effect.EffectStack;
 import org.junit.Test;
 
+import static net.finalstring.matchers.spawnable.SpawnableMatchers.hasNoInstance;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class SmilingRuthTest extends AbstractCardTest<SmilingRuth> {
@@ -54,6 +54,6 @@ public class SmilingRuthTest extends AbstractCardTest<SmilingRuth> {
         destroy(enemy);
         reap(underTest);
         assertThat(EffectStack.isEffectPending(), is(false));
-        assertThat(enemy.getInstance(), is(nullValue()));
+        assertThat(enemy, hasNoInstance());
     }
 }

@@ -5,6 +5,8 @@ import net.finalstring.card.AbstractCardTest;
 import org.junit.Test;
 
 import static net.finalstring.matchers.shared.SharedMatchers.hasAember;
+import static net.finalstring.matchers.spawnable.SpawnableMatchers.hasInstance;
+import static net.finalstring.matchers.spawnable.SpawnableMatchers.hasNoInstance;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -53,11 +55,11 @@ public class TheStingTest extends AbstractCardTest<TheSting> {
     @Test public void testActionSacrificesTheSting() {
         play(underTest);
 
-        assertThat(underTest.getInstance(), is(notNullValue()));
+        assertThat(underTest, hasInstance());
 
         action(underTest);
 
-        assertThat(underTest.getInstance(), is(nullValue()));
+        assertThat(underTest, hasNoInstance());
     }
 
     @Test public void testChangingControllerChangesWhoIsAffected() {

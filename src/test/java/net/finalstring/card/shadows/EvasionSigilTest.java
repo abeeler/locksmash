@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static net.finalstring.matchers.creature.CreatureMatchers.isUndamaged;
+import static net.finalstring.matchers.spawnable.SpawnableMatchers.hasNoInstance;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -36,8 +37,8 @@ public class EvasionSigilTest extends AbstractCardTest<EvasionSigil> {
     @Test public void testFightContinuesIfTopCardIsNotActiveHouse() {
         player.popTopCard();
         fight(friendly, enemy);
-        assertThat(friendly.getInstance(), is(nullValue()));
-        assertThat(enemy.getInstance(), is(nullValue()));
+        assertThat(friendly, hasNoInstance());
+        assertThat(enemy, hasNoInstance());
     }
 
     @Test public void testFightFizzlesIfTopCardIsActiveHouse() {
@@ -51,7 +52,7 @@ public class EvasionSigilTest extends AbstractCardTest<EvasionSigil> {
         player.popTopCard();
 
         fight(friendly, enemy);
-        assertThat(friendly.getInstance(), is(nullValue()));
-        assertThat(enemy.getInstance(), is(nullValue()));
+        assertThat(friendly, hasNoInstance());
+        assertThat(enemy, hasNoInstance());
     }
 }

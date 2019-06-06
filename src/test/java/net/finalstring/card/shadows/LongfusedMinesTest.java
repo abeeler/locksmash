@@ -7,8 +7,8 @@ import org.junit.Test;
 
 import static net.finalstring.matchers.creature.CreatureMatchers.hasDamage;
 import static net.finalstring.matchers.creature.CreatureMatchers.isUndamaged;
+import static net.finalstring.matchers.spawnable.SpawnableMatchers.hasNoInstance;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class LongfusedMinesTest extends AbstractCardTest<LongfusedMines> {
@@ -16,7 +16,7 @@ public class LongfusedMinesTest extends AbstractCardTest<LongfusedMines> {
         play(underTest);
         action(underTest);
 
-        assertThat(underTest.getInstance(), is(nullValue()));
+        assertThat(underTest, hasNoInstance());
     }
 
     @Test public void testCanBeUsedRegardlessOfActiveHouse() {

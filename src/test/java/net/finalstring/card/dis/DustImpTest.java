@@ -4,8 +4,7 @@ import net.finalstring.card.AbstractCardTest;
 import org.junit.Test;
 
 import static net.finalstring.matchers.shared.SharedMatchers.hasAember;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
+import static net.finalstring.matchers.spawnable.SpawnableMatchers.hasNoInstance;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class DustImpTest extends AbstractCardTest<DustImp> {
@@ -20,7 +19,7 @@ public class DustImpTest extends AbstractCardTest<DustImp> {
         play(underTest);
         underTest.purge();
 
-        assertThat(underTest.getInstance(), is(nullValue()));
+        assertThat(underTest, hasNoInstance());
         assertThat(player, hasAember(STARTING_AEMBER));
     }
 }

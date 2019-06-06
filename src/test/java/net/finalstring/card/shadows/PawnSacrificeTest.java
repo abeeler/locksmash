@@ -9,6 +9,8 @@ import java.util.Arrays;
 
 import static net.finalstring.matchers.creature.CreatureMatchers.hasDamage;
 import static net.finalstring.matchers.creature.CreatureMatchers.isUndamaged;
+import static net.finalstring.matchers.spawnable.SpawnableMatchers.hasInstance;
+import static net.finalstring.matchers.spawnable.SpawnableMatchers.hasNoInstance;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -24,7 +26,7 @@ public class PawnSacrificeTest extends AbstractCardTest<PawnSacrifice> {
     @Test public void testSingleValidSacrificeIsSelectedAutomatically() {
         play(underTest);
         assertThat(EffectStack.isEffectPending(), is(false));
-        assertThat(friendly.getInstance(), is(nullValue()));
+        assertThat(friendly, hasNoInstance());
     }
 
     @Test public void testSacrificeIsDoneEvenWithoutDamageTarget() {
@@ -32,13 +34,13 @@ public class PawnSacrificeTest extends AbstractCardTest<PawnSacrifice> {
 
         play(underTest);
         assertThat(EffectStack.isEffectPending(), is(false));
-        assertThat(friendly.getInstance(), is(nullValue()));
+        assertThat(friendly, hasNoInstance());
     }
 
     @Test public void testDamageIsDealtToSingleTarget() {
         play(underTest);
         assertThat(EffectStack.isEffectPending(), is(false));
-        assertThat(friendly.getInstance(), is(nullValue()));
+        assertThat(friendly, hasNoInstance());
         assertThat(enemy, hasDamage(3));
     }
 
@@ -47,7 +49,7 @@ public class PawnSacrificeTest extends AbstractCardTest<PawnSacrifice> {
 
         play(underTest);
         assertThat(EffectStack.isEffectPending(), is(false));
-        assertThat(friendly.getInstance(), is(nullValue()));
+        assertThat(friendly, hasNoInstance());
         assertThat(enemy, hasDamage(3));
         assertThat(otherEnemy, hasDamage(3));
     }
@@ -59,8 +61,8 @@ public class PawnSacrificeTest extends AbstractCardTest<PawnSacrifice> {
         assertThat(EffectStack.isEffectPending(), is(true));
 
         setEffectParameter(otherFriendly);
-        assertThat(friendly.getInstance(), is(notNullValue()));
-        assertThat(otherFriendly.getInstance(), is(nullValue()));
+        assertThat(friendly, hasInstance());
+        assertThat(otherFriendly, hasNoInstance());
     }
 
     @Test public void testMultipleTargetsRequiresDecision() {
@@ -68,7 +70,7 @@ public class PawnSacrificeTest extends AbstractCardTest<PawnSacrifice> {
         Creature third = placeEnemyCreature();
 
         play(underTest);
-        assertThat(friendly.getInstance(), is(nullValue()));
+        assertThat(friendly, hasNoInstance());
         assertThat(EffectStack.isEffectPending(), is(true));
 
         setEffectParameter(Arrays.asList(enemy, third));
@@ -81,7 +83,7 @@ public class PawnSacrificeTest extends AbstractCardTest<PawnSacrifice> {
         Creature otherFriendly = placeCreature();
 
         play(underTest, friendly);
-        assertThat(friendly.getInstance(), is(nullValue()));
+        assertThat(friendly, hasNoInstance());
         assertThat(otherFriendly, hasDamage(3));
         assertThat(enemy, hasDamage(3));
     }

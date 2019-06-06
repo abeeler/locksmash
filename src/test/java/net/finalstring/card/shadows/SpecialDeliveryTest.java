@@ -4,8 +4,8 @@ import net.finalstring.card.AbstractCardTest;
 import org.junit.Test;
 
 import static net.finalstring.matchers.creature.CreatureMatchers.hasDamage;
+import static net.finalstring.matchers.spawnable.SpawnableMatchers.hasNoInstance;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class SpecialDeliveryTest extends AbstractCardTest<SpecialDelivery> {
@@ -16,7 +16,7 @@ public class SpecialDeliveryTest extends AbstractCardTest<SpecialDelivery> {
         play(underTest);
         action(underTest);
 
-        assertThat(underTest.getInstance(), is(nullValue()));
+        assertThat(underTest, hasNoInstance());
     }
 
     @Test public void testDealsDamageToFlankCreature() {

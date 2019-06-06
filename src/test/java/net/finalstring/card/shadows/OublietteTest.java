@@ -5,6 +5,8 @@ import net.finalstring.card.Creature;
 import net.finalstring.effect.EffectStack;
 import org.junit.Test;
 
+import static net.finalstring.matchers.spawnable.SpawnableMatchers.hasInstance;
+import static net.finalstring.matchers.spawnable.SpawnableMatchers.hasNoInstance;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.when;
@@ -13,8 +15,8 @@ public class OublietteTest extends AbstractCardTest<Oubliette> {
     @Test public void testDoesNothingWithoutValidTargets() {
         play(underTest);
 
-        assertThat(friendly.getInstance(), is(notNullValue()));
-        assertThat(enemy.getInstance(), is(notNullValue()));
+        assertThat(friendly, hasInstance());
+        assertThat(enemy, hasInstance());
     }
 
     @Test public void testEffectIsPendingWithMultipleTargets() {
@@ -32,7 +34,7 @@ public class OublietteTest extends AbstractCardTest<Oubliette> {
 
         play(underTest, enemy);
 
-        assertThat(enemy.getInstance(), is(nullValue()));
+        assertThat(enemy, hasNoInstance());
     }
 
     @Test public void testPurgesValidTarget() {
@@ -40,7 +42,7 @@ public class OublietteTest extends AbstractCardTest<Oubliette> {
 
         play(underTest);
 
-        assertThat(enemy.getInstance(), is(nullValue()));
+        assertThat(enemy, hasNoInstance());
         assertThat(opponent.getPurged().get(0), is(enemy));
     }
 
@@ -49,25 +51,25 @@ public class OublietteTest extends AbstractCardTest<Oubliette> {
 
         play(underTest);
 
-        assertThat(friendly.getInstance(), is(nullValue()));
+        assertThat(friendly, hasNoInstance());
         assertThat(player.getPurged().get(0), is(friendly));
     }
 
     @Test public void testAnyPowerThreeOrLessIsValid() {
         Creature mockCreature = placeCreature(creature -> when(creature.getPower()).thenReturn(4));
         play(underTest);
-        assertThat(mockCreature.getInstance(), is(notNullValue()));
+        assertThat(mockCreature, hasInstance());
 
         mockCreature = placeCreature(creature -> when(creature.getPower()).thenReturn(3));
         play(underTest);
-        assertThat(mockCreature.getInstance(), is(nullValue()));
+        assertThat(mockCreature, hasNoInstance());
 
         mockCreature = placeCreature(creature -> when(creature.getPower()).thenReturn(2));
         play(underTest);
-        assertThat(mockCreature.getInstance(), is(nullValue()));
+        assertThat(mockCreature, hasNoInstance());
 
         mockCreature = placeCreature(creature -> when(creature.getPower()).thenReturn(1));
         play(underTest);
-        assertThat(mockCreature.getInstance(), is(nullValue()));
+        assertThat(mockCreature, hasNoInstance());
     }
 }

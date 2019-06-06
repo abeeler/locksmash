@@ -5,8 +5,7 @@ import org.junit.Test;
 
 import static net.finalstring.matchers.creature.CreatureMatchers.hasDamage;
 import static net.finalstring.matchers.shared.SharedMatchers.hasAember;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
+import static net.finalstring.matchers.spawnable.SpawnableMatchers.hasNoInstance;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class SeekerNeedleTest extends AbstractCardTest<SeekerNeedle> {
@@ -41,7 +40,7 @@ public class SeekerNeedleTest extends AbstractCardTest<SeekerNeedle> {
 
         play(underTest);
         action(underTest, enemy);
-        assertThat(enemy.getInstance(), is(nullValue()));
+        assertThat(enemy, hasNoInstance());
         assertThat(player, hasAember(STARTING_AEMBER + 1));
         assertThat(opponent, hasAember( STARTING_AEMBER - 1));
     }

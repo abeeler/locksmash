@@ -10,6 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static net.finalstring.matchers.shared.SharedMatchers.hasAember;
+import static net.finalstring.matchers.spawnable.SpawnableMatchers.hasInstance;
+import static net.finalstring.matchers.spawnable.SpawnableMatchers.hasNoInstance;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -25,14 +27,14 @@ public class MasterplanTest extends AbstractCardTest<Masterplan> {
     @Test public void testMasterplanIsDestroyedOnUse() {
         play(underTest, 0);
         action(underTest, true);
-        assertThat(underTest.getInstance(), is(nullValue()));
+        assertThat(underTest, hasNoInstance());
     }
 
     @Test public void testCardUnderMasterplanIsUsed() {
         play(underTest, 0);
-        assertThat(inHand.getInstance(), is(nullValue()));
+        assertThat(inHand, hasNoInstance());
         action(underTest, true);
-        assertThat(inHand.getInstance(), is(notNullValue()));
+        assertThat(inHand, hasInstance());
     }
 
     @Test public void testMasterplanCanBeUsedAsOmni() {

@@ -6,8 +6,8 @@ import org.junit.Test;
 
 import static net.finalstring.matchers.creature.CreatureMatchers.hasDamage;
 import static net.finalstring.matchers.shared.SharedMatchers.hasAember;
+import static net.finalstring.matchers.spawnable.SpawnableMatchers.hasNoInstance;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.when;
 
@@ -18,7 +18,7 @@ public class MackTheKnifeTest extends AbstractCardTest<MackTheKnife> {
         play(underTest);
         action(underTest, enemy);
 
-        assertThat(enemy.getInstance(), is(nullValue()));
+        assertThat(enemy, hasNoInstance());
         assertThat(player, hasAember(STARTING_AEMBER + 1));
     }
 
@@ -48,7 +48,7 @@ public class MackTheKnifeTest extends AbstractCardTest<MackTheKnife> {
         underTest.getInstance().dealDamage(2);
         action(underTest, underTest);
 
-        assertThat(underTest.getInstance(), is(nullValue()));
+        assertThat(underTest, hasNoInstance());
         assertThat(player, hasAember(STARTING_AEMBER + 1));
     }
 }

@@ -9,6 +9,7 @@ import net.finalstring.card.dis.Truebaru;
 import org.junit.Before;
 import org.junit.Test;
 
+import static net.finalstring.matchers.shared.SharedMatchers.hasAember;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -62,7 +63,7 @@ public class MasterplanTest extends AbstractCardTest<Masterplan> {
         play(underTest, 1);
         action(underTest, true);
 
-        assertThat(player.getHeldAember(), is(STARTING_AEMBER - 2));
+        assertThat(player, hasAember(STARTING_AEMBER - 2));
         assertThat(player.getBattleline().getCreatures().contains(cardWithCost), is(true));
     }
 
@@ -90,7 +91,7 @@ public class MasterplanTest extends AbstractCardTest<Masterplan> {
         play(underTest, 1);
         action(underTest);
 
-        assertThat(player.getHeldAember(), is(1));
+        assertThat(player, hasAember(1));
         assertThat(player.getDiscardPile().contains(underTest), is(true));
         assertThat(player.getDiscardPile().contains(cardWithCost), is(true));
     }
@@ -106,8 +107,8 @@ public class MasterplanTest extends AbstractCardTest<Masterplan> {
         underTest.changeController();
         action(underTest);
 
-        assertThat(opponent.getHeldAember(), is(STARTING_AEMBER + 2));
-        assertThat(player.getHeldAember(), is(STARTING_AEMBER - 1));
+        assertThat(opponent, hasAember(STARTING_AEMBER + 2));
+        assertThat(player, hasAember(STARTING_AEMBER - 1));
         assertThat(player.getDiscardPile().contains(action), is(true));
         assertThat(player.getDiscardPile().contains(underTest), is(true));
     }

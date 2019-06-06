@@ -3,6 +3,7 @@ package net.finalstring.card.sanctum;
 import net.finalstring.card.AbstractCardTest;
 import org.junit.Test;
 
+import static net.finalstring.matchers.shared.SharedMatchers.hasAember;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -10,14 +11,14 @@ public class CleansingWaveTest extends AbstractCardTest<CleansingWave> {
     @Test public void testNoAemberGainedWithUndamageCreatures() {
         play(underTest);
 
-        assertThat(player.getHeldAember(), is(STARTING_AEMBER));
+        assertThat(player, hasAember(STARTING_AEMBER));
     }
 
     @Test public void testHealsDamagedFriendlyCreature() {
         friendly.getInstance().dealDamage(1);
         play(underTest);
 
-        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 1));
+        assertThat(player, hasAember(STARTING_AEMBER + 1));
         assertThat(friendly.getInstance().getDamage(), is(0));
     }
 
@@ -32,7 +33,7 @@ public class CleansingWaveTest extends AbstractCardTest<CleansingWave> {
         enemy.getInstance().dealDamage(1);
         play(underTest);
 
-        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 1));
+        assertThat(player, hasAember(STARTING_AEMBER + 1));
         assertThat(enemy.getInstance().getDamage(), is(0));
     }
 
@@ -42,6 +43,6 @@ public class CleansingWaveTest extends AbstractCardTest<CleansingWave> {
 
         play(underTest);
 
-        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 2));
+        assertThat(player, hasAember(STARTING_AEMBER + 2));
     }
 }

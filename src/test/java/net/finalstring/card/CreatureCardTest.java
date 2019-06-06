@@ -21,6 +21,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.Arrays;
 import java.util.List;
 
+import static net.finalstring.matchers.shared.SharedMatchers.hasAember;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.spy;
@@ -124,7 +125,7 @@ public class CreatureCardTest {
     @Test public void testReapingAddsOneAmberForController() {
         normalCreature.reap();
 
-        assertThat(mockPlayer.getHeldAember(), is(1));
+        assertThat(mockPlayer, hasAember(1));
     }
 
     @Test public void testNormalCreatureCanBeFought() {
@@ -200,7 +201,7 @@ public class CreatureCardTest {
 
         normalCreature.getInstance().capture(mockPlayer, 1);
 
-        assertThat(mockPlayer.getHeldAember(), is(0));
+        assertThat(mockPlayer, hasAember(0));
     }
 
     @Test public void testCaptureMovesAemberOntoInstance() {
@@ -225,7 +226,7 @@ public class CreatureCardTest {
         normalCreature.reap();
         assertThat(normalCreature.getInstance().isReady(), is(false));
         assertThat(normalCreature.isStunned(), is(false));
-        assertThat(mockPlayer.getHeldAember(), is(0));
+        assertThat(mockPlayer, hasAember(0));
     }
 
     @Test public void testStunPreventsFight() {

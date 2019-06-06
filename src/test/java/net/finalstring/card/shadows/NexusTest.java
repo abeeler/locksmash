@@ -5,6 +5,7 @@ import net.finalstring.card.Artifact;
 import net.finalstring.effect.EffectStack;
 import org.junit.Test;
 
+import static net.finalstring.matchers.shared.SharedMatchers.hasAember;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -34,8 +35,8 @@ public class NexusTest extends AbstractCardTest<Nexus> {
         play(underTest);
         reap(underTest, friendly);
 
-        assertThat(friendly.getHeldAember(), is(1));
-        assertThat(opponent.getHeldAember(), is(STARTING_AEMBER - 1));
+        assertThat(friendly, hasAember(1));
+        assertThat(opponent, hasAember(STARTING_AEMBER - 1));
         assertThat(artifact.getInstance().isReady(), is(false));
     }
 
@@ -46,7 +47,7 @@ public class NexusTest extends AbstractCardTest<Nexus> {
         play(underTest);
         reap(underTest, uselessArtifact);
 
-        assertThat(opponent.getHeldAember(), is(STARTING_AEMBER + 1));
+        assertThat(opponent, hasAember(STARTING_AEMBER + 1));
         assertThat(artifact.getInstance().isReady(), is(true));
         assertThat(uselessArtifact.getInstance().isReady(), is(false));
     }

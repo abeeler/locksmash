@@ -6,6 +6,7 @@ import net.finalstring.card.House;
 import net.finalstring.card.logos.LibraryOfBabble;
 import org.junit.Test;
 
+import static net.finalstring.matchers.shared.SharedMatchers.hasAember;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -17,8 +18,8 @@ public class CustomsOfficeTest extends AbstractCardTest<CustomsOffice> {
 
         createArtifact().play(opponent);
 
-        assertThat(player.getHeldAember(), is(STARTING_AEMBER + CustomsOffice.ARTIFACT_PLAY_COST));
-        assertThat(opponent.getHeldAember(), is(STARTING_AEMBER - CustomsOffice.ARTIFACT_PLAY_COST));
+        assertThat(player, hasAember(STARTING_AEMBER + CustomsOffice.ARTIFACT_PLAY_COST));
+        assertThat(opponent, hasAember(STARTING_AEMBER - CustomsOffice.ARTIFACT_PLAY_COST));
     }
 
     @Test public void testCostDoesNotPersistAfterCustomsOfficeLeavesPlay() {
@@ -30,8 +31,8 @@ public class CustomsOfficeTest extends AbstractCardTest<CustomsOffice> {
 
         createArtifact().play(opponent);
 
-        assertThat(player.getHeldAember(), is(STARTING_AEMBER));
-        assertThat(opponent.getHeldAember(), is(STARTING_AEMBER));
+        assertThat(player, hasAember(STARTING_AEMBER));
+        assertThat(opponent, hasAember(STARTING_AEMBER));
     }
 
     @Test public void testOpponentCannotPlayArtifactIfUnableToPayCost() {
@@ -66,15 +67,15 @@ public class CustomsOfficeTest extends AbstractCardTest<CustomsOffice> {
 
         createArtifact().play(opponent);
 
-        assertThat(player.getHeldAember(), is(STARTING_AEMBER + CustomsOffice.ARTIFACT_PLAY_COST * 2));
-        assertThat(opponent.getHeldAember(), is(STARTING_AEMBER - CustomsOffice.ARTIFACT_PLAY_COST * 2));
+        assertThat(player, hasAember(STARTING_AEMBER + CustomsOffice.ARTIFACT_PLAY_COST * 2));
+        assertThat(opponent, hasAember(STARTING_AEMBER - CustomsOffice.ARTIFACT_PLAY_COST * 2));
 
         destroy(underTest);
 
         createArtifact().play(opponent);
 
-        assertThat(player.getHeldAember(), is(STARTING_AEMBER + CustomsOffice.ARTIFACT_PLAY_COST * 3));
-        assertThat(opponent.getHeldAember(), is(STARTING_AEMBER - CustomsOffice.ARTIFACT_PLAY_COST * 3));
+        assertThat(player, hasAember(STARTING_AEMBER + CustomsOffice.ARTIFACT_PLAY_COST * 3));
+        assertThat(opponent, hasAember(STARTING_AEMBER - CustomsOffice.ARTIFACT_PLAY_COST * 3));
     }
 
     @Test public void testCostCalculatesProperlyForMultiple() {
@@ -104,7 +105,7 @@ public class CustomsOfficeTest extends AbstractCardTest<CustomsOffice> {
             createArtifact().play(opponent);
         } catch (IllegalStateException expected) { }
 
-        assertThat(opponent.getHeldAember(), is(1));
+        assertThat(opponent, hasAember(1));
     }
 
     @Test public void testChangingControlSwitchesVictimOfEffect() {
@@ -112,7 +113,7 @@ public class CustomsOfficeTest extends AbstractCardTest<CustomsOffice> {
         underTest.changeController();
 
         play(createAdditionalOffice());
-        assertThat(player.getHeldAember(), is(STARTING_AEMBER - 1));
+        assertThat(player, hasAember(STARTING_AEMBER - 1));
 
         player.setAember(0);
         assertThat(underTest.canPlay(), is(false));

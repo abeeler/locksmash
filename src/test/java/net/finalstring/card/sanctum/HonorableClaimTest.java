@@ -6,6 +6,7 @@ import net.finalstring.card.Trait;
 import net.finalstring.effect.EffectStack;
 import org.junit.Test;
 
+import static net.finalstring.matchers.shared.SharedMatchers.hasAember;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.*;
@@ -14,8 +15,8 @@ public class HonorableClaimTest extends AbstractCardTest<HonorableClaim> {
     @Test public void testNothingIsCaptureWithoutKnights() {
         play(underTest);
 
-        assertThat(opponent.getHeldAember(), is(STARTING_AEMBER));
-        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 1));
+        assertThat(opponent, hasAember(STARTING_AEMBER));
+        assertThat(player, hasAember(STARTING_AEMBER + 1));
         assertThat(friendly.getInstance().getCapturedAember(), is(0));
     }
 
@@ -24,7 +25,7 @@ public class HonorableClaimTest extends AbstractCardTest<HonorableClaim> {
 
         play(underTest);
 
-        assertThat(opponent.getHeldAember(), is(STARTING_AEMBER - 1));
+        assertThat(opponent, hasAember(STARTING_AEMBER - 1));
         assertThat(friendly.getInstance().getCapturedAember(), is(1));
     }
 

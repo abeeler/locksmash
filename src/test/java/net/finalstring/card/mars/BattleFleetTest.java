@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static net.finalstring.matchers.shared.SharedMatchers.hasAember;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
@@ -23,7 +24,7 @@ public class BattleFleetTest extends AbstractCardTest<BattleFleet> {
         play(underTest);
 
         assertThat(EffectStack.isEffectPending(), is(false));
-        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 1));
+        assertThat(player, hasAember(STARTING_AEMBER + 1));
         assertThat(player.getHandSize(), is(0));
         assertThat(player.getDeck().size(), is(startingDeck.size()));
     }
@@ -31,7 +32,7 @@ public class BattleFleetTest extends AbstractCardTest<BattleFleet> {
     @Test public void testDrawsCardWithSingleReveal() {
         play(underTest, addMockMarsCard(1));
 
-        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 1));
+        assertThat(player, hasAember(STARTING_AEMBER + 1));
         assertThat(player.getHandSize(), is(2));
         assertThat(player.getDeck().size(), is(startingDeck.size() - 1));
     }
@@ -39,7 +40,7 @@ public class BattleFleetTest extends AbstractCardTest<BattleFleet> {
     @Test public void testDrawsMultipleCardsWithMultipleReveals() {
         play(underTest, addMockMarsCard(3));
 
-        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 1));
+        assertThat(player, hasAember(STARTING_AEMBER + 1));
         assertThat(player.getHandSize(), is(6));
         assertThat(player.getDeck().size(), is(startingDeck.size() - 3));
     }

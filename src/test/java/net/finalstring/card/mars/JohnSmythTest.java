@@ -8,6 +8,7 @@ import net.finalstring.effect.EffectStack;
 import org.junit.Before;
 import org.junit.Test;
 
+import static net.finalstring.matchers.shared.SharedMatchers.hasAember;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.when;
@@ -25,7 +26,7 @@ public class JohnSmythTest extends AbstractCardTest<JohnSmyth> {
         play(underTest);
         reap(underTest);
 
-        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 1));
+        assertThat(player, hasAember(STARTING_AEMBER + 1));
     }
 
     @Test public void testReapWillReadyMarsNonAgentTarget() {

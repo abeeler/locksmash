@@ -3,6 +3,7 @@ package net.finalstring.card.dis;
 import net.finalstring.card.AbstractCardTest;
 import org.junit.Test;
 
+import static net.finalstring.matchers.shared.SharedMatchers.hasAember;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -20,13 +21,13 @@ public class TruebaruTest extends AbstractCardTest<Truebaru> {
     @Test public void testAemberIsPaidToPlay() {
         play(underTest);
 
-        assertThat(player.getHeldAember(), is(STARTING_AEMBER - Truebaru.PLAY_COST));
+        assertThat(player, hasAember(STARTING_AEMBER - Truebaru.PLAY_COST));
     }
 
     @Test public void testAemberIsGainedWhenTruebaruIsDestroyed() {
         play(underTest);
         destroy(underTest);
 
-        assertThat(player.getHeldAember(), is(STARTING_AEMBER - Truebaru.PLAY_COST + Truebaru.DESTROYED_AEMBER_GAIN));
+        assertThat(player, hasAember(STARTING_AEMBER - Truebaru.PLAY_COST + Truebaru.DESTROYED_AEMBER_GAIN));
     }
 }

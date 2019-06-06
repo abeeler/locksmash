@@ -8,6 +8,7 @@ import org.junit.Test;
 import java.util.Collections;
 import java.util.List;
 
+import static net.finalstring.matchers.shared.SharedMatchers.hasAember;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -15,7 +16,7 @@ public class NeuroSyphonTest extends AbstractCardTest<NeuroSyphon> {
     @Test public void testDoesNothingAtEqualAember() {
         play(underTest);
 
-        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 1));
+        assertThat(player, hasAember(STARTING_AEMBER + 1));
         assertThat(player.getHandSize(), is(0));
     }
 
@@ -30,8 +31,8 @@ public class NeuroSyphonTest extends AbstractCardTest<NeuroSyphon> {
 
         play(underTest);
 
-        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 2));
-        assertThat(opponent.getHeldAember(), is(STARTING_AEMBER + 1));
+        assertThat(player, hasAember(STARTING_AEMBER + 2));
+        assertThat(opponent, hasAember(STARTING_AEMBER + 1));
         assertThat(player.getHandSize(), is(1));
     }
 

@@ -5,6 +5,7 @@ import net.finalstring.card.Creature;
 import net.finalstring.effect.EffectStack;
 import org.junit.Test;
 
+import static net.finalstring.matchers.shared.SharedMatchers.hasAember;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -13,8 +14,8 @@ public class SkeletonKeyTest extends AbstractCardTest<SkeletonKey> {
         play(underTest);
         action(underTest);
 
-        assertThat(friendly.getHeldAember(), is(1));
-        assertThat(opponent.getHeldAember(), is(STARTING_AEMBER - 1));
+        assertThat(friendly, hasAember(1));
+        assertThat(opponent, hasAember(STARTING_AEMBER - 1));
     }
 
     @Test public void testDoesNothingWithoutFriendlyCreature() {
@@ -23,7 +24,7 @@ public class SkeletonKeyTest extends AbstractCardTest<SkeletonKey> {
         play(underTest);
         action(underTest);
 
-        assertThat(opponent.getHeldAember(), is(STARTING_AEMBER));
+        assertThat(opponent, hasAember(STARTING_AEMBER));
     }
 
     @Test public void testMultipleFriendlyCreaturesPromptsChoice() {
@@ -35,8 +36,8 @@ public class SkeletonKeyTest extends AbstractCardTest<SkeletonKey> {
         assertThat(EffectStack.isEffectPending(), is(true));
 
         setEffectParameter(other);
-        assertThat(friendly.getHeldAember(), is(0));
-        assertThat(other.getHeldAember(), is(1));
-        assertThat(opponent.getHeldAember(), is(STARTING_AEMBER - 1));
+        assertThat(friendly, hasAember(0));
+        assertThat(other, hasAember(1));
+        assertThat(opponent, hasAember(STARTING_AEMBER - 1));
     }
 }

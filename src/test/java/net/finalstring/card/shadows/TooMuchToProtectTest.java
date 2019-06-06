@@ -3,7 +3,7 @@ package net.finalstring.card.shadows;
 import net.finalstring.card.AbstractCardTest;
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.is;
+import static net.finalstring.matchers.shared.SharedMatchers.hasAember;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class TooMuchToProtectTest extends AbstractCardTest<TooMuchToProtect> {
@@ -11,14 +11,14 @@ public class TooMuchToProtectTest extends AbstractCardTest<TooMuchToProtect> {
         for (int i = 0; i <= 6; i++){
             opponent.setAember(i);
             play(underTest);
-            assertThat(opponent.getHeldAember(), is(i));
+            assertThat(opponent, hasAember(i));
         }
     }
 
     @Test public void testAemberAboveSixIsStolen() {
         opponent.setAember(10);
         play(underTest);
-        assertThat(opponent.getHeldAember(), is(6));
-        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 5));
+        assertThat(opponent, hasAember(6));
+        assertThat(player, hasAember(STARTING_AEMBER + 5));
     }
 }

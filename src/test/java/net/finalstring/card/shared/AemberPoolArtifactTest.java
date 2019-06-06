@@ -5,6 +5,7 @@ import net.finalstring.card.AbstractCardTest;
 import net.finalstring.effect.EffectStack;
 import org.junit.Test;
 
+import static net.finalstring.matchers.shared.SharedMatchers.hasAember;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -12,9 +13,9 @@ public abstract class AemberPoolArtifactTest<T extends AemberPoolArtifact> exten
     @Test public void testActionMovesAemberOntoAemberPoolArtifact() {
         play(underTest);
 
-        assertThat(underTest.getHeldAember(), is(0));
+        assertThat(underTest, hasAember(0));
         action(underTest);
-        assertThat(underTest.getHeldAember(), is(1));
+        assertThat(underTest, hasAember(1));
     }
 
     @Test public void testNothingHappensIfPlayerHasNoAember() {
@@ -23,7 +24,7 @@ public abstract class AemberPoolArtifactTest<T extends AemberPoolArtifact> exten
         player.setAember(0);
         action(underTest);
 
-        assertThat(underTest.getHeldAember(), is(0));
+        assertThat(underTest, hasAember(0));
     }
 
     @Test public void testLeavingPlayClearsHeldAember() {
@@ -32,8 +33,8 @@ public abstract class AemberPoolArtifactTest<T extends AemberPoolArtifact> exten
         action(underTest);
         destroy(underTest);
 
-        assertThat(player.getHeldAember(), is(STARTING_AEMBER - 1 + underTest.getBonusAember()));
-        assertThat(underTest.getHeldAember(), is(0));
+        assertThat(player, hasAember(STARTING_AEMBER - 1 + underTest.getBonusAember()));
+        assertThat(underTest, hasAember(0));
     }
 
     @Test public void testProperlyRegistersAsAemberPool() {
@@ -61,8 +62,8 @@ public abstract class AemberPoolArtifactTest<T extends AemberPoolArtifact> exten
         gameState.endTurn();
         gameState.endTurn();
 
-        assertThat(underTest.getHeldAember(), is(0));
-        assertThat(player.getHeldAember(), is(0));
+        assertThat(underTest, hasAember(0));
+        assertThat(player, hasAember(0));
         assertThat(player.getForgedKeys(), is(1));
     }
 
@@ -111,8 +112,8 @@ public abstract class AemberPoolArtifactTest<T extends AemberPoolArtifact> exten
         gameState.endTurn();
         gameState.endTurn();
 
-        assertThat(player.getHeldAember(), is(2 + underTest.getBonusAember()));
-        assertThat(underTest.getHeldAember(), is(1));
+        assertThat(player, hasAember(2 + underTest.getBonusAember()));
+        assertThat(underTest, hasAember(1));
         assertThat(player.getForgedKeys(), is(0));
     }
 
@@ -128,8 +129,8 @@ public abstract class AemberPoolArtifactTest<T extends AemberPoolArtifact> exten
 
         gameState.endTurn();
 
-        assertThat(underTest.getHeldAember(), is(0));
-        assertThat(opponent.getHeldAember(), is(0));
+        assertThat(underTest, hasAember(0));
+        assertThat(opponent, hasAember(0));
         assertThat(opponent.getForgedKeys(), is(1));
     }
 }

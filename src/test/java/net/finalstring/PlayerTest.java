@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static net.finalstring.matchers.shared.SharedMatchers.hasAember;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.spy;
@@ -164,18 +165,18 @@ public class PlayerTest {
     }
 
     @Test public void testPlayerStartsWithZeroAember() {
-        assertThat(underTest.getHeldAember(), is(0));
+        assertThat(underTest, hasAember(0));
     }
 
     @Test public void testPlayingCardWithAemberIncrementsPool() {
-        assertThat(underTest.getHeldAember(), is(0));
+        assertThat(underTest, hasAember(0));
 
         Creature bonusAember = new DustPixie();
         bonusAember.setOwner(underTest);
         bonusAember.play(underTest);
         EffectStack.setEffectParameter(true);
 
-        assertThat(underTest.getHeldAember(), is(2));
+        assertThat(underTest, hasAember(2));
     }
 
     @Test public void testPlayingCreatureOnSpecificFlankWorks() {
@@ -218,8 +219,8 @@ public class PlayerTest {
 
         actionCreature.action();
 
-        assertThat(underTest.getHeldAember(), is(1));
-        assertThat(opponent.getHeldAember(), is(1));
+        assertThat(underTest, hasAember(1));
+        assertThat(opponent, hasAember(1));
     }
 
     @Test public void testPlayerStartsWithZeroForgedKeys() {
@@ -247,7 +248,7 @@ public class PlayerTest {
 
         underTest.forgeKey();
 
-        assertThat(underTest.getHeldAember(), is(0));
+        assertThat(underTest, hasAember(0));
     }
 
     @Test public void testRefillingHandDrawsToMaximumAmount() {
@@ -280,13 +281,13 @@ public class PlayerTest {
         underTest.addAember(5);
         underTest.takeAember(2);
 
-        assertThat(underTest.getHeldAember(), is(3));
+        assertThat(underTest, hasAember(3));
     }
 
     @Test public void testStealCannotReduceAemberBelowZero() {
         underTest.addAember(1);
         underTest.takeAember(2);
-        assertThat(underTest.getHeldAember(), is(0));
+        assertThat(underTest, hasAember(0));
     }
 
     @Test public void testStealReturnsAmountStolen() {

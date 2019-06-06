@@ -4,6 +4,7 @@ import net.finalstring.card.AbstractCardTest;
 import net.finalstring.effect.EffectStack;
 import org.junit.Test;
 
+import static net.finalstring.matchers.shared.SharedMatchers.hasAember;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -12,8 +13,8 @@ public class NerveBlastTest extends AbstractCardTest<NerveBlast> {
         play(underTest, enemy);
 
         assertThat(enemy.getInstance().getDamage(), is(2));
-        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 1));
-        assertThat(opponent.getHeldAember(), is(STARTING_AEMBER - 1));
+        assertThat(player, hasAember(STARTING_AEMBER + 1));
+        assertThat(opponent, hasAember(STARTING_AEMBER - 1));
     }
 
     @Test public void testStealingCanDamageFriendly() {
@@ -22,8 +23,8 @@ public class NerveBlastTest extends AbstractCardTest<NerveBlast> {
         play(underTest);
 
         assertThat(friendly.getInstance().getDamage(), is(2));
-        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 1));
-        assertThat(opponent.getHeldAember(), is(STARTING_AEMBER - 1));
+        assertThat(player, hasAember(STARTING_AEMBER + 1));
+        assertThat(opponent, hasAember(STARTING_AEMBER - 1));
     }
 
     @Test public void testNotStealingCausesNoDamage() {
@@ -31,7 +32,7 @@ public class NerveBlastTest extends AbstractCardTest<NerveBlast> {
 
         play(underTest);
 
-        assertThat(player.getHeldAember(), is(STARTING_AEMBER));
+        assertThat(player, hasAember(STARTING_AEMBER));
         assertThat(EffectStack.isEffectPending(), is(false));
     }
 }

@@ -4,6 +4,7 @@ import net.finalstring.GameState;
 import net.finalstring.card.AbstractCardTest;
 import org.junit.Test;
 
+import static net.finalstring.matchers.shared.SharedMatchers.hasAember;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -13,13 +14,13 @@ public class TreasureMapTest extends AbstractCardTest<TreasureMap> {
         actionCard.setOwner(player);
         play(actionCard);
         play(underTest);
-        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 1));
+        assertThat(player, hasAember(STARTING_AEMBER + 1));
     }
 
     @Test public void testAemberGainedIfFirstCardPlayed() {
         play(underTest);
 
-        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 1 + TreasureMap.CONDITIONAL_AEMBER));
+        assertThat(player, hasAember(STARTING_AEMBER + 1 + TreasureMap.CONDITIONAL_AEMBER));
     }
 
     @Test public void testNoOtherCardsCanBePlayedAfterTreasureMap() {

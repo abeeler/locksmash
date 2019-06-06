@@ -4,6 +4,7 @@ import net.finalstring.Player;
 import net.finalstring.card.AbstractCardTest;
 import org.junit.Test;
 
+import static net.finalstring.matchers.shared.SharedMatchers.hasAember;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -35,7 +36,7 @@ public class TheStingTest extends AbstractCardTest<TheSting> {
 
         gameState.endTurn();
 
-        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 1 + Player.DEFAULT_KEY_COST));
+        assertThat(player, hasAember(STARTING_AEMBER + 1 + Player.DEFAULT_KEY_COST));
     }
 
     @Test public void testAemberGivenIsEqualToAmountPaid() {
@@ -46,7 +47,7 @@ public class TheStingTest extends AbstractCardTest<TheSting> {
 
         gameState.endTurn();
 
-        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 3 + 1));
+        assertThat(player, hasAember(STARTING_AEMBER + 3 + 1));
     }
 
     @Test public void testActionSacrificesTheSting() {
@@ -68,20 +69,20 @@ public class TheStingTest extends AbstractCardTest<TheSting> {
 
         gameState.endTurn();
 
-        assertThat(opponent.getHeldAember(), is(Player.DEFAULT_KEY_COST));
+        assertThat(opponent, hasAember(Player.DEFAULT_KEY_COST));
         assertThat(opponent.getForgedKeys(), is(0));
 
         gameState.endTurn();
 
-        assertThat(player.getHeldAember(), is(0));
+        assertThat(player, hasAember(0));
         assertThat(player.getForgedKeys(), is(1));
-        assertThat(opponent.getHeldAember(), is(Player.DEFAULT_KEY_COST * 2));
+        assertThat(opponent, hasAember(Player.DEFAULT_KEY_COST * 2));
 
         destroy(underTest);
 
         gameState.endTurn();
 
-        assertThat(opponent.getHeldAember(), is(Player.DEFAULT_KEY_COST));
+        assertThat(opponent, hasAember(Player.DEFAULT_KEY_COST));
         assertThat(opponent.getForgedKeys(), is(1));
     }
 

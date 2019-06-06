@@ -25,7 +25,6 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.*;
 
-
 @RunWith(MockitoJUnitRunner.class)
 public class GameStateTest {
     @Spy private Player player;
@@ -181,7 +180,5 @@ public class GameStateTest {
         assertThat(underTest.getCurrentTurn().getActivePlayer(), is(player));
         omegaCard.play(player);
         assertThat(underTest.getCurrentTurn().getActivePlayer(), is(opponent));
-
-
     }
 }

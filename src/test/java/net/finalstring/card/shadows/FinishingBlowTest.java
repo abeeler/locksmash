@@ -4,6 +4,7 @@ import net.finalstring.card.AbstractCardTest;
 import net.finalstring.effect.EffectStack;
 import org.junit.Test;
 
+import static net.finalstring.matchers.shared.SharedMatchers.hasAember;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -12,8 +13,8 @@ public class FinishingBlowTest extends AbstractCardTest<FinishingBlow> {
         play(underTest);
         assertThat(friendly.getInstance(), is(notNullValue()));
         assertThat(enemy.getInstance(), is(notNullValue()));
-        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 1));
-        assertThat(opponent.getHeldAember(), is(STARTING_AEMBER));
+        assertThat(player, hasAember(STARTING_AEMBER + 1));
+        assertThat(opponent, hasAember(STARTING_AEMBER));
     }
 
     @Test public void testDamagedCreatureIsDestroyedAndAemberIsStolen() {
@@ -21,8 +22,8 @@ public class FinishingBlowTest extends AbstractCardTest<FinishingBlow> {
 
         play(underTest);
         assertThat(enemy.getInstance(), is(nullValue()));
-        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 2));
-        assertThat(opponent.getHeldAember(), is(STARTING_AEMBER - 1));
+        assertThat(player, hasAember(STARTING_AEMBER + 2));
+        assertThat(opponent, hasAember(STARTING_AEMBER - 1));
     }
 
     @Test public void testFriendlyCreatureIsValidTarget() {
@@ -30,8 +31,8 @@ public class FinishingBlowTest extends AbstractCardTest<FinishingBlow> {
 
         play(underTest);
         assertThat(friendly.getInstance(), is(nullValue()));
-        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 2));
-        assertThat(opponent.getHeldAember(), is(STARTING_AEMBER - 1));
+        assertThat(player, hasAember(STARTING_AEMBER + 2));
+        assertThat(opponent, hasAember(STARTING_AEMBER - 1));
     }
 
     @Test public void testMultipleValidTargetsRequiresChoice() {
@@ -43,7 +44,7 @@ public class FinishingBlowTest extends AbstractCardTest<FinishingBlow> {
 
         setEffectParameter(enemy);
         assertThat(enemy.getInstance(), is(nullValue()));
-        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 2));
-        assertThat(opponent.getHeldAember(), is(STARTING_AEMBER - 1));
+        assertThat(player, hasAember(STARTING_AEMBER + 2));
+        assertThat(opponent, hasAember(STARTING_AEMBER - 1));
     }
 }

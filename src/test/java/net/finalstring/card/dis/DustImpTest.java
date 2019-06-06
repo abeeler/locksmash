@@ -3,6 +3,7 @@ package net.finalstring.card.dis;
 import net.finalstring.card.AbstractCardTest;
 import org.junit.Test;
 
+import static net.finalstring.matchers.shared.SharedMatchers.hasAember;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -12,7 +13,7 @@ public class DustImpTest extends AbstractCardTest<DustImp> {
         play(underTest);
         destroy(underTest);
 
-        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 2));
+        assertThat(player, hasAember(STARTING_AEMBER + 2));
     }
 
     @Test public void testPurgeDoesNotAddAember() {
@@ -20,6 +21,6 @@ public class DustImpTest extends AbstractCardTest<DustImp> {
         underTest.purge();
 
         assertThat(underTest.getInstance(), is(nullValue()));
-        assertThat(player.getHeldAember(), is(STARTING_AEMBER));
+        assertThat(player, hasAember(STARTING_AEMBER));
     }
 }

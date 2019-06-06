@@ -4,6 +4,7 @@ import net.finalstring.card.AbstractCardTest;
 import net.finalstring.card.House;
 import org.junit.Test;
 
+import static net.finalstring.matchers.shared.SharedMatchers.hasAember;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -17,7 +18,7 @@ public class MackTheKnifeTest extends AbstractCardTest<MackTheKnife> {
         action(underTest, enemy);
 
         assertThat(enemy.getInstance(), is(nullValue()));
-        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 1));
+        assertThat(player, hasAember(STARTING_AEMBER + 1));
     }
 
     @Test public void testActionJustDealsDamageIfTargetIsNotDestroyed() {
@@ -25,7 +26,7 @@ public class MackTheKnifeTest extends AbstractCardTest<MackTheKnife> {
         action(underTest, enemy);
 
         assertThat(enemy.getInstance().getDamage(), is(1));
-        assertThat(player.getHeldAember(), is(STARTING_AEMBER));
+        assertThat(player, hasAember(STARTING_AEMBER));
     }
 
     @Test public void testCanFightReapActAsOmni() {
@@ -47,6 +48,6 @@ public class MackTheKnifeTest extends AbstractCardTest<MackTheKnife> {
         action(underTest, underTest);
 
         assertThat(underTest.getInstance(), is(nullValue()));
-        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 1));
+        assertThat(player, hasAember(STARTING_AEMBER + 1));
     }
 }

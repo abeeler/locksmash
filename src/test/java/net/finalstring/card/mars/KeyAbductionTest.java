@@ -5,6 +5,7 @@ import net.finalstring.card.AbstractCardTest;
 import net.finalstring.card.House;
 import org.junit.Test;
 
+import static net.finalstring.matchers.shared.SharedMatchers.hasAember;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.when;
@@ -31,7 +32,7 @@ public class KeyAbductionTest extends AbstractCardTest<KeyAbduction> {
         play(underTest, true);
 
         assertThat(player.getForgedKeys(), is(0));
-        assertThat(player.getHeldAember(), is(STARTING_AEMBER + 1));
+        assertThat(player, hasAember(STARTING_AEMBER + 1));
     }
 
     @Test public void testKeyIsForgedWithCostReducedByHandSize() {
@@ -47,6 +48,6 @@ public class KeyAbductionTest extends AbstractCardTest<KeyAbduction> {
         play(underTest, true);
 
         assertThat(player.getForgedKeys(), is(1));
-        assertThat(player.getHeldAember(), is(STARTING_AEMBER - targetCost + 1));
+        assertThat(player, hasAember(STARTING_AEMBER - targetCost + 1));
     }
 }

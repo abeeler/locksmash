@@ -31,7 +31,7 @@ class Instance extends TypeSafeMatcher<Spawnable> {
     protected void describeMismatchSafely(Spawnable item, Description mismatchDescription) {
         mismatchDescription
                 .appendText("has ")
-                .appendText(shouldHaveInstance ? "no" : "")
-                .appendText(" spawn instance");
+                .appendText(shouldHaveInstance ? "no " : "")
+                .appendText("spawned instance");
     }
 }

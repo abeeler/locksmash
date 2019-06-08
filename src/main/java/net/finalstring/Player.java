@@ -53,6 +53,11 @@ public class Player implements AemberPool {
         this(new ArrayList<>());
     }
 
+    public void placeOnDeck(Card card) {
+        card.unlimbo();
+        deck.addFirst(card);
+    }
+
     public void addToHand(Card card) {
         card.unlimbo();
         hand.add(new HandCard(card));
@@ -292,10 +297,6 @@ public class Player implements AemberPool {
 
     public Optional<Card> popTopCard() {
         return Optional.ofNullable(deck.poll());
-    }
-
-    public void pushTopCard(Card card) {
-        deck.push(card);
     }
 
     public void modifyKeyCost(int delta) {

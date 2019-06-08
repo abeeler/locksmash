@@ -13,6 +13,8 @@ import net.finalstring.effect.player.Discard;
 import net.finalstring.usage.CardUsage;
 import net.finalstring.usage.UsageCost;
 
+import java.util.function.Consumer;
+
 public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
     protected T instance;
 
@@ -78,13 +80,9 @@ public abstract class Spawnable<T extends Spawnable.Instance> extends Card {
     }
 
     @Override
-    public void bounce() {
-        if (instance == null) {
-            super.bounce();
-        }
-
+    protected void changeLocation(Consumer<Card> changeMethod) {
         leavePlay();
-        getOwner().addToHand(this);
+        super.changeLocation(changeMethod);
     }
 
     public boolean canAct() {

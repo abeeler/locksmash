@@ -14,7 +14,7 @@ public class WildWormholeTest extends AbstractCardTest<WildWormhole> {
     @Before public void deckSetup() {
         Card inDeck = new DustPixie();
         inDeck.setOwner(player);
-        player.pushTopCard(inDeck);
+        player.placeOnDeck(inDeck);
     }
 
     @Test public void testTopCardIsPlayed() {
@@ -27,7 +27,7 @@ public class WildWormholeTest extends AbstractCardTest<WildWormhole> {
     @Test public void testNestedWormholes() {
         WildWormhole nested = createInstance();
         nested.setOwner(player);
-        player.pushTopCard(nested);
+        player.placeOnDeck(nested);
 
         play(underTest, true);
 

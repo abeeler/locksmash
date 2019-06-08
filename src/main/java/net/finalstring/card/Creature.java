@@ -189,12 +189,6 @@ public class Creature extends Spawnable<Creature.CreatureInstance> implements Ae
     }
 
     @Override
-    public void bounce() {
-        inLimbo = true;
-        super.bounce();
-    }
-
-    @Override
     public void spawn(CreatureInstance instance) {
         super.spawn(instance);
         instance.reset();
@@ -248,6 +242,12 @@ public class Creature extends Spawnable<Creature.CreatureInstance> implements Ae
 
         activeUpgrades.clear();
         super.leavePlay();
+    }
+
+    @Override
+    protected void changeLocation(Consumer<Card> changeMethod) {
+        inLimbo = true;
+        super.changeLocation(changeMethod);
     }
 
     @Override

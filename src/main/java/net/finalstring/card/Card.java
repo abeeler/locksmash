@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 @Getter
 @Setter
@@ -56,8 +56,20 @@ public abstract class Card implements UseListener {
             throw new IllegalStateException("Attempting to bounce card already in hand");
         }
 
+        changeLocation(owner::addToHand);
+    }
+
+    public void returnToDeck() {
+        if (owner.getDeck().contains(this)) {
+            throw new IllegalStateException("Attempting to return a card to deck when it is already there");
+        }
+
+        changeLocation(owner::placeOnDeck);
+    }
+
+    protected void changeLocation(Consumer<Card> changeMethod) {
         owner.removeFromDiscard(this);
-        owner.addToHand(this);
+        changeMethod.accept(this);
     }
 
     public boolean canPlay() {

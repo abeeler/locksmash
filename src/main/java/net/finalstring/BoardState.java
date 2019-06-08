@@ -36,6 +36,10 @@ public class BoardState {
         return multiple(friendlyCreatures(player), enemyCreatures(player));
     }
 
+    public List<Card> allArtifacts(Player player) {
+        return multiple(friendlyArtifacts(player), enemyArtifacts(player));
+    }
+
     public List<Card> multiple(List<Card> first, List<Card> second) {
         List<Card> list = new ArrayList<>();
         list.addAll(first);

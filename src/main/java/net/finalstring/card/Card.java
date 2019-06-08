@@ -12,19 +12,22 @@ import net.finalstring.effect.player.GainAember;
 import net.finalstring.usage.CardUsage;
 import net.finalstring.usage.UsageCost;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
-public abstract class Card {
+public abstract class Card implements UseListener {
     private static final EnumSet<CardUsage> DEFAULT_OMNI_USAGE = EnumSet.noneOf(CardUsage.class);
     protected static final EnumSet<CardUsage> OMNI_ACTION_USAGE = EnumSet.of(CardUsage.Act);
     protected static final EnumSet<CardUsage> OMNI_USAGE = EnumSet.complementOf(EnumSet.of(CardUsage.Play));
 
     @Getter protected boolean inLimbo = false;
+
+    protected final List<UseListener> useListeners = new ArrayList<>();
 
     private final House house;
     private final int bonusAember;
@@ -36,12 +39,16 @@ public abstract class Card {
         this(house, 0);
     }
 
+    public Card(House house, int bonusAember) {
+        this.house = house;
+        this.bonusAember = bonusAember;
+
+        useListeners.add(this);
+    }
+
     public void play(Player passedPlayer) {
         GameState.getInstance().payCosts(CardUsage.Play, this);
-        buildEffects(passedPlayer, (builder, player) -> {
-            buildPlayEffects(builder, player);
-            buildDelayedPlayEffects(builder, player);
-        });
+        GameState.getInstance().cardUsed(passedPlayer, CardUsage.Play, this);
     }
 
     public void bounce() {
@@ -70,17 +77,19 @@ public abstract class Card {
         inLimbo = false;
     }
 
-    void buildEffects(Player player, BiConsumer<EffectNode.Builder, Player> generator) {
-        EffectNode.Builder builder = new EffectNode.Builder();
-        generator.accept(builder, player);
-        EffectStack.pushEffectNode(builder.build());
+    @Override
+    public void buildEffects(EffectNode.Builder effectBuilder, CardUsage usage, Player user, Card used, Card target) {
+        if (usage == CardUsage.Play) {
+            buildPlayEffects(effectBuilder, user);
+            buildDelayedPlayEffects(effectBuilder, user);
+        }
     }
 
     protected void buildPlayEffects(EffectNode.Builder effectBuilder, Player player) {
         effectBuilder
                 .effect(new GainAember(player, bonusAember))
                 .effect(() -> inLimbo = true)
-                .effect(() -> GameState.getInstance().cardPlayed());
+                .effect(() -> GameState.getInstance().cardUsed(player, CardUsage.PostPlay, this));
     }
 
     protected void buildDelayedPlayEffects(EffectNode.Builder effectBuilder, Player player) {

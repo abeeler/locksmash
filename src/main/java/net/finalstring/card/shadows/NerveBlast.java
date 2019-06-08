@@ -22,8 +22,7 @@ public class NerveBlast extends Card {
         StealAember stealEffect = new StealAember(player, 1);
         effectBuilder
                 .effect(stealEffect)
-                .dependentEffect(() -> stealEffect.getAmountStolen() > 0 ?
-                        new Damage(new TargetSpecification(player, BoardState::allCreatures), 2) :
-                        new BlankEffect());
+                .phaseGate(() -> stealEffect.getAmountStolen() > 0)
+                .effect(new Damage(new TargetSpecification(player, BoardState::allCreatures), 2));
     }
 }

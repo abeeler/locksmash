@@ -26,7 +26,7 @@ class HasDamageMatcher extends TypeSafeMatcher<Creature> {
         if (item.getInstance() == null) {
             mismatchDescription.appendText("has no spawned instance");
         } else {
-            super.describeMismatchSafely(item, mismatchDescription);
+            mismatchDescription.appendText("has ").appendValue(item.getInstance().getDamage()).appendText(" damage");
         }
     }
 }

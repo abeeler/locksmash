@@ -4,13 +4,17 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.finalstring.card.*;
 import net.finalstring.effect.EffectStack;
+import net.finalstring.effect.node.EffectNode;
+import net.finalstring.effect.node.ParallelEffectNode;
 import net.finalstring.effect.player.ForgeKey;
 import net.finalstring.usage.CardUsage;
 import net.finalstring.usage.UsageCost;
 import net.finalstring.usage.UsageManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GameState {
     @Getter
@@ -48,13 +52,36 @@ public class GameState {
         }
     }
 
-    public void cardUsed() {
-        currentTurn.alphaPossible = false;
+    public void cardUsed(Player user, CardUsage usage, Card used) {
+        cardUsed(user, usage, used, null);
     }
 
-    public void cardPlayed() {
+    public void cardUsed(Player user, CardUsage usage, Card used, Card target) {
+        switch (usage) {
+            case Play:
+                ++currentTurn.cardsPlayed;
+                break;
+        }
+
         currentTurn.alphaPossible = false;
-        currentTurn.cardsPlayed++;
+
+        List<UseListener> allListeners = new ArrayList<>(activeUseListeners);
+        allListeners.addAll(used.getUseListeners());
+
+        Map<UseListener, EffectNode> builtEffects = new HashMap<>();
+        for (UseListener useListener : allListeners) {
+            EffectNode.Builder builder = new EffectNode.Builder();
+            useListener.buildEffects(builder, usage, user, used, target);
+            if (builder.wasAddedTo()) {
+                builtEffects.put(useListener, builder.build());
+            }
+        }
+
+        if (builtEffects.size() == 1) {
+            EffectStack.pushEffectNode(builtEffects.values().stream().findFirst().get());
+        } else if (!builtEffects.isEmpty()) {
+            EffectStack.pushEffectNode(new ParallelEffectNode(builtEffects));
+        }
     }
 
     public void creaturePlaced(Creature placed) {
@@ -66,12 +93,6 @@ public class GameState {
     public void artifactPlaced(Artifact placed) {
         currentTurn.activeTurnEffects.forEach(stateful -> stateful.onArtifactEnter(placed));
         activePermanentEffects.forEach(stateful -> stateful.onArtifactEnter(placed));
-    }
-
-    public void beforeFight(Creature attacker, Creature defender) {
-        for (UseListener useListener : activeUseListeners) {
-            useListener.beforeFight(attacker, defender);
-        }
     }
 
     public int calculateCost(CardUsage usage, Card toAssess) {

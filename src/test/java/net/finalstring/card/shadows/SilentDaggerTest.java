@@ -1,6 +1,7 @@
 package net.finalstring.card.shadows;
 
 import net.finalstring.card.AbstractCardTest;
+import net.finalstring.card.UseListener;
 import net.finalstring.effect.EffectStack;
 import org.junit.Test;
 
@@ -14,6 +15,7 @@ public class SilentDaggerTest extends AbstractCardTest<SilentDagger> {
 
         reap(friendly);
         assertThat(EffectStack.isEffectPending(), is(true));
+        setEffectParameter(new UseListener[] { friendly, underTest });
 
         setEffectParameter(enemy);
         assertThat(enemy, hasDamage(4));
@@ -24,6 +26,8 @@ public class SilentDaggerTest extends AbstractCardTest<SilentDagger> {
 
         play(underTest);
         reap(friendly);
+
+        setEffectParameter(new UseListener[] { friendly, underTest });
         assertThat(friendly, hasDamage(4));
     }
 }

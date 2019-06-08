@@ -29,7 +29,6 @@ public class PawnSacrifice extends Card {
 
         effectBuilder
                 .effect(new Destroy(sacrifice))
-                .delay()
                 .effect(new Damage(3, damageTargets));
     }
 }

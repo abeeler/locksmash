@@ -5,12 +5,12 @@ import net.finalstring.Player;
 import net.finalstring.card.dis.EmberImp;
 import net.finalstring.card.shadows.MacisAsp;
 import net.finalstring.effect.EffectStack;
-import net.finalstring.effect.board.Fight;
 import net.finalstring.card.sanctum.ChampionAnaphiel;
 import net.finalstring.card.sanctum.TheVaultKeeper;
 import net.finalstring.card.shadows.NoddyTheThief;
 import net.finalstring.card.untamed.DustPixie;
 import net.finalstring.card.untamed.Snufflegator;
+import net.finalstring.effect.node.FightNode;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -235,7 +235,7 @@ public class CreatureCardTest {
 
     @Test public void testStunPreventsFight() {
         normalCreature.getInstance().stun();
-        new Fight(normalCreature, armoredCreature).affect();
+        EffectStack.pushEffectNode(new FightNode(normalCreature, armoredCreature));
         assertThat(normalCreature.getInstance().isAlive(), is(true));
         assertThat(normalCreature, isUndamaged());
         assertThat(normalCreature.getInstance().isReady(), is(false));
@@ -307,6 +307,6 @@ public class CreatureCardTest {
     }
 
     private void fight(Creature attacker, Creature defender) {
-        new Fight(attacker, defender).affect();
+        EffectStack.pushEffectNode(new FightNode(attacker, defender));
     }
 }

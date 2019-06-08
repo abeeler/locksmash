@@ -20,8 +20,6 @@ import java.util.List;
 import static net.finalstring.matchers.shared.SharedMatchers.hasAember;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
 
 public class PlayerTest {
     private Player underTest;
@@ -40,7 +38,7 @@ public class PlayerTest {
     private Upgrade upgrade;
 
     @Before public void setup() {
-        normalCreature = spy(new EmberImp());
+        normalCreature = new EmberImp();
         armoredCreature = new TheVaultKeeper();
         actionCreature = new PitDemon();
         deployCreature = new Lamindra();
@@ -185,10 +183,12 @@ public class PlayerTest {
         normalCreature.play(underTest);
         EffectStack.setEffectParameter(true);
 
+        assertThat(normalCreature.getNeighborCount(), is(0));
+
         armoredCreature.play(underTest);
         EffectStack.setEffectParameter(false);
 
-        verify(normalCreature).neighborAdded(armoredCreature);
+        assertThat(normalCreature.getNeighborCount(), is(1));
     }
 
     @Test public void testPlayingArtifactCreatesInstance() {

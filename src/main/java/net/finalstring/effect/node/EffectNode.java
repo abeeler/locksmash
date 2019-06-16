@@ -5,7 +5,9 @@ import net.finalstring.effect.ConditionalEffect;
 import net.finalstring.effect.PhaseGateEffect;
 import net.finalstring.effect.Effect;
 import net.finalstring.effect.misc.BlankEffect;
+import net.finalstring.effect.misc.ParameterSettingEffect;
 import net.finalstring.effect.misc.RunnableEffect;
+import net.finalstring.effect.parameter.EffectParameter;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -33,6 +35,12 @@ public interface EffectNode extends Effect {
 
         private Builder(Builder parent) {
             this.parent = parent;
+        }
+
+        public Builder parameter(EffectParameter effectParameter) {
+            current.setNext(new SimpleEffectNode(new ParameterSettingEffect(effectParameter)));
+            current = current.getNext();
+            return this;
         }
 
         public Builder effect(Effect effect) {

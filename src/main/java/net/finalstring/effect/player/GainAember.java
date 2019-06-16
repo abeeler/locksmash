@@ -6,11 +6,11 @@ import net.finalstring.effect.AbstractEffect;
 
 @RequiredArgsConstructor
 public class GainAember extends AbstractEffect {
-    private final AemberPool player;
+    private final AemberPool pool;
     private final int amount;
 
     @Override
     public void affect() {
-        player.addAember(amount);
+        pool.addAember(amount);
     }
 }

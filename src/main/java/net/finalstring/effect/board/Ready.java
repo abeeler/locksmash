@@ -11,6 +11,10 @@ public class Ready extends AbstractEffect {
     @Getter
     private final EffectCardParameter<Spawnable> target = EffectCardParameter.singleTarget("Select target to ready");
 
+    public Ready(Spawnable spawnable) {
+        target.setSingleValue(spawnable);
+    }
+
     public Ready(TargetSpecification targetSpecification) {
         target.setTargetSpecification(targetSpecification);
         registerParameters(target);

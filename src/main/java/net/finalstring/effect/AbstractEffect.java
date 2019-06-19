@@ -5,6 +5,16 @@ import net.finalstring.effect.parameter.EffectParameter;
 import java.util.Optional;
 
 public abstract class AbstractEffect implements Effect {
+    private final boolean parameterRequired;
+
+    public AbstractEffect() {
+        this(true);
+    }
+
+    protected AbstractEffect(boolean parameterRequired) {
+        this.parameterRequired = parameterRequired;
+    }
+
     private EffectParameter[] parameters = { };
 
     @Override
@@ -20,7 +30,7 @@ public abstract class AbstractEffect implements Effect {
 
     @Override
     public boolean trigger() {
-        if (getNextUnsetParameter().isPresent()) {
+        if (parameterRequired && getNextUnsetParameter().isPresent()) {
             return false;
         }
 

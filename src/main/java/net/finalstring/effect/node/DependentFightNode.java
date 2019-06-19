@@ -10,6 +10,11 @@ import java.util.function.Supplier;
 @RequiredArgsConstructor
 public class DependentFightNode extends FightNode {
     private final Supplier<Creature> attackerSupplier;
+    private final Supplier<Creature> defenderSupplier;
+
+    public DependentFightNode(Supplier<Creature> attackerSupplier) {
+        this(attackerSupplier, null);
+    }
 
     @Override
     public void prepare() {
@@ -19,6 +24,11 @@ public class DependentFightNode extends FightNode {
 
         Creature suppliedAttacker = attackerSupplier.get();
         attacking.setSingleValue(suppliedAttacker);
-        defending.setTargetSpecification(new TargetSpecification(suppliedAttacker.getInstance().getController(), BoardState::enemyCreatures));
+
+        if (defenderSupplier != null) {
+            defending.setSingleValue(defenderSupplier.get());
+        } else {
+            defending.setTargetSpecification(new TargetSpecification(suppliedAttacker.getInstance().getController(), BoardState::enemyCreatures));
+        }
     }
 }

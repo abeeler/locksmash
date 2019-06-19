@@ -43,6 +43,12 @@ public interface EffectNode extends Effect {
             return this;
         }
 
+        public Builder parameter(EffectParameter effectParameter, boolean parameterRequired) {
+            current.setNext(new SimpleEffectNode(new ParameterSettingEffect(effectParameter, parameterRequired)));
+            current = current.getNext();
+            return this;
+        }
+
         public Builder effect(Effect effect) {
             current.setNext(new SimpleEffectNode(effect));
             current = current.getNext();
@@ -119,6 +125,11 @@ public interface EffectNode extends Effect {
 
         public Builder dependentFight(Supplier<Creature> attackerSupplier) {
             addNode(new DependentFightNode(attackerSupplier));
+            return this;
+        }
+
+        public Builder dependentFight(Supplier<Creature> attackerSupplier, Supplier<Creature> defenderSupplier) {
+            addNode(new DependentFightNode(attackerSupplier, defenderSupplier));
             return this;
         }
 

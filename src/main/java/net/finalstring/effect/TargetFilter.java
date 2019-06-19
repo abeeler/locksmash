@@ -2,13 +2,23 @@ package net.finalstring.effect;
 
 import net.finalstring.card.*;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class TargetFilter {
-    private final List<Predicate<Card>> filters = new LinkedList<>();
+    private final List<Predicate<Card>> filters = new ArrayList<>();
+    private final List<Function<List<? extends Card>, List<? extends Card>>> groupFilters = new ArrayList<>();
+
+    public List<? extends Card> whittleGroup(List<? extends Card> pool) {
+        for (Function<List<? extends Card>, List<? extends Card>> groupFilter : groupFilters) {
+            pool = groupFilter.apply(pool);
+        }
+        return pool;
+    }
 
     public boolean isValid(Card card) {
         for (Predicate<Card> filter : filters) {
@@ -78,6 +88,26 @@ public class TargetFilter {
 
     public TargetFilter damaged() {
         filters.add(card -> withCreature(card, creature -> creature.getInstance().getDamage() > 0));
+        return this;
+    }
+
+    public TargetFilter strongest() {
+        groupFilters.add(group -> {
+            int highestPower = group
+                    .stream()
+                    .filter(card -> card instanceof Creature)
+                    .map(Creature.class::cast)
+                    .mapToInt(Creature::getPower)
+                    .max()
+                    .orElse(0);
+
+            return group
+                    .stream()
+                    .filter(card -> card instanceof Creature)
+                    .map(Creature.class::cast)
+                    .filter(creature -> creature.getPower() >= highestPower)
+                    .collect(Collectors.toList());
+        });
         return this;
     }
 

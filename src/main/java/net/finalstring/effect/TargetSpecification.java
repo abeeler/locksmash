@@ -34,7 +34,7 @@ public class TargetSpecification {
     }
 
     public <T extends Card> List<T> getValidTargets(Class<T> clazz) {
-        return Collections.unmodifiableList(initialPool.apply(player)
+        return Collections.unmodifiableList(filter.whittleGroup(initialPool.apply(player))
                     .stream()
                     .filter(filter::isValid)
                     .map(clazz::cast)

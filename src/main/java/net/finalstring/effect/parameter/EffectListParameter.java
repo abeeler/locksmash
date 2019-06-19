@@ -45,7 +45,9 @@ public class EffectListParameter<T> extends EffectParameter<List<T>>  {
     }
 
     public void setSingleValue(T value) {
-        setValue(Collections.singletonList(value));
+        if (value != null) {
+            setValue(Collections.singletonList(value));
+        }
     }
 
     public T getFirst() {

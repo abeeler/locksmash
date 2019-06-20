@@ -82,7 +82,17 @@ public class Battleline {
         NeighborIterator iter = new NeighborIterator();
         while (iter.hasNext()) {
             if (iter.next() == creature) {
-                return Arrays.asList(iter.getLeftNeighbor(), iter.getRightNeighbor());
+                List<Creature> neighbors = new ArrayList<>();
+
+                if (iter.getLeftNeighbor() != null) {
+                    neighbors.add(iter.getLeftNeighbor());
+                }
+
+                if (iter.getRightNeighbor() != null) {
+                    neighbors.add(iter.getRightNeighbor());
+                }
+
+                return neighbors;
             }
         }
 

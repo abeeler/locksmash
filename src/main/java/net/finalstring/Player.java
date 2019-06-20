@@ -39,6 +39,8 @@ public class Player implements AemberPool {
 
     private int forgeRestrictionCounter = 0;
 
+    private int chains = 0;
+
     public Player(List<Card> deck) {
         this.deck = new LinkedList<>(deck);
 
@@ -263,6 +265,18 @@ public class Player implements AemberPool {
 
     public void removeForgeRestriction() {
         forgeRestrictionCounter--;
+    }
+
+    public void addChains(int amount) {
+        chains += amount;
+    }
+
+    public void removeChain() {
+        chains = Math.max(chains - 1, 0);
+    }
+
+    public int getChains() {
+        return chains;
     }
 
     public int getHandSize() {

@@ -91,6 +91,11 @@ public class TargetFilter {
         return this;
     }
 
+    public TargetFilter undamaged() {
+        filters.add(card -> withCreature(card, creature -> creature.getInstance().getDamage() == 0));
+        return this;
+    }
+
     public TargetFilter strongest() {
         groupFilters.add(group -> {
             int highestPower = group

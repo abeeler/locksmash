@@ -1,8 +1,8 @@
 package net.finalstring.card;
 
 import net.finalstring.GameState;
-import net.finalstring.effect.EffectStack;
 import net.finalstring.Player;
+import net.finalstring.effect.EffectStack;
 import net.finalstring.effect.node.FightNode;
 import org.junit.After;
 import org.junit.Before;
@@ -129,6 +129,18 @@ public abstract class AbstractCardTest<T extends Card> {
         creature.setOwner(owner);
         creature.place(owner, false);
         return creature;
+    }
+
+    protected Artifact placeArtifact(Player owner) {
+        return placeArtifact(owner, artifact -> {});
+    }
+
+    protected Artifact placeArtifact(Player owner, Consumer<Artifact> optionSetter) {
+        Artifact artifact = spy(Artifact.class);
+        optionSetter.accept(artifact);
+        artifact.setOwner(owner);
+        artifact.place(owner);
+        return artifact;
     }
 
     protected void setEffectParameter(Object effectParameter) {

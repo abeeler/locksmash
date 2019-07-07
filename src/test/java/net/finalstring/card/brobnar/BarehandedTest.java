@@ -36,11 +36,4 @@ public class BarehandedTest extends AbstractCardTest<Barehanded> {
         assertThat(player.getDeck().contains(secondFriendly), is(true));
         assertThat(opponent.getDeck().contains(firstEnemy), is(true));
     }
-
-    private Artifact placeArtifact(Player owner) {
-        Artifact artifact = new EvasionSigil();
-        artifact.setOwner(owner);
-        artifact.play(owner);
-        return artifact;
-    }
 }

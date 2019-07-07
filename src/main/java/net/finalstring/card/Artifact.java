@@ -13,6 +13,15 @@ public class Artifact extends Spawnable<Spawnable.Instance> {
         super(house, 0);
     }
 
+    Artifact() {
+        this(House.None);
+    }
+
+    public Artifact.Instance place(Player controller) {
+        spawn(new Instance(controller));
+        return instance;
+    }
+
     @Override
     public void spawn(Spawnable.Instance instance) {
         super.spawn(instance);

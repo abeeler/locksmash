@@ -61,6 +61,10 @@ public class GameState {
             case Play:
                 ++currentTurn.cardsPlayed;
                 break;
+            case Destroy:
+                if (used instanceof Creature) {
+                    GameState.getInstance().creatureDestroyed((Creature) used);
+                }
         }
 
         currentTurn.alphaPossible = false;
@@ -82,6 +86,11 @@ public class GameState {
         } else if (!builtEffects.isEmpty()) {
             EffectStack.pushEffectNode(new ParallelEffectNode(builtEffects));
         }
+    }
+
+    public void creatureDestroyed(Creature destroyed) {
+        currentTurn.activeTurnEffects.forEach(stateful -> stateful.onCreatureDestroyed(destroyed));
+        activePermanentEffects.forEach(stateful -> stateful.onCreatureDestroyed(destroyed));
     }
 
     public void creaturePlaced(Creature placed) {

@@ -21,13 +21,7 @@ public class TargetFilter {
     }
 
     public boolean isValid(Card card) {
-        for (Predicate<Card> filter : filters) {
-            if (!filter.test(card)) {
-                return false;
-            }
-        }
-
-        return true;
+        return filters.stream().allMatch(filter -> filter.test(card));
     }
 
     // Card
@@ -39,6 +33,11 @@ public class TargetFilter {
 
     public TargetFilter ofHouse(final House house) {
         filters.add(card -> card.getHouse() == house);
+        return this;
+    }
+
+    public TargetFilter except(List<? extends Card> ignore) {
+        filters.add(card -> ignore.stream().allMatch(ignored -> ignored != card));
         return this;
     }
 

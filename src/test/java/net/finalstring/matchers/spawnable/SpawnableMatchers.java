@@ -11,4 +11,12 @@ public class SpawnableMatchers {
     public static Matcher<Spawnable> hasNoInstance() {
         return Instance.hasNo;
     }
+
+    public static Matcher<Spawnable> isReady() {
+        return Ready.ready;
+    }
+
+    public static Matcher<Spawnable> isExhausted() {
+        return Ready.exhausted;
+    }
 }
